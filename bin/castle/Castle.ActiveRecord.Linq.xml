@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Castle.ActiveRecord.Linq</name>
+    </assembly>
+    <members>
+        <member name="T:Castle.ActiveRecord.Linq.ActiveRecordLinq">
+            <summary>
+            Class to provide a static mechanism for using active record classes in
+            Linq expressions. This approach is less visually elegant than the 
+            ActiveRecordLinqBase's Table property, but has the advantage of working
+            on classes that are descended from ActiveRecordBase.
+            </summary>
+        </member>
+        <member name="M:Castle.ActiveRecord.Linq.ActiveRecordLinq.AsQueryable``1">
+            <summary>
+            AsQueryable enables you to use an active record class in a Linq expression even
+            though the base class does not provide a static Table property.
+            
+            Examples include:
+            var items = from f in ActiveRecordLinq.AsQueryable&lt;foo&gt;() select f;
+            var item = ActiveRecordLinq.AsQueryable&lt;foo&gt;().First();
+            var items = from f in ActiveRecordLinq.AsQueryable&lt;foo&gt;() where f.Name == theName select f;
+            var item = ActiveRecordLinq.AsQueryable&lt;foo&gt;().First(f => f.Name == theName);
+            </summary>
+        </member>
+        <member name="M:Castle.ActiveRecord.Linq.ActiveRecordLinq.AsQueryable``1(NHibernate.ISession)">
+            <summary>
+            Extension method to ISession which creates a source for a Linq expression.
+            </summary>
+        </member>
+        <member name="M:Castle.ActiveRecord.Linq.ActiveRecordLinq.AsQueryable``1(Castle.ActiveRecord.ISessionScope)">
+            <summary>
+            Extension method to ISessionScope which creates a source for a Linq expression.
+            </summary>
+        </member>
+        <member name="T:Castle.ActiveRecord.Linq.ActiveRecordLinqBase`1">
+            <summary>
+            A variation of the ActiveRecordBase class which provides the
+            ability to use the record type in a linq expression.
+            </summary>
+            <typeparam name="T">The class which defines the active record entity.</typeparam>
+        </member>
+        <member name="P:Castle.ActiveRecord.Linq.ActiveRecordLinqBase`1.Queryable">
+            <summary>
+            The static property Table on the active record class is used as a Linq collection
+            or as the in argument in a Linq expression. 
+            
+            Examples include:
+            var items = from f in Foo.Table select f;
+            var item = Foo.Table.First();
+            var items = from f in Foo.Table where f.Name == theName select f;
+            var item = Foo.Table.First(f => f.Name == theName);
+            </summary>
+        </member>
+        <member name="T:Castle.ActiveRecord.Linq.LinqQuery`1">
+            <summary>
+            Class used internally to glue NHibernate.Linq, NHibernate, and ActiveRecord together
+            via ExecuteQuery. This appeared to be the cleanest way of connecting to the appropriate
+            type and scope specific ISession instance. 
+            </summary>
+            <typeparam name="T">The type of the active record class the Linq collection 
+            is being bound against.</typeparam>
+        </member>
+    </members>
+</doc>

@@ -1,0 +1,2473 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Spring.Messaging</name>
+    </assembly>
+    <members>
+        <member name="T:Spring.Messaging.Core.DefaultMessageQueueFactory">
+            <summary>
+            A <see cref="T:Spring.Messaging.Core.IMessageQueueFactory"/> implementation that caches MessageQueue and IMessageConverter
+            instances.  The MessageQueue objects are created by retrieving them by-name from the 
+            ApplicationContext. 
+            </summary>
+            <author>Mark Pollack</author>
+        </member>
+        <member name="T:Spring.Messaging.Core.IMessageQueueFactory">
+            <summary>
+            An interface for creating MessageQueue and IMessageConverter objects from object definitions 
+            defined in the application context.
+            </summary>
+            <remarks>
+            MessageQueue and IMessageConverter objects have methods that are generally not thread safe, 
+            (IMessageConverter classes rely on IMessageFormatter objects that are not thread safe). 
+            As such, a major reason to for this interface is to provide thread-local instances such that 
+            appliation code need not be concerned with these resource management issues.
+            </remarks>
+            <author>Mark Pollack</author>
+        </member>
+        <member name="M:Spring.Messaging.Core.IMessageQueueFactory.RegisterMessageQueue(System.String,Spring.Messaging.Support.MessageQueueCreatorDelegate)">
+            <summary>
+            Registers the message queue, its creation specified via the factory method 
+            MessageQueueCreatorDelegate, with the provided name in the application context 
+            </summary>
+            <param name="messageQueueObjectName">Name of the message queue object.</param>
+            <param name="messageQueueCreatorDelegate">The message queue creator delegate.</param>
+        </member>
+        <member name="M:Spring.Messaging.Core.IMessageQueueFactory.CreateMessageQueue(System.String)">
+            <summary>
+            Creates the message queue given its name in the application context.
+            </summary>
+            <param name="messageQueueObjectName">Name of the message queue object.</param>
+            <returns>A MessageQueue instance configured via the application context</returns>
+        </member>
+        <member name="M:Spring.Messaging.Core.IMessageQueueFactory.ContainsMessageQueue(System.String)">
+            <summary>
+            Determines whether the application context contains the message queue object definition.
+            </summary>
+            <param name="messageQueueObjectName">Name of the message queue object.</param>
+            <returns>
+            	<c>true</c> if the application context contains the specified message queue object name; otherwise, <c>false</c>.
+            </returns>
+        </member>
+        <member name="M:Spring.Messaging.Core.IMessageQueueFactory.RegisterMessageConverter(System.String,Spring.Messaging.Support.Converters.MessageConverterCreatorDelegate)">
+            <summary>
+            Registers the message converter, its creation specified via the factory method
+            MessageConverterCreatorDelegate, with the provided name in the application context.
+            </summary>
+            <param name="messageConverterName">Name of the message converter.</param>
+            <param name="MessageConverterCreatorDelegate">The message converter creator delegate.</param>
+        </member>
+        <member name="M:Spring.Messaging.Core.IMessageQueueFactory.CreateMessageConverter(System.String)">
+            <summary>
+            Creates the message converter given its name in the application context.
+            </summary>
+            <param name="messageConverterObjectName">Name of the message converter object.</param>
+            <returns>A IMessageConverter instance configured via the application context</returns>
+        </member>
+        <member name="M:Spring.Messaging.Core.IMessageQueueFactory.ContainsMessageConverter(System.String)">
+            <summary>
+            Determines whether the application context contains the message queue object definition.
+            </summary>
+            <param name="messageConverterObjectName">Name of the message converter object.</param>
+            <returns>
+            	<c>true</c> if the application context contains the specified message message converter object name; otherwise, <c>false</c>.
+            </returns>
+        </member>
+        <member name="M:Spring.Messaging.Core.DefaultMessageQueueFactory.RegisterMessageQueue(System.String,Spring.Messaging.Support.MessageQueueCreatorDelegate)">
+            <summary>
+            Registers the message queue, its creation specified via the factory method
+            MessageQueueCreatorDelegate, with the provided name in the application context
+            </summary>
+            <param name="messageQueueObjectName">Name of the message queue object.</param>
+            <param name="messageQueueCreatorDelegate">The message queue creator delegate.</param>
+        </member>
+        <member name="M:Spring.Messaging.Core.DefaultMessageQueueFactory.CreateMessageQueue(System.String)">
+            <summary>
+            Creates the message queue given its name in the application context.
+            </summary>
+            <param name="messageQueueObjectName">Name of the message queue object.</param>
+            <returns>
+            A MessageQueue instance configured via the application context
+            </returns>
+        </member>
+        <member name="M:Spring.Messaging.Core.DefaultMessageQueueFactory.ContainsMessageQueue(System.String)">
+            <summary>
+            Determines whether the application context contains the message queue object definition.
+            </summary>
+            <param name="messageQueueObjectName">Name of the message queue object.</param>
+            <returns>
+            	<c>true</c> if the application context contains the specified message queue object name; otherwise, <c>false</c>.
+            </returns>
+        </member>
+        <member name="M:Spring.Messaging.Core.DefaultMessageQueueFactory.RegisterMessageConverter(System.String,Spring.Messaging.Support.Converters.MessageConverterCreatorDelegate)">
+            <summary>
+            Registers the message converter.
+            </summary>
+            <param name="messageConverterName">Name of the message converter.</param>
+            <param name="messageConverterCreatorDelegate">The message converter creator delegate.</param>
+        </member>
+        <member name="M:Spring.Messaging.Core.DefaultMessageQueueFactory.CreateMessageConverter(System.String)">
+            <summary>
+            Creates the message converter given its name in the application context.
+            </summary>
+            <param name="messageConverterObjectName">Name of the message converter object.</param>
+            <returns>
+            A IMessageConverter instance configured via the application context
+            </returns>
+        </member>
+        <member name="M:Spring.Messaging.Core.DefaultMessageQueueFactory.ContainsMessageConverter(System.String)">
+            <summary>
+            Determines whether the application context contains the message queue object definition.
+            </summary>
+            <param name="messageConverterObjectName">Name of the message converter object.</param>
+            <returns>
+            	<c>true</c> if the application context contains the specified message message converter object name; otherwise, <c>false</c>.
+            </returns>
+        </member>
+        <member name="P:Spring.Messaging.Core.DefaultMessageQueueFactory.ApplicationContext">
+            <summary>
+            Gets or sets the <see cref="T:Spring.Context.IApplicationContext"/> that this
+            object runs in.
+            </summary>
+            <remarks>
+            <p>
+            Normally this call will be used to initialize the object.
+            </p>
+            <p>
+            Invoked after population of normal object properties but before an
+            init callback such as
+            <see cref="T:Spring.Objects.Factory.IInitializingObject"/>'s
+            <see cref="M:Spring.Objects.Factory.IInitializingObject.AfterPropertiesSet"/>
+            or a custom init-method. Invoked after the setting of any
+            <see cref="T:Spring.Context.IResourceLoaderAware"/>'s
+            <see cref="P:Spring.Context.IResourceLoaderAware.ResourceLoader"/>
+            property.
+            </p>
+            </remarks>
+            <exception cref="T:Spring.Context.ApplicationContextException">
+            In the case of application context initialization errors.
+            </exception>
+            <exception cref="T:Spring.Objects.ObjectsException">
+            If thrown by any application context methods.
+            </exception>
+            <exception cref="T:Spring.Objects.Factory.ObjectInitializationException"/>
+        </member>
+        <member name="T:Spring.Messaging.Core.IMessageQueueOperations">
+            <summary>
+            Specifies a basic set of helper MSMQ opertions.
+            </summary>
+            <remarks>
+            <para>Implemented by <see cref="T:Spring.Messaging.Core.MessageQueueTemplate"/>.  Not often used but a useful option
+            to enhance testability, as it can easily be mocked or stubbed.
+            </para>
+            <para>
+            Provides <code>MessageQueueTemplate's</code> <code>
+            Send(..)</code> and <code>receive(..)</code> methods that mirror various MSMQ MessageQueue
+            API methods.
+            </para>
+            </remarks>
+            <author>Mark Pollack</author>
+        </member>
+        <member name="M:Spring.Messaging.Core.IMessageQueueOperations.ConvertAndSend(System.Object)">
+            <summary>
+            Send the given object to the default destination, converting the object
+            to a MSMQ message with a configured IMessageConverter.
+            </summary>
+            <remarks>This will only work with a default destination queue specified!</remarks>
+            <param name="obj">The obj.</param>
+        </member>
+        <member name="M:Spring.Messaging.Core.IMessageQueueOperations.ConvertAndSend(System.Object,Spring.Messaging.Core.MessagePostProcessorDelegate)">
+            <summary> Send the given object to the default destination, converting the object
+            to a MSMQ message with a configured IMessageConverter. The IMessagePostProcessor
+            callback allows for modification of the message after conversion.
+            <p>This will only work with a default destination specified!</p>
+            </summary>
+            <param name="obj">the object to convert to a message
+            </param>
+            <param name="messagePostProcessorDelegate">the callback to modify the message
+            </param>
+            <exception cref="T:Spring.Messaging.MessagingException">if thrown by MSMQ API methods</exception>    
+        </member>
+        <member name="M:Spring.Messaging.Core.IMessageQueueOperations.ConvertAndSend(System.String,System.Object)">
+            <summary> Send the given object to the specified destination, converting the object
+            to a MSMQ message with a configured <see cref="T:Spring.Messaging.Support.Converters.IMessageConverter"/> and resolving the 
+            destination name to a <see cref="T:System.Messaging.MessageQueue"/> using a <see cref="T:Spring.Messaging.Core.IMessageQueueFactory"/>
+            </summary>
+            <param name="messageQueueObjectName">the name of the destination queue
+            to send this message to (to be resolved to an actual MessageQueue
+            by a IMessageQueueFactory)
+            </param>
+            <param name="obj">the object to convert to a message
+            </param>
+            <throws>NMSException if there is any problem</throws>
+        </member>
+        <member name="M:Spring.Messaging.Core.IMessageQueueOperations.ConvertAndSend(System.String,System.Object,Spring.Messaging.Core.MessagePostProcessorDelegate)">
+            <summary> Send the given object to the specified destination, converting the object
+            to a MSMQ message with a configured <see cref="T:Spring.Messaging.Support.Converters.IMessageConverter"/> and resolving the 
+            destination name to a <see cref="T:System.Messaging.MessageQueue"/> with an <see cref="T:Spring.Messaging.Core.IMessageQueueFactory"/>
+            The <see cref="T:Spring.Messaging.Core.MessagePostProcessorDelegate"/> callback allows for modification of the message after conversion.
+            </summary>
+            <param name="messageQueueObjectName">the name of the destination queue
+            to send this message to (to be resolved to an actual MessageQueue
+            by a IMessageQueueFactory)
+            </param>
+            <param name="obj">the object to convert to a message
+            </param>
+            <param name="messagePostProcessorDelegate">the callback to modify the message
+            </param>
+            <exception cref="T:Spring.Messaging.MessagingException">if thrown by MSMQ API methods</exception>    
+        </member>
+        <member name="M:Spring.Messaging.Core.IMessageQueueOperations.ReceiveAndConvert">
+            <summary>
+            Receive and convert a message synchronously from the default message queue.  
+            </summary>
+            <returns>The converted object</returns>
+            <exception cref="T:System.Messaging.MessageQueueException">if thrown by MSMQ API methods.  Note an
+            exception will be thrown if the timeout of the syncrhonous recieve operation expires.
+            </exception>
+        </member>
+        <member name="M:Spring.Messaging.Core.IMessageQueueOperations.ReceiveAndConvert(System.String)">
+            <summary>
+            Receives and convert a message synchronously from the specified message queue.
+            </summary>
+            <param name="messageQueueObjectName">Name of the message queue object.</param>
+            <returns>the converted object</returns>
+            <exception cref="T:System.Messaging.MessageQueueException">if thrown by MSMQ API methods.  Note an
+            exception will be thrown if the timeout of the syncrhonous recieve operation expires.
+            </exception>
+        </member>
+        <member name="M:Spring.Messaging.Core.IMessageQueueOperations.Receive">
+            <summary>
+            Receives a message on the default message queue using the transactional settings as dicted by MessageQueue's Transactional property and
+            the current Spring managed ambient transaction. 
+            </summary>
+            <returns>A message.</returns>
+        </member>
+        <member name="M:Spring.Messaging.Core.IMessageQueueOperations.Receive(System.String)">
+            <summary>
+            Receives  a message on the specified queue using the transactional settings as dicted by MessageQueue's Transactional property and
+            the current Spring managed ambient transaction. 
+            </summary>
+            <param name="messageQueueObjectName">Name of the message queue object.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Spring.Messaging.Core.IMessageQueueOperations.Send(System.Messaging.Message)">
+            <summary>
+            Sends the specified message to the default message queue using the
+            transactional settings as dicted by MessageQueue's Transactional property and
+            the current Spring managed ambient transaction. 
+            </summary>
+            <param name="message">The message to send</param>
+        </member>
+        <member name="M:Spring.Messaging.Core.IMessageQueueOperations.Send(System.String,System.Messaging.Message)">
+            <summary>
+            Sends the specified message to the message queue using the
+            transactional settings as dicted by MessageQueue's Transactional property and
+            the current Spring managed ambient transaction. 
+            </summary>
+            <param name="messageQueueObjectName">Name of the message queue object.</param>
+            <param name="message">The message.</param>
+        </member>
+        <member name="M:Spring.Messaging.Core.IMessageQueueOperations.Send(System.Messaging.MessageQueue,System.Messaging.Message)">
+            <summary>
+            Sends the specified message on the provided MessageQueue using the 
+            transactional settings as dicted by MessageQueue's Transactional property and
+            the current Spring managed ambient transaction.
+            </summary>
+            <para>
+            Note that it is the callers responsibility to ensure that the MessageQueue instance
+            passed into this not being access simultaneously by other threads.
+            </para>
+            <remarks>A transactional send (either local or DTC transaction) will be
+            attempted for a transacitonal queue, falling back to a single-transaction send
+            to a transactional queue if there is not ambient Spring managed transaction.</remarks>
+            <param name="messageQueue">The DefaultMessageQueue to send a message to.</param>
+            <param name="message">The message to send</param>
+        </member>
+        <member name="T:Spring.Messaging.Core.LocallyExposedMessageQueueResourceHolder">
+            <summary>
+            MessageQueueResourceHolder marker subclass that indicates local exposure,
+            i.e. that does not indicate an externally managed transaction.
+            </summary>
+            <author>Mark Pollack</author>
+        </member>
+        <member name="T:Spring.Messaging.Core.MessageQueueResourceHolder">
+            <summary>
+            MessageQueue resource holder, wrapping a MessageQueueTransaction.
+            MessageQueueTransactionManager binds instances of this class to the thread.  
+            </summary>
+            <remarks>
+            This is an SPI class, not intended to be used by applications.
+            </remarks>
+            <author>Mark Pollack</author>
+        </member>
+        <member name="M:Spring.Messaging.Core.MessageQueueResourceHolder.#ctor(System.Messaging.MessageQueueTransaction)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Spring.Messaging.Core.MessageQueueResourceHolder"/> class.
+            </summary>
+            <param name="messageQueueTransaction">The message queue transaction.</param>
+        </member>
+        <member name="P:Spring.Messaging.Core.MessageQueueResourceHolder.MessageQueueTransaction">
+            <summary>
+            Gets or sets the message queue transaction.
+            </summary>
+            <value>The message queue transaction.</value>
+        </member>
+        <member name="M:Spring.Messaging.Core.LocallyExposedMessageQueueResourceHolder.#ctor(System.Messaging.MessageQueueTransaction)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Spring.Messaging.Core.LocallyExposedMessageQueueResourceHolder"/> class.
+            </summary>
+            <param name="messageQueueTransaction">The message queue transaction.</param>
+        </member>
+        <member name="T:Spring.Messaging.Core.MessagePostProcessorDelegate">
+            <summary>
+            To be used with MessageQueueTemplate's send method that
+            convert an object to a message.
+            </summary>
+            <remarks>
+            It allows for further modification of the message after it has been processed
+            by the converter. This is useful for setting of Message properties (e.g. 
+            CorrelationId, AppSpecific, TimeToReachQueue).
+            </remarks>
+            <author>Mark Pollack</author>
+        </member>
+        <member name="T:Spring.Messaging.Core.MessageQueueGatewaySupport">
+            <summary>
+            Convenient super class for application classes that need MSMQ access.
+            </summary>
+            <remarks>
+            Override the InitGateway method to perform custom startup tasks.
+            </remarks>
+            <author>Mark Pollack</author>
+        </member>
+        <member name="M:Spring.Messaging.Core.MessageQueueGatewaySupport.InitGateway">
+            <summary>
+            Subclasses can override this for custom initialization behavior.
+            Gets called after population of this instance's properties.
+            </summary>
+        </member>
+        <member name="P:Spring.Messaging.Core.MessageQueueGatewaySupport.MessageQueueTemplate">
+            <summary>
+            Gets or sets the message queue template. <see cref="F:Spring.Messaging.Core.MessageQueueGatewaySupport.messageQueueTemplate"/>.
+            </summary>
+            <value>The message queue template.</value>
+        </member>
+        <member name="P:Spring.Messaging.Core.MessageQueueGatewaySupport.MessageQueueFactory">
+            <summary>
+            Gets the message queue factory, a convenience method.
+            </summary>
+            <value>The message queue factory.</value>
+        </member>
+        <member name="T:Spring.Messaging.Core.MessageQueueTemplate">
+            <summary>
+            Helper class that simplifies MSMQ access code.
+            </summary>
+            <remarks>
+            <para>
+            Using the System.Messaging.MessageQueue class directly in application code has a number of
+            shortcomings, namely that most operations are not thread safe (in particular Send) and
+            IMessageFormatter classes are not thread safe either.  
+            </para>
+            <para>
+            The MessageQueueTemplate class overcomes these limitations letting you use a single instance
+            of MessageQueueTemplate across multiple threads to perform standard MessageQueue opertations.
+            Classes that are not thread safe are obtained and cached in thread local storage via an
+            implementation of the <see cref="T:Spring.Messaging.Core.IMessageQueueFactory"/> interface, specifically
+            <see cref="T:Spring.Messaging.Core.DefaultMessageQueueFactory"/>.
+            </para>
+            <para>
+            You can access the thread local instance of the MessageQueue associated with this template
+            via the Property DefaultMessageQueue.
+            </para>
+            <para>
+            The template's Send methods will select an appropriate transaction delivery settings so 
+            calling code does not need to explicitly manage this responsibility themselves and thus
+            allowing for greater portability of code across different, but common, transactional usage scenarios.
+            </para>
+            <para>A transactional send (either local or DTC transaction) will be
+            attempted for a transacitonal queue, falling back to a single-transaction send
+            to a transactional queue if there is not ambient Spring managed transaction.
+            </para>
+            <para>The overloaded ConvertAndSend and ReceiveAndConvert methods inherit the transactional
+            semantics of the previously described Send method but more importantly, they help to ensure
+            that thread safe access to <see cref="T:System.Messaging.IMessageFormatter"/> instances are
+            used as well as providing additional central location to put programmic logic that translates
+            between the MSMQ Message object and the your business objects.  This for example is useful if you
+            need to perform additional translation operations after calling a IMessageFormatter instance or
+            want to directly extract and process the Message body contents.
+            </para>
+            </remarks>
+        </member>
+        <member name="M:Spring.Messaging.Core.MessageQueueTemplate.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Spring.Messaging.Core.MessageQueueTemplate"/> class.
+            </summary>
+        </member>
+        <member name="M:Spring.Messaging.Core.MessageQueueTemplate.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Spring.Messaging.Core.MessageQueueTemplate"/> class.
+            </summary>
+            <param name="messageQueueName">Name of the message queue as registered in the Spring container.</param>
+        </member>
+        <member name="M:Spring.Messaging.Core.MessageQueueTemplate.AfterPropertiesSet">
+            <summary>
+            Invoked by an <see cref="T:Spring.Objects.Factory.IObjectFactory"/>
+            after it has injected all of an object's dependencies.
+            </summary>
+            <remarks>
+            Ensure that the DefaultMessageQueueObjectName property is set, creates 
+            a default implementation of the <see cref="T:Spring.Messaging.Core.IMessageQueueFactory"/> interface
+            (<see cref="T:Spring.Messaging.Core.DefaultMessageQueueFactory"/>) that retrieves instances on a per-thread
+            basis, and registers in the Spring container a default implementation of 
+            <see cref="T:Spring.Messaging.Support.Converters.IMessageConverter"/> (<see cref="T:Spring.Messaging.Support.Converters.XmlMessageConverter"/>) with a
+            simple System.String as its TargetType.  <see cref="M:Spring.Messaging.Support.QueueUtils.RegisterDefaultMessageConverter(Spring.Context.IApplicationContext)"/>
+            </remarks>
+        </member>
+        <member name="M:Spring.Messaging.Core.MessageQueueTemplate.ConvertAndSend(System.Object)">
+            <summary>
+            Send the given object to the default destination, converting the object
+            to a MSMQ message with a configured IMessageConverter.
+            </summary>
+            <param name="obj">The obj.</param>
+            <remarks>This will only work with a default destination queue specified!</remarks>
+        </member>
+        <member name="M:Spring.Messaging.Core.MessageQueueTemplate.ConvertAndSend(System.Object,Spring.Messaging.Core.MessagePostProcessorDelegate)">
+            <summary>
+            Send the given object to the default destination, converting the object
+            to a MSMQ message with a configured IMessageConverter. The IMessagePostProcessor
+            callback allows for modification of the message after conversion.
+            <p>This will only work with a default destination specified!</p>
+            </summary>
+            <param name="obj">the object to convert to a message</param>
+            <param name="messagePostProcessorDelegate">the callback to modify the message</param>
+            <exception cref="T:Spring.Messaging.MessagingException">if thrown by MSMQ API methods</exception>
+        </member>
+        <member name="M:Spring.Messaging.Core.MessageQueueTemplate.ConvertAndSend(System.String,System.Object)">
+            <summary>
+            Send the given object to the specified destination, converting the object
+            to a MSMQ message with a configured <see cref="T:Spring.Messaging.Support.Converters.IMessageConverter"/> and resolving the
+            destination name to a <see cref="T:System.Messaging.MessageQueue"/> using a <see cref="T:Spring.Messaging.Core.IMessageQueueFactory"/>
+            </summary>
+            <param name="messageQueueObjectName">the name of the destination queue
+            to send this message to (to be resolved to an actual MessageQueue
+            by a IMessageQueueFactory)</param>
+            <param name="obj">the object to convert to a message</param>
+            <throws>NMSException if there is any problem</throws>
+        </member>
+        <member name="M:Spring.Messaging.Core.MessageQueueTemplate.ConvertAndSend(System.String,System.Object,Spring.Messaging.Core.MessagePostProcessorDelegate)">
+            <summary>
+            Send the given object to the specified destination, converting the object
+            to a MSMQ message with a configured <see cref="T:Spring.Messaging.Support.Converters.IMessageConverter"/> and resolving the
+            destination name to a <see cref="T:System.Messaging.MessageQueue"/> with an <see cref="T:Spring.Messaging.Core.IMessageQueueFactory"/>
+            The <see cref="T:Spring.Messaging.Core.MessagePostProcessorDelegate"/> callback allows for modification of the message after conversion.
+            </summary>
+            <param name="messageQueueObjectName">the name of the destination queue
+            to send this message to (to be resolved to an actual MessageQueue
+            by a IMessageQueueFactory)</param>
+            <param name="obj">the object to convert to a message</param>
+            <param name="messagePostProcessorDelegate">the callback to modify the message</param>
+            <exception cref="T:Spring.Messaging.MessagingException">if thrown by MSMQ API methods</exception>
+        </member>
+        <member name="M:Spring.Messaging.Core.MessageQueueTemplate.ReceiveAndConvert">
+            <summary>
+            Receive and convert a message synchronously from the default message queue.
+            </summary>
+            <returns>The converted object</returns>
+            <exception cref="T:System.Messaging.MessageQueueException">if thrown by MSMQ API methods.  Note an
+            exception will be thrown if the timeout of the syncrhonous recieve operation expires.
+            </exception>
+        </member>
+        <member name="M:Spring.Messaging.Core.MessageQueueTemplate.ReceiveAndConvert(System.String)">
+            <summary>
+            Receives and convert a message synchronously from the specified message queue.
+            </summary>
+            <param name="messageQueueObjectName">Name of the message queue object.</param>
+            <returns>the converted object</returns>
+            <exception cref="T:System.Messaging.MessageQueueException">if thrown by MSMQ API methods.  Note an
+            exception will be thrown if the timeout of the syncrhonous recieve operation expires.
+            </exception>
+        </member>
+        <member name="M:Spring.Messaging.Core.MessageQueueTemplate.Receive">
+            <summary>
+            Receives a message on the default message queue using the transactional settings as dicted by MessageQueue's Transactional property and
+            the current Spring managed ambient transaction.
+            </summary>
+            <returns>A message.</returns>
+        </member>
+        <member name="M:Spring.Messaging.Core.MessageQueueTemplate.Receive(System.String)">
+            <summary>
+            Receives  a message on the specified queue using the transactional settings as dicted by MessageQueue's Transactional property and
+            the current Spring managed ambient transaction.
+            </summary>
+            <param name="messageQueueObjectName">Name of the message queue object.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Spring.Messaging.Core.MessageQueueTemplate.Send(System.Messaging.Message)">
+            <summary>
+            Sends the specified message to the default message queue using the
+            transactional settings as dicted by MessageQueue's Transactional property and
+            the current Spring managed ambient transaction.
+            </summary>
+            <param name="message">The message to send</param>
+        </member>
+        <member name="M:Spring.Messaging.Core.MessageQueueTemplate.Send(System.String,System.Messaging.Message)">
+            <summary>
+            Sends the specified message to the message queue using the
+            transactional settings as dicted by MessageQueue's Transactional property and
+            the current Spring managed ambient transaction.
+            </summary>
+            <param name="messageQueueObjectName">Name of the message queue object.</param>
+            <param name="message">The message.</param>
+        </member>
+        <member name="M:Spring.Messaging.Core.MessageQueueTemplate.Send(System.Messaging.MessageQueue,System.Messaging.Message)">
+            <summary>
+            Sends the specified message on the provided MessageQueue using the
+            transactional settings as dicted by MessageQueue's Transactional property and
+            the current Spring managed ambient transaction.
+            </summary>
+            <param name="messageQueue">The DefaultMessageQueue to send a message to.</param>
+            <param name="message">The message to send</param>
+            <para>
+            Note that it is the callers responsibility to ensure that the MessageQueue instance
+            passed into this not being access simultaneously by other threads.
+            </para>
+            <remarks>A transactional send (either local or DTC transaction) will be
+            attempted for a transacitonal queue, falling back to a single-transaction send
+            to a transactional queue if there is not ambient Spring managed transaction.</remarks>
+        </member>
+        <member name="M:Spring.Messaging.Core.MessageQueueTemplate.DoSend(System.Messaging.MessageQueue,System.Messaging.Message)">
+            <summary>
+            Sends the message to the given message queue.
+            </summary>
+            <remarks>If System.Transactions.Transaction.Current is null, then send based on
+            the transaction semantics of the queue definition.  See <see cref="M:Spring.Messaging.Core.MessageQueueTemplate.DoSendMessageQueueTransactional(System.Messaging.MessageQueue,System.Messaging.Message)"/> </remarks>
+            <param name="messageQueue">The message queue.</param>
+            <param name="message">The message.</param>
+        </member>
+        <member name="M:Spring.Messaging.Core.MessageQueueTemplate.DoSendMessageQueueTransactional(System.Messaging.MessageQueue,System.Messaging.Message)">
+            <summary>
+            Send the message queue selecting the appropriate transactional delivery options.
+            </summary>
+            <remarks>
+            <para>
+            If the message queue is transactional and there is an ambient MessageQueueTransaction 
+            in thread local storage (put there via the use of Spring's MessageQueueTransactionManager 
+            or TransactionalMessageListenerContainer), the message will be sent transactionally using the 
+            MessageQueueTransaction object in thread local storage. This lets you group together multiple 
+            messaging operations within the same transaction without having to explicitly pass around the 
+            MessageQueueTransaction object.
+            </para>
+            <para>
+            If the message queue is transactional but there is no ambient MessageQueueTransaction, 
+            then a single message transaction is created on each messaging operation. 
+            (MessageQueueTransactionType = Single). 
+            </para>
+            <para>
+            If there is an ambient System.Transactions transaction then that transaction will 
+            be used (MessageQueueTransactionType = Automatic). 
+            </para>
+            <para>
+            If the queue is not transactional, then a non-transactional send 
+            (MessageQueueTransactionType = None) is used.
+            </para>
+            </remarks>
+            <param name="mq">The mq.</param>
+            <param name="msg">The MSG.</param>
+        </member>
+        <member name="M:Spring.Messaging.Core.MessageQueueTemplate.DoSendTxScope(System.Messaging.MessageQueue,System.Messaging.Message)">
+            <summary>
+            Sends using MessageQueueTransactionType.Automatic transaction type
+            </summary>
+            <param name="mq">The message queue.</param>
+            <param name="msg">The message.</param>
+        </member>
+        <member name="M:Spring.Messaging.Core.MessageQueueTemplate.DoConvertMessage(System.Messaging.Message)">
+            <summary>
+            Template method to convert the message if it is not null.
+            </summary>
+            <param name="m">The message.</param>
+            <returns>The converted message ,or null if no message converter is set.</returns>
+        </member>
+        <member name="M:Spring.Messaging.Core.MessageQueueTemplate.CheckDefaultMessageQueue">
+            <summary>
+            Checks if the default message queue if defined.
+            </summary>
+        </member>
+        <member name="P:Spring.Messaging.Core.MessageQueueTemplate.MessageQueueFactory">
+            <summary>
+            Gets or sets the message queue factory to use for creating MessageQueue and IMessageConverters.
+            Default value is one that support thread local instances.
+            </summary>
+            <value>The message queue factory.</value>
+        </member>
+        <member name="P:Spring.Messaging.Core.MessageQueueTemplate.DefaultMessageQueueObjectName">
+            <summary>
+            Gets or sets the name of the default message queue as identified in the Spring container.
+            </summary>
+            <value>The name of the message queue as identified in the Spring container.</value>
+        </member>
+        <member name="P:Spring.Messaging.Core.MessageQueueTemplate.MessageConverterObjectName">
+            <summary>
+            Gets or sets the name of the message converter object.  The name will be passed to
+            the <see cref="T:Spring.Messaging.Core.IMessageQueueFactory"/> class to resolve it to an actual MessageQueue
+            instance.
+            </summary>
+            <remarks>The default name is internally generated and will register an XmlMessageConverter
+            that uses an <see cref="T:System.Messaging.XmlMessageFormatter"/> and a simple System.String as its TargetType.</remarks>
+            <value>The name of the message converter object.</value>
+        </member>
+        <member name="P:Spring.Messaging.Core.MessageQueueTemplate.DefaultMessageQueue">
+            <summary>
+            Gets the default message queue to be used on send/receive operations that do not
+            have a destination parameter.  The MessageQueue instance is resolved using
+            the template's <see cref="T:Spring.Messaging.Core.IMessageQueueFactory"/>, the default implementaion 
+            <see cref="T:Spring.Messaging.Core.DefaultMessageQueueFactory"/> will return an unique instance per thread.
+            </summary>
+            <value>The default message queue.</value>
+        </member>
+        <member name="P:Spring.Messaging.Core.MessageQueueTemplate.MessageConverter">
+            <summary>
+            Gets the message converter to use for this template. Used to resolve
+            object parameters to ConvertAndSend methods and object results
+            from ReceiveAndConvert methods.
+            </summary>
+            <remarks>
+            The default 
+            </remarks>
+            <value>The message converter.</value>
+        </member>
+        <member name="P:Spring.Messaging.Core.MessageQueueTemplate.ReceiveTimeout">
+            <summary>
+            Gets or sets the receive timeout to be used on recieve operations.  Default value is
+            MessageQueue.InfiniteTimeout (which is actually ~3 months).
+            </summary>
+            <value>The receive timeout.</value>
+        </member>
+        <member name="P:Spring.Messaging.Core.MessageQueueTemplate.ApplicationContext">
+            <summary>
+            Gets or sets the <see cref="T:Spring.Context.IApplicationContext"/> that this
+            object runs in.
+            </summary>
+            <remarks>
+            <p>
+            Normally this call will be used to initialize the object.
+            </p>
+            <p>
+            Invoked after population of normal object properties but before an
+            init callback such as
+            <see cref="T:Spring.Objects.Factory.IInitializingObject"/>'s
+            <see cref="M:Spring.Objects.Factory.IInitializingObject.AfterPropertiesSet"/>
+            or a custom init-method. Invoked after the setting of any
+            <see cref="T:Spring.Context.IResourceLoaderAware"/>'s
+            <see cref="P:Spring.Context.IResourceLoaderAware.ResourceLoader"/>
+            property.
+            </p>
+            </remarks>
+            <exception cref="T:Spring.Context.ApplicationContextException">
+            In the case of application context initialization errors.
+            </exception>
+            <exception cref="T:Spring.Objects.ObjectsException">
+            If thrown by any application context methods.
+            </exception>
+            <exception cref="T:Spring.Objects.Factory.ObjectInitializationException"/>
+        </member>
+        <member name="T:Spring.Messaging.Core.MessageQueueTransactionManager">
+            <summary>
+            <see cref="T:Spring.Transaction.IPlatformTransactionManager"/> implementation for MSMQ.  Binds a 
+            MessageQueueTransaction to the thread.
+            </summary>
+            <remarks>
+            <para>
+            This local strategy is an alternative to executing MSMQ operations within 
+            DTC transactions. Its advantage is that multiple MSMQ operations can 
+            easily participate within the same local MessagingTransaction transparently when
+            using the <see cref="T:Spring.Messaging.Core.MessageQueueTemplate"/> class for send and recieve operations
+            and not pay the overhead of a DTC transaction.  
+            </para>
+            <para>Transaction synchronization is turned off by default, as this manager might
+            be used alongside a IDbProvider-based Spring transaction manager such as the
+            ADO.NET <see cref="T:Spring.Data.Core.AdoPlatformTransactionManager"/>.
+            which has stronger needs for synchronization.</para>
+            </remarks>
+            <author>Mark Pollack</author>
+        </member>
+        <member name="F:Spring.Messaging.Core.MessageQueueTransactionManager.CURRENT_TRANSACTION_SLOTNAME">
+            <summary>
+            Location where the message transaction is stored in thread local storage.
+            </summary>
+        </member>
+        <member name="M:Spring.Messaging.Core.MessageQueueTransactionManager.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Spring.Messaging.Core.MessageQueueTransactionManager"/> class.
+            </summary>
+            <remarks>
+            Turns off transaction synchronization by default, as this manager might
+            be used alongside a DbProvider-based Spring transaction manager like
+            AdoPlatformTransactionManager, which has stronger needs for synchronization.
+            Only one manager is allowed to drive synchronization at any point of time.
+            </remarks>
+        </member>
+        <member name="M:Spring.Messaging.Core.MessageQueueTransactionManager.DoGetTransaction">
+            <summary>
+            Return the current transaction object.
+            </summary>
+            <returns>The current transaction object.</returns>
+            <exception cref="T:Spring.Transaction.CannotCreateTransactionException">
+            If transaction support is not available.
+            </exception>
+            <exception cref="T:Spring.Transaction.TransactionException">
+            In the case of lookup or system errors.
+            </exception>
+        </member>
+        <member name="M:Spring.Messaging.Core.MessageQueueTransactionManager.IsExistingTransaction(System.Object)">
+            <summary>
+            Check if the given transaction object indicates an existing transaction
+            (that is, a transaction which has already started).
+            </summary>
+            <param name="transaction">MessageQueueTransactionObject object returned by
+            <see cref="M:Spring.Transaction.Support.AbstractPlatformTransactionManager.DoGetTransaction"/>.</param>
+            <returns>
+            True if there is an existing transaction.
+            </returns>
+        </member>
+        <member name="M:Spring.Messaging.Core.MessageQueueTransactionManager.DoBegin(System.Object,Spring.Transaction.ITransactionDefinition)">
+            <summary>
+            Begin a new transaction with the given transaction definition.
+            </summary>
+            <param name="transaction">Transaction object returned by
+            <see cref="M:Spring.Transaction.Support.AbstractPlatformTransactionManager.DoGetTransaction"/>.</param>
+            <param name="definition"><see cref="T:Spring.Transaction.ITransactionDefinition"/> instance, describing
+            propagation behavior, isolation level, timeout etc.</param>
+            <exception cref="T:Spring.Transaction.TransactionException">
+            In the case of creation or system errors.
+            </exception>
+        </member>
+        <member name="M:Spring.Messaging.Core.MessageQueueTransactionManager.DoSuspend(System.Object)">
+            <summary>
+            Suspend the resources of the current transaction.
+            </summary>
+            <param name="transaction">Transaction object returned by
+            <see cref="M:Spring.Transaction.Support.AbstractPlatformTransactionManager.DoGetTransaction"/>.</param>
+            <returns>
+            An object that holds suspended resources (will be kept unexamined for passing it into
+            <see cref="M:Spring.Transaction.Support.AbstractPlatformTransactionManager.DoResume(System.Object,System.Object)"/>.)
+            </returns>
+        </member>
+        <member name="M:Spring.Messaging.Core.MessageQueueTransactionManager.DoResume(System.Object,System.Object)">
+            <summary>
+            Resume the resources of the current transaction.
+            </summary>
+            <param name="transaction">Transaction object returned by
+            <see cref="M:Spring.Transaction.Support.AbstractPlatformTransactionManager.DoGetTransaction"/>.</param>
+            <param name="suspendedResources">The object that holds suspended resources as returned by
+            <see cref="M:Spring.Transaction.Support.AbstractPlatformTransactionManager.DoSuspend(System.Object)"/>.</param>
+        </member>
+        <member name="M:Spring.Messaging.Core.MessageQueueTransactionManager.DoCommit(Spring.Transaction.Support.DefaultTransactionStatus)">
+            <summary>
+            Perform an actual commit on the given transaction.
+            </summary>
+            <param name="status">The status representation of the transaction.</param>
+            <remarks>
+            	<p>
+            An implementation does not need to check the rollback-only flag.
+            </p>
+            </remarks>
+        </member>
+        <member name="M:Spring.Messaging.Core.MessageQueueTransactionManager.DoRollback(Spring.Transaction.Support.DefaultTransactionStatus)">
+            <summary>
+            Perform an actual rollback on the given transaction, calls Transaction.Abort().
+            </summary>
+            <param name="status">The status representation of the transaction.</param>
+            <remarks>
+            An implementation does not need to check the new transaction flag.
+            </remarks>
+        </member>
+        <member name="M:Spring.Messaging.Core.MessageQueueTransactionManager.DoSetRollbackOnly(Spring.Transaction.Support.DefaultTransactionStatus)">
+            <summary>
+            Set the given transaction rollback-only. Only called on rollback
+            if the current transaction takes part in an existing one.
+            </summary>
+            <param name="status">The status representation of the transaction.</param>
+            <remarks>Default implementation throws an IllegalTransactionStateException,
+            assuming that participating in existing transactions is generally not
+            supported. Subclasses are of course encouraged to provide such support.
+            </remarks>
+            <exception cref="T:Spring.Transaction.TransactionException">
+            In the case of system errors.
+            </exception>
+        </member>
+        <member name="M:Spring.Messaging.Core.MessageQueueTransactionManager.DoCleanupAfterCompletion(System.Object)">
+            <summary>
+            Cleanup resources after transaction completion.
+            </summary>
+            <param name="transaction">Transaction object returned by
+            <see cref="M:Spring.Transaction.Support.AbstractPlatformTransactionManager.DoGetTransaction"/>.</param>
+            <remarks>
+            <para>
+            Called after <see cref="M:Spring.Transaction.Support.AbstractPlatformTransactionManager.DoCommit(Spring.Transaction.Support.DefaultTransactionStatus)"/>
+            and
+            <see cref="M:Spring.Transaction.Support.AbstractPlatformTransactionManager.DoRollback(Spring.Transaction.Support.DefaultTransactionStatus)"/>
+            execution on any outcome.
+            </para>
+            </remarks>
+        </member>
+        <member name="T:Spring.Messaging.Listener.AbstractListenerContainer">
+            <summary>
+            Provides basic lifecyle management methods for implementing a message listener container.
+            </summary>
+            <remarks>
+            This base class does not assume any specific listener programming model
+            or listener invoker mechanism. It just provides the general runtime
+            lifecycle management needed for any kind of message-based listening mechanism.
+            <para>
+            For a concrete listener programming model, check out the
+            <see cref="T:Spring.Messaging.Listener.AbstractMessageListenerContainer"/> subclass. For a concrete listener
+            invoker mechanism, check out the <see cref="T:Spring.Messaging.Listener.NonTransactionalMessageListenerContainer"/>,
+            <see cref="T:Spring.Messaging.Listener.TransactionalMessageListenerContainer"/>, or 
+            <see cref="T:Spring.Messaging.Listener.DistributedTxMessageListenerContainer"/> classes.
+            </para>
+            </remarks>
+            <author>Mark Pollack</author>
+        </member>
+        <member name="M:Spring.Messaging.Listener.AbstractListenerContainer.AfterPropertiesSet">
+            <summary>
+            Delegates to <see cref="M:Spring.Messaging.Listener.AbstractListenerContainer.ValidateConfiguration"/> and <see cref="M:Spring.Messaging.Listener.AbstractListenerContainer.Initialize"/>
+            </summary>
+        </member>
+        <member name="M:Spring.Messaging.Listener.AbstractListenerContainer.ValidateConfiguration">
+            <summary>
+            Validates the configuration of this container
+            The default implementation is empty. To be overridden in subclasses.
+            </summary>
+        </member>
+        <member name="M:Spring.Messaging.Listener.AbstractListenerContainer.Dispose">
+            <summary>
+            Calls <see cref="M:Spring.Messaging.Listener.AbstractListenerContainer.Shutdown"/> when the application context destroys the container instance.
+            </summary>
+        </member>
+        <member name="M:Spring.Messaging.Listener.AbstractListenerContainer.Initialize">
+            <summary>
+            Initializes this container.  Calls the abstract method DoStart if the 
+            property <see cref="P:Spring.Messaging.Listener.AbstractListenerContainer.AutoStartup"/> is set to true, then calls 
+            <see cref="M:Spring.Messaging.Listener.AbstractListenerContainer.DoInitialize"/>
+            </summary>
+        </member>
+        <member name="M:Spring.Messaging.Listener.AbstractListenerContainer.Shutdown">
+            <summary>
+            Sets the container state to inactive and not running, calls template method 
+            <see cref="M:Spring.Messaging.Listener.AbstractListenerContainer.DoShutdown"/>
+            </summary>
+        </member>
+        <member name="M:Spring.Messaging.Listener.AbstractListenerContainer.Start">
+            <summary>
+            Starts this container.
+            </summary>
+        </member>
+        <member name="M:Spring.Messaging.Listener.AbstractListenerContainer.DoStart">
+            <summary>
+            Sets the state to running, can be overridden in subclasses.
+            </summary>
+        </member>
+        <member name="M:Spring.Messaging.Listener.AbstractListenerContainer.Stop">
+            <summary>
+            Stops this instance.
+            </summary>
+        </member>
+        <member name="M:Spring.Messaging.Listener.AbstractListenerContainer.DoStop">
+            <summary>
+            Template method suitable for overriding that stops the container.
+            </summary>
+        </member>
+        <member name="M:Spring.Messaging.Listener.AbstractListenerContainer.RunningAllowed">
+            <summary>
+            Check whether this container's listeners are generally allowed to run.
+            </summary>
+            <remarks>
+            This implementation always returns <code>true</code>; the default 'running'
+            state is purely determined by <see cref="M:Spring.Messaging.Listener.AbstractListenerContainer.Start"/> and <see cref="M:Spring.Messaging.Listener.AbstractListenerContainer.Stop"/> 
+            <para>
+            Subclasses may override this method to check against temporary
+            conditions that prevent listeners from actually running. In other words,
+            they may apply further restrictions to the 'running' state, returning
+            <code>false</code> if such a restriction prevents listeners from running.
+            </para>
+            </remarks>
+            <returns><code>false</code> if such a restriction prevents listeners from running.</returns>
+        </member>
+        <member name="M:Spring.Messaging.Listener.AbstractListenerContainer.DoInitialize">
+            <summary>
+            Subclasses need to implement this method for their specific
+            listener management process.
+            </summary>
+        </member>
+        <member name="M:Spring.Messaging.Listener.AbstractListenerContainer.DoShutdown">
+            <summary>
+            Subclasses need to implement this method for their specific
+            listener management process.
+            </summary>
+        </member>
+        <member name="P:Spring.Messaging.Listener.AbstractListenerContainer.AutoStartup">
+            <summary>
+            Sets a value indicating whether to automatically start the container after initialization.
+            Default is "true"; set this to "false" to allow for manual startup though the
+            <see cref="M:Spring.Messaging.Listener.AbstractListenerContainer.Start"/> method.
+            </summary>
+            <value><c>true</c> if autostartup; otherwise, <c>false</c>.</value>
+        </member>
+        <member name="P:Spring.Messaging.Listener.AbstractListenerContainer.Active">
+            <summary>
+            Gets a value indicating whether this Container is active,
+            that is, whether it has been set up but not shut down yet.
+            </summary>
+            <value><c>true</c> if active; otherwise, <c>false</c>.</value>
+        </member>
+        <member name="P:Spring.Messaging.Listener.AbstractListenerContainer.Running">
+            <summary>
+            Gets a value indicating whether this Container is running, 
+            that is whether it has been started and not stopped yet.
+            </summary>
+            <value><c>true</c> if running; otherwise, <c>false</c>.</value>
+        </member>
+        <member name="P:Spring.Messaging.Listener.AbstractListenerContainer.ObjectName">
+            <summary>
+            Return the object name that this listener container has been assigned
+            in its containing object factory, if any.
+            </summary>
+        </member>
+        <member name="T:Spring.Messaging.Listener.AbstractMessageListenerContainer">
+            <summary>
+            Defines a minimal programming model for message listener containers.  They are expected to
+            invoke a <see cref="T:Spring.Messaging.Listener.IMessageListener"/> upon asynchronous receives of a MSMQ message.  Access to
+            obtain MessageQueue and <see cref="T:Spring.Messaging.Support.Converters.IMessageConverter"/> instances is available through the 
+            <see cref="T:Spring.Messaging.Core.IMessageQueueFactory"/> property, the default implementation 
+            <see cref="T:Spring.Messaging.Core.DefaultMessageQueueFactory"/> provides per-thread instances of these classes.   
+            </summary>
+            <author>Mark Pollack</author>
+        </member>
+        <member name="F:Spring.Messaging.Listener.AbstractMessageListenerContainer.messageQueueMonitor">
+            <summary>
+            Most operations within the MessageListener container hierarchy use methods on the
+            MessageQueue instance which are thread safe (BeginPeek, BeginReceive, 
+            EndPeek, EndReceive, GetAllMessages, Peek, and Receive).  When using another
+            method on the shared MessageQueue instance, wrap calls with a lock on this object.
+            </summary>
+        </member>
+        <member name="M:Spring.Messaging.Listener.AbstractMessageListenerContainer.ValidateConfiguration">
+            <summary>
+            Validates that the <see cref="F:Spring.Messaging.Listener.AbstractMessageListenerContainer.messageQueueObjectName"/> is not null.  If <see cref="P:Spring.Messaging.Listener.AbstractMessageListenerContainer.MessageQueueFactory"/>
+            is null, a <see cref="T:Spring.Messaging.Core.DefaultMessageQueueFactory"/> is created.  Can be be overridden in subclasses.
+            </summary>
+        </member>
+        <member name="M:Spring.Messaging.Listener.AbstractMessageListenerContainer.DoExecuteListener(System.Messaging.Message)">
+            <summary>
+            Template method that execute listener with the provided message if
+            <see cref="P:Spring.Messaging.Listener.AbstractListenerContainer.Running"/> is true. Subclasses will call
+            this method at the appropriate point in their processing lifecycle, for example 
+            committing or rolling back a transaction if needed.
+            </summary>
+            <remarks>Calls the template method <see cref="M:Spring.Messaging.Listener.AbstractMessageListenerContainer.InvokeListener(System.Messaging.Message)"/></remarks>
+            <param name="message">The message.</param>
+        </member>
+        <member name="M:Spring.Messaging.Listener.AbstractMessageListenerContainer.InvokeListener(System.Messaging.Message)">
+            <summary>
+            Invokes the listener if it is not null.  Invokes the method <see cref="M:Spring.Messaging.Listener.AbstractMessageListenerContainer.DoInvokeListener(Spring.Messaging.Listener.IMessageListener,System.Messaging.Message)"/>.
+            Can be overridden in subclasses.
+            </summary>        
+            <param name="message">The message.</param>
+        </member>
+        <member name="M:Spring.Messaging.Listener.AbstractMessageListenerContainer.DoInvokeListener(Spring.Messaging.Listener.IMessageListener,System.Messaging.Message)">
+            <summary>
+            Invokes the listener.  Can be overriden in subclasses.
+            </summary>
+            <param name="listener">The listener.</param>
+            <param name="message">The message.</param>
+        </member>
+        <member name="M:Spring.Messaging.Listener.AbstractMessageListenerContainer.CloseQueueHandle(System.Messaging.MessageQueue)">
+            <summary>
+            Closes the queue handle.  Cancel pending receive operation by closing the queue handle
+            To dispose of the queue handle, set EnableConnectionCache=false and call Close/Dispose.
+            </summary>
+        </member>
+        <member name="P:Spring.Messaging.Listener.AbstractMessageListenerContainer.MessageQueueFactory">
+            <summary>
+            Gets or sets the message queue factory.
+            </summary>
+            <value>The message queue factory.</value>
+        </member>
+        <member name="P:Spring.Messaging.Listener.AbstractMessageListenerContainer.MessageQueueObjectName">
+            <summary>
+            Gets or sets the name of the message queue object, as refered to in the 
+            Spring configuration, that will be used to create a DefaultMessageQueue instance
+            for consuming messages in the container.
+            </summary>
+            <value>The name of the message queue object.</value>
+        </member>
+        <member name="P:Spring.Messaging.Listener.AbstractMessageListenerContainer.MessageListener">
+            <summary>
+            Gets or sets the message listener.
+            </summary>
+            <value>The message listener.</value>
+        </member>
+        <member name="P:Spring.Messaging.Listener.AbstractMessageListenerContainer.RecoveryTimeSpan">
+            <summary>
+            Gets or sets the recovery time span, how long to sleep after an exception in processing occured
+            to avoid excessive redelivery attempts.  Default value is 1 second.
+            </summary>
+            <value>The recovery time span.</value>
+        </member>
+        <member name="P:Spring.Messaging.Listener.AbstractMessageListenerContainer.ApplicationContext">
+            <summary>
+            Gets or sets the <see cref="T:Spring.Context.IApplicationContext"/> that this
+            object runs in.
+            </summary>
+            <remarks>
+            <p>
+            Normally this call will be used to initialize the object.
+            </p>
+            <p>
+            Invoked after population of normal object properties but before an
+            init callback such as
+            <see cref="T:Spring.Objects.Factory.IInitializingObject"/>'s
+            <see cref="M:Spring.Objects.Factory.IInitializingObject.AfterPropertiesSet"/>
+            or a custom init-method. Invoked after the setting of any
+            <see cref="T:Spring.Context.IResourceLoaderAware"/>'s
+            <see cref="P:Spring.Context.IResourceLoaderAware.ResourceLoader"/>
+            property.
+            </p>
+            </remarks>
+            <exception cref="T:Spring.Context.ApplicationContextException">
+            In the case of application context initialization errors.
+            </exception>
+            <exception cref="T:Spring.Objects.ObjectsException">
+            If thrown by any application context methods.
+            </exception>
+            <exception cref="T:Spring.Objects.Factory.ObjectInitializationException"/>
+        </member>
+        <member name="T:Spring.Messaging.Listener.AbstractPeekingMessageListenerContainer">
+            <summary>
+            Base class for listener container implementations which are based on Peeking for messages on
+            a MessageQueue.  Peeking is the only resource efficient approach that can be used in 
+            order to have MessageQueue receipt in conjunction with transactions, either local MSMQ transactions,
+            local ADO.NET based transactions, or DTC transactions.  See SimpleMessageListenerContainer for
+            an implementation based on a synchronous receives and you do not require transactional support.
+            </summary>
+            <remarks>
+            The number of threads that will be created for processing messages after the Peek occurs
+            is set via the property MaxConcurrentListeners.  Each processing thread will continue to listen
+            for messages up until the the timeout value specified by ListenerTimeLimit or until
+            there are no more messages on the queue (which ver comes first).  
+            <para>
+            The default value of 
+            ListenerTimeLimit is TimeSpan.Zero, meaning that only one attempt to recieve a message from the
+            queue will be performed by each listener thread.
+            </para>
+            <para>
+            The current implementation uses the standard .NET thread pool.  Future implementations will
+            use a custom (and pluggable) thread pool.
+            </para>
+            </remarks>
+        </member>
+        <member name="M:Spring.Messaging.Listener.AbstractPeekingMessageListenerContainer.DoInitialize">
+            <summary>
+            Retrieves a MessageQueue instance given the MessageQueueObjectName
+            </summary>
+        </member>
+        <member name="M:Spring.Messaging.Listener.AbstractPeekingMessageListenerContainer.DoShutdown">
+            <summary>
+            Wait for all listener threads to exit and closes the DefaultMessageQueue.
+            <see cref="M:Spring.Messaging.Listener.AbstractMessageListenerContainer.CloseQueueHandle(System.Messaging.MessageQueue)"/>
+            </summary>
+        </member>
+        <member name="M:Spring.Messaging.Listener.AbstractPeekingMessageListenerContainer.DoStart">
+            <summary>
+            Starts peeking on the DefaultMessageQueue.
+            </summary>
+        </member>
+        <member name="M:Spring.Messaging.Listener.AbstractPeekingMessageListenerContainer.DoStop">
+            <summary>
+            Stops peeking on the message queue.
+            </summary>
+        </member>
+        <member name="M:Spring.Messaging.Listener.AbstractPeekingMessageListenerContainer.StartPeeking">
+            <summary>
+            Starts peeking on the DefaultMessageQueue.  This is the method that must be called
+            again at the end of message procesing to continue the peeking process.
+            </summary>
+        </member>
+        <member name="M:Spring.Messaging.Listener.AbstractPeekingMessageListenerContainer.PeekCompleted(System.IAsyncResult)">
+            <summary>
+            The callback when the peek has completed.  Schedule up to the maximum number of
+            concurrent listeners to receive messages off the queue.  Delegates to the abstract
+            method DoReceiveAndExecute so that subclasses may customize the receiving process,
+            for example to surround the receive operation with transactional semantics.
+            </summary>
+            <param name="asyncResult">The async result.</param>
+        </member>
+        <member name="M:Spring.Messaging.Listener.AbstractPeekingMessageListenerContainer.ReceiveAndExecute(System.Object)">
+            <summary>
+            Execute the listener for a message received from the given queue
+            wrapping the entire operation in an external transaction if demanded.
+            </summary>
+            <param name="state">The DefaultMessageQueue upon which the call to receive should be 
+            called.</param>
+        </member>
+        <member name="M:Spring.Messaging.Listener.AbstractPeekingMessageListenerContainer.DoReceiveAndExecute(System.Messaging.MessageQueue)">
+            <summary>
+            Subclasses perform a receive opertion on the message queue and execute the
+            message listener
+            </summary>
+            <param name="mq">The DefaultMessageQueue.</param>
+            <returns>true if received a message, false otherwise</returns>
+        </member>
+        <member name="M:Spring.Messaging.Listener.AbstractPeekingMessageListenerContainer.WaitForListenerThreadsToExit">
+            <summary>
+            Waits for listener threads to exit.
+            </summary>
+        </member>
+        <member name="M:Spring.Messaging.Listener.AbstractPeekingMessageListenerContainer.ConfigureInitialPeekThread(System.Threading.Thread)">
+            <summary>
+            Configures the initial peek thread, setting it to be a background thread.  
+            Can be overridden in subclasses.
+            </summary>
+            <param name="thread">The peek thread.</param>
+        </member>
+        <member name="M:Spring.Messaging.Listener.AbstractPeekingMessageListenerContainer.MessageReceived(System.Messaging.Message)">
+            <summary>
+            Template method that gets called right when a new message has been received,
+            before attempting to process it. Allows subclasses to react to the event
+            of an actual incoming message, for example adapting their consumer count.
+            </summary>
+            <param name="message">The message.</param>
+        </member>
+        <member name="P:Spring.Messaging.Listener.AbstractPeekingMessageListenerContainer.ListenerTimeLimit">
+            <summary>
+            Gets or sets the listener time limit to continuously receive messages. 
+            The value is specified in milliseconds.  The default value is TimeSpan.Zero, 
+            indicating to only perform one Receive operation per Peek trigger.
+            </summary>
+            <value>The listener time limit in millis.</value>
+        </member>
+        <member name="P:Spring.Messaging.Listener.AbstractPeekingMessageListenerContainer.MaxConcurrentListeners">
+            <summary>
+            Gets or sets the max concurrent listeners to receive messages.
+            </summary>
+            <value>The max concurrent listeners.</value>
+        </member>
+        <member name="P:Spring.Messaging.Listener.AbstractPeekingMessageListenerContainer.MessageQueue">
+            <summary>
+            Gets or sets the message queue used for Peeking.
+            </summary>
+            <value>The message queue.</value>
+        </member>
+        <member name="T:Spring.Messaging.Listener.AbstractSendToQueueExceptionHandler">
+            <summary>
+            Provides common functionality to exception handlers that will send the exceptional message to 
+            another queue.
+            </summary>
+            <remarks>Allows for setting of MaxRetry limit and contains an internal dictionary to keep track
+            of the Message Ids of messages.
+            </remarks>
+            <author>Mark Pollack</author>
+        </member>
+        <member name="F:Spring.Messaging.Listener.AbstractSendToQueueExceptionHandler.messageMapMonitor">
+            <summary>
+            Synchronization object for access to messageMap protected variable
+            </summary>
+        </member>
+        <member name="F:Spring.Messaging.Listener.AbstractSendToQueueExceptionHandler.messageMap">
+            <summary>
+            In-memory storage to keep track of Message Ids that have been already processed.
+            </summary>
+        </member>
+        <member name="M:Spring.Messaging.Listener.AbstractSendToQueueExceptionHandler.AfterPropertiesSet">
+            <summary>
+            Ensure that the MessageQueueObject name is set and creates a 
+            <see cref="T:Spring.Messaging.Core.DefaultMessageQueueFactory"/> if no <see cref="T:Spring.Messaging.Core.IMessageQueueFactory"/>
+            is specified.
+            </summary>
+            <remarks>Will attempt to create an instance of the DefaultMessageQueue to detect early
+            any configuraiton errors.</remarks>
+            <exception cref="T:System.Exception">
+            In the event of misconfiguration (such as the failure to set a
+            required property) or if initialization fails.
+            </exception>
+        </member>
+        <member name="P:Spring.Messaging.Listener.AbstractSendToQueueExceptionHandler.MaxRetry">
+            <summary>
+            Gets or sets the maximum retry count to reattempt processing of a message that has thrown
+            an exception
+            </summary>
+            <value>The max retry count.</value>
+        </member>
+        <member name="P:Spring.Messaging.Listener.AbstractSendToQueueExceptionHandler.MessageQueueFactory">
+            <summary>
+            Gets or sets the message queue factory.
+            </summary>
+            <value>The message queue factory.</value>
+        </member>
+        <member name="P:Spring.Messaging.Listener.AbstractSendToQueueExceptionHandler.MessageQueueObjectName">
+            <summary>
+            Gets or sets the name of the message queue object to send the message that cannot be
+            processed successfully after MaxRetry delivery attempts.
+            </summary>
+            <value>The name of the message queue object.</value>
+        </member>
+        <member name="P:Spring.Messaging.Listener.AbstractSendToQueueExceptionHandler.ApplicationContext">
+            <summary>
+            Gets or sets the <see cref="T:Spring.Context.IApplicationContext"/> that this
+            object runs in.
+            </summary>
+            <remarks>
+            <p>
+            Normally this call will be used to initialize the object.
+            </p>
+            <p>
+            Invoked after population of normal object properties but before an
+            init callback such as
+            <see cref="T:Spring.Objects.Factory.IInitializingObject"/>'s
+            <see cref="M:Spring.Objects.Factory.IInitializingObject.AfterPropertiesSet"/>
+            or a custom init-method. Invoked after the setting of any
+            <see cref="T:Spring.Context.IResourceLoaderAware"/>'s
+            <see cref="P:Spring.Context.IResourceLoaderAware.ResourceLoader"/>
+            property.
+            </p>
+            </remarks>
+            <exception cref="T:Spring.Context.ApplicationContextException">
+            In the case of application context initialization errors.
+            </exception>
+            <exception cref="T:Spring.Objects.ObjectsException">
+            If thrown by any application context methods.
+            </exception>
+            <exception cref="T:Spring.Objects.Factory.ObjectInitializationException"/>
+        </member>
+        <member name="T:Spring.Messaging.Listener.AbstractTransactionalMessageListenerContainer">
+            <summary>
+            An implementation of a Peeking based MessageListener container that starts a transaction 
+            before recieving a message.  The <see cref="T:Spring.Transaction.IPlatformTransactionManager"/> implementation determines
+            the type of transaction that will be started.  An exception while processing the message will
+            result in a rollback, otherwise a transaction commit will be performed.
+            </summary>
+            <remarks>
+            The type of transaction that can be started can either be local transaction, 
+            (e.g. <see cref="T:Spring.Data.Core.AdoPlatformTransactionManager"/>, a local messaging transaction
+            (e.g. <see cref="T:Spring.Messaging.Core.MessageQueueTransactionManager"/> or a DTC based transaction, 
+            (eg. <see cref="T:Spring.Data.Core.TxScopeTransactionManager"/>.
+            <para>
+            Transaction properties can be set using the property <see cref="P:Spring.Messaging.Listener.AbstractTransactionalMessageListenerContainer.TransactionDefinition"/>
+            and the transaction timeout via the property <see cref="P:Spring.Messaging.Listener.AbstractTransactionalMessageListenerContainer.TransactionTimeout"/>.
+            </para>
+            </remarks>
+        </member>
+        <member name="M:Spring.Messaging.Listener.AbstractTransactionalMessageListenerContainer.DoReceiveAndExecute(System.Messaging.MessageQueue)">
+            <summary>
+            Subclasses perform a receive opertion on the message queue and execute the
+            message listener
+            </summary>
+            <param name="mq">The DefaultMessageQueue.</param>
+            <returns>
+            true if received a message, false otherwise
+            </returns>
+        </member>
+        <member name="M:Spring.Messaging.Listener.AbstractTransactionalMessageListenerContainer.DoReceiveAndExecuteUsingPlatformTransactionManager(System.Messaging.MessageQueue,Spring.Transaction.ITransactionStatus)">
+            <summary>
+            Does the receive and execute using platform transaction manager.
+            </summary>
+            <param name="mq">The message queue.</param>
+            <param name="status">The transactional status.</param>
+            <returns>true if should continue peeking, false otherwise.</returns>
+        </member>
+        <member name="M:Spring.Messaging.Listener.AbstractTransactionalMessageListenerContainer.RollbackOnException(Spring.Transaction.ITransactionStatus,System.Exception)">
+            <summary>
+            Rollback the transaction on exception.
+            </summary>
+            <param name="status">The transactional status.</param>
+            <param name="ex">The exception.</param>
+        </member>
+        <member name="P:Spring.Messaging.Listener.AbstractTransactionalMessageListenerContainer.PlatformTransactionManager">
+            <summary>
+            Gets or sets the platform transaction manager.
+            </summary>
+            <value>The platform transaction manager.</value>
+        </member>
+        <member name="P:Spring.Messaging.Listener.AbstractTransactionalMessageListenerContainer.TransactionDefinition">
+            <summary>
+            Gets or sets the transaction definition.
+            </summary>
+            <value>The transaction definition.</value>
+        </member>
+        <member name="P:Spring.Messaging.Listener.AbstractTransactionalMessageListenerContainer.TransactionTimeout">
+            <summary>
+            Sets the transaction timeout to use for transactional wrapping, in <b>seconds</b>.
+            Default is none, using the transaction manager's default timeout.
+            </summary>
+            <value>The transaction timeout.</value>
+        </member>
+        <member name="T:Spring.Messaging.Listener.DistributedTxMessageListenerContainer">
+            <summary>
+            A MessageListenerContainer that uses distributed (DTC) based transactions.  Exceptions are
+            handled by instances of <see cref="T:Spring.Messaging.Listener.IDistributedTransactionExceptionHandler"/>.
+            </summary>
+            <remarks>
+            <para>
+            Starts a DTC based transaction before receiving the message.  The transaction is
+            automaticaly promoted to 2PC to avoid the default behaivor of transactional promotion.
+            Database and messaging operations will commit or rollback together.
+            </para>
+            <para>
+            If you only want local message based transactions use the 
+            <see cref="T:Spring.Messaging.Listener.TransactionalMessageListenerContainer"/>.  With some simple programming
+            you may also achieve 'exactly once' processing using the 
+            <see cref="T:Spring.Messaging.Listener.TransactionalMessageListenerContainer"/>.
+            </para>
+            <para>
+            Poison messages can be detected and sent to another queue using Spring's
+            <see cref="T:Spring.Messaging.Listener.SendToQueueDistributedTransactionExceptionHandler"/>.
+            </para>
+            </remarks>
+        </member>
+        <member name="M:Spring.Messaging.Listener.DistributedTxMessageListenerContainer.Initialize">
+            <summary>
+            Set the transaction name to be the spring object name.
+            Call base class Initialize() functionality.
+            </summary>
+        </member>
+        <member name="M:Spring.Messaging.Listener.DistributedTxMessageListenerContainer.DoReceiveAndExecuteUsingPlatformTransactionManager(System.Messaging.MessageQueue,Spring.Transaction.ITransactionStatus)">
+            <summary>
+            Does the receive and execute using TxPlatformTransactionManager.  Starts a distributed
+            transaction before calling Receive.
+            </summary>
+            <param name="mq">The message queue.</param>
+            <param name="status">The transactional status.</param>
+            <returns>
+            true if should continue peeking, false otherwise.
+            </returns>
+        </member>
+        <member name="M:Spring.Messaging.Listener.DistributedTxMessageListenerContainer.HandleDistributedTransactionListenerException(System.Exception,System.Messaging.Message)">
+            <summary>
+            Handles the distributed transaction listener exception by calling the 
+            <see cref="T:Spring.Messaging.Listener.IDistributedTransactionExceptionHandler"/> if not null.
+            </summary>
+            <param name="exception">The exception.</param>
+            <param name="message">The message.</param>
+        </member>
+        <member name="P:Spring.Messaging.Listener.DistributedTxMessageListenerContainer.DistributedTransactionExceptionHandler">
+            <summary>
+            Gets or sets the distributed transaction exception handler.
+            </summary>
+            <value>The distributed transaction exception handler.</value>
+        </member>
+        <member name="T:Spring.Messaging.Listener.IDistributedTransactionExceptionHandler">
+            <summary>
+            Exception handler for use with DTC based message listener container. 
+            such as <see cref="T:Spring.Messaging.Listener.DistributedTxMessageListenerContainer"/>. 
+            See <see cref="T:Spring.Messaging.Listener.SendToQueueDistributedTransactionExceptionHandler"/> for 
+            an implementation that detects poison messages and send them to another queue.
+            </summary>
+        </member>
+        <member name="M:Spring.Messaging.Listener.IDistributedTransactionExceptionHandler.IsPoisonMessage(System.Messaging.Message)">
+            <summary>
+            Determines whether the incoming message is a poison message.  This method is
+            called before the <see cref="T:Spring.Messaging.Listener.IMessageListener"/> is invoked.
+            </summary>
+            <remarks>
+            The <see cref="T:Spring.Messaging.Listener.DistributedTxMessageListenerContainer"/> will call 
+            <see cref="M:Spring.Messaging.Listener.IDistributedTransactionExceptionHandler.HandlePoisonMessage(System.Messaging.Message)"/> if this method returns true and will
+            then commit the distibuted transaction (removing the message from the queue).
+            </remarks>
+            <param name="message">The incoming message.</param>
+            <returns>
+            	<c>true</c> if it is a poison message; otherwise, <c>false</c>.
+            </returns>
+        </member>
+        <member name="M:Spring.Messaging.Listener.IDistributedTransactionExceptionHandler.HandlePoisonMessage(System.Messaging.Message)">
+            <summary>
+            Handles the poison message. 
+            </summary>
+            <remarks>Typical implementations will move the message to another queue.
+            The <see cref="T:Spring.Messaging.Listener.DistributedTxMessageListenerContainer"/> will call this
+            method while still within a DTC-based transaction.
+            </remarks>
+            <param name="poisonMessage">The poison message.</param>
+        </member>
+        <member name="M:Spring.Messaging.Listener.IDistributedTransactionExceptionHandler.OnException(System.Exception,System.Messaging.Message)">
+            <summary>
+            Called when an exception is thrown in listener processing.
+            </summary>
+            <param name="exception">The exception.</param>
+            <param name="message">The message.</param>
+        </member>
+        <member name="T:Spring.Messaging.Listener.IExceptionHandler">
+            <summary>
+            Exception handler called when an exception occurs during
+            non-transactional receive processing.
+            </summary>
+            <remarks>
+            A non-transactional receive will remove the message from the queue.  Non-transactional
+            receivers do not suffer from poison messages since there is no redelivery by MSMQ.
+            Typical actions to perform are to log the message or place it in another queue.  
+            If placed in another queue, another message listener container can be used to
+            process the message later, assuming the root cause of the original exception is
+            transient in nature. 
+            </remarks>
+        </member>
+        <member name="M:Spring.Messaging.Listener.IExceptionHandler.OnException(System.Exception,System.Messaging.Message)">
+            <summary>
+            Called when an exception is thrown in listener processing.
+            </summary>
+            <param name="exception">The exception.</param>
+            <param name="message">The message.</param>
+        </member>
+        <member name="T:Spring.Messaging.Listener.IMessageListener">
+            <summary>
+            The callback invoked when a message is received.
+            </summary>
+            <author>Mark Pollack</author>
+        </member>
+        <member name="M:Spring.Messaging.Listener.IMessageListener.OnMessage(System.Messaging.Message)">
+            <summary>
+            Called when message is received.
+            </summary>
+            <param name="message">The message.</param>
+        </member>
+        <member name="T:Spring.Messaging.Listener.IMessageTransactionExceptionHandler">
+            <summary>
+            The exception handler within a transactional context.  
+            </summary>
+            <remarks>
+            The return value indicates to the invoker (typically a 
+            <see cref="T:Spring.Messaging.Listener.TransactionalMessageListenerContainer"/>) whether the 
+            MessageTransaction that is associated with the delivery of this message
+            should be rolled back (placing the message back on the transactional queue
+            for redelivery) or commited (removing the message from the transactional queue)
+            </remarks>
+            <author>Mark Pollack</author>
+        </member>
+        <member name="M:Spring.Messaging.Listener.IMessageTransactionExceptionHandler.OnException(System.Exception,System.Messaging.Message,System.Messaging.MessageQueueTransaction)">
+            <summary>
+            Called when an exception is thrown during listener processing under the
+            scope of a <see cref="T:System.Messaging.MessageQueueTransaction"/>.
+            </summary>
+            <param name="exception">The exception.</param>
+            <param name="message">The message.</param>
+            <param name="messageQueueTransaction">The message queue transaction.</param>
+            <returns>An action indicating if the caller should commit or rollback the
+            <see cref="T:System.Messaging.MessageQueueTransaction"/>
+            </returns>
+        </member>
+        <member name="T:Spring.Messaging.Listener.MessageListenerAdapter">
+            <summary>
+            Message listener adapter that delegates the handling of messages to target
+            listener methods via reflection <see cref="T:Spring.Reflection.Dynamic.DynamicReflectionManager"/>, 
+            with flexible message type conversion.
+            Allows listener methods to operate on message content types, completely
+            independent from the MSMQ API.
+            </summary>
+            <remarks>
+            <para>
+            By default, the content of incoming MSMQ messages gets extracted before
+            being passed into the target handler method, to let the target method
+            operate on message content types such as String or business object instead of
+            <see cref="T:System.Messaging.Message"/>. Message type conversion is delegated to a Spring
+            <see cref="T:Spring.Messaging.Support.Converters.IMessageConverter"/>  By default, an <see cref="T:Spring.Messaging.Support.Converters.XmlMessageConverter"/> 
+            with TargetType set to System.String is used.  If you do not want such automatic 
+            message conversion taking place, then be sure to set the
+            MessageConverter property to null.
+            </para>
+            <para>
+            If a target handler method returns a non-null object (for example, with a
+            message content type such as <code>String</code>), it will get
+            wrapped in a MSMQ <code>Message</code> and sent to the response destination
+            (either using the MSMQ Message.ResponseQueue property or 
+            <see cref="P:Spring.Messaging.Listener.MessageListenerAdapter.DefaultResponseQueue"/>) specified default response queue
+            destination).
+            </para>
+            <para>
+            Find below some examples of method signatures compliant with this adapter class.
+            This first example uses the default <see cref="T:Spring.Messaging.Support.Converters.XmlMessageConverter"/> that can
+            marhsall/unmarshall string values from the MSMQ Message.
+            </para>
+            <example>
+            public interface IMyHandler
+            {
+              void HandleMessage(string text);
+            }
+            </example>
+            <para>
+            The next example indicates a similar method signature but the name of the
+            handler method name has been changed to "DoWork", using the property
+            <see cref="P:Spring.Messaging.Listener.MessageListenerAdapter.DefaultHandlerMethod"/>
+            </para>
+            <example>
+            public interface IMyHandler
+            {
+              void DoWork(string text);
+            }
+            </example>
+            <para>If your <see cref="T:Spring.Messaging.Support.Converters.IMessageConverter"/> implementation will return multiple object
+            types, overloading the handler method is perfectly acceptible, the most specific matching
+            method will be used.  A method with an object signature would be consider a 
+            'catch-all' method
+            </para>
+            <example>
+            public interface IMyHandler
+            {
+              void DoWork(string text);
+              void DoWork(OrderRequest orderRequest);
+              void DoWork(InvoiceRequest invoiceRequest);
+              void DoWork(object obj);
+            }
+            </example>   
+            <para>
+            The last example shows how to send a message to the ResponseQueue for those
+            methods that do not return void.
+            <example>
+            public interface MyHandler
+            {
+              string DoWork(string text);
+              OrderResponse DoWork(OrderRequest orderRequest);
+              InvoiceResponse DoWork(InvoiceRequest invoiceRequest);
+              void DoWork(object obj);
+            }
+            </example>
+            </para>
+            </remarks>
+            <author>Mark Pollack</author>
+        </member>
+        <member name="M:Spring.Messaging.Listener.MessageListenerAdapter.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Spring.Messaging.Listener.MessageListenerAdapter"/> class.
+            </summary>
+        </member>
+        <member name="M:Spring.Messaging.Listener.MessageListenerAdapter.#ctor(System.Object)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Spring.Messaging.Listener.MessageListenerAdapter"/> class.
+            </summary>
+            <param name="handlerObject">The handler object.</param>
+        </member>
+        <member name="M:Spring.Messaging.Listener.MessageListenerAdapter.AfterPropertiesSet">
+            <summary>
+            Invoked by an <see cref="T:Spring.Objects.Factory.IObjectFactory"/>
+            after it has injected all of an object's dependencies.
+            </summary>
+            <remarks>
+            	<p>
+            This method allows the object instance to perform the kind of
+            initialization only possible when all of it's dependencies have
+            been injected (set), and to throw an appropriate exception in the
+            event of misconfiguration.
+            </p>
+            	<p>
+            Please do consult the class level documentation for the
+            <see cref="T:Spring.Objects.Factory.IObjectFactory"/> interface for a
+            description of exactly <i>when</i> this method is invoked. In
+            particular, it is worth noting that the
+            <see cref="T:Spring.Objects.Factory.IObjectFactoryAware"/>
+            and <see cref="T:Spring.Context.IApplicationContextAware"/>
+            callbacks will have been invoked <i>prior</i> to this method being
+            called.
+            </p>
+            </remarks>
+            <exception cref="T:System.Exception">
+            In the event of misconfiguration (such as the failure to set a
+            required property) or if initialization fails.
+            </exception>
+        </member>
+        <member name="M:Spring.Messaging.Listener.MessageListenerAdapter.OnMessage(System.Messaging.Message)">
+            <summary>
+            Called when message is received.
+            </summary>
+            <param name="message">The message.</param>
+        </member>
+        <member name="M:Spring.Messaging.Listener.MessageListenerAdapter.GetHandlerMethodName(System.Messaging.Message,System.Object)">
+            <summary>
+            Gets the name of the handler method.
+            </summary>
+            <param name="originalMessage">The original message.</param>
+            <param name="extractedMessage">The extracted message.</param>
+            <returns>The name of the handler method.</returns>
+        </member>
+        <member name="M:Spring.Messaging.Listener.MessageListenerAdapter.InitDefaultStrategies">
+            <summary>
+            Initialize the default implementations for the adapter's strategies.
+            </summary>
+        </member>
+        <member name="M:Spring.Messaging.Listener.MessageListenerAdapter.ExtractMessage(System.Messaging.Message)">
+            <summary>
+            Extracts the message body from the given message.
+            </summary>
+            <param name="message">The message.</param>
+            <returns>the content of the message, to be passed into the
+            listener method as argument</returns>
+        </member>
+        <member name="M:Spring.Messaging.Listener.MessageListenerAdapter.SendResponse(System.Messaging.MessageQueue,System.Messaging.Message)">
+            <summary>
+            Sends the given response message to the given destination.
+            </summary>
+            <param name="destination">The destination to send to.</param>
+            <param name="response">The outgoing message about to be sent.</param>
+        </member>
+        <member name="M:Spring.Messaging.Listener.MessageListenerAdapter.BuildMessage(System.Object)">
+            <summary>
+            Builds a MSMQ message to be sent as response based on the given result object.
+            </summary>
+            <param name="result">The result.</param>
+            <returns>the MSMQ <code>Message</code> (never <code>null</code>)</returns>
+            <exception cref="T:Spring.Messaging.MessagingException">If no messgae converter is specified.</exception>
+        </member>
+        <member name="M:Spring.Messaging.Listener.MessageListenerAdapter.PostProcessResponse(System.Messaging.Message,System.Messaging.Message)">
+            <summary>
+            Post-process the given response message before it will be sent. The default implementation
+            sets the response's correlation id to the request message's correlation id.
+            </summary>
+            <param name="request">The original incoming message.</param>
+            <param name="response">The outgoing MSMQ message about to be sent.</param>
+        </member>
+        <member name="M:Spring.Messaging.Listener.MessageListenerAdapter.GetResponseDestination(System.Messaging.Message,System.Messaging.Message)">
+            <summary>
+            Determine a response destination for the given message.
+            </summary>
+            <remarks>
+            <para>The default implementation first checks the MSMQ ResponseQueue
+             of the supplied request; if that is not <code>null</code>
+            it is returned; if it is <code>null</code>, then the configured
+            <see cref="P:Spring.Messaging.Listener.MessageListenerAdapter.DefaultResponseQueue"/> default response destination}
+            is returned; if this too is <code>null</code>, then an
+            <see cref="T:Spring.Messaging.MessagingException"/>is thrown.
+            </para>
+            </remarks>
+            <param name="request">The request.</param>
+            <param name="response">The response.</param>
+            <returns></returns>
+        </member>
+        <member name="P:Spring.Messaging.Listener.MessageListenerAdapter.HandlerObject">
+            <summary>
+            Gets or sets the handler object to delegate message listening to.
+            </summary>
+            <remarks>
+            Specified listener methods have to be present on this target object.
+            If no explicit handler object has been specified, listener
+            methods are expected to present on this adapter instance, that is,
+            on a custom subclass of this adapter, defining listener methods.
+            </remarks>
+            <value>The handler object.</value>
+        </member>
+        <member name="P:Spring.Messaging.Listener.MessageListenerAdapter.DefaultHandlerMethod">
+            <summary>
+            Gets or sets the default handler method to delegate to,
+            for the case where no specific listener method has been determined.
+            Out-of-the-box value is "HandleMessage".
+            </summary>
+            <value>The default handler method.</value>
+        </member>
+        <member name="P:Spring.Messaging.Listener.MessageListenerAdapter.ApplicationContext">
+            <summary>
+            Gets or sets the <see cref="T:Spring.Context.IApplicationContext"/> that this
+            object runs in.
+            </summary>
+            <remarks>
+            <p>
+            Normally this call will be used to initialize the object.
+            </p>
+            <p>
+            Invoked after population of normal object properties but before an
+            init callback such as
+            <see cref="T:Spring.Objects.Factory.IInitializingObject"/>'s
+            <see cref="M:Spring.Objects.Factory.IInitializingObject.AfterPropertiesSet"/>
+            or a custom init-method. Invoked after the setting of any
+            <see cref="T:Spring.Context.IResourceLoaderAware"/>'s
+            <see cref="P:Spring.Context.IResourceLoaderAware.ResourceLoader"/>
+            property.
+            </p>
+            </remarks>
+            <exception cref="T:Spring.Context.ApplicationContextException">
+            In the case of application context initialization errors.
+            </exception>
+            <exception cref="T:Spring.Objects.ObjectsException">
+            If thrown by any application context methods.
+            </exception>
+            <exception cref="T:Spring.Objects.Factory.ObjectInitializationException"/>
+        </member>
+        <member name="P:Spring.Messaging.Listener.MessageListenerAdapter.MessageQueueFactory">
+            <summary>
+            Gets or sets the message queue factory.
+            </summary>
+            <value>The message queue factory.</value>
+        </member>
+        <member name="P:Spring.Messaging.Listener.MessageListenerAdapter.DefaultResponseQueueName">
+            <summary>
+            Sets the name of the default response queue to send response messages to.
+            This will be applied in case of a request message that does not carry a
+            "ResponseQueue" value.
+            <para>Alternatively, specify a response queue via the property
+            <see cref="P:Spring.Messaging.Listener.MessageListenerAdapter.DefaultResponseQueue"/>.</para>
+            </summary>
+            <value>The name of the default response destination queue.</value>
+        </member>
+        <member name="P:Spring.Messaging.Listener.MessageListenerAdapter.DefaultResponseQueue">
+            <summary>
+            Sets the default destination to send response messages to. This will be applied
+            in case of a request message that does not carry a "ResponseQueue" property
+            Response destinations are only relevant for listener methods that return
+            result objects, which will be wrapped in a response message and sent to a
+            response destination.
+            <para>
+            Alternatively, specify a "DefaultResponseQueueName" 
+            to be dynamically resolved via the MessageQueueFactory.
+            </para>
+            </summary>
+            <value>The default response destination.</value>
+        </member>
+        <member name="P:Spring.Messaging.Listener.MessageListenerAdapter.MessageConverterObjectName">
+            <summary>
+            Gets or sets the name of the message converter object used to resolved a <see cref="T:Spring.Messaging.Support.Converters.IMessageConverter"/>
+            instance.
+            </summary>
+            <value>The name of the message converter object.</value>
+        </member>
+        <member name="P:Spring.Messaging.Listener.MessageListenerAdapter.MessageConverter">
+            <summary>
+            Gets message converter that will convert incoming MSMQ messages to
+            listener method arguments, and objects returned from listener
+            methods back to MSMQ messages.
+            </summary>
+            <remarks>
+            <para>The converter used is the one returned by CreateMessageConverter on MessageQueueFactory.
+            </para>
+            </remarks>
+            <value>The message converter.</value>
+        </member>
+        <member name="T:Spring.Messaging.Listener.NonTransactionalMessageListenerContainer">
+            <summary>
+            An implementation of a Peeking based MessageListener container that does not surround the
+            receive operation with a transaction.
+            </summary>
+            <remarks>
+            Exceptions that occur during message processing are handled by an instance 
+            of <see cref="T:Spring.Messaging.Listener.IExceptionHandler"/>.
+            </remarks>
+            <author>Mark Pollack</author>
+        </member>
+        <member name="M:Spring.Messaging.Listener.NonTransactionalMessageListenerContainer.HandleListenerException(System.Exception,System.Messaging.Message)">
+            <summary>
+            Handles the listener exception.
+            </summary>
+            <param name="e">The exception.</param>
+            <param name="message">The message delivered that resultd in an processing exception.</param>
+        </member>
+        <member name="M:Spring.Messaging.Listener.NonTransactionalMessageListenerContainer.DoReceiveAndExecute(System.Messaging.MessageQueue)">
+            <summary>
+            Perform a receive opertion on the message queue and execute the
+            message listener
+            </summary>
+            <param name="mq">The DefaultMessageQueue.</param>
+            <returns>
+            true if received a message, false otherwise
+            </returns>
+        </member>
+        <member name="P:Spring.Messaging.Listener.NonTransactionalMessageListenerContainer.ExceptionHandler">
+            <summary>
+            Gets or sets the exception handler.
+            </summary>
+            <value>The exception handler.</value>
+        </member>
+        <member name="T:Spring.Messaging.Listener.SendToQueueDistributedTransactionExceptionHandler">
+            <summary>
+            detects poison messages by tracking the Message Id  property in memory with a count of how many 
+            times an exception has occurred. If that count is greater than the handler's MaxRetry count it 
+            will be sent to another queue. The queue to send the message to is specified via the property M
+            essageQueueObjectName.
+            </summary>
+            <remarks>Exception handler when using DistributedTxMessageListenerContainer</remarks>
+        </member>
+        <member name="M:Spring.Messaging.Listener.SendToQueueDistributedTransactionExceptionHandler.IsPoisonMessage(System.Messaging.Message)">
+            <summary>
+            Determines whether the incoming message is a poison message.  This method is
+            called before the <see cref="T:Spring.Messaging.Listener.IMessageListener"/> is invoked.
+            </summary>
+            <param name="message">The incoming message.</param>
+            <returns>
+            	<c>true</c> if it is a poison message; otherwise, <c>false</c>.
+            </returns>
+            <remarks>
+            The <see cref="T:Spring.Messaging.Listener.DistributedTxMessageListenerContainer"/> will call
+            <see cref="M:Spring.Messaging.Listener.SendToQueueDistributedTransactionExceptionHandler.HandlePoisonMessage(System.Messaging.Message)"/> if this method returns true and will
+            then commit the distibuted transaction (removing the message from the queue).
+            </remarks>
+        </member>
+        <member name="M:Spring.Messaging.Listener.SendToQueueDistributedTransactionExceptionHandler.HandlePoisonMessage(System.Messaging.Message)">
+            <summary>
+            Handles the poison message.
+            </summary>
+            <param name="message">The message.</param>
+        </member>
+        <member name="M:Spring.Messaging.Listener.SendToQueueDistributedTransactionExceptionHandler.OnException(System.Exception,System.Messaging.Message)">
+            <summary>
+            Called when an exception is thrown in listener processing.
+            </summary>
+            <param name="exception">The exception.</param>
+            <param name="message">The message.</param>
+        </member>
+        <member name="M:Spring.Messaging.Listener.SendToQueueDistributedTransactionExceptionHandler.SendMessageToQueue(System.Messaging.Message)">
+            <summary>
+            Sends the message to queue.
+            </summary>
+            <param name="message">The message.</param>
+        </member>
+        <member name="T:Spring.Messaging.Listener.SendToQueueExceptionHandler">
+            <summary>
+            Keeps track of the Message's Id property in memory with a count of how many times an 
+            exception has occurred. If that count is greater than the handler's MaxRetry count it 
+            will be sent to another queue using the provided MessageQueueTransaction. The queue to 
+            send the message to is specified via the property MessageQueueObjectName.
+            </summary>
+        </member>
+        <member name="M:Spring.Messaging.Listener.SendToQueueExceptionHandler.OnException(System.Exception,System.Messaging.Message,System.Messaging.MessageQueueTransaction)">
+            <summary>
+            Called when an exception is thrown during listener processing under the
+            scope of a <see cref="T:System.Messaging.MessageQueueTransaction"/>.
+            </summary>
+            <param name="exception">The exception.</param>
+            <param name="message">The message.</param>
+            <param name="messageQueueTransaction">The message queue transaction.</param>
+            <returns>
+            An action indicating if the caller should commit or rollback the
+            <see cref="T:System.Messaging.MessageQueueTransaction"/>
+            </returns>
+        </member>
+        <member name="M:Spring.Messaging.Listener.SendToQueueExceptionHandler.IsMessageAlreadyProcessedException(System.Exception)">
+            <summary>
+            Determines whether this exception was already processed.
+            </summary>
+            <param name="exception">The exception.</param>
+            <returns>
+            	<c>true</c> if the exception was already processed; otherwise, <c>false</c>.
+            </returns>
+        </member>
+        <member name="M:Spring.Messaging.Listener.SendToQueueExceptionHandler.SendMessageToQueue(System.Messaging.Message,System.Messaging.MessageQueueTransaction)">
+            <summary>
+            Sends the message to queue.
+            </summary>
+            <param name="message">The message.</param>
+            <param name="messageQueueTransaction">The message queue transaction.</param>
+            <returns>TransactionAction.Commit</returns>
+        </member>
+        <member name="M:Spring.Messaging.Listener.SendToQueueExceptionHandler.ProcessExceptionalMessage(System.Messaging.Message)">
+            <summary>
+            Template method called before the message that caused the exception is
+            send to another queue.  The default behavior is to set the CorrelationId
+            to the current message's Id value for tracking purposes.  Subclasses
+            can use other means, perhaps using the AppSpecific field or modifying the
+            body of the message to a known shared format that keeps track of
+            the full 'lifecycle' of the message as it goes from queue-to-queue.
+            </summary>
+            <param name="message">The message.</param>
+        </member>
+        <member name="P:Spring.Messaging.Listener.SendToQueueExceptionHandler.MessageAlreadyProcessedExceptionNames">
+            <summary>
+            Gets or sets the exception anmes that indicate the message has already
+            been processed.  If the exception thrown matches one of these names then
+            the returned TransactionAction is Commit to remove it from the queue.
+            </summary>
+            <remarks>The name test is thrownException.GetType().Name.IndexOf(exceptionName) >= 0</remarks>
+            <value>The message already processed exception types.</value>
+        </member>
+        <member name="T:Spring.Messaging.Listener.TransactionAction">
+            <summary>
+            Action to perform on the MessageQueueTransaction when handling message listener exceptions.
+            </summary>
+        </member>
+        <member name="F:Spring.Messaging.Listener.TransactionAction.Rollback">
+            <summary>
+            Rollback the MessageQueueTransaction, returning the recieved message back onto the queue.
+            </summary>
+        </member>
+        <member name="F:Spring.Messaging.Listener.TransactionAction.Commit">
+            <summary>
+            Commit the MessageQueueTransaction, removing the message from the queue.
+            </summary>
+        </member>
+        <member name="T:Spring.Messaging.Listener.TransactionalMessageListenerContainer">
+            <summary>
+            A MessageListenerContainer that uses local (non-DTC) based transactions.  Exceptions are
+            handled by instances of <see cref="T:Spring.Messaging.Listener.IMessageTransactionExceptionHandler"/>.
+            </summary>
+            <remarks>
+            <para>
+            This container distinguishes between two types of <see cref="T:Spring.Transaction.IPlatformTransactionManager"/>
+            implementations.
+            </para>  
+            <para>If you specify a <see cref="T:Spring.Messaging.Core.MessageQueueTransactionManager"/> then
+            a MSMQ <see cref="T:System.Messaging.MessageQueueTransaction"/> will be started 
+            before receiving the message and used as part of the container's recieve operation.  The 
+            <see cref="T:Spring.Messaging.Core.MessageQueueTransactionManager"/> binds the <see cref="T:System.Messaging.MessageQueueTransaction"/> 
+            to thread local storage and as such will implicitly be used by 
+            <see cref="T:Spring.Messaging.Core.MessageQueueTemplate"/> send and receive operations to a transactional queue.
+            </para>
+            <para>
+            Service layer operations that are called inside the message listener will typically
+            be transactional based on using standard Spring declarative transaction management
+            functionality.  In case of exceptions in the service layer, the database operation 
+            will have been rolled back and the <see cref="T:Spring.Messaging.Listener.IMessageTransactionExceptionHandler"/> 
+            that is later invoked should decide to either commit the surrounding local 
+            MSMQ based transaction (removing the message from the queue) or to rollback 
+            (placing the message back on the queue for redelivery).
+            </para>
+            <para>
+            The use of a transactional service layer in combination with 
+            a container managed <see cref="T:System.Messaging.MessageQueueTransaction"/> is a powerful combination
+            that can be used to achieve "exactly one" transaction message processing with 
+            database operations that are commonly associated with using transactional messaging and 
+            distributed transactions (i.e. both the messaging and database operation commit or rollback
+            together).  
+            </para>
+            <para>
+            The additional programming logic needed to achieve this is to keep track of the Message.Id
+            that has been processed successfully within the transactional service layer.  
+            This is needed as there may be a system failure (e.g. power goes off) 
+            between the 'inner' database commit and the 'outer' messaging commit, resulting
+            in message redelivery.  The transactional service layer needs logic to detect if incoming
+            message was processed successfully. It can do this by checking the database for an
+            indication of successfull processing, perhaps by recording the Message.Id itself in a
+            status table.  If the transactional service layer determines that the message has 
+            already been processed, it can throw a specific exception for thise case.  The 
+            container's exception handler will recognize this exception type and vote to commit 
+            (remove from the queue) the 'outer' messaging transaction.  
+            Spring provides an exception handler with this functionality, 
+            see <see cref="T:Spring.Messaging.Listener.SendToQueueExceptionHandler"/> for more information.
+            </para>
+            <para>If you specify an implementation of <see cref="T:Spring.Transaction.Support.IResourceTransactionManager"/> 
+            (e.g. <see cref="T:Spring.Data.Core.AdoPlatformTransactionManager"/> or HibernateTransactionManager) then
+            an local database transaction will be started before receiving the message.  By default,
+            the container will also start a local <see cref="T:System.Messaging.MessageQueueTransaction"/>
+            after the local database transaction has started, but before the receiving the message.
+            The <see cref="T:System.Messaging.MessageQueueTransaction"/> will be used to receive the message.
+            If you do not want his behavior set <see cref="P:Spring.Messaging.Listener.TransactionalMessageListenerContainer.UseContainerManagedMessageQueueTransaction"/>
+            to false.  Also by default, the <see cref="T:System.Messaging.MessageQueueTransaction"/>
+            will be bound to thread local storage such that any <see cref="T:Spring.Messaging.Core.MessageQueueTemplate"/>
+            send or recieve operations will participate transparently in the same
+            <see cref="T:System.Messaging.MessageQueueTransaction"/>.  If you do not want this behavior 
+            set the property <see cref="P:Spring.Messaging.Listener.TransactionalMessageListenerContainer.ExposeContainerManagedMessageQueueTransaction"/> to false.
+            </para>
+            <para>In case of exceptions during <see cref="T:Spring.Messaging.Listener.IMessageListener"/> processing
+            when using an implementation of 
+            <see cref="T:Spring.Transaction.Support.IResourceTransactionManager"/> (e.g. and starting a container managed 
+            <see cref="T:System.Messaging.MessageQueueTransaction"/>) the container's
+            <see cref="T:Spring.Messaging.Listener.IMessageTransactionExceptionHandler"/> will determine if the 
+            <see cref="T:System.Messaging.MessageQueueTransaction"/> should commit (removing it from the queue)
+            or rollback (placing it back on the queue for redelivery).  The listener 
+            exception will always
+            trigger a rollback in the 'outer' (e.g. <see cref="T:Spring.Data.Core.AdoPlatformTransactionManager"/> 
+            or HibernateTransactionManager) based transaction.
+            </para>
+            <para>
+            PoisonMessage handing, that is endless redelivery of a message due to exceptions
+            during processing, can be detected using implementatons of the 
+            <see cref="T:Spring.Messaging.Listener.IMessageTransactionExceptionHandler"/> interface.  A specific implementation 
+            is provided that will move the poison message to another queue after a maximum number
+            of redelivery attempts.  See <see cref="T:Spring.Messaging.Listener.SendToQueueExceptionHandler"/> for more information.
+            </para>
+            </remarks>
+        </member>
+        <member name="M:Spring.Messaging.Listener.TransactionalMessageListenerContainer.Initialize">
+            <summary>
+            Determine if the container should create its own
+            MessageQueueTransaction when a IResourceTransactionManager is specified.
+            Set the transaction name to the name of the spring object.
+            Call base class Initialize() funtionality
+            </summary>
+        </member>
+        <member name="M:Spring.Messaging.Listener.TransactionalMessageListenerContainer.DoReceiveAndExecuteUsingPlatformTransactionManager(System.Messaging.MessageQueue,Spring.Transaction.ITransactionStatus)">
+            <summary>
+            Does the receive and execute using platform transaction manager.
+            </summary>
+            <param name="mq">The message queue.</param>
+            <param name="status">The transactional status.</param>
+            <returns>
+            true if should continue peeking, false otherwise.
+            </returns>
+        </member>
+        <member name="M:Spring.Messaging.Listener.TransactionalMessageListenerContainer.DoRecieveAndExecuteUsingMessageQueueTransactionManager(System.Messaging.MessageQueue,Spring.Transaction.ITransactionStatus)">
+            <summary>
+            Does the recieve and execute using message queue transaction manager.
+            </summary>
+            <param name="mq">The message queue.</param>
+            <param name="status">The transactional status.</param>
+            <returns>true if should continue peeking, false otherise</returns>
+        </member>
+        <member name="M:Spring.Messaging.Listener.TransactionalMessageListenerContainer.DoRecieveAndExecuteUsingResourceTransactionManagerWithTxQueue(System.Messaging.MessageQueue,Spring.Transaction.ITransactionStatus)">
+            <summary>
+            Does the recieve and execute using a local MessageQueueTransaction.
+            </summary>
+            <param name="mq">The mqessage queue.</param>
+            <param name="status">The transactional status.</param>
+            <returns>true if should continue peeking, false otherwise.</returns>
+        </member>
+        <member name="M:Spring.Messaging.Listener.TransactionalMessageListenerContainer.HandleTransactionalListenerException(System.Exception,System.Messaging.Message,System.Messaging.MessageQueueTransaction)">
+            <summary>
+            Handles the transactional listener exception.
+            </summary>
+            <param name="e">The exception thrown while processing the message.</param>
+            <param name="message">The message.</param>
+            <param name="messageQueueTransaction">The message queue transaction.</param>
+            <returns>The TransactionAction retruned by the TransactionalExceptionListener</returns>
+        </member>
+        <member name="M:Spring.Messaging.Listener.TransactionalMessageListenerContainer.InvokeTransactionalExceptionListener(System.Exception,System.Messaging.Message,System.Messaging.MessageQueueTransaction)">
+            <summary>
+            Invokes the transactional exception listener.
+            </summary>
+            <param name="e">The exception thrown during message processing.</param>
+            <param name="message">The message.</param>
+            <param name="messageQueueTransaction">The message queue transaction.</param>
+            <returns>TransactionAction.Rollback if no exception handler is defined, otherwise the 
+            TransactionAction returned by the exception handler</returns>
+        </member>
+        <member name="P:Spring.Messaging.Listener.TransactionalMessageListenerContainer.UseContainerManagedMessageQueueTransaction">
+            <summary>
+            Gets or sets a value indicating whether the MessageListenerContainer should be
+            responsible for creating a MessageQueueTransaction
+            when receiving a message.
+            </summary>
+            <remarks>
+            <para>
+            Creating MessageQueueTransactions is usually the responsibility of the
+            IPlatformTransactionManager, e.g. TxScopePlatformTransactionManager (when using DTC)
+            or MessageQueueTransactionManager (when using local messaging transactions).
+            </para>
+            <para>
+            For all other IPlatformTransactionManager implementations, including when none is
+            specified, the MessageListenerContainer will itself create a MessageQueueTransaction
+            (assuming the container is consuming from a transactional queue).
+            </para>
+            <para>
+            Set the ExposeContainerManagedMessageQueueTransaction property to true if you want
+            the MessageQueueTransaction to be exposed to Spring's MessageQueueTemplate class
+            </para>
+            </remarks>
+            <value>
+            	<c>true</c> to use a container managed MessageQueueTransaction; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="P:Spring.Messaging.Listener.TransactionalMessageListenerContainer.ExposeContainerManagedMessageQueueTransaction">
+            <summary>
+            Gets or sets a value indicating whether expose the 
+            container managed <see cref="T:System.Messaging.MessageQueueTransaction"/> to thread local storage
+            where it will be automatically used by <see cref="T:Spring.Messaging.Core.MessageQueueTemplate"/> send
+            and receive operations.
+            </summary>
+            <remarks>
+            Using an <see cref="T:Spring.Messaging.Core.MessageQueueTransactionManager"/> will always exposes a
+            <see cref="T:System.Messaging.MessageQueueTransaction"/> to thread local storage.  This property
+            only has effect when using a non-DTC based 
+            </remarks>
+            <value>
+            	<c>true</c> if [expose container managed message queue transaction]; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="P:Spring.Messaging.Listener.TransactionalMessageListenerContainer.MessageTransactionExceptionHandler">
+            <summary>
+            Gets or sets the message transaction exception handler.
+            </summary>
+            <value>The message transaction exception handler.</value>
+        </member>
+        <member name="T:Spring.Messaging.Support.Converters.ActiveXMessageConverter">
+            <summary>
+            An <see cref="T:Spring.Messaging.Support.Converters.IMessageConverter"/> implementation that delegates to an instance of
+            <see cref="T:System.Messaging.ActiveXMessageFormatter"/> to convert messages.  
+            </summary>
+            <author>Mark Pollack</author>
+        </member>
+        <member name="T:Spring.Messaging.Support.Converters.IMessageConverter">
+            <summary>
+            An interface specifying the contract to convert to and from <see cref="T:System.Messaging.Message"/> objects.
+            </summary>
+        </member>
+        <member name="M:Spring.Messaging.Support.Converters.IMessageConverter.ToMessage(System.Object)">
+            <summary>
+            Convert the given object to a Message.
+            </summary>
+            <param name="obj">The object to send.</param>
+            <returns>Message to send</returns>
+        </member>
+        <member name="M:Spring.Messaging.Support.Converters.IMessageConverter.FromMessage(System.Messaging.Message)">
+            <summary>
+            Convert the given message to a object.
+            </summary>
+            <param name="message">The message.</param>
+            <returns>the object</returns>
+        </member>
+        <member name="M:Spring.Messaging.Support.Converters.ActiveXMessageConverter.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Spring.Messaging.Support.Converters.ActiveXMessageConverter"/> class.
+            </summary>
+        </member>
+        <member name="M:Spring.Messaging.Support.Converters.ActiveXMessageConverter.#ctor(System.Messaging.ActiveXMessageFormatter)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Spring.Messaging.Support.Converters.ActiveXMessageConverter"/> class.
+            </summary>
+            <param name="messageFormatter">The message formatter.</param>
+        </member>
+        <member name="M:Spring.Messaging.Support.Converters.ActiveXMessageConverter.ToMessage(System.Object)">
+            <summary>
+            Convert the given object to a Message.
+            </summary>
+            <param name="obj">The object to send.</param>
+            <returns>Message to send</returns>
+        </member>
+        <member name="M:Spring.Messaging.Support.Converters.ActiveXMessageConverter.FromMessage(System.Messaging.Message)">
+            <summary>
+            Convert the given message to a object.
+            </summary>
+            <param name="message">The message.</param>
+            <returns>the object</returns>
+        </member>
+        <member name="M:Spring.Messaging.Support.Converters.ActiveXMessageConverter.Clone">
+            <summary>
+            Creates a new object that is a copy of the current instance.
+            </summary>
+            <returns>
+            A new object that is a copy of this instance.
+            </returns>
+        </member>
+        <member name="T:Spring.Messaging.Support.Converters.BinaryMessageConverter">
+            <summary>
+            An <see cref="T:Spring.Messaging.Support.Converters.IMessageConverter"/> implementation that delegates to an instance of
+            <see cref="T:System.Messaging.BinaryMessageFormatter"/> to convert messages.  
+            </summary>
+            <author>Mark Pollack</author>
+        </member>
+        <member name="M:Spring.Messaging.Support.Converters.BinaryMessageConverter.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Spring.Messaging.Support.Converters.BinaryMessageConverter"/> class.
+            </summary>
+        </member>
+        <member name="M:Spring.Messaging.Support.Converters.BinaryMessageConverter.#ctor(System.Messaging.BinaryMessageFormatter)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Spring.Messaging.Support.Converters.BinaryMessageConverter"/> class.
+            </summary>
+            <param name="binaryMessageFormatter">The binary message formatter.</param>
+        </member>
+        <member name="M:Spring.Messaging.Support.Converters.BinaryMessageConverter.ToMessage(System.Object)">
+            <summary>
+            Convert the given object to a Message using the <see cref="T:System.Messaging.BinaryMessageFormatter"/>
+            </summary>
+            <param name="obj">The object to send.</param>
+            <returns>Message to send</returns>
+        </member>
+        <member name="M:Spring.Messaging.Support.Converters.BinaryMessageConverter.FromMessage(System.Messaging.Message)">
+            <summary>
+            Convert the given message to a object using the <see cref="T:System.Messaging.BinaryMessageFormatter"/>
+            </summary>
+            <param name="message">The message.</param>
+            <returns>the object</returns>
+        </member>
+        <member name="M:Spring.Messaging.Support.Converters.BinaryMessageConverter.Clone">
+            <summary>
+            Creates a new object that is a copy of the current instance.
+            </summary>
+            <returns>
+            A new object that is a copy of this instance.
+            </returns>
+        </member>
+        <member name="P:Spring.Messaging.Support.Converters.BinaryMessageConverter.TypeFormat">
+            <summary>
+            Gets or sets the type format used in the <see cref="T:System.Messaging.BinaryMessageFormatter"/>
+            </summary>
+            <value>The type format.</value>
+        </member>
+        <member name="P:Spring.Messaging.Support.Converters.BinaryMessageConverter.TopObjectFormat">
+            <summary>
+            Gets or sets the top object format used in the <see cref="T:System.Messaging.BinaryMessageFormatter"/>
+            </summary>
+            <value>The top object format.</value>
+        </member>
+        <member name="T:Spring.Messaging.Support.Converters.MessageConverterCreatorDelegate">
+            <summary>
+            Delegate for creating IMessageConverter instance.  Used by <see cref="T:Spring.Messaging.Core.DefaultMessageQueueFactory"/>
+            to register a creation function with a given name.
+            </summary>
+        </member>
+        <member name="T:Spring.Messaging.Support.Converters.MessageConverterFactoryObject">
+            <summary>
+            Internal class to that users can specify a delegate function to register with the application context that 
+            will create a IMessageConverter instance easily at runtime.
+            </summary>
+            <author>Mark Pollack</author>
+        </member>
+        <member name="P:Spring.Messaging.Support.Converters.MessageConverterFactoryObject.ProductTemplate">
+            <summary>
+            Gets the template object definition that should be used
+            to configure the instance of the object managed by this factory.
+            </summary>
+            <value>The object definition to configure the factory's product</value>
+        </member>
+        <member name="T:Spring.Messaging.Support.Converters.XmlDocumentConverter">
+            <summary>
+            Converts an <see cref="T:System.Xml.XmlDocument"/> to a Message and vice-versa by using the message's 
+            body stream. 
+            </summary>
+            <author>Mark Pollack</author>
+        </member>
+        <member name="M:Spring.Messaging.Support.Converters.XmlDocumentConverter.ToMessage(System.Object)">
+            <summary>
+            Convert the given object to a Message.
+            </summary>
+            <param name="obj">The object to send.</param>
+            <returns>Message to send</returns>
+        </member>
+        <member name="M:Spring.Messaging.Support.Converters.XmlDocumentConverter.FromMessage(System.Messaging.Message)">
+            <summary>
+            Convert the given message to a object.
+            </summary>
+            <param name="message">The message.</param>
+            <returns>the object</returns>
+        </member>
+        <member name="M:Spring.Messaging.Support.Converters.XmlDocumentConverter.Clone">
+            <summary>
+            Creates a new object that is a copy of the current instance.
+            </summary>
+            <returns>
+            A new object that is a copy of this instance.
+            </returns>
+        </member>
+        <member name="T:Spring.Messaging.Support.Converters.XmlMessageConverter">
+            <summary>
+            An <see cref="T:Spring.Messaging.Support.Converters.IMessageConverter"/> implementation that delegates to an instance of
+            <see cref="T:System.Messaging.XmlMessageFormatter"/> to convert messages.  
+            </summary>
+            <author>Mark Pollack</author>
+        </member>
+        <member name="M:Spring.Messaging.Support.Converters.XmlMessageConverter.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Spring.Messaging.Support.Converters.XmlMessageConverter"/> class.
+            </summary>
+        </member>
+        <member name="M:Spring.Messaging.Support.Converters.XmlMessageConverter.#ctor(System.Messaging.XmlMessageFormatter)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Spring.Messaging.Support.Converters.XmlMessageConverter"/> class.
+            </summary>
+            <param name="messageFormatter">The message formatter.</param>
+        </member>
+        <member name="M:Spring.Messaging.Support.Converters.XmlMessageConverter.ToMessage(System.Object)">
+            <summary>
+            Convert the given object to a Message.
+            </summary>
+            <param name="obj">The object to send.</param>
+            <returns>Message to send</returns>
+        </member>
+        <member name="M:Spring.Messaging.Support.Converters.XmlMessageConverter.FromMessage(System.Messaging.Message)">
+            <summary>
+            Convert the given message to a object.
+            </summary>
+            <param name="message">The message.</param>
+            <returns>the object</returns>
+        </member>
+        <member name="M:Spring.Messaging.Support.Converters.XmlMessageConverter.Clone">
+            <summary>
+            Creates a new object that is a copy of the current instance.
+            </summary>
+            <returns>
+            A new object that is a copy of this instance.
+            </returns>
+        </member>
+        <member name="P:Spring.Messaging.Support.Converters.XmlMessageConverter.TargetTypes">
+            <summary>
+            Gets or sets the target types used by the <see cref="T:System.Messaging.XmlMessageFormatter"/>
+            </summary>
+            <value>The target types.</value>
+        </member>
+        <member name="P:Spring.Messaging.Support.Converters.XmlMessageConverter.TargetTypeNames">
+            <summary>
+            Gets or sets the target type names used by the <see cref="T:System.Messaging.XmlMessageFormatter"/>
+            </summary>
+            <value>The target type names.</value>
+        </member>
+        <member name="T:Spring.Messaging.Support.MessageQueueCreatorDelegate">
+            <summary>
+            Delegate for creating MessageQueue instance.  Used by <see cref="T:Spring.Messaging.Core.DefaultMessageQueueFactory"/>
+            to register a creation function with a given name.
+            </summary>
+        </member>
+        <member name="T:Spring.Messaging.Support.MessageQueueFactoryObject">
+            <summary>
+            Factory for creating MessageQueues.  This factory will create prototype instances, i.e. every call to GetObject
+            will return a new MessageQueue object.
+            </summary>
+            <remarks>All MessageQueue constructor arguments are exposed as properties of the factory object.  As this
+            is a <see cref="T:Spring.Objects.Factory.Config.IConfigurableFactoryObject"/> use the PropertyTemplate property to specify additional
+            configuration of the MessageQueue.
+            </remarks>
+            <author>Mark Pollack</author>
+        </member>
+        <member name="M:Spring.Messaging.Support.MessageQueueFactoryObject.GetObject">
+            <summary>
+            Retrun a configured MessageQueue object.
+            </summary>
+            <returns>A newly configured MessageQueue object</returns>
+        </member>
+        <member name="P:Spring.Messaging.Support.MessageQueueFactoryObject.MessageCreatorDelegate">
+            <summary>
+            Gets or sets an instance of the MessageQueueCreator delegate that will be used to create the
+            MessageQueue object, instead of using the various public properties on this class such
+            as Path, AccessMode, etc.  Not intended for end-users but rather as a means to help
+            register MessageQueueFactoryObject at runtime using convenience method on the IMessageQueueFactory.
+            </summary>
+            <remarks>
+            Can also be specifed using an instance of MessageCreatorDelegate.  If both are specifed, the
+            Interface implementation has priority.
+            </remarks>
+            <value>The function that is responsbile for creating a message queue.</value>
+        </member>
+        <member name="P:Spring.Messaging.Support.MessageQueueFactoryObject.Path">
+            <summary>
+            Gets or sets the path used to creat DefaultMessageQueue instance.
+            </summary>
+            <value>The location of the queue referenced by the DefaultMessageQueue.</value>
+        </member>
+        <member name="P:Spring.Messaging.Support.MessageQueueFactoryObject.DenySharedReceive">
+            <summary>
+            Gets or sets a value indicating whether to create the DefaultMessageQueue instance with 
+            exclusive read access to the first application that accesses the queue
+            </summary>
+            <value>
+            	<c>true</c> to grant exclusive read access to the first application that accesses the queue; otherwise,  <c>false</c>.
+            </value>
+        </member>
+        <member name="P:Spring.Messaging.Support.MessageQueueFactoryObject.AccessMode">
+            <summary>
+            Gets or sets the queue access mode.
+            </summary>
+            <value>The queue access mode.</value>
+            <see cref="P:Spring.Messaging.Support.MessageQueueFactoryObject.AccessMode"/>
+        </member>
+        <member name="P:Spring.Messaging.Support.MessageQueueFactoryObject.EnableCache">
+            <summary>
+            Gets or sets a value indicating whether [enable cache].
+            </summary>
+            <value><c>true</c> to create and use a connection cache; otherwise <c>false</c>.</value>
+        </member>
+        <member name="P:Spring.Messaging.Support.MessageQueueFactoryObject.EnableConnectionCache">
+            <summary>
+            Sets a value indicating whether to enable connection cache.  The default is false, which
+            is different than the default value when creating a DefaultMessageQueue object.
+            </summary>
+            <value>
+            	<c>true</c> if enable connection cache; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="P:Spring.Messaging.Support.MessageQueueFactoryObject.MessageReadPropertyFilterSetAll">
+            <summary>
+            Sets a value indicating whether to retrieve all message properties when receiving a message.
+            </summary>
+            <value>
+            	<c>true</c> if should etrieve all message properties when receiving a message; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="P:Spring.Messaging.Support.MessageQueueFactoryObject.MessageReadPropertyFilterSetDefaults">
+            <summary>
+            Sets a value indicating whether to set the filter values of common Message Queuing properties 
+            to true and the integer-valued properties to their default values..
+            </summary>
+            <value>
+            	<c>true</c> if should set the filter values of common Message Queuing properties; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="P:Spring.Messaging.Support.MessageQueueFactoryObject.ObjectType">
+            <summary>
+            Return the <see cref="T:System.Type"/> of object that this
+            <see cref="T:Spring.Objects.Factory.IFactoryObject"/> creates, or
+            <see langword="null"/> if not known in advance.
+            </summary>
+            <value>The type DefaultMessageQueue</value>
+        </member>
+        <member name="P:Spring.Messaging.Support.MessageQueueFactoryObject.IsSingleton">
+            <summary>
+            Is the object managed by this factory a singleton or a prototype?
+            </summary>
+            <value>return false, a new object will be created for each request of the object</value>
+        </member>
+        <member name="P:Spring.Messaging.Support.MessageQueueFactoryObject.ProductTemplate">
+            <summary>
+            Gets the template object definition that should be used
+            to configure the instance of the object managed by this factory.
+            </summary>
+            <value>The object definition to configure the factory's product</value>
+        </member>
+        <member name="T:Spring.Messaging.Support.QueueUtils">
+            <summary>
+            Utility methods to support Spring's MSMQ functionality
+            </summary>
+        </member>
+        <member name="M:Spring.Messaging.Support.QueueUtils.RegisterDefaultMessageConverter(Spring.Context.IApplicationContext)">
+            <summary>
+            Registers the default message converter with the application context.
+            </summary>
+            <param name="applicationContext">The application context.</param>
+            <returns>The name of the message converter to use for lookups with 
+            <see cref="T:Spring.Messaging.Core.DefaultMessageQueueFactory"/>.
+            </returns>
+        </member>
+        <member name="M:Spring.Messaging.Support.QueueUtils.GetMessageQueueTransaction(Spring.Messaging.Support.IResourceFactory)">
+            <summary>
+            Gets the message queue transaction from thread local storage
+            </summary>
+            <param name="resourceFactory">The resource factory.</param>
+            <returns>null if not found in thread local storage</returns>
+        </member>
+        <member name="T:Spring.Messaging.Support.IResourceFactory">
+            <summary> Callback interface for resource creation.
+            Serving as argument for the <code>GetMessageQueueTransaction</code> method.
+            </summary>
+        </member>
+        <member name="P:Spring.Messaging.Support.IResourceFactory.SynchedLocalTransactionAllowed">
+            <summary>
+            Return whether to allow for a local transaction that is synchronized with
+            a Spring-managed transaction (where the main transaction might be a ADO.NET-based
+            one for a specific IDbProvider, for example), with the MSMQ transaction
+            committing right after the main transaction.
+            Returns whether to allow for synchronizing a local MSMQ transaction
+            </summary>
+        </member>
+        <member name="T:Spring.Messaging.MessagingException">
+            <summary>
+            Base exception class for exceptions thrown by Spring in Spring.Messaging
+            </summary>
+            <author>Mark Pollack</author>
+        </member>
+        <member name="M:Spring.Messaging.MessagingException.#ctor">
+            <summary>Creates a new instance of the MessagingException class.</summary>
+        </member>
+        <member name="M:Spring.Messaging.MessagingException.#ctor(System.String)">
+            <summary>
+            Creates a new instance of the MessagingException class. with the specified message.
+            </summary>
+            <param name="message">
+            A message about the exception.
+            </param>
+        </member>
+        <member name="M:Spring.Messaging.MessagingException.#ctor(System.String,System.Exception)">
+            <summary>
+            Creates a new instance of the MessagingException class with the specified message
+            and root cause.
+            </summary>
+            <param name="message">
+            A message about the exception.
+            </param>
+            <param name="rootCause">
+            The root exception that is being wrapped.
+            </param>
+        </member>
+        <member name="M:Spring.Messaging.MessagingException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            Creates a new instance of the MessagingException class.
+            </summary>
+            <param name="info">
+            The <see cref="T:System.Runtime.Serialization.SerializationInfo"/>
+            that holds the serialized object data about the exception being thrown.
+            </param>
+            <param name="context">
+            The <see cref="T:System.Runtime.Serialization.StreamingContext"/>
+            that contains contextual information about the source or destination.
+            </param>
+        </member>
+    </members>
+</doc>

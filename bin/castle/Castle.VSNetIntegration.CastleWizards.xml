@@ -1,0 +1,189 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Castle.VSNetIntegration.CastleWizards</name>
+    </assembly>
+    <members>
+        <member name="T:Castle.VSNetIntegration.CastleWizards.Dialogs.Panels.ARIntegrationPanel">
+            <summary>
+            Summary description for ARIntegrationPanel.
+            </summary>
+        </member>
+        <member name="F:Castle.VSNetIntegration.CastleWizards.Dialogs.Panels.ARIntegrationPanel.components">
+            <summary> 
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:Castle.VSNetIntegration.CastleWizards.Dialogs.Panels.ARIntegrationPanel.Dispose(System.Boolean)">
+            <summary> 
+            Clean up any resources being used.
+            </summary>
+        </member>
+        <member name="M:Castle.VSNetIntegration.CastleWizards.Dialogs.Panels.ARIntegrationPanel.InitializeComponent">
+            <summary> 
+            Required method for Designer support - do not modify 
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:Castle.VSNetIntegration.CastleWizards.Dialogs.Panels.ARPanel">
+            <summary>
+            Summary description for ARPanel.
+            </summary>
+        </member>
+        <member name="F:Castle.VSNetIntegration.CastleWizards.Dialogs.Panels.ARPanel.components">
+            <summary> 
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:Castle.VSNetIntegration.CastleWizards.Dialogs.Panels.ARPanel.Dispose(System.Boolean)">
+            <summary> 
+            Clean up any resources being used.
+            </summary>
+        </member>
+        <member name="M:Castle.VSNetIntegration.CastleWizards.Dialogs.Panels.ARPanel.InitializeComponent">
+            <summary> 
+            Required method for Designer support - do not modify 
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:Castle.VSNetIntegration.CastleWizards.Dialogs.Panels.ConnStringPanel">
+            <summary>
+            Summary description for ConnStringPanel.
+            </summary>
+        </member>
+        <member name="F:Castle.VSNetIntegration.CastleWizards.Dialogs.Panels.ConnStringPanel.components">
+            <summary> 
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:Castle.VSNetIntegration.CastleWizards.Dialogs.Panels.ConnStringPanel.Dispose(System.Boolean)">
+            <summary> 
+            Clean up any resources being used.
+            </summary>
+        </member>
+        <member name="M:Castle.VSNetIntegration.CastleWizards.Dialogs.Panels.ConnStringPanel.InitializeComponent">
+            <summary> 
+            Required method for Designer support - do not modify 
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:Castle.VSNetIntegration.CastleWizards.Dialogs.Panels.ContainerIntegrationPanel">
+            <summary>
+            Summary description for ContainerIntegrationPanel.
+            </summary>
+        </member>
+        <member name="F:Castle.VSNetIntegration.CastleWizards.Dialogs.Panels.ContainerIntegrationPanel.components">
+            <summary> 
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:Castle.VSNetIntegration.CastleWizards.Dialogs.Panels.ContainerIntegrationPanel.Dispose(System.Boolean)">
+            <summary> 
+            Clean up any resources being used.
+            </summary>
+        </member>
+        <member name="M:Castle.VSNetIntegration.CastleWizards.Dialogs.Panels.ContainerIntegrationPanel.InitializeComponent">
+            <summary> 
+            Required method for Designer support - do not modify 
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:Castle.VSNetIntegration.CastleWizards.Dialogs.Panels.LoggingPanel">
+            <summary>
+            Summary description for LoggingPanel.
+            </summary>
+        </member>
+        <member name="M:Castle.VSNetIntegration.CastleWizards.Dialogs.Panels.LoggingPanel.Dispose(System.Boolean)">
+            <summary> 
+            Clean up any resources being used.
+            </summary>
+        </member>
+        <member name="M:Castle.VSNetIntegration.CastleWizards.Dialogs.Panels.LoggingPanel.InitializeComponent">
+            <summary> 
+            Required method for Designer support - do not modify 
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="F:Castle.VSNetIntegration.CastleWizards.Dialogs.Panels.MRPanel.components">
+            <summary> 
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:Castle.VSNetIntegration.CastleWizards.Dialogs.Panels.MRPanel.Dispose(System.Boolean)">
+            <summary> 
+            Clean up any resources being used.
+            </summary>
+        </member>
+        <member name="M:Castle.VSNetIntegration.CastleWizards.Dialogs.Panels.MRPanel.InitializeComponent">
+            <summary> 
+            Required method for Designer support - do not modify 
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="M:Castle.VSNetIntegration.CastleWizards.Dialogs.Panels.MRTestPanel.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+        </member>
+        <member name="M:Castle.VSNetIntegration.CastleWizards.Dialogs.Panels.MRTestPanel.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:Castle.VSNetIntegration.CastleWizards.Dialogs.Panels.NHIntegrationPanel">
+            <summary>
+            Summary description for NHIntegrationPanel.
+            </summary>
+        </member>
+        <member name="F:Castle.VSNetIntegration.CastleWizards.Dialogs.Panels.NHIntegrationPanel.components">
+            <summary> 
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:Castle.VSNetIntegration.CastleWizards.Dialogs.Panels.NHIntegrationPanel.Dispose(System.Boolean)">
+            <summary> 
+            Clean up any resources being used.
+            </summary>
+        </member>
+        <member name="M:Castle.VSNetIntegration.CastleWizards.Dialogs.Panels.NHIntegrationPanel.InitializeComponent">
+            <summary> 
+            Required method for Designer support - do not modify 
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:Castle.VSNetIntegration.CastleWizards.Shared.Dialogs.WizardDialog">
+            <summary>
+            Summary description for WizardDialog.
+            </summary>
+        </member>
+        <member name="M:Castle.VSNetIntegration.CastleWizards.Shared.Dialogs.WizardDialog.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+        </member>
+        <member name="M:Castle.VSNetIntegration.CastleWizards.Shared.Dialogs.WizardDialog.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="M:Castle.VSNetIntegration.CastleWizards.Shared.Dialogs.WizardDialog.PanelChanged(System.Object,System.EventArgs)">
+            <summary>
+            Fired by panels
+            </summary>
+        </member>
+        <member name="M:Castle.VSNetIntegration.CastleWizards.Shared.Utils.CreateValidIdentifierFromName(System.String)">
+            <summary>
+            Create a valid C# identifier from an input string
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Castle.VSNetIntegration.Shared.BaseProjectWizard">
+            <summary>
+            
+            </summary>
+        </member>
+    </members>
+</doc>
