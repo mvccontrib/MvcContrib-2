@@ -1,0 +1,383 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--EXTERNAL_PROPERTIES: usdDatabaseVersion-->
+<!--EXTERNAL_PROPERTIES: CCNetLabel-->
+<project name="MVCContrib" default="build" xmlns="http://nant.sf.net/release/0.85/nant.xsd">
+	<property name="solution.dir" value="src"/>
+	<property name="solution.file" value="${solution.dir}/MVCContrib.sln"/>
+	<property name="trunk.dir" value="."/>
+	<property name="company.name" value="MVC Contrib"/>
+	<property name="bin.dir" value="bin" />
+	<property name="build.base" value="build"/>
+	<property name="results.dir" value="${build.base}\results" />
+  <property name="samples.dir" value="src\samples"/>
+  <property name="svn.executable" value="bin/subversion/svn.exe" dynamic="true" if="${not property::exists('svn.executable')}" />
+  <property name="svnargs" value=" --non-interactive " />
+  <property name="revisionnumber" value="9999" dynamic="true"/>
+  <property name="revisionnumber" value="${CCNetLabel}" if="${property::exists('CCNetLabel')}"/>
+  <property name="project.fullversion" value="1.0.${revisionnumber}.0" dynamic="true"/>
+  <property name="version.major" value="1"/>
+	<property name="version.minor" value="0"/>
+	<property name="version.build" value="0"/>
+	<property name="version.revision" value="0"/>
+	<property name="project.fullversion" value="${version.major}.${version.minor}.${version.build}.${version.revision}" dynamic="true" />
+	<property name="nant.settings.currentframework" value="net-3.5" />
+	<property name="ncover.path" value="bin\ncover" />
+
+	<!-- default configuration -->
+	<property name="project.config" value="release" />
+	<!-- debug|release -->
+	<property name="build.dir" value="${build.base}/${nant.settings.currentframework}.${platform::get-name()}-${project::get-name()}-${project.config}/"/>
+
+	<target name="build" depends="clean, version, init, commonassemblyinfo, compile, move-for-test, test, compile-samples"/>
+	<target name="cruise" depends="build, package,commitPackage"/>
+  <target name="cruise-coverage" depends="analyze"/>
+	<target name="commiter" depends="build, analyze, package"/>
+
+	<target name="init" description="Initializes build properties">
+		<tstamp>
+			<formatter property="datetime.buildtime" pattern="yyyy-MM-dd, HH:mm:ss" />
+		</tstamp>
+		<delete dir="${build.base}"/>
+		<mkdir dir="${build.dir}" />
+		<echo message="Current Directory: ${project::get-base-directory()}"/>
+	</target>
+
+	<target name="clean" description="delete build artifacts">
+		<delete dir="${build.dir}" failonerror="false" />
+	</target>
+
+	<target name="version" description="mark AssemblyInfo builds with the build number">
+
+    <exec failonerror="false" program="${svn.executable}" commandline="info LatestVersion --xml --revision HEAD ${svnargs}" output="svninfo.xml" append="false" verbose="false"/>
+    <xmlpeek failonerror="false" file="svninfo.xml" xpath="/info/entry/@revision" property="revisionnumber"/>
+
+    <property name="revisionnumber" value="${int::parse(revisionnumber) + 1}"/>
+    <echo message="Current SVN Revision: ${revisionnumber}"/>
+    <property name="version.revision" value="${revisionnumber}"/>
+<!--    <if test="${property::exists('CCNetLabel')}">
+			<property name="version.revision" value="${CCNetLabel}"/>
+		</if>
+    -->
+	</target>
+
+	<target name="commonassemblyinfo" depends="version, init">
+		<echo message="MARKING THIS BUILD AS VERSION ${project.fullversion}" />
+		<delete file="${solution.dir}/CommonAssemblyInfo.cs" failonerror="false"/>
+		<asminfo output="${solution.dir}/CommonAssemblyInfo.cs" language="CSharp">
+			<imports>
+				<import namespace="System" />
+				<import namespace="System.Reflection" />
+				<import namespace="System.Runtime.InteropServices" />
+			</imports>
+			<attributes>
+				<attribute type="ComVisibleAttribute" value="false" />
+				<attribute type="AssemblyVersionAttribute" value="${project.fullversion}" />
+				<attribute type="AssemblyFileVersionAttribute" value="${project.fullversion}" />
+				<attribute type="AssemblyCopyrightAttribute" value="Copyright Â© ${company.name} 2007-${datetime::get-year(datetime::now())}" />
+				<attribute type="AssemblyProductAttribute" value="${project::get-name()}" />
+				<attribute type="AssemblyCompanyAttribute" value="${company.name}" />
+				<attribute type="AssemblyConfigurationAttribute" value="${project.config}" />
+				<attribute type="AssemblyInformationalVersionAttribute" value="${project.fullversion}" />
+			</attributes>
+			<references>
+				<include name="System.dll" />
+			</references>
+		</asminfo>
+	</target>
+
+	<target name="compile" depends="init">
+		<echo message="Build Directory is ${build.dir}" />
+		<exec program="${framework::get-framework-directory(framework::get-target-framework())}\msbuild.exe"
+				  commandline="${solution.file} /t:Clean /p:Configuration=${project.config} /v:q" workingdir="." />
+		<exec program="${framework::get-framework-directory(framework::get-target-framework())}\msbuild.exe"
+				  commandline="${solution.file} /t:Rebuild /p:Configuration=${project.config} /v:q" workingdir="." />
+	</target>
+
+	<target name="move-for-test">
+		<delete dir="${build.dir}"/>
+		<copy todir="${build.dir}" flatten="true">
+			<fileset basedir="${solution.dir}">
+				<include name="/**/bin/${project.config}/**" />
+				<include name="*.config"/>
+				<exclude name="**/*.xhtml"/>
+				<exclude name="**/*.haml"/>
+			</fileset>
+		</copy>
+		
+		<!-- copy files required by view engine tests -->
+		
+				<copy todir="${build.dir}/BrailViewEngine">
+			<fileset basedir="${solution.dir}/MvcContrib.UnitTests/BrailViewEngine">
+				<include name="**/*.brail" />
+			</fileset>
+		</copy>
+
+		<copy todir="${build.dir}/SparkViewEngine">
+			<fileset basedir="${solution.dir}/MvcContrib.UnitTests/SparkViewEngine">
+				<include name="**/*.spark" />
+			</fileset>
+		</copy>
+		
+	</target>
+
+	<target name="test" depends="init">
+		<delete dir="${results.dir}" if="${directory::exists('${results.dir}')}" verbose="true" />
+		<mkdir dir="${results.dir}"/>
+
+		<nunit2 failonerror="true" verbose="true">
+			<formatter type="Xml" outputdir="${results.dir}" usefile="true" extension=".xml"/>
+			<formatter type="Plain" />
+			<test assemblyname="${build.dir}/MVCContrib.UnitTests.dll">
+				<categories>
+					<exclude name="Integration" />
+				</categories>
+			</test>
+		</nunit2>
+	</target>
+
+  <target name="move-for-samples">    
+	<delete dir="${samples.dir}\bin" />
+    <copy todir="${samples.dir}\bin" flatten="true">
+      <fileset basedir="${build.dir}">
+        <include name="/**/*.dll" />
+      </fileset>
+    </copy>
+  </target>
+  
+    <target name="compile-samples" depends="init, move-for-samples">
+      
+    <echo message="Build Directory is ${build.dir}" />
+    <exec program="${framework::get-framework-directory(framework::get-target-framework())}\msbuild.exe"
+				  commandline="${samples.dir}\MvcContrib.TestHelper\MvcContrib.TestHelper.Sample.sln /t:Clean /p:Configuration=${project.config} /v:q" workingdir="." />
+    <exec program="${framework::get-framework-directory(framework::get-target-framework())}\msbuild.exe"
+				  commandline="${samples.dir}\MvcContrib.TestHelper\MvcContrib.TestHelper.Sample.sln /t:Rebuild /p:Configuration=${project.config} /v:q" workingdir="." />
+    </target>
+
+
+
+  <target name="analyze" >
+		<loadtasks path="${ncover.path}\Build Task Plugins"/>
+		<ncover program="${ncover.path}\ncover.console.exe"
+						commandLineExe="bin\nunit\nunit-console.exe"
+						commandLineArgs="mvccontrib.unittests.dll /exclude=Integration"
+						coverageFile="${results.dir}\mvccontrib.coverage.xml"
+						workingDirectory="${build.dir}"
+            failonerror="false"  >
+
+			<assemblies basedir="${build.dir}">
+				<exclude name="**/*.unittest*"/>
+				<include name="mvccontrib*.dll" />
+			</assemblies>
+		</ncover>
+
+		<!--reportType="ModuleClassSummary"  ModuleClassFunctionSummary -->
+		<ncoverexplorer program="bin\ncover\ncoverexplorer.console.exe"
+										projectName="Mvc Contrib"
+										outputDir="${results.dir}"
+										failCombinedMinimum="false"
+										satisfactoryCoverage="95"
+										minimumCoverage="95"
+										reportType="ModuleClassFunctionSummary"
+										htmlReportName="CoverageSummary.html"
+										xmlReportName="CoverageSummary.xml" >
+			<fileset basedir="${results.dir}">
+				<include name="*.coverage.xml" />
+			</fileset>
+			<moduleThresholds>
+				<moduleThreshold moduleName="MVCContrib.DLL"		satisfactoryCoverage="95" />
+				<moduleThreshold moduleName="MvcContrib.Castle.DLL" satisfactoryCoverage="95" />
+				<moduleThreshold moduleName="MvcContrib.Spring.DLL" satisfactoryCoverage="95" />
+				<moduleThreshold moduleName="MvcContrib.StructureMap.DLL" satisfactoryCoverage="95" />
+				<moduleThreshold moduleName="MvcContrib.XsltViewEngine.DLL" satisfactoryCoverage="95" />
+				<moduleThreshold moduleName="MvcContrib.BrailViewEngine.DLL" satisfactoryCoverage="75" />
+				<moduleThreshold moduleName="MvcContrib.SparkViewEngine.DLL" satisfactoryCoverage="90" />
+			</moduleThresholds>
+
+		</ncoverexplorer>
+		<!--<property name="ndepend.input" value="${directory::get-current-directory()}\bin\ndepend\mvccontrib.xml"/>
+		<xmlpoke file="${ndepend.input}" xpath="/NDepend/Dirs/Dir" value="${directory::get-current-directory()}\${build.dir}" />
+		<xmlpoke file="${ndepend.input}" xpath="/NDepend/OutputDir" value="${directory::get-current-directory()}\${results.dir}" />
+		<exec program="bin\ndepend\NDepend.Console.exe">
+			<arg value="${ndepend.input}" />
+		</exec>-->
+		<!--
+		<loadtasks path="bin\ndepend\nant" />
+		<NDepend NDependConsoleExePath="bin\ndepend\ndepend.console.exe"
+							ProjectFilePath="bin\ndepend\MvcContrib.xml"/>
+		-->
+	</target>
+
+  <!--<target name="build-help">
+    <exec program="bin\sandcastle\Sandcastle Help File Builder\SandcastleBuilderConsole.exe"
+      commandline="documentation\docs.shfb" workingdir="." />
+  </target>-->
+
+	<target name="release" depends="version document">
+		<exec program="bin\codeplex\CreateRelease.exe"
+            commandline="&quot;RC - ${project.fullversion}&quot;"
+					workingdir="." />
+	</target>
+
+  <target name="commitPackage" depends="package">
+    <exec program="${svn.executable}" workingdir="." commandline="ci latestVersion ${svnargs} -m&quot;automatic check-in&quot;" verbose="true"  failonerror="false" />
+  </target>
+
+  <target name="package">
+    <exec failonerror="false" program="${svn.executable}" commandline="log" output="changelog.txt" append="false" verbose="false"/>
+    <copy todir="LatestVersion/" >
+      <fileset basedir=".">
+        <include name="ChangeLog.txt" />
+      </fileset>
+    </copy>
+    <!-- 		
+      MvcContrib
+        license
+        MvcContrib dll and pdb
+        MvcContrib.TestHelpers dll and pdb
+        QuickStart.txt
+    
+      MvcContrib.Extras
+			  make a new dir for release.
+			  include subfolders
+				  bin
+					  referenceDLLs
+				  samples
+		-->
+    <delete dir="${build.base}/release/" failonerror="false"></delete>
+    <mkdir dir="${build.base}/release/" />
+    <property name="ContribRelease" value="${build.base}/release/MvcContrib/"/>
+    <mkdir dir="${ContribRelease}" />    
+    <copy todir="${ContribRelease}" flatten="true">
+      <fileset basedir="${solution.dir}">
+        <include name="/**/bin/${project.config}/mvccontrib.dll" />
+        <include name="/**/bin/${project.config}/mvccontrib.xml" />
+        <include name="/**/bin/${project.config}/mvccontrib.testhelper.dll" />
+        <include name="/**/bin/${project.config}/mvccontrib.testhelper.xml" />
+      </fileset>
+    </copy>
+    <copy todir="${ContribRelease}" >
+      <fileset basedir=".">
+        <include name="license.txt" />
+      </fileset>
+    </copy>
+    <copy todir="${ContribRelease}" >
+      <fileset basedir=".">
+        <include name="changelog.txt" />
+      </fileset>
+    </copy>
+    <mkdir dir="${ContribRelease}Dependencies/" />
+    <copy todir="${ContribRelease}Dependencies/" flatten="true">
+      <fileset basedir="${solution.dir}">
+        <include name="/**/bin/${project.config}/Microsoft.Web.MVC.dll" />
+        <include name="/**/bin/${project.config}/Rhino.Mocks.Dll" />
+      </fileset>
+    </copy>
+    <zip zipfile="LatestVersion/MVCContrib.release.zip" includeemptydirs="false" >
+      <fileset basedir="${ContribRelease}">
+        <include name="license.txt" />
+        <include name="**/*.*"/>
+        <exclude name="**/*.CodeAnalysisLog.xml"/>
+        <exclude name="**/*.lastcodeanalysissucceeded"/>
+      </fileset>
+    </zip>
+    <property name="ExtrasRelease" value="${build.base}/release/Extras/"/>
+    <mkdir dir="${ExtrasRelease}" />
+    <mkdir dir="${build.base}/release/" />
+    <mkdir dir="${build.base}/release/" />
+		<mkdir dir="${ExtrasRelease}/Bin" />
+		<copy todir="${ExtrasRelease}/Bin" flatten="true">
+			<fileset basedir="${solution.dir}">
+				<include name="/**/bin/${project.config}/mvccontrib**" />
+			</fileset>
+		</copy>
+		<mkdir dir="${ExtrasRelease}/Bin/referenceDLLs" />
+		<copy todir="${ExtrasRelease}/Bin/referenceDLLs" flatten="false">
+			<fileset basedir="bin">
+				<include name="AspnetMvc/*.dll" />
+				<include name="Boo/*.dll" />
+				<include name="Castle/*.dll" />
+				<include name="mvpxml/*.dll" />
+				<include name="spark/*.dll" />
+				<include name="spring.net/*.dll" />
+				<include name="structuremap/*.dll" />
+				<include name="unity/*.dll" />
+			</fileset>
+		</copy>
+		<mkdir dir="${ExtrasRelease}/Samples" />
+		<copy todir="${ExtrasRelease}/Samples" >
+			<fileset basedir="${solution.dir}/">
+        <exclude name="**/bin/**"/>
+				<exclude name="**/obj/**"/>
+        <exclude name="**/samples/**"/>
+        <include name="/**samples**/**" />
+      </fileset>
+		</copy>
+    <copy todir="${ExtrasRelease}/Samples" >
+      <fileset basedir="${solution.dir}/Samples">
+        <exclude name="**/bin/**"/>
+        <exclude name="**/obj/**"/>
+        <exclude name="/**resharper**/**"/>
+        <include name="/**/**" />
+      </fileset>
+    </copy>
+    <copy todir="${ExtrasRelease}/Samples/bin" >
+      <fileset basedir="${solution.dir}/Samples/bin">
+        <include name="*.*"/>
+      </fileset>
+    </copy>
+    <mkdir dir="${ExtrasRelease}/Helpers/" />
+		<copy todir="${ExtrasRelease}/Helpers" >
+			<fileset basedir="extras">
+				<include name="/**/**" />
+			</fileset>
+		</copy>
+    <copy todir="${ExtrasRelease}" >
+      <fileset basedir=".">        
+        <include name="license.txt" />
+      </fileset>
+    </copy>
+    <copy todir="${ExtrasRelease}" >
+      <fileset basedir=".">
+        <include name="changelog.txt" />
+      </fileset>
+    </copy>
+    <copy todir="${ExtrasRelease}" >
+      <fileset basedir="./build/help">
+        <include name="*.chm" />
+      </fileset>
+    </copy>
+    <zip zipfile="LatestVersion/MVCContrib.Extras.release.zip" includeemptydirs="false" >
+			<fileset basedir="${ExtrasRelease}">
+        <include name="license.txt" />
+        <include name="**/*.*"/>
+				<exclude name="**/*.CodeAnalysisLog.xml"/>
+				<exclude name="**/*.lastcodeanalysissucceeded"/>
+			</fileset>
+		</zip>
+		<zip zipfile="LatestVersion/MVCContrib.source.zip" includeemptydirs="false" >
+			<fileset basedir="${trunk.dir}" >
+        <exclude name="**/LatestVersion/**"/>
+        <exclude name="bin/ncover/**"/>
+				<exclude name="bin/ndepend/**"/>
+        <exclude name="bin/sandcastle/**"/>
+        <exclude name="**/build/**"/>
+				<exclude name="src/**/bin/**"/>
+				<exclude name="**/obj/**"/>
+				<exclude name="**/*.resharper*"/>
+				<exclude name="**/*.suo"/>
+				<exclude name="**/*.cache"/>
+				<exclude name="**/*.user"/>
+				<exclude name="**/_ReSharper.MVCContrib/**"/>
+				<exclude name="**/*.CodeAnalysisLog.xml"/>
+				<exclude name="**/*.lastcodeanalysissucceeded"/>
+				<include name="**/*.*"/>
+			</fileset>
+		</zip>
+	</target>
+  <target name="document" >
+    <unzip zipfile="bin\sandcastle\data.zip" todir="bin\sandcastle\" failonerror="false"/>
+    <exec program="${framework::get-framework-directory(framework::get-target-framework())}\msbuild.exe"
+				  commandline="Documentation\DocumentationProject\MvcContrib.shfbproj" workingdir="." />
+    <copy file="build\Help\Output\documentation.chm" tofile="LatestVersion\MvcContribDocumentation.chm"/>
+  </target>
+</project>
