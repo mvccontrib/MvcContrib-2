@@ -293,7 +293,6 @@
     <Compile Include="UI\Html\Person.cs" />
     <Compile Include="UI\Html\ScriptElementTester.cs" />
     <Compile Include="UI\Html\TagTester.cs" />
-    <Compile Include="UI\Html\ValidatorTester.cs" />
     <Compile Include="UI\InputBuilder\AssemblyResourceProvider.cs" />
     <Compile Include="UI\InputBuilder\AttributeTester.cs" />
     <Compile Include="UI\InputBuilder\DefaultConventionsTester.cs" />
