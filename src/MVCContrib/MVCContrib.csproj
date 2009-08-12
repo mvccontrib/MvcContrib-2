@@ -206,7 +206,6 @@
     <Compile Include="UI\LegacyGrid\GridBase.cs" />
     <Compile Include="UI\Html\HtmlHelperExtensions.cs" />
     <Compile Include="UI\Html\HtmlStringExtensions.cs" />
-    <Compile Include="UI\Html\IValidationHelper.cs" />
     <Compile Include="UI\IHtmlAttributes.cs" />
     <Compile Include="UI\IElement.cs" />
     <Compile Include="UI\IScriptableElement.cs" />
