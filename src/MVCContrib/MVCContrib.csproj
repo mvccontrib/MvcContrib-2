@@ -239,14 +239,6 @@
     <Compile Include="UI\Tags\SubmitButton.cs" />
     <Compile Include="UI\Tags\TextArea.cs" />
     <Compile Include="UI\Tags\TextBox.cs" />
-    <Compile Include="UI\Tags\Validators\BaseCompareValidator.cs" />
-    <Compile Include="UI\Tags\Validators\BaseValidator.cs" />
-    <Compile Include="UI\Tags\Validators\CompareValidator.cs" />
-    <Compile Include="UI\Tags\Validators\CustomValidator.cs" />
-    <Compile Include="UI\Tags\Validators\IValidator.cs" />
-    <Compile Include="UI\Tags\Validators\RangeValidator.cs" />
-    <Compile Include="UI\Tags\Validators\RegularExpressionValidator.cs" />
-    <Compile Include="UI\Tags\Validators\RequiredValidator.cs" />
     <Compile Include="UrlHelperExtensions.cs" />
     <Compile Include="ViewDataExtensions.cs" />
     <Compile Include="ViewFactories\FileSystemViewSourceLoader.cs" />
