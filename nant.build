@@ -266,6 +266,7 @@
 		</zip>
 		<zip zipfile="LatestVersion/MVCContrib.source.zip" includeemptydirs="false" >
 			<fileset basedir="${trunk.dir}" >
+				<exclude name=".git/**"/>
 				<exclude name="**/LatestVersion/**"/>
 				<exclude name="**/build/**"/>
 				<exclude name="src/**/bin/**"/>
