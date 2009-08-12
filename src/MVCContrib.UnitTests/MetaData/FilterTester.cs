@@ -46,13 +46,6 @@ namespace MvcContrib.UnitTests.MetaData
 			controller.ControllerContext = controllerContext;
 		}
 
-		[Test, ExpectedException(typeof(InvalidOperationException))]
-		public void PostOnlyShouldReturnFalseIfRequestTypeIsNotPost()
-		{
-			SetupHttpContext(_controller, "GET");
-			_controller.DoInvokeAction("PostOnly");
-		}
-
 		[Test, ExpectedException(typeof(ArgumentOutOfRangeException))]
 		public void PredicatePreconditionShouldThrowSpecifiedExceptionOnInvalidRouteDataPrecondition()
 		{
