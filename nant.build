@@ -181,6 +181,7 @@
 				<include name="/**/bin/${project.config}/Rhino.Mocks.Dll" />
 			</fileset>
 		</copy>
+		<mkdir dir="LatestVersion" if="${directory::exists('LatestVersion')==false}"/>
 		<zip zipfile="LatestVersion/MVCContrib.release.zip" includeemptydirs="false" >
 			<fileset basedir="${ContribRelease}">
 				<include name="license.txt" />
