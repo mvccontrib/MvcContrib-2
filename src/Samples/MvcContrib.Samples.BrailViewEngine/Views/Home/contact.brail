@@ -1,0 +1,7 @@
+﻿<h1>Contact us</h1>
+
+<form action="${url.Action('sendmessage')}" method="post">
+
+Name: ${html.TextBox('name', viewData.Model.CompanyName)}
+
+</form>

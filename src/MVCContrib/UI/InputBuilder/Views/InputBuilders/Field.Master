@@ -1,0 +1,26 @@
+﻿<%@ Import Namespace="System.Web.Mvc.Html"%>
+<%@ Import Namespace="MvcContrib.UI.InputBuilder"%>
+<%@ Master Language="C#" Inherits="System.Web.Mvc.ViewMasterPage<InputModelProperty>" %>
+<%
+    Example.Visible = Model.HasExample();
+%>
+<div style="padding:5px; ">
+    <div style=" margin-right:10px; float:left; font-weight:bold;width:200px; text-align:right; clear:both">    
+        
+        <asp:ContentPlaceHolder ID="Label" runat="server">
+        <label for="<%=Model.Name%>"><%=Html.Encode(Model.Label)%></label></asp:ContentPlaceHolder>
+        
+        <%=Model.PropertyIsRequired?"*":""%><%=Model.Label.Length>0?":":"" %> 
+    </div>
+    
+    <asp:ContentPlaceHolder ID="Input" runat="server"/>
+
+    <asp:ContentPlaceHolder ID="Validation" runat="server">
+        <%=Html.ValidationMessage(Model.Name,"*") %>
+    </asp:ContentPlaceHolder>
+    
+    <asp:ContentPlaceHolder ID="Example" runat="Server" Visible="false">
+        <span class="example">ex.: <%=Html.Encode(Model.Example)%></span>
+    </asp:ContentPlaceHolder>
+    
+</div>

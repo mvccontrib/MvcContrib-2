@@ -1,0 +1,9 @@
+﻿<h1>Contact us</h1>
+
+<form action="$Url.Action('sendmessage')" method="post">
+
+Name: $html.TextBox('name', $viewdata.Model.companyname) <br/>
+Address: $viewdata.Model.AddressLine1 <br/>
+Address: $viewdata.Model.AddressLine2 <br/> 
+
+</form>

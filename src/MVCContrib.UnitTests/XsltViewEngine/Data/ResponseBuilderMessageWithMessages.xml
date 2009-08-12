@@ -1,0 +1,20 @@
+﻿<?xml version="1.0"?>
+<Message>
+  <Header SessionID="">
+    <IPAddress>::1</IPAddress>
+    <User></User>
+    <IsSecure>False</IsSecure>
+    <Browser>Firefox 2.0.11</Browser>
+    <JavaScript>True</JavaScript>
+  </Header>
+  <Request Page="test" Method="GET">
+    <Params Key="myQueryString" Value="myQueryStringValue" ></Params>
+  </Request>
+  <Response>
+    <ServicePoints></ServicePoints>
+    <Messages>
+      <Message Type="INFO">This is the message</Message>
+      <Message Type="INFO" ControlID="controlId">This is a message for a control</Message>
+    </Messages>
+  </Response>
+</Message>

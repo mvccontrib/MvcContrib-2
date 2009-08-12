@@ -1,0 +1,4 @@
+<viewdata errors="IList[[string]]"/>
+<ul class="error" if="errors != null">
+  <li each="var error in errors">${H(error)}</li>
+</ul>

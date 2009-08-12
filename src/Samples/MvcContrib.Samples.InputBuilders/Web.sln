@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MvcContrib.Samples.InputBuilder", "MvcContrib.Samples.InputBuilder.csproj", "{01202D11-1B4F-41E2-AFA0-0738FD984257}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{01202D11-1B4F-41E2-AFA0-0738FD984257}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{01202D11-1B4F-41E2-AFA0-0738FD984257}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{01202D11-1B4F-41E2-AFA0-0738FD984257}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{01202D11-1B4F-41E2-AFA0-0738FD984257}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

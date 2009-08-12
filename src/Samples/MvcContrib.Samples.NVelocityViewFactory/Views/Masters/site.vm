@@ -1,0 +1,37 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head runat="server">
+    <title>MVC Contrib NVelocity Sample Project</title>
+    <link href="$Url.Content('~/Views/Common/Site.css')" rel="stylesheet" type="text/css"  />
+</head>
+<body>
+	<div>
+		<!-- 
+			Example NVelocity parse directive for rendering child templates 
+			(sharing the same ViewData as the calling controller/action)
+			See  http://www.castleproject.org/others/nvelocity/index.html as well as the docs
+			at http://velocity.apache.org/engine/releases/velocity-1.5/user-guide.html.
+			
+			Note: You can also render independant templates (Widget style controls) with independant ViewData
+		    by using the Html.RenderAction("Action", "Controller") helper method. SubControllers (in MvcContrib Samples, are also another 
+		    option).
+		-->
+		
+		#parse("shared/header.vm")
+				
+		$html.renderaction("ads", "home")
+		
+	</div>	
+    <div>  
+        <!-- 
+			NOTE: This directive will correctly render master/child view templates for any chosen controller action. The 
+			child template variable must be "dollar sign childContent". See the HomeController Index(), About() 
+			and Contact() action methods where the master and child view templates are chosen.
+        -->
+        #parse($childContent)        
+    </div>    
+    <div>		
+		#parse("shared/footer.vm")		
+    </div>  
+</body>
+</html>

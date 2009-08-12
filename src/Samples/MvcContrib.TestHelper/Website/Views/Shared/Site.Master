@@ -1,0 +1,54 @@
+﻿<%@ Import Namespace="MvcContrib.TestHelper.Sample.Controllers"%>
+<%@ Master Language="C#" Inherits="System.Web.Mvc.ViewMasterPage" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <title>My Sample MVC Application</title>
+    <link href="../../Content/Site.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+    <div class="page">
+
+        <div id="header">
+            <p id="logo">
+                <a href="">My Sample MVC Application</a></p>
+            <ul id="mainMenu">
+                <li>
+                    <%= Html.ActionLink<StarsController>(c => c.List(), "Home") %>
+                </li>
+                <li>
+                    <%= Html.ActionLink<StarsController>(c => c.ListWithLinks(), "Nearby") %>
+                </li>
+            </ul>
+        </div>
+
+        <div id="mainContent">
+
+            <div class="columnsContainer">
+
+                <div class="leftColumn">
+                </div><!--/leftColumn-->
+
+                <div class="rightColumn">
+                    <asp:ContentPlaceHolder ID="MainContentPlaceHolder" runat="server">
+                    </asp:ContentPlaceHolder>
+                </div><!--/rightColumn-->
+
+                <div class="clear">
+                </div>
+
+            </div><!--/columnsContainer-->
+
+            <div id="footer">
+                <p>
+                    My Sample MVC Application &copy; Copyright 2008
+                </p>
+            </div><!--/footer-->
+
+        </div><!--/mainContent-->
+
+    </div><!--/page-->
+</body>
+</html>

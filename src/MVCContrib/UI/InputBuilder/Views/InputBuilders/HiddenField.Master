@@ -1,0 +1,4 @@
+﻿<%@ Master Language="C#" Inherits="System.Web.Mvc.ViewMasterPage" %>
+<asp:ContentPlaceHolder ID="Label" runat="server"/>
+<asp:ContentPlaceHolder ID="Input" runat="server"/>
+<asp:ContentPlaceHolder ID="Validation" runat="server"/>

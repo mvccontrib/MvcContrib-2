@@ -1,0 +1,5 @@
+﻿<div class="ads">
+	<h5>Advertisements</h5>
+	promotional considerations provided by <a href="#">Acme Widget Company</a>.<br />
+	<em>This is a partial view, called via Html.RenderAction(actionName, controllerName)
+</div>

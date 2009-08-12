@@ -1,0 +1,60 @@
+﻿<%@ Import Namespace="System.Web.Mvc.Html"%>
+<%@ Master Language="C#" Inherits="System.Web.Mvc.ViewMasterPage" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <title>My Sample MVC Application using IocControllerFactory</title>
+    <link href="../../Content/Site.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+    <div class="page">
+
+        <div id="header">
+            <p id="logo">
+                <a href="">IocController Sample Application</a></p>
+            <ul id="mainMenu">
+                <li>
+                    <%= Html.ActionLink("Home","Index")%>
+                </li>
+                <li>
+                    <%= Html.ActionLink("About","About")%>
+                </li>
+            </ul>
+        </div>
+
+        <div id="mainContent">
+
+            <div class="columnsContainer">
+
+                <div class="leftColumn">
+                    <h2>
+                        </h2>
+                    <ul>
+                    <li><a href="http://mvccontrib.org">Mvc Contrib Project</a></li>
+                    <li><a href="http://groups.google.com/group/mvccontrib-discuss">Mvc Contrib Discussion Group</a></li>
+                    </ul>
+                </div><!--/leftColumn-->
+
+                <div class="rightColumn">
+                    <asp:ContentPlaceHolder ID="MainContentPlaceHolder" runat="server">
+                    </asp:ContentPlaceHolder>
+                </div><!--/rightColumn-->
+
+                <div class="clear">
+                </div>
+
+            </div><!--/columnsContainer-->
+
+            <div id="footer">
+                <p>
+                    
+                </p>
+            </div><!--/footer-->
+
+        </div><!--/mainContent-->
+
+    </div><!--/page-->
+</body>
+</html>
