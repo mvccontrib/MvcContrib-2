@@ -183,8 +183,7 @@
 				<include name="/**/bin/${project.config}/Rhino.Mocks.Dll" />
 			</fileset>
 		</copy>
-		<mkdir dir="LatestVersion" if="${directory::exists('LatestVersion')==false}"/>
-		<zip zipfile="LatestVersion/MVCContrib.release.zip" includeemptydirs="false" >
+		<zip zipfile="build/MVCContrib.release.zip" includeemptydirs="false" >
 			<fileset basedir="${ContribRelease}">
 				<include name="license.txt" />
 				<include name="**/*.*"/>
@@ -258,7 +257,7 @@
 			<include name="*.chm" />
 		  </fileset>
 		</copy>
-		<zip zipfile="LatestVersion/MVCContrib.Extras.release.zip" includeemptydirs="false" >
+		<zip zipfile="build/MVCContrib.Extras.release.zip" includeemptydirs="false" >
 			<fileset basedir="${ExtrasRelease}">
 				<include name="license.txt" />
 				<include name="**/*.*"/>
@@ -266,10 +265,10 @@
 				<exclude name="**/*.lastcodeanalysissucceeded"/>
 			</fileset>
 		</zip>
-		<zip zipfile="LatestVersion/MVCContrib.source.zip" includeemptydirs="false" >
+		<zip zipfile="build/MVCContrib.source.zip" includeemptydirs="false" >
 			<fileset basedir="${trunk.dir}" >
 				<exclude name=".git/**"/>
-				<exclude name="**/LatestVersion/**"/>
+				<!--<exclude name="**/LatestVersion/**"/>-->
 				<exclude name="**/build/**"/>
 				<exclude name="src/**/bin/**"/>
 				<exclude name="**/obj/**"/>
