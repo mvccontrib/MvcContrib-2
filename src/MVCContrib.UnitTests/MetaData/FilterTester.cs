@@ -53,17 +53,6 @@ namespace MvcContrib.UnitTests.MetaData
 			_controller.DoInvokeAction("PostOnly");
 		}
 
-		[Test]
-		public void PostOnlyShouldReturnTrueIfRequestTypeIsPost()
-		{
-			SetupHttpContext(_controller, "POST");
-
-			bool result = _controller.DoInvokeAction("PostOnly");
-
-			Assert.IsTrue(result);
-			Assert.IsTrue(_controller.PostOnlyCalled);
-		}
-
 		[Test, ExpectedException(typeof(ArgumentOutOfRangeException))]
 		public void PredicatePreconditionShouldThrowSpecifiedExceptionOnInvalidRouteDataPrecondition()
 		{
@@ -218,7 +207,6 @@ namespace MvcContrib.UnitTests.MetaData
 			public bool SuccessfulFilterCalled;
 			public bool UnSuccessfulFilterCalled;
 			public bool MultipleFiltersCalled;
-			public bool PostOnlyCalled;
 			public bool DependentFilterCalled = false;
 			public bool PredicatePreconditionCalled;
 			public bool RegExPreconditionCalled;
@@ -247,15 +235,6 @@ namespace MvcContrib.UnitTests.MetaData
 			public ActionResult MultipleFilters()
 			{
 				MultipleFiltersCalled = true;
-				return new EmptyResult();
-			}
-
-#pragma warning disable 618,612
-			[PostOnly]
-#pragma warning restore 618,612
-			public ActionResult PostOnly()
-			{
-				PostOnlyCalled = true;
 				return new EmptyResult();
 			}
 
