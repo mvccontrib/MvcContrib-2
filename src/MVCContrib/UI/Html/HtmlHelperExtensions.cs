@@ -5,13 +5,6 @@ namespace MvcContrib.UI.Html
 {
 	public static class HtmlHelperExtensions
 	{
-
-		[Obsolete("ValidationHelper is obsolete. Please consider using ModelState for validation instead.")]
-		public static IValidationHelper Validation(this HtmlHelper helper)
-		{
-			return ValidationHelper.GetInstance(helper.ViewContext);
-		}
-
         /// <summary>
         /// Normalizes a url in the form ~/path/to/resource.aspx.
         /// </summary>
