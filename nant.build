@@ -162,6 +162,8 @@
 				<include name="/**/bin/${project.config}/mvccontrib.xml" />
 				<include name="/**/bin/${project.config}/mvccontrib.testhelper.dll" />
 				<include name="/**/bin/${project.config}/mvccontrib.testhelper.xml" />
+				<include name="/**/bin/${project.config}/mvccontrib.fluenthtml.dll"/>
+				<include name="/**/bin/${project.config}/mvccontrib.fluenthtml.xml"/>
 			</fileset>
 		</copy>
 		<copy todir="${ContribRelease}" >
