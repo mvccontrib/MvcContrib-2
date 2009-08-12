@@ -1,9 +1,11 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 
 namespace MvcContrib.UI.Tags
 {
+	[Obsolete("The element API has been deprecated. Consider using MvcContrib.FluentHtml or System.Web.Mvc.TagBuilder instead.")]
 	public class InputElementList<T> : ScriptableElement, IEnumerable<T> where T : Input
 	{
 		private readonly List<T> _elements = new List<T>();

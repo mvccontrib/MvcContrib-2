@@ -6,6 +6,7 @@ using System.Linq;
 namespace MvcContrib.UI
 {
 	/// <summary>A representation of a query to find Elements in the Dom.</summary>
+	[Obsolete("The element API has been deprecated. Consider using MvcContrib.FluentHtml or System.Web.Mvc.TagBuilder instead.")]
 	public class DomQuery
 	{
 		private readonly string _query;

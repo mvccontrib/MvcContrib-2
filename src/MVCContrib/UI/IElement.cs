@@ -1,7 +1,9 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 
 namespace MvcContrib.UI
 {
+	[Obsolete("The element API has been deprecated. Consider using MvcContrib.FluentHtml or System.Web.Mvc.TagBuilder instead.")]
 	public interface IElement:IEnumerable
 	{
 		IHtmlAttributes Attributes { get; }

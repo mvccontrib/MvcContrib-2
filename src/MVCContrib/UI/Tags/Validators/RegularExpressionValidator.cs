@@ -1,9 +1,11 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Web;
 using System.Text.RegularExpressions;
 
 namespace MvcContrib.UI.Tags.Validators
 {
+	[Obsolete("The element API has been deprecated. Consider using MvcContrib.FluentHtml or System.Web.Mvc.TagBuilder instead.")]
 	public class RegularExpressionValidator : BaseValidator
 	{
 		public RegularExpressionValidator(string id, string referenceId, string validationExpression, string text)

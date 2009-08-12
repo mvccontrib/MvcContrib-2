@@ -1,8 +1,10 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Web;
 
 namespace MvcContrib.UI.Tags.Validators
 {
+	[Obsolete("The element API has been deprecated. Consider using MvcContrib.FluentHtml or System.Web.Mvc.TagBuilder instead.")]
 	public class RequiredValidator : BaseValidator
 	{
 		public RequiredValidator(string id, string referenceId, string text)

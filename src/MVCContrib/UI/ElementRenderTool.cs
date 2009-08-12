@@ -3,6 +3,7 @@ using System.Text;
 
 namespace MvcContrib.UI
 {
+	[Obsolete("The element API has been deprecated. Consider using MvcContrib.FluentHtml or System.Web.Mvc.TagBuilder instead.")]
 	public class ElementRenderTool
 	{
 		private IElement _element;

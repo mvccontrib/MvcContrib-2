@@ -11,7 +11,8 @@ namespace MvcContrib.UnitTests.UI.Html
 	 * Tag Type validation (one test to make sure the Tag property is correctly set)
 	 * On Inputs the Tag Type test will also test for Type Attribute.
 	 */
-	[TestFixture]
+	[System.Obsolete("The element API has been deprecated. Consider using MvcContrib.FluentHtml or System.Web.Mvc.TagBuilder instead.")]
+	[TestFixture] 
 	public class TagTester
 	{
 		[TestFixture]

@@ -6,6 +6,7 @@ using System.Web;
 
 namespace MvcContrib.UI.Tags.Validators
 {
+	[Obsolete("The element API has been deprecated. Consider using MvcContrib.FluentHtml or System.Web.Mvc.TagBuilder instead.")]
 	public abstract class BaseValidator : Element, IValidator
 	{
 		private Hash<string> _expandoAttributes = new Hash<string>();

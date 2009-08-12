@@ -7,6 +7,7 @@ using System.Globalization;
 
 namespace MvcContrib.UI.Tags.Validators
 {
+	[Obsolete("The element API has been deprecated. Consider using MvcContrib.FluentHtml or System.Web.Mvc.TagBuilder instead.")]
 	public abstract class BaseCompareValidator : BaseValidator
 	{
 		private ValidationDataType _type = ValidationDataType.String;

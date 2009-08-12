@@ -6,6 +6,7 @@ using System.Text;
 
 namespace MvcContrib.UI.Tags
 {
+	[Obsolete("The element API has been deprecated. Consider using MvcContrib.FluentHtml or System.Web.Mvc.TagBuilder instead.")]
 	public class Select : ScriptableElement
 	{
 		private const string ON_FOCUS = "onfocus";

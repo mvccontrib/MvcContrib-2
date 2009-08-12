@@ -1,10 +1,12 @@
-﻿using System.Web.UI.WebControls;
+﻿using System;
+using System.Web.UI.WebControls;
 using System.Collections;
 using System.Web.UI;
 using System.Web;
 
 namespace MvcContrib.UI.Tags.Validators
 {
+	[Obsolete("The element API has been deprecated. Consider using MvcContrib.FluentHtml or System.Web.Mvc.TagBuilder instead.")]
 	public class CompareValidator : BaseCompareValidator
 	{
 		public CompareValidator(string id, string referenceId, string compareReferenceId, ValidationDataType type, ValidationCompareOperator operatorType, string text)

@@ -1,8 +1,10 @@
+using System;
 using System.Collections.Generic;
 using System.Web.UI;
 
 namespace MvcContrib.UI
 {
+	[Obsolete("The element API has been deprecated. Consider using MvcContrib.FluentHtml or System.Web.Mvc.TagBuilder instead.")]
 	public class DomQueryBuilder
 	{
 		private readonly List<string> _queryList = new List<string>();
