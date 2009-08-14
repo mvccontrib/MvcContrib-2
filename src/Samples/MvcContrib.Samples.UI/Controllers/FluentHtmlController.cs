@@ -1,7 +1,7 @@
-using System;
 using System.Collections.Generic;
 using System.Web.Mvc;
 using MvcContrib.Samples.UI.Models;
+using MvcContrib.Samples.UI.Services;
 
 namespace MvcContrib.Samples.UI.Controllers
 {
@@ -9,42 +9,41 @@ namespace MvcContrib.Samples.UI.Controllers
 	{
 		public ViewResult Index()
 		{
-			var model = GetViewModel(new Person
-			{
-				Gender = "M", 
-				Name = "Jeremy", 
-				Roles = new List<int> {1, 2},
-				Father = new Parent {Name ="Jim"},
-				Mother = new Parent { Name = "Joan" }
-			});
+            var model = GetEditModel(PersonService.GetPerson());
 			return View(model);
 		}
 
 		[AcceptVerbs(HttpVerbs.Post)]
 		public ViewResult Index(Person person)
 		{
-			return ModelState.IsValid 
-				? View("ViewPerson", person)
-				: View(GetViewModel(person));
+			if (!ModelState.IsValid)
+			{
+			    return View(GetViewModel(person));
+			}
+		    PersonService.SavePerson(person);
+		    return View("ViewPerson", GetViewModel(person));
 		}
 
-		private FluentHtmlViewData GetViewModel(Person person)
+		private PersonEditModel GetEditModel(Person person)
 		{
-			return new FluentHtmlViewData 
-			{
-				Person = person,
-				Genders = new Dictionary<string, string> { { "M", "Male" }, { "F", "Female" } },
-				Roles = new List<Role> { new Role(0, "Administrator"), new Role(1, "Developer"), new Role(2, "User")  },
+		    return new PersonEditModel
+		    {
+		        Person = person,
+		        Genders = new Dictionary<string, string> { { "M", "Male" }, { "F", "Female" } },
+                Roles = new List<Role> { new Role(0, "Administrator"), new Role(1, "Developer"), new Role(2, "User") },
+                Companies = new SelectList(CompanyService.GetCompanies(), "Id", "Name")
 			};
 		}
-	}
 
-	public class FluentHtmlViewData
-	{
-		public Person Person;
-		public IDictionary<string, string> Genders;
-		public IEnumerable<Role> Roles;
+        private PersonViewModel GetViewModel(Person person)
+        {
+            return new PersonViewModel
+            {
+                Person = person,
+                EmployerName = person.EmployerId.HasValue 
+                    ? CompanyService.GetCompany(person.EmployerId.Value).Name
+                    : null
+            };
+        }
 	}
-
-	
 }

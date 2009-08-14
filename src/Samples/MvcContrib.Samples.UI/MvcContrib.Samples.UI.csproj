@@ -82,9 +82,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Services\CompanyService.cs" />
     <Compile Include="Controllers\FluentHtmlController.cs" />
     <Compile Include="Controllers\GridController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Services\PersonService.cs" />
+    <Compile Include="Models\Color.cs" />
+    <Compile Include="Models\PersonEditModel.cs" />
+    <Compile Include="Models\PersonViewModel.cs" />
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -92,6 +97,8 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Company.cs" />
+    <Compile Include="Models\Parent.cs" />
     <Compile Include="Models\PeopleFactory.cs" />
     <Compile Include="Models\PeopleGridModel.cs" />
     <Compile Include="Models\Person.cs" />

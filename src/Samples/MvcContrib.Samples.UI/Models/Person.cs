@@ -13,10 +13,7 @@ namespace MvcContrib.Samples.UI.Models
 		public IList<int> Roles { get; set; }
 		public Parent Mother { get; set; }
 		public Parent Father { get; set; }
-	}
-
-	public class Parent
-	{
-		public string Name { get; set; }
+        public Guid? EmployerId { get; set; }
+        public Color FavoriteColor { get; set; }
 	}
 }

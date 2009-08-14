@@ -1,6 +1,7 @@
-<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="MvcContrib.Samples.UI.Views.SampleFluentHtmlViewPage<FluentHtmlViewData>" %>
-<%@ Import Namespace="MvcContrib.Samples.UI.Controllers"%>
+<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="MvcContrib.Samples.UI.Views.SampleFluentHtmlViewPage<PersonEditModel>" %>
+<%@ Import Namespace="MvcContrib.Samples.UI.Models"%>
 <%@ Import Namespace="MvcContrib.FluentHtml" %>
+
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 	<title>Fluent HTML</title>
 </asp:Content>
@@ -36,11 +37,23 @@
 			HTML Select lists (Dropdowns/Listboxes) can be easily populated from Dictionary instances:
 		</p>
 		
+		<p>
+			...or SelectLists:
+		</p>
+		
+		<%= this.Select(x => x.Person.EmployerId).Options(Model.Companies).Label("Employer:").FirstOption("Choose employer") %><br />
+				
+        <p>
+			...or enumerations:
+		</p>
+		
+		<%= this.Select(x => x.Person.FavoriteColor).Options<Color>().Label("Favorite Color:") %><br />
+		
 		<%= this.Select(x => x.Person.Gender).Options(Model.Genders).Size(5).Label("Gender:")
 				.Title("Select the person's gender") %><br />
 		
 		<p>
-			Checkbox/radio lists work in a similar way to dropdowns. This example binds to enumerable data rather than a dictionary:
+			Checkbox/radio lists work in a similar way to dropdowns.  In this case it is populated from an Enumerable&lt;T&gt; where T is a complex type:
 		</p>	
 		
 		<%= this.CheckBoxList(x => x.Person.Roles).Options(Model.Roles, x => x.Id, x => x.Name).Label("Roles:")
@@ -53,6 +66,10 @@
 		<%= this.TextBox(x => x.Person.DateOfBirth).Format("M/d/yy").Label("DOB:").Title("Enter the person's date of birth") %>
 		<%= this.ValidationMessage(x => x.Person.DateOfBirth, "Please enter a valid date") %><br />
 		<br />
+		
+        <p>
+			FluentHtml lets you associate multiple instances of partial view with seperate model properties of the same type:
+		</p>  
 		
 		<% this.RenderPartial("EditParent", x => x.Person.Mother, new ViewDataDictionary { { "label", "Mother's Name:" } }); %><br />
 		<br />

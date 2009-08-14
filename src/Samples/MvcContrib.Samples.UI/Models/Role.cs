@@ -1,5 +1,3 @@
-using System;
-
 namespace MvcContrib.Samples.UI.Models
 {
 	public class Role
