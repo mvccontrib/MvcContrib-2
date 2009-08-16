@@ -18,6 +18,7 @@
 	<property name="project.fullversion" value="${version.major}.${version.minor}.${version.build}.${version.revision}" dynamic="true" />
 	<property name="nant.settings.currentframework" value="net-3.5" />
 	<property name="msbuild.path" value="${framework::get-framework-directory(framework::get-target-framework())}\msbuild.exe" />
+	<property name="runtests" value="true" unless="${property::exists('runtests')}" />
 	
 	<!-- default configuration -->
 	<property name="project.config" value="release" />
@@ -100,7 +101,7 @@
 		</copy>
 	</target>
 
-	<target name="test" depends="init">
+	<target name="test" depends="init" if="${runtests}">
 		<delete dir="${results.dir}" if="${directory::exists('${results.dir}')}" verbose="true" />
 		<mkdir dir="${results.dir}"/>
 
