@@ -2,6 +2,7 @@ build/
 *.suo
 *.user
 bin
+!/bin
 obj
 _ReSharper*
 *.csproj.user
