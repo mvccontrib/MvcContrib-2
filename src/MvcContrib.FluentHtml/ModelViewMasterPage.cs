@@ -47,5 +47,10 @@ namespace MvcContrib.FluentHtml
 			get { return base.ViewData; }
 			set { throw new NotImplementedException("ViewData from base class ViewMasterPage<T> is read-only."); }
 		}
+
+		HtmlHelper IViewModelContainer<T>.Html 
+		{
+			get { return base.Html; }
+		}
 	}
 }

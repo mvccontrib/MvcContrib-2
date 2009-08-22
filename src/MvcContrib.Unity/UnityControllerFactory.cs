@@ -9,7 +9,7 @@ namespace MvcContrib.Unity
     {
         public override IController CreateController(RequestContext context, string controllerName)
         {
-            Type type = GetControllerType(controllerName);
+            Type type = GetControllerType(context, controllerName);
 
             if (type == null)
             {

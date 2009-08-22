@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Web.Mvc;
 using MvcContrib.FluentHtml.Behaviors;
@@ -39,6 +40,11 @@ namespace MvcContrib.FluentHtml
 		public IEnumerable<IBehaviorMarker> Behaviors
 		{
 			get { return behaviors; }
+		}
+
+		HtmlHelper IViewModelContainer<T>.Html
+		{
+			get { return base.Html; }
 		}
 	}
 }

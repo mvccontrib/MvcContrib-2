@@ -26,11 +26,11 @@ namespace MvcContrib.Castle
 			_container = container;
 		}
 
-		protected override IController GetControllerInstance(Type controllerType)
+		protected override IController GetControllerInstance(RequestContext context, Type controllerType)
 		{
 			if(controllerType == null)
 			{
-				throw new HttpException(404, string.Format("The controller for path '{0}' could not be found or it does not implement IController.", RequestContext.HttpContext.Request.Path));
+				throw new HttpException(404, string.Format("The controller for path '{0}' could not be found or it does not implement IController.", context.HttpContext.Request.Path));
 			}
 
 			return (IController)_container.Resolve(controllerType);

@@ -9,7 +9,7 @@ namespace MvcContrib.StructureMap
     {
         public override IController CreateController(RequestContext context, string controllerName)
         {
-            Type controllerType = base.GetControllerType(controllerName);
+            Type controllerType = base.GetControllerType(context, controllerName);
             return ObjectFactory.GetInstance(controllerType) as IController;
         }
     }

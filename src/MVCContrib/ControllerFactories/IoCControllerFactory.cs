@@ -28,7 +28,7 @@ namespace MvcContrib.ControllerFactories
 				throw new ArgumentNullException("controllerName");
 			}
 
-			Type controllerType = GetControllerType(controllerName);
+			Type controllerType = GetControllerType(context, controllerName);
 
 			if(controllerType != null)
 			{
