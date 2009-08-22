@@ -1,78 +1,289 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-
-	<title>mvccontrib/MvcContrib @ GitHub</title>
-	
-	<style type="text/css">
-		body {
-  		margin-top: 1.0em;
-  		background-color: #2cb9f2;
-		  font-family: "Helvetica,Arial,FreeSans"; 
-  		color: #000000;
-    }
-    #container {
-      margin: 0 auto;
-      width: 700px;
-    }
-		h1 { font-size: 3.8em; color: #d3460d; margin-bottom: 3px; }
-		h1 .small { font-size: 0.4em; }
-		h1 a { text-decoration: none }
-		h2 { font-size: 1.5em; color: #d3460d; }
-    h3 { text-align: center; color: #d3460d; }
-    a { color: #d3460d; }
-    .description { font-size: 1.2em; margin-bottom: 30px; margin-top: 30px; font-style: italic;}
-    .download { float: right; }
-		pre { background: #000; color: #fff; padding: 15px;}
-    hr { border: 0; width: 80%; border-bottom: 1px solid #aaa}
-    .footer { text-align:center; padding-top:30px; font-style: italic; }
-	</style>
-	
+	<title>MvcContrib</title>
+	<link rel="stylesheet" type="text/css" href="site.css" />
 </head>
-
 <body>
   <a href="http://github.com/mvccontrib/MvcContrib"><img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub" /></a>
   
-  <div id="container">
-
-    <div class="download">
+  <div id="container"> 
+  	<div class="download">
       <a href="http://github.com/mvccontrib/MvcContrib/zipball/master">
         <img border="0" width="90" src="http://github.com/images/modules/download/zip.png"></a>
       <a href="http://github.com/mvccontrib/MvcContrib/tarball/master">
         <img border="0" width="90" src="http://github.com/images/modules/download/tar.png"></a>
     </div>
-      
-    <h1><a href="http://github.com/mvccontrib/MvcContrib">MvcContrib</a> 
-      <span class="small">by <a href="http://github.com/mvccontrib">mvccontrib</a></span></h1>
 
-    <div class="description">
-      User contributions for the ASP.NET MVC Framework
-    </div>
+	<h1>
+		<a href="/index.html">MvcContrib</a> 
+	</h1>
+	<div class="description">
+		User contributions for the ASP.NET MVC Framework
+	</div>
+	
+	
+	<ul>
+		<li><a href="#installing">Installing Git</a></li>
+		<li><a href="#ssh">SSH Keys</a></li>
+		<li><a href="#signup">Signing up to GitHub</a>
+		<li><a href="#getting-the-source">Getting the source</a>
+		<li><a href="#fork">Using a fork to contribute a patch</a></a>
+		<li><a href="#pull-request">Notifying the MvcContrib committers using a Pull Requst</a>
+	</ul>
+	
+	<a name="installing"></a>
+	<h2>Downloading and Installing Git</h2>
+	<p>
+		Install git by downloading the latest msysGit installer from 
+		<a href="http://code.google.com/p/msysgit">http://code.google.com/p/msysgit</a>
+	</p>
+	<p>
+		<img src="images/001-download.jpg" alt="Download" />
+	</p>
+	<p>
+		Once downloaded, run the installer and proceed
+		through the wizard until you are asked to adjust your PATH environment:
+	</p>
+	<p>
+		<img src="images/002-path.jpg" alt="Adjust your path environment" />
+	</p>
+	<p>
+		The default setting is to "use Git Bash only" which means you 
+		will only be able to use git commands from within the Bash shell.
+		Personally, I also like to run the git commands from inside a windows command prompt 
+		or a PowerShell window, so I choose the second option "Run git from within the Windows Command prompt."
+	</p>
+	<p>
+		Next, you will be asked which SSH client you wish to use. 
+		Choose 'OpenSSH' unless you have a particular need to use putty/plink:
+	</p>
+	<p>
+		<img src="images/003-ssh.jpg" alt="SSH" />
+	</p>
+	<p>
+		The next stage is to choose your line endings. Choose 'Use Windows style line endings'.
+	</p>
+	<p>
+		<img src="images/004-line-endings.jpg" alt="Line Endings" />
+	</p>
+	<p>
+		Pressing 'Next' will install msysGit to your system.
+	</p>
+	
+	<a name="ssh"></a>
+	<h2>Configuring SSH Keys</h2>
+	<p>
+		Now that msysGit is installed, you will need to generate SSH keys 
+		in order to commit code to GitHub.
+	</p>
+	<p>
+		First, open "Git GUI" from the Start menu:
+	</p>
+	<p>
+		<img src="images/005-startmenu.jpg" alt="Start Menu" />
+	</p>
+	<p>
+		From the "Help" menu select "Show SSH Key":
+	</p>
+	<p>
+		<img src="images/006-gitgui.jpg" alt="Git GUI" />
+	</p>
+	<p>
+	Next, click the "Generate Key" button:
+	</p>
+	<p>
+		<img src="images/007-generatekeys.jpg" alt="Generate Keys" />
+	</p>
+	<p>
+		This will generate your public and private OpenSSH keys. 
+		You will be prompted to enter an optional passphrase. 
+		If you do not leave this blank, then you will be prompted to enter the password
+		each time you try to push to github. For this reason, I usually leave it blank.
+	</p>
+	<p>
+		Once generated, Git GUI will store your private and public keys in your %USERPROFILE%/.ssh directory. 
+		You may wish to back up these keys to somewhere secure. Git GUI will now display your public key. 
+		Copy this to your clipboard as you will need it when <a href="#signup">signing up to github.</a>
+	</p>
+	<p>
+		<img src="images/008-publickey.jpg" alt="Public Key" />
+	</p>
+	<p>
+		You should also tell git your email address and name by opening a command prompt and typing the following commands:
+	</p>
+	<pre>git config --global user.name "Your name"
+git config --global user.email your@emailaddress.com</pre>
+	
+	<a name="signup"></a>
+	
+	<h2>Signing up to GitHub</h2>
+	<p>
+		<strong>Note:</strong> You do not have to sign up to GitHub if all you want to do is download and compile the source.
+		If this is all you need to do, then feel free to skip this step and  read <a href="#getting-the-source">building from source</a>.
+	</p>
+	<p>
+		On the <a href="https://github.com/signup/free">GitHub sign up page</a> you'll need to enter your username, email address,
+		password and the <a href="#ssh">SSH Key that you generated in the previous step</a>.
+	</p>
+	<p>
+		<img src="images/009-signup.jpg" alt="Sign Up">
+	</p>
+	
+	<a name="getting-the-source"></a>
+	<h2>Getting the Source</h2>
+	<p>
+		<strong>Note:</strong> 
+		This step is only useful if you want to get the source, but have no intention of contributing.
+		If you wish to contribute a patch please read the section on <a href="#fork">using a fork to contribute a patch.</a>
+	</p>
+	<h3>Option 1: Zip file</h3>
+	<p>
+		GitHub automatically publishes the latest source code as either a .zip or a .tar.gz file.
+		To download it, visit the <a href="http://github.com/mvccontrib/mvccontrib">MvcContrib project page</a> 
+		and click the download button:
+	</p>
 
-    <h2>Contact</h2>
-<p> (mvccontrib-discuss@googlegroups.com)<br/>      </p>
+	<p>
+		<img src="images/010-download.jpg" alt="Download" />
+	</p>
+	<h3>Option 2: Clone the repository locally</h3>
+	<p>
+		Clone the repository locally by opening a command window, going into your projects directory and typing:
+	</p>
+	<pre>git clone git://github.com/mvccontrib/MvcContrib.git</pre>
+	<p>
+		This create a local git repository and fetch the mvccontrib source code.
+	</p>
+	<p>
+		<img src="images/011-public-clone.jpg" alt="Public Clone" />
+	</p>
+	<p>
+		Once checked out, you can cd into the MvcContrib directory and run the build script:
+	</p>
+	<p>
+		<img src="images/012-build.jpg" alt="Building" />
+	</p>
+	
+	<a name="fork"></a>
+	<h2>Using a fork to contribute a patch</h2>
+	<p>
+		If you wish to contribute a patch to MvcContrib you will need to <em>fork</em> the MvcContrib repository.
+		You can do this by logging into GitHub, going to the <a href="http://github.com/mvccontrib/MvcContrib/">MvcContrib project page</a>
+		and clicking on the <em>fork</em> button.
+	</p>
+	<p>
+		<img src="images/013-fork.jpg" alt="Fork" />
+	</p>
+	<p>
+		This will copy the MvcContrib repository to your own user account. You can then clone this repository locally 
+		(not the original repository) using the "Your clone URL" via ssh:
+	</p>
+	<p>
+		<img src="images/014-yourclone.jpg" alt="Your Clone URL" />
+	</p>
+	<p>
+		You can clone your fork locally by typing:
+	</p>
+	<pre>git clone git@github.com:YourUsername/MvcContrib.git</pre>
+	<p>
+		<img src="images/015-private-clone.jpg" alt="Private Clone"/>
+	</p>
+	<p>
+	You will automatically be authenticated to GitHub using the private key <a href="#ssh">that you have already generated.</a>
+	</p>
 
-
-    <h2>Download</h2>
-    <p>
-      You can download this project in either
-      <a href="http://github.com/mvccontrib/MvcContrib/zipball/master">zip</a> or
-      <a href="http://github.com/mvccontrib/MvcContrib/tarball/master">tar</a> formats.
-    </p>
-    <p>You can also clone the project with <a href="http://git-scm.com">Git</a>
-      by running:
-      <pre>$ git clone git://github.com/mvccontrib/MvcContrib</pre>
-    </p>
-      
-    <div class="footer">
-      get the source code on GitHub : <a href="http://github.com/mvccontrib/MvcContrib">mvccontrib/MvcContrib</a>
-    </div>
-    
+	<p>
+		<strong>Note:</strong> If this is the first time you have cloned from github using SSH, you will receive the following message:
+	</p>
+	<pre>The authenticity of host 'github.com' can't be established. 
+RSA key fingerprint is 16:27:ac:a5:76:28:2d:36:63:1b:56:4d:eb:df:a6:48. 
+Are you sure you wish to continue connecting (yes/no)?</pre>
+	<p>If you receive this message you must type "yes" (not just "y").</p>
+	<p>
+		At this point, you can now edit the source code. Once you have made your changes, you can type <strong>git status</strong> to see the list of uncommitted changes:
+	</p>
+	<p>
+		<img src="images/016-status.jpg" alt="git status" />
+	</p>
+	<p>
+		To commit these changes you will first need to stage them. You can either do this by adding each individual file to the index (<strong>git add path\to\changed\file</strong>)
+		or by adding all changes by typing <strong>git add -A</strong>. After doing this, typing <strong>git status</strong> again will show you the changes that will be committed:
+	</p>
+	<p>
+		<img src="images/017-status-staged.jpg" alt="Staged changes" />
+	</p>
+	<p>
+		At this point, you can commit your changes by typing <strong>git commit</strong>. 
+		If you haven't set up an EDITOR environment variable yet, you will receive the following message:
+	</p>
+	<pre>error: Terminal is dumb but no VISUAL nor EDITOR defined.
+Please supply the message using either -m or -F option.</pre>
+	<p>
+		To work around this, add an environment variable to your system called EDITOR the value of which should be the path
+		to your favourite text editor (in my case, c:\downloads\notepad2.exe).
+	</p>
+	<p>
+		Now typing <strong>git commit</strong> will open the <em>COMMIT_EDITMSG</em> file your text editor and will show you the changes
+		that will be committed. Lines prefixed with a # are comments and will not appear in the commit message.
+	</p>
+	<p>
+		<img src="images/018-committing.jpg" alt="Committing" />
+	</p>
+	<p>
+		Once you have saved the file and closed your editor, the changes will be committed to your local repository.
+	</p>
+	<p>
+		<img src="images/019-committed.jpg" alt="Committed" />
+	</p>
+	<p>
+		Now you can push these changes back to your forked repository on github by using the following command:
+	</p>
+	<pre>git push origin master</pre>
+	<p>
+		"origin" is the name of the remote repository that you want to push to (git automatically added your github fork as a 
+		remote repository named 'origin' when you created your local clone) and "master" is the name of the branch.
+	</p>
+	<p>
+		<img src="images/020-push.jpg" alt="Push" />
+	</p>
+	<p>
+		If you visit your cloned repository page on GitHub, you'll now see your new commit:
+	</p>
+	<p>
+		<img src="images/021-mycommit.jpg" alt="My new commit" />
+	</p>
+	<a name="pull-request"></a>
+	<h2>Notifying the MvcContrib committers using a Pull Requst</h2>
+	<p>
+		Now that you have committed your changes and pushed them back up to GitHub, 
+		you need to inform one of the MvcContrib committers so that they can merge your changes 
+		into the main repository. This can be done by clicking the <em>Pull Requst</em> button on 
+		your forked repository page.
+	</p>
+	<p>
+		<img src="images/022-pull-request.jpg" alt="Pull Request" />
+	</p>
+	<p>
+		This will display a form where you can enter a message about what your changes include
+		and allows you to choose who should receive your messages.
+	</p>
+	<p>
+		Anyone who has forked the MvcContrib repository will
+		appear in this list but you should only tick the "mvccontrib" box. This will send an email to the MvcContrib-Developers
+		mailing list and all the committers will be immediately notified.
+	</p>
+	<p>
+		<img src="images/023-pull-request-form.jpg" alt="Pull Requst Form" />
+	</p>
+	<p>
+		That's it! Your patch will now be reviewed by one of the MvcContrib committers.
+		If the reviewer has any questions about your patch then they may send you a message to your GitHub inbox.
+	</p>
+	<p>
+		Any questions should be directed to the MvcContrib mailing list at <a href="mailto:mvccontrib-discuss@googlegroups.com">mvccontrib-discuss@googlegroups.com</a>.
+	</p>
   </div>
-
-  
 </body>
 </html>
