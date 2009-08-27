@@ -170,5 +170,34 @@ namespace MvcContrib.UnitTests.TestHelper
             
         }
         
+        [Test]
+        public void should_be_able_to_generate_url_from_named_route()
+        {
+            RouteTable.Routes.Clear();
+            RouteTable.Routes.MapRoute(
+                "namedRoute",
+                "{controller}/{action}/{id}",
+                new { controller = "Funky", Action = "Index", id = "" });
+
+            OutBoundUrl.OfRouteNamed("namedRoute").ShouldMapToUrl("/");
+        }
+
+        [Test]
+        public void should_be_able_to_generate_url_from_controller_action_where_action_is_default()
+        {
+            OutBoundUrl.Of<FunkyController>(x => x.Index()).ShouldMapToUrl("/");
+        }
+
+        [Test]
+        public void should_be_able_to_generate_url_from_controller_action()
+        {
+            OutBoundUrl.Of<FunkyController>(x => x.New()).ShouldMapToUrl("/Funky/New");
+        }
+
+        [Test]
+        public void should_be_able_to_generate_url_from_controller_action_with_parameter()
+        {
+            OutBoundUrl.Of<FunkyController>(x => x.Foo(1)).ShouldMapToUrl("/Funky/Foo/1");
+        }
     }
 }
