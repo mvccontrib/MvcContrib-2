@@ -26,6 +26,7 @@
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Debug\MvcContrib.FluentHtml.xml</DocumentationFile>
     <NoWarn>1570, 1591</NoWarn>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -68,8 +69,13 @@
     </Compile>
     <Compile Include="Behaviors\AutoLabelBehavior.cs" />
     <Compile Include="Behaviors\AutoLabelSettings.cs" />
+    <Compile Include="Behaviors\CacheingBehaviorApplier.cs" />
+    <Compile Include="Behaviors\BehaviorMarkerExtensions.cs" />
+    <Compile Include="Behaviors\ThreadSafeDictionary.cs" />
+    <Compile Include="Behaviors\GenericTypeSpec.cs" />
     <Compile Include="Behaviors\IBehavior.cs" />
     <Compile Include="Behaviors\IBehaviorMarker.cs" />
+    <Compile Include="Behaviors\IBehaviorsContainer.cs" />
     <Compile Include="Behaviors\IModelStateHandler.cs" />
     <Compile Include="Behaviors\ISupportsMaxLength.cs" />
     <Compile Include="Behaviors\ISupportsModelState.cs" />

@@ -11,12 +11,12 @@ namespace MvcContrib.Samples.UI.Models
 			for(int i = 0; i < 25; i++ )
 			{
 				yield return new Person
-         		{
-         			Id = i,
-         			Name = "Person " + i,
-         			Gender = i%2 == 0 ? "M" : "F",
-         			DateOfBirth = startDate.AddDays(i)
-         		};
+				{
+					Id = i,
+					Name = "Person " + i,
+					Gender = i%2 == 0 ? "M" : "F",
+					DateOfBirth = startDate.AddDays(i)
+				};
 			}
 		}
 	}

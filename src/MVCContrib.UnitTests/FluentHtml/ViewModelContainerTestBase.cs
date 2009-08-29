@@ -1,11 +1,12 @@
 using System;
 using System.Collections;
+using System.Linq;
 using MvcContrib.FluentHtml;
+using MvcContrib.FluentHtml.Behaviors;
+using MvcContrib.FluentHtml.Elements;
 using MvcContrib.UnitTests.FluentHtml.Helpers;
 using NUnit.Framework;
-using MvcContrib.FluentHtml.Behaviors;
 using Rhino.Mocks;
-using System.Linq;
 
 namespace MvcContrib.UnitTests.FluentHtml
 {
@@ -22,8 +23,8 @@ namespace MvcContrib.UnitTests.FluentHtml
 		[Test]
 		public virtual void can_get_html_behaviors()
 		{
-			var mockBehavior1 = MockRepository.GenerateMock<IMemberBehavior>();
-			var mockBehavior2 = MockRepository.GenerateMock<IMemberBehavior>();
+			var mockBehavior1 = MockRepository.GenerateMock<IBehavior<IMemberElement>>();
+			var mockBehavior2 = MockRepository.GenerateMock<IBehavior<IMemberElement>>();
 			target = (T)Activator.CreateInstance(typeof(T), mockBehavior1, mockBehavior2);
 			target.Behaviors.ShouldCount(3);
 			target.Behaviors.Where(x => x is ValidationBehavior);

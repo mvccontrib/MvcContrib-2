@@ -1,7 +1,7 @@
 namespace MvcContrib.Samples.UI.Models
 {
-    public class Parent
-    {
-        public string Name { get; set; }
-    }
+	public class Parent
+	{
+		public string Name { get; set; }
+	}
 }

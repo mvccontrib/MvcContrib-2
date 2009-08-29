@@ -14,6 +14,10 @@ namespace MvcContrib.FluentHtml.Behaviors
 
 		public T GetAttribute(MemberExpression expression)
 		{
+			if (expression == null)
+			{
+				return null;
+			}
 			var attributes = expression.Member.GetCustomAttributes(typeof(T), true);
 			if (attributes == null || attributes.Length == 0)
 			{

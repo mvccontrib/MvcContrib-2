@@ -1,6 +1,4 @@
 namespace MvcContrib.FluentHtml.Behaviors
 {
-	public interface IBehaviorMarker
-	{
-	}
+	public interface IBehaviorMarker { }
 }

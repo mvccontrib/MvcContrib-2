@@ -4,7 +4,7 @@ using MvcContrib.FluentHtml.Elements;
 
 namespace MvcContrib.UnitTests.FluentHtml.CustomBehaviors
 {
-	public class CustomRequiredHtmlBehavior : IMemberBehavior
+	public class CustomRequiredHtmlBehavior : IBehavior<IMemberElement>
 	{
 		public void Execute(IMemberElement element)
 		{

@@ -18,21 +18,20 @@ namespace MvcContrib.UnitTests.FluentHtml
 	{
 		ModelStateDictionary stateDictionary;
 		private Expression<Func<FakeModel, object>> expression;
-		private TextBox textbox;
-		private ValidationBehavior target;
 
 		[SetUp]
 		public void SetUp()
 		{
 			stateDictionary = new ModelStateDictionary();
+		    expression = null;
 		}
 
 		[Test]
 		public void element_for_member_with_no_error_renders_with_no_class()
 		{
-			target = new ValidationBehavior(() => stateDictionary);
+			var target = new ValidationBehavior(() => stateDictionary);
 			expression = x => x.Price;
-			textbox = new TextBox(expression.GetNameFor(), null, new List<IBehaviorMarker> { target });
+			var textbox = new TextBox(expression.GetNameFor(), null, new List<IBehaviorMarker> { target });
 			var element = textbox.ToString().ShouldHaveHtmlNode("Price");
 			element.ShouldNotHaveAttribute(HtmlAttribute.Class);
 		}
@@ -41,9 +40,9 @@ namespace MvcContrib.UnitTests.FluentHtml
 		public void element_for_member_with_error_renders_with_default_error_class()
 		{
 			stateDictionary.AddModelError("Price", "Something bad happened");
-			target = new ValidationBehavior(() => stateDictionary);
+			var target = new ValidationBehavior(() => stateDictionary);
 			expression = x => x.Price;
-			textbox = new TextBox(expression.GetNameFor(), null, new List<IBehaviorMarker> { target });
+			var textbox = new TextBox(expression.GetNameFor(), null, new List<IBehaviorMarker> { target });
 			var element = textbox.ToString().ShouldHaveHtmlNode("Price");
 			element.ShouldHaveAttribute(HtmlAttribute.Class).WithValue("input-validation-error");
 		}
@@ -52,9 +51,9 @@ namespace MvcContrib.UnitTests.FluentHtml
 		public void element_for_member_with_error_renders_with_specified_error_class_and_specified_other_class()
 		{
 			stateDictionary.AddModelError("Price", "Something bad happened");
-			target = new ValidationBehavior(() => stateDictionary, "my-error-class");
+			var target = new ValidationBehavior(() => stateDictionary, "my-error-class");
 			expression = x => x.Price;
-			textbox = new TextBox(expression.GetNameFor(), null, new List<IBehaviorMarker> { target })
+			var textbox = new TextBox(expression.GetNameFor(), null, new List<IBehaviorMarker> { target })
 				.Class("another-class");
 			var element = textbox.ToString().ShouldHaveHtmlNode("Price");
 			element.ShouldHaveAttribute(HtmlAttribute.Class).Value
@@ -67,9 +66,9 @@ namespace MvcContrib.UnitTests.FluentHtml
 		{
 			stateDictionary.AddModelError("Price", "Something bad happened");
 		    stateDictionary["Price"].Value = new ValueProviderResult("bad value", "bad value", CultureInfo.CurrentCulture);
-			target = new ValidationBehavior(() => stateDictionary);
+			var target = new ValidationBehavior(() => stateDictionary);
 			expression = x => x.Price;
-			textbox = new TextBox(expression.GetNameFor(), expression.GetMemberExpression(),
+			var textbox = new TextBox(expression.GetNameFor(), expression.GetMemberExpression(),
 				new List<IBehaviorMarker> { target });
 			var element = textbox.ToString().ShouldHaveHtmlNode("Price");
 			element.ShouldHaveAttribute(HtmlAttribute.Value).WithValue("bad value");
@@ -80,9 +79,9 @@ namespace MvcContrib.UnitTests.FluentHtml
 		{
 			stateDictionary.AddModelError("Done", "Foo");
 			stateDictionary["Done"].Value = new ValueProviderResult(new[] { "true", "false" }, "true", CultureInfo.CurrentCulture);
-			target = new ValidationBehavior(() => stateDictionary);
+			var target = new ValidationBehavior(() => stateDictionary);
 			expression = x => x.Done;
-			var checkbox = new CheckBox(expression.GetNameFor(), expression.GetMemberExpression(), new List<IBehaviorMarker>() { target });
+			var checkbox = new CheckBox(expression.GetNameFor(), expression.GetMemberExpression(), new List<IBehaviorMarker> { target });
 			var element = checkbox.ToString().ShouldHaveHtmlNode("Done");
 			element.ShouldHaveAttribute("checked").WithValue("checked");
 			element.ShouldHaveAttribute("value").WithValue("true");
@@ -93,9 +92,9 @@ namespace MvcContrib.UnitTests.FluentHtml
 		{
 			stateDictionary.AddModelError("Done", "Foo");
 			stateDictionary["Done"].Value = new ValueProviderResult(new[] { "false", "false" }, "false", CultureInfo.CurrentCulture);
-			target = new ValidationBehavior(() => stateDictionary);
+			var target = new ValidationBehavior(() => stateDictionary);
 			expression = x => x.Done;
-			var checkbox = new CheckBox(expression.GetNameFor(), expression.GetMemberExpression(), new List<IBehaviorMarker>() { target });
+			var checkbox = new CheckBox(expression.GetNameFor(), expression.GetMemberExpression(), new List<IBehaviorMarker> { target });
 			var element = checkbox.ToString().ShouldHaveHtmlNode("Done");
 			element.ShouldHaveAttribute("value").WithValue("true");
 		}
