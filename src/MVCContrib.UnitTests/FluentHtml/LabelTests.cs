@@ -32,12 +32,15 @@ namespace MvcContrib.UnitTests.FluentHtml
 		[Test]
 		public void label_renders_with_inner_text_formatted()
 		{
-			const decimal unformatedItem = 1234.5m;
-			var expectedFormatedItem = string.Format("{0:$#,##0.00}", unformatedItem);
+			using (CultureHelper.EnUs())
+			{
+				const decimal unformatedItem = 1234.5m;
+				var expectedFormatedItem = string.Format("{0:$#,##0.00}", unformatedItem);
 
-			new Label().Value(unformatedItem).Format("$#,##0.00").ToString()
-				.ShouldRenderHtmlDocument().ChildNodes[0]
-				.ShouldHaveInnerTextEqual(expectedFormatedItem);
+				new Label().Value(unformatedItem).Format("$#,##0.00").ToString()
+					.ShouldRenderHtmlDocument().ChildNodes[0]
+					.ShouldHaveInnerTextEqual(expectedFormatedItem);
+			}
 		}
 
 		[Test]
