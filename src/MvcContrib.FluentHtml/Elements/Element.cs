@@ -153,7 +153,7 @@ namespace MvcContrib.FluentHtml.Elements
 
 		public override string ToString()
 		{
-			ApplyBehaviors();
+		    ApplyBehaviors();
 			PreRender();
 			var html = RenderLabel(((IElement)this).LabelBeforeText);
 			html += builder.ToString(((IElement)this).TagRenderMode);
@@ -233,21 +233,10 @@ namespace MvcContrib.FluentHtml.Elements
 
 		protected void ApplyBehaviors()
 		{
-			if(behaviors == null)
-			{
-				return;
-			}
-			foreach(var behavior in behaviors)
-			{
-				if (behavior is IBehavior)
-				{
-					((IBehavior)behavior).Execute(this);
-				}
-				if (behavior is IMemberBehavior && forMember != null)
-				{
-					((IMemberBehavior)behavior).Execute(this);
-				}
-			}
+            if (behaviors != null)
+            {
+                behaviors.ApplyTo(this);
+            }
 		}
 
 		protected virtual void PreRender() { }

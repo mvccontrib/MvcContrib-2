@@ -154,6 +154,7 @@
     <Compile Include="AcceptGetAttributeTester.cs" />
     <Compile Include="AcceptPostAttributeTester.cs" />
     <Compile Include="AssertionExtensions.cs" />
+    <Compile Include="CultureHelper.cs" />
     <Compile Include="CustomPaginationTester.cs" />
     <Compile Include="Filters\LayoutAttributeTester.cs" />
     <Compile Include="BaseViewTester.cs" />

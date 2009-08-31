@@ -1,9 +1,8 @@
+using System;
 using MvcContrib.FluentHtml.Elements;
 
 namespace MvcContrib.FluentHtml.Behaviors
 {
-	public interface IMemberBehavior : IBehaviorMarker
-	{
-		void Execute(IMemberElement element);
-	}
+	[Obsolete("Use IBehavior<IMemberElement> instead.")]
+	public interface IMemberBehavior : IBehavior<IMemberElement> { }
 }

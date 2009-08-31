@@ -1,0 +1,634 @@
+Index: src/MVCContrib.UnitTests/MVCContrib.UnitTests.csproj
+===================================================================
+--- src/MVCContrib.UnitTests/MVCContrib.UnitTests.csproj	(revision 974)
++++ src/MVCContrib.UnitTests/MVCContrib.UnitTests.csproj	(working copy)
+@@ -215,6 +215,7 @@
+     <Compile Include="FluentHtml\ViewDataContainerExtensionsTests.cs" />
+     <Compile Include="FluentHtml\ViewModelContainerExtensionsTests.cs" />
+     <Compile Include="FluentHtml\ViewModelContainerTestBase.cs" />
++    <Compile Include="FluentHtml\IBehaviorTests.cs" />
+     <Compile Include="FluentHtml\Views\TestableViewPage.cs">
+       <SubType>ASPXCodeBehind</SubType>
+     </Compile>
+Index: src/MVCContrib.UnitTests/FluentHtml/CustomBehaviors/CustomMaxLengthBehavior.cs
+===================================================================
+--- src/MVCContrib.UnitTests/FluentHtml/CustomBehaviors/CustomMaxLengthBehavior.cs	(revision 974)
++++ src/MVCContrib.UnitTests/FluentHtml/CustomBehaviors/CustomMaxLengthBehavior.cs	(working copy)
+@@ -5,7 +5,7 @@
+ 
+ namespace MvcContrib.UnitTests.FluentHtml.CustomBehaviors
+ {
+-	public class CustomMaxLengthBehavior : IMemberBehavior
++    public class CustomMaxLengthBehavior : IBehavior<IMemberElement>
+ 	{
+ 		public void Execute(IMemberElement element)
+ 		{
+Index: src/MVCContrib.UnitTests/FluentHtml/CustomBehaviors/CustomRequiredHtmlBehavior.cs
+===================================================================
+--- src/MVCContrib.UnitTests/FluentHtml/CustomBehaviors/CustomRequiredHtmlBehavior.cs	(revision 974)
++++ src/MVCContrib.UnitTests/FluentHtml/CustomBehaviors/CustomRequiredHtmlBehavior.cs	(working copy)
+@@ -4,7 +4,7 @@
+ 
+ namespace MvcContrib.UnitTests.FluentHtml.CustomBehaviors
+ {
+-	public class CustomRequiredHtmlBehavior : IMemberBehavior
++	public class CustomRequiredHtmlBehavior : IBehavior<IMemberElement>
+ 	{
+ 		public void Execute(IMemberElement element)
+ 		{
+Index: src/MVCContrib.UnitTests/FluentHtml/IBehaviorTests.cs
+===================================================================
+--- src/MVCContrib.UnitTests/FluentHtml/IBehaviorTests.cs	(revision 0)
++++ src/MVCContrib.UnitTests/FluentHtml/IBehaviorTests.cs	(revision 0)
+@@ -0,0 +1,286 @@
++﻿using System;
++using System.Collections.Generic;
++using System.Linq;
++using MvcContrib.FluentHtml.Behaviors;
++using MvcContrib.FluentHtml.Elements;
++using NUnit.Framework;
++
++namespace MvcContrib.UnitTests.FluentHtml
++{
++    [TestFixture]
++    public class IBehaviorTests
++    {
++        #region Test Behavior Definitions
++
++        #region Base Classes
++
++        private abstract class TestBeanCounter : IBehaviorMarker
++        {
++            public int Beans { get; private set; }
++
++            protected TestBeanCounter()
++            {
++                Beans = 0;
++            }
++
++            protected void ExecuteInvoked()
++            {
++                Beans += 1;
++            }
++        }
++
++        private abstract class TestBehaviorCounter<T> : TestBeanCounter, IBehavior<T>
++        {
++            #region IBehavior<T> Members
++
++            public void Execute(T elment)
++            {
++                ExecuteInvoked();
++            }
++
++            #endregion
++        }
++
++        #endregion
++
++        #region Regular Behavior Based Classes
++
++        private class TestElementBehavior : TestBehaviorCounter<IElement>
++        {
++        }
++
++        private class TestCheckBoxBehavior : TestBehaviorCounter<CheckBox>
++        {
++        }
++
++        private class TestTextAreaBehavior : TestBehaviorCounter<TextArea>
++        {
++        }
++
++        private class TestISupportsModelStateBehavior : TestBehaviorCounter<ISupportsModelState>
++        {
++        }
++
++        private class TestViewPageBehavior : TestBehaviorCounter<System.Web.Mvc.ViewPage>
++        {
++        }
++
++        private class TestMultipleBehaviors : TestBeanCounter, IBehavior<IElement>, IBehavior<IMemberElement>, IBehavior<CheckBox>, IBehavior<TextArea>
++        {
++            private HashSet<Type> TypeExecuted = new HashSet<Type>();
++
++            private void ExecuteBase<T>(T element)
++            {
++                if (TypeExecuted.Contains(typeof(T)))
++                {
++                    Assert.Fail("Execute({0}) already called.", typeof(T).Name);
++                }
++                TypeExecuted.Add(typeof(T));
++                ExecuteInvoked();
++            }
++
++
++            public void Execute(IElement element)
++            {
++                ExecuteBase(element);
++            }
++
++            public void Execute(IMemberElement element)
++            {
++                ExecuteBase(element);
++            }
++
++            public void Execute(CheckBox element)
++            {
++                ExecuteBase(element);
++            }
++
++            public void Execute(TextArea element)
++            {
++                ExecuteBase(element);
++            }
++
++        }
++
++        #endregion
++
++        #region Obsolete Behavior Based Classes
++
++        [Obsolete]
++        private class TestObsoleteIBehavior : TestBeanCounter, IBehavior
++        {
++            #region IBehavior<IElement> Members
++
++            public void Execute(IElement elment)
++            {
++                ExecuteInvoked();
++            }
++
++            #endregion
++        }
++
++        [Obsolete]
++        private class TestObsoleteIMemberBehavior : TestBeanCounter, IMemberBehavior
++        {
++
++            #region IBehavior<IMemberElement> Members
++
++            public void Execute(IMemberElement elment)
++            {
++                ExecuteInvoked();
++            }
++
++            #endregion
++        }
++
++
++        #endregion
++
++        #region IEnumerable<IBehaviorMarker>
++
++        IEnumerable<IBehaviorMarker> CreateBehaviors()
++        {
++            return new IBehaviorMarker[]
++            {
++                new TestElementBehavior(),
++                new TestCheckBoxBehavior(),
++                new TestTextAreaBehavior(),
++                new TestISupportsModelStateBehavior(),
++                new TestViewPageBehavior(),
++            };
++        }
++
++        [Obsolete]
++        IEnumerable<IBehaviorMarker> CreateObsoleteBehaviors()
++        {
++            return new IBehaviorMarker[]
++            {
++                new TestObsoleteIBehavior(),
++                new TestObsoleteIMemberBehavior(),
++                new TestViewPageBehavior(),
++            };
++        }
++
++        IEnumerable<IBehaviorMarker> CreateMultipleBehaviors()
++        {
++            return new IBehaviorMarker[]
++            {
++                new TestMultipleBehaviors(),
++            };
++        }
++
++        #endregion
++
++        #endregion
++
++        #region Expected Results Checking
++
++        class ExpectedResults : Dictionary<Type, int>
++        {
++            public ExpectedResults() : base() { }
++
++            public ExpectedResults Add<TType>(int result)
++                where TType : TestBeanCounter
++            {
++                Add(typeof(TType), result);
++                return this;
++            }
++
++            public ExpectedResults PerformCheck(IEnumerable<IBehaviorMarker> behaviors)
++            {
++                // Note, this will filter out any non-test behaviors (which fortunately is not
++                // a problem because we aren't using any within this testcase.
++                foreach (TestBeanCounter marker in behaviors.OfType<TestBeanCounter>())
++                {
++                    Type type = marker.GetType();
++                    int expected;
++                    if (TryGetValue(type, out expected))
++                    {
++                        Assert.AreEqual(expected, marker.Beans,
++                            string.Format("{0} not invoked correct number of times.",
++                                type.Name));
++                        Remove(type);
++                    }
++                    else
++                    {
++                        Assert.AreEqual(0, marker.Beans,
++                            string.Format("{0} not invoked correct number of times.",
++                                type.Name));
++                    }
++                }
++
++                // Check remaining entries...
++                foreach (var kvp in this)
++                {
++                    Assert.AreEqual(kvp.Value, 0,
++                        string.Format("{0} not invoked correct number of times.",
++                            kvp.Key.Name));
++                }
++
++                Clear();
++                return this;
++            }
++        }
++
++        #endregion
++
++        #region Tests
++
++        [Test]
++        public void behaviors_are_selectively_invoked()
++        {
++            var behaviors = CreateBehaviors();
++
++            new CheckBox("Test", null, behaviors).ToString();
++
++            new ExpectedResults()
++                .Add<TestElementBehavior>(1)
++                .Add<TestCheckBoxBehavior>(1)
++                .Add<TestISupportsModelStateBehavior>(1)
++                .PerformCheck(behaviors);
++        }
++
++        [Test]
++        public void behaviors_are_reusable()
++        {
++            var behaviors = CreateBehaviors();
++
++            new CheckBox("Check", null, behaviors).ToString();
++            new TextArea("TextArea", null, behaviors).ToString();
++
++            new ExpectedResults()
++                .Add<TestElementBehavior>(2)
++                .Add<TestCheckBoxBehavior>(1)
++                .Add<TestISupportsModelStateBehavior>(2)
++                .Add<TestTextAreaBehavior>(1)
++                .PerformCheck(behaviors);
++        }
++
++        [Test]
++        [Obsolete]
++        public void obsolete_behaviors_still_invoke_correctly()
++        {
++            var behaviors = CreateObsoleteBehaviors();
++
++            new CheckBox("Test", null, behaviors).ToString();
++
++            new ExpectedResults()
++                .Add<TestObsoleteIBehavior>(1)
++                .Add<TestObsoleteIMemberBehavior>(1)
++                .PerformCheck(behaviors);
++        }
++
++        [Test]
++        public void multiple_behaviors_within_class_get_called()
++        {
++            var behaviors = CreateMultipleBehaviors();
++
++            new CheckBox("Test", null, behaviors).ToString();
++
++            new ExpectedResults()
++                .Add<TestMultipleBehaviors>(3)
++                .PerformCheck(behaviors);
++        }
++        #endregion
++    }
++}
+Index: src/MVCContrib.UnitTests/FluentHtml/ViewModelContainerTestBase.cs
+===================================================================
+--- src/MVCContrib.UnitTests/FluentHtml/ViewModelContainerTestBase.cs	(revision 974)
++++ src/MVCContrib.UnitTests/FluentHtml/ViewModelContainerTestBase.cs	(working copy)
+@@ -1,11 +1,12 @@
+ using System;
+ using System.Collections;
++using System.Linq;
+ using MvcContrib.FluentHtml;
++using MvcContrib.FluentHtml.Behaviors;
++using MvcContrib.FluentHtml.Elements;
+ using MvcContrib.UnitTests.FluentHtml.Helpers;
+ using NUnit.Framework;
+-using MvcContrib.FluentHtml.Behaviors;
+ using Rhino.Mocks;
+-using System.Linq;
+ 
+ namespace MvcContrib.UnitTests.FluentHtml
+ {
+@@ -22,8 +23,8 @@
+ 		[Test]
+ 		public virtual void can_get_html_behaviors()
+ 		{
+-			var mockBehavior1 = MockRepository.GenerateMock<IMemberBehavior>();
+-			var mockBehavior2 = MockRepository.GenerateMock<IMemberBehavior>();
++            var mockBehavior1 = MockRepository.GenerateMock<IBehavior<IMemberElement>>();
++            var mockBehavior2 = MockRepository.GenerateMock<IBehavior<IMemberElement>>();
+ 			target = (T)Activator.CreateInstance(typeof(T), mockBehavior1, mockBehavior2);
+ 			target.Behaviors.ShouldCount(3);
+ 			target.Behaviors.Where(x => x is ValidationBehavior);
+Index: src/MvcContrib.FluentHtml/MvcContrib.FluentHtml.csproj
+===================================================================
+--- src/MvcContrib.FluentHtml/MvcContrib.FluentHtml.csproj	(revision 974)
++++ src/MvcContrib.FluentHtml/MvcContrib.FluentHtml.csproj	(working copy)
+@@ -3,7 +3,7 @@
+   <PropertyGroup>
+     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+-    <ProductVersion>9.0.21022</ProductVersion>
++    <ProductVersion>9.0.30729</ProductVersion>
+     <SchemaVersion>2.0</SchemaVersion>
+     <ProjectGuid>{35AFBC04-8C09-42B7-A56A-EA404688A5B1}</ProjectGuid>
+     <OutputType>Library</OutputType>
+@@ -26,6 +26,7 @@
+     <WarningLevel>4</WarningLevel>
+     <DocumentationFile>bin\Debug\MvcContrib.FluentHtml.xml</DocumentationFile>
+     <NoWarn>1570, 1591</NoWarn>
++    <RunCodeAnalysis>false</RunCodeAnalysis>
+   </PropertyGroup>
+   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+     <DebugType>pdbonly</DebugType>
+@@ -68,8 +69,10 @@
+     </Compile>
+     <Compile Include="Behaviors\AutoLabelBehavior.cs" />
+     <Compile Include="Behaviors\AutoLabelSettings.cs" />
++    <Compile Include="Behaviors\BehaviorExtensions.cs" />
+     <Compile Include="Behaviors\IBehavior.cs" />
+     <Compile Include="Behaviors\IBehaviorMarker.cs" />
++    <Compile Include="Behaviors\IBehaviorsContainer.cs" />
+     <Compile Include="Behaviors\IModelStateHandler.cs" />
+     <Compile Include="Behaviors\ISupportsMaxLength.cs" />
+     <Compile Include="Behaviors\ISupportsModelState.cs" />
+Index: src/MvcContrib.FluentHtml/Behaviors/AutoLabelBehavior.cs
+===================================================================
+--- src/MvcContrib.FluentHtml/Behaviors/AutoLabelBehavior.cs	(revision 974)
++++ src/MvcContrib.FluentHtml/Behaviors/AutoLabelBehavior.cs	(working copy)
+@@ -3,7 +3,7 @@
+ 
+ namespace MvcContrib.FluentHtml.Behaviors
+ {
+-	public class AutoLabelBehavior : IBehavior
++	public class AutoLabelBehavior : IBehavior<IElement>
+ 	{
+ 		private readonly Func<IElement, bool> isQualifiedFunc;
+ 		private readonly Func<IElement, bool> renderLabelAfterFunc;
+Index: src/MvcContrib.FluentHtml/Behaviors/IBehavior.cs
+===================================================================
+--- src/MvcContrib.FluentHtml/Behaviors/IBehavior.cs	(revision 974)
++++ src/MvcContrib.FluentHtml/Behaviors/IBehavior.cs	(working copy)
+@@ -1,3 +1,4 @@
++using System;
+ using MvcContrib.FluentHtml.Elements;
+ 
+ namespace MvcContrib.FluentHtml.Behaviors
+@@ -2,6 +3,19 @@
+ {
+-	public interface IBehavior : IBehaviorMarker
+-	{
+-		void Execute(IElement element);
+-	}
++    /// <summary>
++    /// Generic implementation of behavior for an <see cref="IBehaviorMarker"/>
++    /// </summary>
++    /// <typeparam name="T"></typeparam>
++    public interface IBehavior<T> : IBehaviorMarker
++    {
++        /// <summary>
++        /// Perform behavior modification on an object.
++        /// </summary>
++        /// <param name="behavee">The object to modify based on the behavior.</param>
++        void Execute(T behavee);
++    }
++
++    [Obsolete("Use IBehavior<IElement> instead.")]
++    public interface IBehavior : IBehavior<IElement>
++    {
++    }
+ }
+\ No newline at end of file
+Index: src/MvcContrib.FluentHtml/Behaviors/IBehaviorsContainer.cs
+===================================================================
+--- src/MvcContrib.FluentHtml/Behaviors/IBehaviorsContainer.cs	(revision 0)
++++ src/MvcContrib.FluentHtml/Behaviors/IBehaviorsContainer.cs	(revision 0)
+@@ -0,0 +1,16 @@
++﻿using System.Collections.Generic;
++using MvcContrib.FluentHtml.Behaviors;
++
++namespace MvcContrib.FluentHtml
++{
++    /// <summary>
++    /// Contract for any class implementing a list of custom behaviors.
++    /// </summary>
++    public interface IBehaviorsContainer
++    {
++        /// <summary>
++        /// The collection of <see cref="IBehaviorMarker"/> objects.
++        /// </summary>
++        IEnumerable<IBehaviorMarker> Behaviors { get; }
++    }
++}
+Index: src/MvcContrib.FluentHtml/Behaviors/IMemberBehavior.cs
+===================================================================
+--- src/MvcContrib.FluentHtml/Behaviors/IMemberBehavior.cs	(revision 974)
++++ src/MvcContrib.FluentHtml/Behaviors/IMemberBehavior.cs	(working copy)
+@@ -1,3 +1,4 @@
++using System;
+ using MvcContrib.FluentHtml.Elements;
+ 
+ namespace MvcContrib.FluentHtml.Behaviors
+@@ -2,5 +3,5 @@
+ {
+-	public interface IMemberBehavior : IBehaviorMarker
+-	{
+-		void Execute(IMemberElement element);
++    [Obsolete("Use IBehavior<IMemberElement> instead.")]
++	public interface IMemberBehavior : IBehavior<IMemberElement>
++    {
+ 	}
+Index: src/MvcContrib.FluentHtml/Behaviors/MemberBehaviorHelper.cs
+===================================================================
+--- src/MvcContrib.FluentHtml/Behaviors/MemberBehaviorHelper.cs	(revision 974)
++++ src/MvcContrib.FluentHtml/Behaviors/MemberBehaviorHelper.cs	(working copy)
+@@ -14,6 +14,9 @@
+ 
+ 		public T GetAttribute(MemberExpression expression)
+ 		{
++            if (expression == null)
++                return null;
++
+ 			var attributes = expression.Member.GetCustomAttributes(typeof(T), true);
+ 			if (attributes == null || attributes.Length == 0)
+ 			{
+Index: src/MvcContrib.FluentHtml/Behaviors/ValidationBehavior.cs
+===================================================================
+--- src/MvcContrib.FluentHtml/Behaviors/ValidationBehavior.cs	(revision 974)
++++ src/MvcContrib.FluentHtml/Behaviors/ValidationBehavior.cs	(working copy)
+@@ -5,7 +5,7 @@
+ 
+ namespace MvcContrib.FluentHtml.Behaviors
+ {
+-	public class ValidationBehavior : IBehavior
++    public class ValidationBehavior : IBehavior<IElement>
+ 	{
+ 		private const string defaultValidationCssClass = "input-validation-error";
+ 		private readonly Func<ModelStateDictionary> modelStateDictionaryFunc;
+Index: src/MvcContrib.FluentHtml/Elements/Element.cs
+===================================================================
+--- src/MvcContrib.FluentHtml/Elements/Element.cs	(revision 974)
++++ src/MvcContrib.FluentHtml/Elements/Element.cs	(working copy)
+@@ -160,7 +160,7 @@
+ 
+ 		public override string ToString()
+ 		{
+-			ApplyBehaviors();
++            behaviors.ApplyTo(this);
+ 			PreRender();
+ 			var html = RenderLabel(((IElement)this).LabelBeforeText);
+ 			html += builder.ToString(((IElement)this).TagRenderMode);
+@@ -245,24 +245,11 @@
+ 			return labelBuilder;
+ 		}
+ 
++        [Obsolete("Please use 'behaviors.ApplyTo(this);' instead.")]
+ 		protected void ApplyBehaviors()
+-		{
+-			if (behaviors == null)
+-			{
+-				return;
+-			}
+-			foreach (var behavior in behaviors)
+-			{
+-				if (behavior is IBehavior)
+-				{
+-					((IBehavior)behavior).Execute(this);
+-				}
+-				if (behavior is IMemberBehavior && forMember != null)
+-				{
+-					((IMemberBehavior)behavior).Execute(this);
+-				}
+-			}
+-		}
++        {
++            behaviors.ApplyTo(this);
++        }
+ 
+ 		protected virtual void PreRender() { }
+ 	}
+Index: src/MvcContrib.FluentHtml/Html/HtmlAttribute.cs
+===================================================================
+--- src/MvcContrib.FluentHtml/Html/HtmlAttribute.cs	(revision 974)
++++ src/MvcContrib.FluentHtml/Html/HtmlAttribute.cs	(working copy)
+@@ -18,5 +18,6 @@
+ 		public const string Style = "style";
+ 		public const string Class = "class";
+ 		public const string For = "for";
+-	}
++        public const string HRef = "href";
++    }
+ }
+Index: src/MvcContrib.FluentHtml/IViewModelContainer.cs
+===================================================================
+--- src/MvcContrib.FluentHtml/IViewModelContainer.cs	(revision 974)
++++ src/MvcContrib.FluentHtml/IViewModelContainer.cs	(working copy)
+@@ -1,13 +1,10 @@
+-using System.Collections.Generic;
+ using System.Web.Mvc;
+-using MvcContrib.FluentHtml.Behaviors;
+ 
+ namespace MvcContrib.FluentHtml
+ {
+-	public interface IViewModelContainer<T> : IViewDataContainer where T : class
++	public interface IViewModelContainer<T> : IViewDataContainer, IBehaviorsContainer where T : class
+ 	{
+ 		T ViewModel { get; }
+-		IEnumerable<IBehaviorMarker> Behaviors { get; }
+ 		string HtmlNamePrefix { get; set; }
+         HtmlHelper Html { get; }
+ 	}
+Index: src/MvcContrib.FluentHtml/Behaviors/BehaviorExtensions.cs
+===================================================================
+--- src/MvcContrib.FluentHtml/Behaviors/BehaviorExtensions.cs	(revision 0)
++++ src/MvcContrib.FluentHtml/Behaviors/BehaviorExtensions.cs	(revision 0)
+@@ -0,0 +1,42 @@
++﻿using System;
++using System.Collections.Generic;
++using System.Linq;
++
++namespace MvcContrib.FluentHtml.Behaviors
++{
++    /// <summary>
++    /// Extensions for IBehaviorMarker
++    /// </summary>
++    public static class BehaviorExtensions
++    {
++        /// <summary>
++        /// Apply behaviors to an object.
++        /// </summary>
++        /// <param name="behaviors">The behaviors to apply.</param>
++        /// <param name="behavee">The object to apply behaviors to.</param>
++        /// <returns>The <c>behaviors</c> used (will allow fluent-like sytnax).</returns>
++        public static IEnumerable<IBehaviorMarker> ApplyTo(this IEnumerable<IBehaviorMarker> behaviors, object behavee)
++        {
++            if (behaviors != null)
++            {
++                object[] parms = new[] { behavee };
++                Type thistype = behavee.GetType();
++                var temphold = typeof(IBehavior<>);
++                foreach (IBehaviorMarker behavior in behaviors)
++                {
++                    Type[] types = behavior.GetType().GetInterfaces();
++                    foreach (Type type in types.Where(
++                        ttt => ttt.IsGenericType
++                            && ttt.GetGenericTypeDefinition() == temphold
++                            && ttt.GetGenericArguments()[0].IsAssignableFrom(thistype)
++                            )
++                        )
++                    {
++                        type.GetMethod("Execute").Invoke(behavior, parms);
++                    }
++                }
++            }
++            return behaviors;
++        }
++    }
++}
+Index: src/MvcContrib.FluentHtml/Elements/IElement.cs
+===================================================================
+--- src/MvcContrib.FluentHtml/Elements/IElement.cs	(revision 974)
++++ src/MvcContrib.FluentHtml/Elements/IElement.cs	(working copy)
+@@ -1,4 +1,5 @@
+ using System.Web.Mvc;
++
+ namespace MvcContrib.FluentHtml.Elements
+ {
+ 	/// <summary>

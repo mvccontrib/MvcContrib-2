@@ -5,7 +5,7 @@ using MvcContrib.FluentHtml.Html;
 
 namespace MvcContrib.UnitTests.FluentHtml.CustomBehaviors
 {
-	public class CustomMaxLengthBehavior : IMemberBehavior
+	public class CustomMaxLengthBehavior : IBehavior<IMemberElement>
 	{
 		public void Execute(IMemberElement element)
 		{

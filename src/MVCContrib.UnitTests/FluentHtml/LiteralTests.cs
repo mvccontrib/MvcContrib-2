@@ -44,11 +44,14 @@ namespace MvcContrib.UnitTests.FluentHtml
 		[Test]
 		public void literal_renders_with_inner_text_formatted()
 		{
-			const decimal item = 1234.5m;
-			var expected = string.Format("{0:$#,##0.00}", item);
-            var html = new Literal("test").Value(item).Format("$#,##0.00").ToString();
-			html.ShouldRenderHtmlDocument().ChildNodes[0]
-				.ShouldHaveInnerTextEqual(expected);
+			using (CultureHelper.EnUs())
+			{
+				const decimal item = 1234.5m;
+				var expected = string.Format("{0:$#,##0.00}", item);
+				var html = new Literal("test").Value(item).Format("$#,##0.00").ToString();
+				html.ShouldRenderHtmlDocument().ChildNodes[0]
+					.ShouldHaveInnerTextEqual(expected);
+			}
 		}
 
         [Test]
