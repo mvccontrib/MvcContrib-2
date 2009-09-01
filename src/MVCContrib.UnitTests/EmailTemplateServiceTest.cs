@@ -31,6 +31,9 @@ namespace MvcContrib.UnitTests
 				Controller = MockRepository.GenerateStub<ControllerBase>()
 			};
 
+            _controllerContext.Controller.ViewData = new ViewDataDictionary();
+            _controllerContext.Controller.TempData = new TempDataDictionary();
+
 			_service = new EmailTemplateService();
 
 			Response.Stub(x => x.Filter).PropertyBehavior();
