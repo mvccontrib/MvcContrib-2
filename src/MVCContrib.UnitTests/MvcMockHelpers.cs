@@ -88,6 +88,8 @@ namespace MvcContrib.UnitTests
 			SetupResult.For(response.OutputStream).Return(new MemoryStream());
 			SetupResult.For(response.Output).Return(new StringWriter());
 			SetupResult.For(response.ContentType).PropertyBehavior();
+            SetupResult.For(response.StatusCode).PropertyBehavior();
+            SetupResult.For(response.RedirectLocation).PropertyBehavior();
 
             return response;
 		}
