@@ -24,6 +24,7 @@ namespace MvcContrib.UnitTests.XsltViewEngine
 			routeData.Values["controller"] = "MyController";
 			virtualPathProvider = new XsltTestVirtualPathProvider();
 			_context = new ControllerContext(HttpContext, routeData, MockRepository.GenerateStub<ControllerBase>());
+            _context.Controller.ViewData = new ViewDataDictionary();
 			mockRepository.ReplayAll();
 		}
 

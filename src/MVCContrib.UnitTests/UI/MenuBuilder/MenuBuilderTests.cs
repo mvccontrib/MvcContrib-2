@@ -38,15 +38,14 @@ namespace MvcContrib.UnitTests.UI.MenuBuilder
 
 		private RequestContext GetRequestContext()
 		{
-			HttpContextBase httpcontext = GetHttpContext(@"Home/Index", null, null);
+			HttpContextBase httpcontext = GetHttpContext(@"Home/Index");
 			RouteData rd = new RouteData();
 			rd.Values.Add("controller", "Home");
 			rd.Values.Add("action", "Index");
 			return new RequestContext(httpcontext, rd);
 		}
 
-
-		private HttpContextBase GetHttpContext(string appPath, string requestPath, string httpMethod)
+	    private HttpContextBase GetHttpContext(string appPath)
 		{
 			var mockContext = MockRepository.GenerateMock<HttpContextBase>();
 			var mockRequest = MockRepository.GenerateMock<HttpRequestBase>();
@@ -54,32 +53,22 @@ namespace MvcContrib.UnitTests.UI.MenuBuilder
 			{
 				mockRequest.Stub(o => o.ApplicationPath).Return(appPath);
 			}
-			if (!String.IsNullOrEmpty(requestPath))
-			{
-				mockRequest.Stub(o => o.AppRelativeCurrentExecutionFilePath).Return(requestPath);
-			}
 
 			Uri uri = new Uri("http://localhost/");
 			mockRequest.Stub(o => o.Url).Return(uri);
 
 			mockRequest.Stub(o => o.PathInfo).Return(String.Empty);
-			if (!string.IsNullOrEmpty(httpMethod))
-			{
-				mockRequest.Stub(o => o.HttpMethod).Return(httpMethod);
-			}
+
 			mockContext.Stub(o => o.Request).Return(mockRequest);
-			mockContext.Stub(o => o.Session).Return((HttpSessionStateBase)null);
+			mockContext.Stub(o => o.Session).Return(null);
 
 			var mockResponse = MockRepository.GenerateMock<HttpResponseBase>();
 			mockResponse.Stub(o => o.ApplyAppPathModifier(null)).IgnoreArguments().Do((Func<string, string>)(s => s));
-
-			//				IgnoreArguments().Return(@"Home\Index");
-
 			mockContext.Stub(o => o.Response).Return(mockResponse);
 
 			mockRequest.Stub(o => o.Path).Return("Home/Index/");
 
-			var principal = MockRepository.GenerateMock<IPrincipal>();
+			var principal = MockRepository.GenerateMock<IPrincipal>();            
 			mockContext.Stub(o => o.User).Return(principal);
 			identity = new TestIdentity() { IsAuthenticated = false };
 			principal.Stub(o => o.Identity).Return(identity);
@@ -104,7 +93,6 @@ namespace MvcContrib.UnitTests.UI.MenuBuilder
 
 			public bool IsAuthenticated { get; set; }
 		}
-
 
 		private TestIdentity identity;
 		private TextWriter writer;
@@ -355,10 +343,21 @@ namespace MvcContrib.UnitTests.UI.MenuBuilder
 		[Test]
 		public void CanSetDefaultIconDirectory()
 		{
-			Menu.DefaultIconDirectory = "/content/";
-			var item = Menu.Link("Url", "Title", "Icon.jpg");
-			item.RenderHtml(controllerContext, writer);
-			Assert.AreEqual("<li><a href=\"Url\"><img alt=\"Title\" border=\"0\" src=\"/content/Icon.jpg\" />Title</a></li>", Out);
+		    string originalIconDirectory = Menu.DefaultIconDirectory;
+            try
+            {
+                Menu.DefaultIconDirectory = "/content/";
+                var item = Menu.Link("Url", "Title", "Icon.jpg");
+                item.RenderHtml(controllerContext, writer);
+                Assert.AreEqual(
+                    "<li><a href=\"Url\"><img alt=\"Title\" border=\"0\" src=\"/content/Icon.jpg\" />Title</a></li>",
+                    Out);
+            }
+            finally
+            {
+                //need to set the static field back otherwise it affects other tests
+                Menu.DefaultIconDirectory = originalIconDirectory;
+            }
 		}
 
 		[Test]
