@@ -94,40 +94,28 @@ namespace MvcContrib.UnitTests.UI
 				}
 			}
 
-			[Test]
-			public void When_Capture_With_Error_Then_Original_Filter_Is_PutBack()
-			{
-				var mocks = new MockRepository();
-				var context = mocks.DynamicMock<HttpContextBase>();
-				var response = mocks.DynamicMock<HttpResponseBase>();
-				var origFilter = mocks.DynamicMock<Stream>();
-				Action action = delegate { throw new InvalidOperationException(); };
+            [Test]
+            public void when_capture_throws_error_the_original_filter_is_restored()
+            {
+                var context = MockRepository.GenerateStub<HttpContextBase>();
+                var response = MockRepository.GenerateStub<HttpResponseBase>();
+                context.Stub(c => c.Response).Return(response);
+                response.ContentEncoding = Encoding.ASCII;                
+                
+                var originalFilter = MockRepository.GenerateStub<Stream>();
+                response.Filter = originalFilter;
 
-				using (mocks.Record())
-				{
-					SetupResult.For(context.Response).Return(response);
-					SetupResult.For(response.ContentEncoding).Return(Encoding.ASCII);
-					
-					Expect.Call(response.Filter).Return(origFilter);
-					
-					response.Filter = null;
-					LastCall.IgnoreArguments();
-					
-					response.Filter = origFilter;
-				}
-				using (mocks.Playback())
-				{
-					try
-					{
-						new BlockRenderer(context).Capture(action);
-					}
-					catch(InvalidOperationException)
-					{
-						// Swallow
-					}
-					
-				}
-			}
+                try
+                {
+                    new BlockRenderer(context).Capture(() => { throw new InvalidOperationException(); });
+                }
+                catch 
+                {
+                    //swallow
+                }
+
+                response.Filter.ShouldBeTheSameAs(originalFilter);
+            }		
 		}
 	}
 }
