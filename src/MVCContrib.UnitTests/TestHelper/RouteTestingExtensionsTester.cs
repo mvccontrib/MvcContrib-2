@@ -40,6 +40,12 @@ namespace MvcContrib.UnitTests.TestHelper
         	{
         		return null;
         	}
+
+            [AcceptVerbs(HttpVerbs.Post)]
+            public ActionResult Zordo(int id)
+            {
+                return null;
+            }
         }
 		public class Bar
 		{
@@ -198,6 +204,33 @@ namespace MvcContrib.UnitTests.TestHelper
         public void should_be_able_to_generate_url_from_controller_action_with_parameter()
         {
             OutBoundUrl.Of<FunkyController>(x => x.Foo(1)).ShouldMapToUrl("/Funky/Foo/1");
+        }
+
+        [Test]
+        public void should_be_able_to_match_action_with_lambda_and_httpmethod()
+        {
+            RouteTable.Routes.Clear();
+            RouteTable.Routes.MapRoute(
+                "zordoRoute",
+                "{controller}/{action}/{id}",
+                new { controller = "Funky", Action = "Zordo", id = "0" },
+                new {httpMethod = new HttpMethodConstraint("POST")});
+            "~/Funky/Zordo/0".WithMethod("POST").ShouldMapTo<FunkyController>(x => x.Zordo(0));
+
+        }
+
+        [Test]
+        public void should_not_be_able_to_get_routedata_with_wrong_httpmethod()
+        {
+            RouteTable.Routes.Clear();
+            RouteTable.Routes.MapRoute(
+                "zordoRoute",
+                "{controller}/{action}/{id}",
+                new { controller = "Funky", Action = "Zordo", id = "0" },
+                new { httpMethod = new HttpMethodConstraint("POST") });
+            var routeData = "~/Funky/Zordo/0".WithMethod("GET");
+            Assert.IsNull(routeData);
+
         }
     }
 }
