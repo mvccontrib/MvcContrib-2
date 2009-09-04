@@ -164,6 +164,15 @@ namespace MvcContrib.UnitTests.UI.Pager
 			RenderPager(1, 2).Link(p => "TEST/" + p).ToString().ShouldEqual(expected);
 		}
 
+		[Test]
+		public void Should_not_generate_unnecessary_querystring_items_when_using_custom_querystring_param() 
+		{
+			_context.Request.QueryString.Add("foo", "1");
+			string expected =
+				"<div class='pagination'><span class='paginationLeft'>Showing 1 - 2 of 3 </span><span class='paginationRight'>first | prev | <a href=\"Test.mvc?foo=2\">next</a> | <a href=\"Test.mvc?foo=2\">last</a></span></div>";
+			RenderPager(1, 2).QueryParam("foo").ToString().ShouldEqual(expected);
+		}
+
 		private MvcContrib.UI.Pager.Pager RenderPager(int pageNumber, int pageSize)
 		{
 			return new MvcContrib.UI.Pager.Pager(_datasource.AsPagination(pageNumber, pageSize), _context.Request);
