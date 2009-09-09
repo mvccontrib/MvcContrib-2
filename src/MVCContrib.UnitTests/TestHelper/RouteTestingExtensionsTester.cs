@@ -215,7 +215,7 @@ namespace MvcContrib.UnitTests.TestHelper
                 "{controller}/{action}/{id}",
                 new { controller = "Funky", Action = "Zordo", id = "0" },
                 new {httpMethod = new HttpMethodConstraint("POST")});
-            "~/Funky/Zordo/0".WithMethod("POST").ShouldMapTo<FunkyController>(x => x.Zordo(0));
+            "~/Funky/Zordo/0".WithMethod(HttpVerbs.Post).ShouldMapTo<FunkyController>(x => x.Zordo(0));
 
         }
 
@@ -228,7 +228,7 @@ namespace MvcContrib.UnitTests.TestHelper
                 "{controller}/{action}/{id}",
                 new { controller = "Funky", Action = "Zordo", id = "0" },
                 new { httpMethod = new HttpMethodConstraint("POST") });
-            var routeData = "~/Funky/Zordo/0".WithMethod("GET");
+            var routeData = "~/Funky/Zordo/0".WithMethod(HttpVerbs.Get);
             Assert.IsNull(routeData);
 
         }

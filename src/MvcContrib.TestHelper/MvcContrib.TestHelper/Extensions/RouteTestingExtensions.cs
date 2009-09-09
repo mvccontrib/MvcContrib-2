@@ -36,6 +36,11 @@ namespace MvcContrib.TestHelper
             return Route(url, httpMethod);
         }
 
+        public static RouteData WithMethod(this string url, HttpVerbs verb)
+        {
+            return WithMethod(url, verb.ToString("g"));
+        }
+
         /// <summary>
         /// Find the route for a URL and an Http Method
         /// because you have a method contraint on the route 
