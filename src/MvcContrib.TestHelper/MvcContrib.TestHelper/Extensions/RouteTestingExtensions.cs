@@ -105,10 +105,10 @@ namespace MvcContrib.TestHelper
                         value = ( (ConstantExpression)methodCall.Arguments[ i ] ).Value;
                         break;
 
+					case ExpressionType.New:
                     case ExpressionType.MemberAccess:
                         value = Expression.Lambda(methodCall.Arguments[ i ]).Compile().DynamicInvoke();
                         break;
-				
                 }
 
 				value = (value == null ? value : value.ToString());

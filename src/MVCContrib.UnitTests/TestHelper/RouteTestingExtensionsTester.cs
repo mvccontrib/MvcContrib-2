@@ -46,6 +46,11 @@ namespace MvcContrib.UnitTests.TestHelper
             {
                 return null;
             }
+
+			public ActionResult Guid(Guid id)
+			{
+				return null;
+			}
         }
 		public class Bar
 		{
@@ -232,5 +237,11 @@ namespace MvcContrib.UnitTests.TestHelper
             Assert.IsNull(routeData);
 
         }
+
+    	[Test]
+    	public void should_match_guid()
+    	{
+			"~/funky/guid/80e70232-e660-40ae-af6b-2b2b8e87ee48".Route().ShouldMapTo<FunkyController>(c => c.Guid(new Guid("80e70232-e660-40ae-af6b-2b2b8e87ee48")));
+    	}
     }
 }
