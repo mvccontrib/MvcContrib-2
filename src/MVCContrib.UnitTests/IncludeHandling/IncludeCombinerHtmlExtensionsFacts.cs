@@ -1,9 +1,11 @@
+using System;
 using System.Collections.Generic;
 using System.Web;
 using System.Web.Mvc;
-using Microsoft.Practices.ServiceLocation;
 using MvcContrib.IncludeHandling;
 using MvcContrib.IncludeHandling.Configuration;
+using MvcContrib.Interfaces;
+using MvcContrib.Services;
 using MvcContrib.TestHelper;
 using Rhino.Mocks;
 using Xunit;
@@ -20,17 +22,16 @@ namespace MvcContrib.UnitTests.IncludeHandling
 
 		public IncludeCombinerHtmlExtensionsFacts()
 		{
+			_viewData = new ViewDataDictionary();
 			_mocks = new MockRepository();
-
 			_mockHttpContextProvider = _mocks.Stub<IHttpContextProvider>();
 			_mockHttpContextProvider.Expect(hcp => hcp.Request).Return(_mocks.Stub<HttpRequestBase>()).Repeat.Twice();
 			_mockSettings = _mocks.Stub<IIncludeHandlingSettings>();
-			ServiceLocator.SetLocatorProvider(() => QnDServiceLocator.Create(_mockHttpContextProvider, _mockSettings, new Controller[] { }));
-
-			_viewData = new ViewDataDictionary();
 
 			_html = WebTestUtility.BuildHtmlHelper(_mocks, _viewData, null);
 			_mocks.ReplayAll();
+			var resolver = new QnDDepResolver(_mockHttpContextProvider, _mockSettings, new Controller[] { });
+			DependencyResolver.InitializeWith(resolver);
 		}
 
 		[Fact]
@@ -149,6 +150,57 @@ namespace MvcContrib.UnitTests.IncludeHandling
 		private static string getViewDataKey(IncludeType type)
 		{
 			return typeof (IncludeCombinerHtmlExtensions).FullName + "_" + type;
+		}
+	}
+
+	public class QnDDepResolver : IDependencyResolver
+	{
+		private readonly IDictionary<Type, object> types;
+
+		public QnDDepResolver(IHttpContextProvider httpContextProvider, IIncludeHandlingSettings settings, Controller[] controllers)
+		{
+			types = new Dictionary<Type, object>
+			{
+				{ typeof (IHttpContextProvider), httpContextProvider },
+				{ typeof (IKeyGenerator), new KeyGenerator() },
+				{ typeof (IIncludeHandlingSettings), settings }
+			};
+			types.Add(typeof(IIncludeReader), new FileSystemIncludeReader((IHttpContextProvider)types[typeof(IHttpContextProvider)]));
+
+			var keyGen = (IKeyGenerator)types[typeof(IKeyGenerator)];
+
+			types.Add(typeof(IIncludeStorage), new StaticIncludeStorage(keyGen));
+
+			var includeReader = (IIncludeReader)types[typeof(IIncludeReader)];
+			var storage = (IIncludeStorage)types[typeof(IIncludeStorage)];
+			var combiner = new IncludeCombiner(settings, includeReader, storage, (IHttpContextProvider)types[typeof(IHttpContextProvider)]);
+			types.Add(typeof(IIncludeCombiner), combiner);
+
+			types.Add(typeof(IncludeController), new IncludeController(settings, combiner));
+			foreach (var controller in controllers)
+			{
+				types.Add(controller.GetType(), controller);
+			}
+		}
+
+		public Interface GetImplementationOf<Interface>()
+		{
+			return (Interface)types[typeof(Interface)];
+		}
+
+		public Interface GetImplementationOf<Interface>(Type type)
+		{
+			return (Interface)types[type];
+		}
+
+		public object GetImplementationOf(Type type)
+		{
+			return types[type];
+		}
+
+		public void DisposeImplementation(object instance)
+		{
+			throw new NotImplementedException();
 		}
 	}
 }

@@ -69,10 +69,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\bin\unity\Microsoft.Practices.ObjectBuilder2.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\commonservicelocator\Microsoft.Practices.ServiceLocation.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.Practices.Unity, Version=0.0.31208.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\bin\unity\Microsoft.Practices.Unity.dll</HintPath>
@@ -248,7 +244,6 @@
     <Compile Include="IncludeHandling\IncludeHandlingSectionHandlerFacts.cs" />
     <Compile Include="IncludeHandling\IncludeStorageFacts.cs" />
     <Compile Include="IncludeHandling\KeyGeneratorFacts.cs" />
-    <Compile Include="IncludeHandling\QnDServiceLocator.cs" />
     <Compile Include="IoC\DependencyResolverTester.cs" />
     <Compile Include="IoC\IDependency.cs" />
     <Compile Include="IoC\INestedDependency.cs" />
