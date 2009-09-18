@@ -4,8 +4,10 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using Demo.Site.Controllers;
 using Microsoft.Practices.ServiceLocation;
-using Nrws.Web;
-using Nrws.Web.IncludeHandling.Configuration;
+using MvcContrib;
+using MvcContrib.ControllerFactories;
+using MvcContrib.IncludeHandling.Configuration;
+using MvcContrib.Interfaces;
 
 namespace Demo.Site
 {
@@ -32,7 +34,7 @@ namespace Demo.Site
 			var controllers = new Controller[] { new HomeController(), new AccountController() };
 			var includeHandlingSettings = (IIncludeHandlingSettings) ConfigurationManager.GetSection("includeHandling");
 			ServiceLocator.SetLocatorProvider(() => QnDServiceLocator.Create(httpContextProvider, includeHandlingSettings, controllers));
-			ControllerBuilder.Current.SetControllerFactory(new CommonServiceLocatorControllerFactory());
+			ControllerBuilder.Current.SetControllerFactory(new IoCControllerFactory());
 		}
 	}
 }
