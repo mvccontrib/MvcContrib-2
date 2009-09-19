@@ -24,7 +24,7 @@ namespace UnitTests
 
             //assert
             Assert.AreEqual(ViewEngines.Engines.Count, 1);
-            Assert.IsInstanceOfType(typeof(AssemblyResourceProvider),_virtualPathProvider);
+            Assert.IsInstanceOf<AssemblyResourceProvider>(_virtualPathProvider);
         }
 
         private void FakeRegister(VirtualPathProvider virtualPathProvider)

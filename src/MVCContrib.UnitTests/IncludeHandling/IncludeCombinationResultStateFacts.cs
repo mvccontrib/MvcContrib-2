@@ -15,17 +15,18 @@ namespace MvcContrib.UnitTests.IncludeHandling
 	[TestFixture]
 	public class IncludeCombinationResultStateFacts
 	{
-		private readonly ControllerContext _controllerContext;
-		private readonly IncludeCombination _cssCombination;
-		private readonly MockRepository _mocks;
-		private readonly HttpCachePolicyBase _stubCache;
-		private readonly IIncludeCombiner _stubCombiner;
-		private readonly ControllerBase _stubController;
-		private readonly HttpContextBase _stubHttpContext;
-		private readonly HttpRequestBase _stubRequest;
-		private readonly HttpResponseBase _stubResponse;
+		private ControllerContext _controllerContext;
+		private IncludeCombination _cssCombination;
+		private MockRepository _mocks;
+		private HttpCachePolicyBase _stubCache;
+		private IIncludeCombiner _stubCombiner;
+		private ControllerBase _stubController;
+		private HttpContextBase _stubHttpContext;
+		private HttpRequestBase _stubRequest;
+		private HttpResponseBase _stubResponse;
 
-		public IncludeCombinationResultStateFacts()
+		[SetUp]
+		public void TestSetup()
 		{
 			_mocks = new MockRepository();
 			_stubHttpContext = _mocks.Stub<HttpContextBase>();
@@ -56,9 +57,10 @@ namespace MvcContrib.UnitTests.IncludeHandling
 			Assert.Throws<ArgumentNullException>(() => new IncludeCombinationResult(null, "foo", DateTime.UtcNow));
 		}
 
+		[Datapoint] public string nothing = null;
+		[Datapoint] public string empty = "";
+
 		[Theory]
-		[InlineData(null)]
-		[InlineData("")]
 		public void ConstructorThrows_WhenKeyIsBad(string key)
 		{
 			Assert.Throws<ArgumentException>(() => new IncludeCombinationResult(_mocks.Stub<IIncludeCombiner>(), key, DateTime.UtcNow));

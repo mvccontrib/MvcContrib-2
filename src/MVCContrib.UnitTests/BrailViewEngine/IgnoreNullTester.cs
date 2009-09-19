@@ -28,9 +28,9 @@ namespace MvcContrib.UnitTests.BrailViewEngine
 		{
 			var ignore = new IgnoreNull(new Duck());
 
-			Assert.IsInstanceOfType(typeof(IgnoreNull), ignore.QuackGet("Name", null));
-			Assert.IsInstanceOfType(typeof(IgnoreNull), ignore.QuackSet("Name", null, "Donald"));
-			Assert.IsInstanceOfType(typeof(IgnoreNull), ignore.QuackInvoke("ToString", null));
+			Assert.IsInstanceOf<IgnoreNull>(ignore.QuackGet("Name", null));
+			Assert.IsInstanceOf<IgnoreNull>(ignore.QuackSet("Name", null, "Donald"));
+			Assert.IsInstanceOf<IgnoreNull>(ignore.QuackInvoke("ToString", null));
 
 			Assert.AreEqual(true, ignore.QuackGet("_IsIgnoreNullReferencingNotNullObject_", null));
 		}

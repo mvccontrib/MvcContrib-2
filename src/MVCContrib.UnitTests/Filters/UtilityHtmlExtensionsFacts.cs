@@ -13,12 +13,56 @@ namespace MvcContrib.UnitTests.Filters
 	[TestFixture]
 	public class UtilityHtmlExtensionsFacts
 	{
-		private readonly HtmlHelper _html;
-		private readonly HttpRequestBase _mockRequest;
-		private readonly MockRepository _mocks;
-		private readonly ViewDataDictionary _viewData;
+		[Datapoint] public DebugMode NothingInQueryString;
+		[Datapoint]
+		public DebugMode BlankInQueryString;
+		[Datapoint]
+		public DebugMode ZeroInQueryString;
+		[Datapoint]
+		public DebugMode OneInQueryString;
+		[Datapoint]
+		public DebugMode JunkInCookies;
+		[Datapoint]
+		public DebugMode ZeroInCookies;
+		[Datapoint]
+		public DebugMode ExpiredCookieButOne;
+		[Datapoint]
+		public DebugMode NotExpiredZeroInCookies;
+		[Datapoint]
+		public DebugMode NotExpiredOneInCookies;
 
 		public UtilityHtmlExtensionsFacts()
+		{
+			NothingInQueryString = new DebugMode { QueryString = new NameValueCollection(), Cookies = new HttpCookieCollection(), Expected = false };
+			BlankInQueryString = new DebugMode { QueryString = new NameValueCollection { { "debug", null } }, Cookies = new HttpCookieCollection(), Expected = false };
+			ZeroInQueryString = new DebugMode { QueryString = new NameValueCollection { { "debug", "0" } }, Cookies = new HttpCookieCollection(), Expected = false };
+			OneInQueryString = new DebugMode { QueryString = new NameValueCollection { { "debug", "1" } }, Cookies = new HttpCookieCollection(), Expected = true };
+
+			JunkInCookies = new DebugMode { QueryString = new NameValueCollection(), Cookies = new HttpCookieCollection { new HttpCookie("foo") }, Expected = false };
+			ZeroInCookies = new DebugMode { QueryString = new NameValueCollection(), Cookies = new HttpCookieCollection { new HttpCookie("debug", "0") }, Expected = false };
+			ExpiredCookieButOne = new DebugMode
+					{
+						QueryString = new NameValueCollection(),
+						Cookies = new HttpCookieCollection { new HttpCookie("debug", "1") { Expires = DateTime.UtcNow.AddDays(-1) } },
+						Expected = false
+					};
+			NotExpiredZeroInCookies = new DebugMode
+					{
+						QueryString = new NameValueCollection(),
+						Cookies = new HttpCookieCollection { new HttpCookie("debug", "0") { Expires = DateTime.UtcNow.AddDays(1) } },
+						Expected = false
+					};
+			NotExpiredOneInCookies = new DebugMode
+			{
+				QueryString = new NameValueCollection(),
+				Cookies = new HttpCookieCollection { new HttpCookie("debug", "1") { Expires = DateTime.UtcNow.AddDays(1) } },
+				Expected = true
+					};
+
+		}
+
+		[SetUp]
+		public void TestSetup()
 		{
 			_mocks = new MockRepository();
 			_viewData = new ViewDataDictionary();
@@ -27,31 +71,24 @@ namespace MvcContrib.UnitTests.Filters
 			_mocks.ReplayAll();
 		}
 
-		public static IEnumerable<object[]> DebugMode
-		{
-			get
-			{
-				yield return new object[] { new NameValueCollection(), new HttpCookieCollection(), false };
-				yield return new object[] { new NameValueCollection { { "debug", null } }, new HttpCookieCollection(), false };
-				yield return new object[] { new NameValueCollection { { "debug", "0" } }, new HttpCookieCollection(), false };
-				yield return new object[] { new NameValueCollection { { "debug", "1" } }, new HttpCookieCollection(), true };
+		private HtmlHelper _html;
+		private HttpRequestBase _mockRequest;
+		private MockRepository _mocks;
+		private ViewDataDictionary _viewData;
 
-				yield return new object[] { new NameValueCollection(), new HttpCookieCollection { new HttpCookie("foo") }, false };
-				yield return new object[] { new NameValueCollection(), new HttpCookieCollection { new HttpCookie("debug", "0") }, false };
-				yield return new object[] { new NameValueCollection(), new HttpCookieCollection { new HttpCookie("debug", "1") { Expires = DateTime.UtcNow.AddDays(-1) } }, false };
-				yield return new object[] { new NameValueCollection(), new HttpCookieCollection { new HttpCookie("debug", "0") { Expires = DateTime.UtcNow.AddDays(1) } }, false };
-				yield return new object[] { new NameValueCollection(), new HttpCookieCollection { new HttpCookie("debug", "1") { Expires = DateTime.UtcNow.AddDays(1) } }, true };
-			}
+		public class DebugMode
+		{
+			public NameValueCollection QueryString { get; set; }
+			public HttpCookieCollection Cookies { get; set; }
+			public bool Expected { get; set; }
 		}
-
 		[Theory]
-		[PropertyData("DebugMode")]
-		public void IsInDebugMode_ShouldBeCorrect(NameValueCollection queryString, HttpCookieCollection cookies, bool expected)
+		public void IsInDebugMode_ShouldBeCorrect(DebugMode data)
 		{
-			_mockRequest.Expect(r => r.QueryString).Return(queryString);
-			_mockRequest.Expect(r => r.Cookies).Return(cookies);
+			_mockRequest.Expect(r => r.QueryString).Return(data.QueryString);
+			_mockRequest.Expect(r => r.Cookies).Return(data.Cookies);
 
-			Assert.AreEqual(expected, _html.IsInDebugMode());
+			Assert.AreEqual(data.Expected, _html.IsInDebugMode());
 		}
 	}
 }

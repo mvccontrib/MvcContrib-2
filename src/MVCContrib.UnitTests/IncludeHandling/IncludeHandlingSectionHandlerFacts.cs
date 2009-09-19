@@ -70,15 +70,16 @@ namespace MvcContrib.UnitTests.IncludeHandling
 			Assert.AreEqual(true, section.Js.Verbose);
 		}
 
+		[Datapoint] public string pathValidation1 = "pathValidation1";
+		[Datapoint] public string pathValidation2 = "pathValidation2";
+
 		[Theory]
-		[InlineData("pathValidation1")]
-		[InlineData("pathValidation2")]
+		[ExpectedException(typeof(ConfigurationErrorsException))]
 		public void WhenPathMissingAFormatPlaceHolder_WillThrow(string sectionName)
 		{
 			var section = (IIncludeHandlingSettings) ConfigurationManager.GetSection(sectionName);
 			string path = null;
 			Assert.Throws<ConfigurationErrorsException>(() => path = section.Css.Path);
-			Assert.IsNull(path);
 		}
 	}
 }

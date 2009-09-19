@@ -15,13 +15,14 @@ namespace MvcContrib.UnitTests.IncludeHandling
 	[TestFixture]
 	public class IncludeCombinerHtmlExtensionsFacts
 	{
-		private readonly HtmlHelper _html;
-		private readonly IHttpContextProvider _mockHttpContextProvider;
-		private readonly MockRepository _mocks;
-		private readonly ViewDataDictionary _viewData;
-		private readonly IIncludeHandlingSettings _mockSettings;
+		private HtmlHelper _html;
+		private IHttpContextProvider _mockHttpContextProvider;
+		private MockRepository _mocks;
+		private ViewDataDictionary _viewData;
+		private IIncludeHandlingSettings _mockSettings;
 
-		public IncludeCombinerHtmlExtensionsFacts()
+		[SetUp]
+		public void TestSetup()
 		{
 			_viewData = new ViewDataDictionary();
 			_mocks = new MockRepository();

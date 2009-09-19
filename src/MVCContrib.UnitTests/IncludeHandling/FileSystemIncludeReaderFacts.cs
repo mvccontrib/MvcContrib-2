@@ -7,9 +7,10 @@ namespace MvcContrib.UnitTests.IncludeHandling
 	[TestFixture]
 	public class FileSystemIncludeReaderFacts
 	{
-		private readonly IIncludeReader _reader;
+		private IIncludeReader _reader;
 
-		public FileSystemIncludeReaderFacts()
+		[SetUp]
+		public void TestSetup()
 		{
 			_reader = new FileSystemIncludeReader("/", "c:\\");
 		}
@@ -21,20 +22,26 @@ namespace MvcContrib.UnitTests.IncludeHandling
 			Assert.AreEqual("/foo.css", result);
 		}
 
+		[Datapoint]
+		public string nothing = null;
+
+		[Datapoint] 
+		public string blank = "";
+
 		[Theory]
-		[InlineData("")]
-		[InlineData(null)]
+		[ExpectedException(typeof(ArgumentException))]
 		public void WhenSourceMissing_WillThrow(string source)
 		{
-			Assert.Throws<ArgumentException>(() => _reader.Read(source, IncludeType.Css));
+			_reader.Read(source, IncludeType.Css);
 		}
 	}
 
 	public class FileSystemIncludeReaderIntegrationFacts
 	{
-		private readonly IIncludeReader _reader;
+		private IIncludeReader _reader;
 
-		public FileSystemIncludeReaderIntegrationFacts()
+		[SetUp]
+		public void TestSetup()
 		{
 			_reader = new FileSystemIncludeReader("/", Environment.CurrentDirectory);
 		}

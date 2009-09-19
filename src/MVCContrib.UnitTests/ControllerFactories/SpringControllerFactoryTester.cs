@@ -6,7 +6,7 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using MvcContrib.Spring;
 using NUnit.Framework;
-using NUnit.Framework.SyntaxHelpers;
+
 using Spring.Context.Support;
 using Spring.Core.IO;
 using Spring.Objects.Factory;

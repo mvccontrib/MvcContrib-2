@@ -3,7 +3,7 @@ using System.Web.Routing;
 using System.Xml;
 using MvcContrib.ActionResults;
 using NUnit.Framework;
-using NUnit.Framework.SyntaxHelpers;
+
 using Rhino.Mocks;
 
 namespace MvcContrib.UnitTests.ActionResults
@@ -26,7 +26,7 @@ namespace MvcContrib.UnitTests.ActionResults
 		public void ObjectToSerialize_should_return_the_object_to_serialize()
 		{
 			var result = new XmlResult(new Person {Id = 1, Name = "Bob"});
-			Assert.That(result.ObjectToSerialize, Is.InstanceOfType(typeof(Person)));
+			Assert.That(result.ObjectToSerialize, Is.InstanceOf<Person>());
 			Assert.That(((Person)result.ObjectToSerialize).Name, Is.EqualTo("Bob"));
 		}
 

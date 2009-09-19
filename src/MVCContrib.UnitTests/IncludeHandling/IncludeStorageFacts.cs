@@ -10,12 +10,13 @@ namespace MvcContrib.UnitTests.IncludeHandling
 	[TestFixture]
 	public class IncludeStorageFacts
 	{
-		private readonly IncludeCombination _combination;
-		private readonly MockRepository _mocks;
-		private readonly IIncludeStorage _storage;
-		private readonly IKeyGenerator _stubKeyGen;
+		private IncludeCombination _combination;
+		private MockRepository _mocks;
+		private IIncludeStorage _storage;
+		private IKeyGenerator _stubKeyGen;
 
-		public IncludeStorageFacts()
+		[SetUp]
+		public void TestSetup()
 		{
 			_mocks = new MockRepository();
 			_stubKeyGen = _mocks.Stub<IKeyGenerator>();
@@ -36,6 +37,7 @@ namespace MvcContrib.UnitTests.IncludeHandling
 		{
 			var include = new Include(IncludeType.Js, "/foo.js", "alert('foo');", DateTime.UtcNow);
 			_storage.Store(include);
+			Assert.IsTrue(true);
 		}
 
 		[Test]
@@ -44,6 +46,7 @@ namespace MvcContrib.UnitTests.IncludeHandling
 			var include = new Include(IncludeType.Js, "/foo.js", "alert('foo');", DateTime.UtcNow);
 			_storage.Store(include);
 			_storage.Store(include);
+			Assert.IsTrue(true);
 		}
 
 		[Test]
@@ -67,6 +70,7 @@ namespace MvcContrib.UnitTests.IncludeHandling
 			_stubKeyGen.Expect(kg => kg.Generate(_combination.Sources)).Return("foo").Repeat.Twice();
 			_storage.Store(_combination);
 			_storage.Store(_combination);
+			Assert.IsTrue(true);
 		}
 
 		[Test]

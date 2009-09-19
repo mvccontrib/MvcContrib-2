@@ -11,12 +11,13 @@ namespace MvcContrib.UnitTests.IncludeHandling
 	[TestFixture]
 	public class IncludeControllerFacts
 	{
-		private readonly IncludeController _controller;
-		private readonly IIncludeCombiner _mockCombiner;
-		private readonly MockRepository _mocks;
-		private readonly IIncludeHandlingSettings _mockSettings;
+		private IncludeController _controller;
+		private IIncludeCombiner _mockCombiner;
+		private MockRepository _mocks;
+		private IIncludeHandlingSettings _mockSettings;
 
-		public IncludeControllerFacts()
+		[SetUp]
+		public void TestSetup()
 		{
 			_mocks = new MockRepository();
 			_mockSettings = _mocks.StrictMock<IIncludeHandlingSettings>();
@@ -33,7 +34,7 @@ namespace MvcContrib.UnitTests.IncludeHandling
 			_mockCombiner.Expect(c => c.GetCombination("foo")).Return(combination);
 			ActionResult result = _controller.Css("foo");
 
-			Assert.IsInstanceOfType(typeof(IncludeCombinationResult), result);
+			Assert.IsInstanceOf<IncludeCombinationResult>(result);
 			Assert.AreEqual(combination, ((IncludeCombinationResult) result).Combination);
 			_mocks.VerifyAll();
 		}
@@ -46,8 +47,8 @@ namespace MvcContrib.UnitTests.IncludeHandling
 			_mockCombiner.Expect(c => c.GetCombination("foo")).Return(combination);
 			ActionResult result = _controller.Js("foo");
 
-			Assert.IsInstanceOfType(typeof(IncludeCombinationResult), result);
-			Assert.AreEqual(combination, ((IncludeCombinationResult) result).Combination);
+			Assert.IsInstanceOf<IncludeCombinationResult>(result);
+			Assert.AreEqual(combination, ((IncludeCombinationResult)result).Combination);
 			_mocks.VerifyAll();
 		}
 
@@ -58,7 +59,7 @@ namespace MvcContrib.UnitTests.IncludeHandling
 			_mockCombiner.Expect(c => c.GetAllCombinations()).Return(new Dictionary<string, IncludeCombination>());
 
 			ActionResult result = _controller.Index();
-			Assert.IsInstanceOfType(typeof(ViewResult), result);
+			Assert.IsInstanceOf<ViewResult>(result);
 			_mocks.VerifyAll();
 		}
 
@@ -67,7 +68,7 @@ namespace MvcContrib.UnitTests.IncludeHandling
 		{
 			_mockCombiner.Expect(c => c.Clear());
 			ActionResult result = _controller.Clear();
-			Assert.IsInstanceOfType(typeof(RedirectToRouteResult), result);
+			Assert.IsInstanceOf<RedirectToRouteResult>(result);
 			_mocks.VerifyAll();
 		}
 	}

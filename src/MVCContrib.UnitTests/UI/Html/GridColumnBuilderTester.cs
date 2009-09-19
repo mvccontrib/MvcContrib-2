@@ -1,7 +1,7 @@
 ﻿using System;
 using MvcContrib.UI.LegacyGrid;
 using NUnit.Framework;
-using NUnit.Framework.SyntaxHelpers;
+
 namespace MvcContrib.UnitTests.UI.Html 
 {
 #pragma warning disable 618,612

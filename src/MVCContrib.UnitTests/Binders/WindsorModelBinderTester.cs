@@ -4,7 +4,7 @@ using System.Web.Routing;
 using Castle.Windsor;
 using MvcContrib.Castle;
 using NUnit.Framework;
-using NUnit.Framework.SyntaxHelpers;
+
 using Rhino.Mocks;
 
 namespace MvcContrib.UnitTests.Binders

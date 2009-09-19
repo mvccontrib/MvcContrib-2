@@ -11,6 +11,7 @@ using MvcContrib.FluentHtml.Behaviors;
 using MvcContrib.FluentHtml.Elements;
 using MvcContrib.FluentHtml.Expressions;
 using MvcContrib.FluentHtml.Html;
+using RangeAttribute=System.ComponentModel.DataAnnotations.RangeAttribute;
 
 namespace MvcContrib.UnitTests.FluentHtml
 {

@@ -5,3 +5,5 @@ User contributions for the ASP.NET MVC Framework.
 For details on how to contribute please "read the git guide":http://MvcContrib.github.com/MvcContrib
 
 For documentation and binary releases please visit the "CodePlex wiki":http://mvccontrib.codeplex.com
+
+For continuous builds, please see http://teamcity.codebetter.com

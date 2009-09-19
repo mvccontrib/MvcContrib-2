@@ -6,7 +6,7 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using MvcContrib.Filters;
 using NUnit.Framework;
-using NUnit.Framework.SyntaxHelpers;
+
 using Rhino.Mocks;
 using MvcContrib.TestHelper;
 using System.Collections.Generic;
@@ -93,7 +93,7 @@ namespace MvcContrib.UnitTests.ConventionController
 			rescue.OnException(context);
 
 			Assert.IsFalse(context.ExceptionHandled);
-			Assert.That(context.Result, Is.InstanceOfType(typeof(EmptyResult)));
+			Assert.That(context.Result, Is.InstanceOf < EmptyResult>());
 		}
 
 		[Test]
@@ -110,7 +110,7 @@ namespace MvcContrib.UnitTests.ConventionController
 			rescue.OnException(context);
 
 			Assert.IsFalse(context.ExceptionHandled);
-			Assert.That(context.Result, Is.InstanceOfType(typeof(EmptyResult)));
+			Assert.That(context.Result, Is.InstanceOf<EmptyResult>());
 		}
 
 		[Test]

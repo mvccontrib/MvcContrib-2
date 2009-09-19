@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using MvcContrib.UI;
 using NUnit.Framework;
-using NUnit.Framework.SyntaxHelpers;
+
 
 namespace MvcContrib.UnitTests.UI
 {

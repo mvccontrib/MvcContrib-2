@@ -11,14 +11,77 @@ namespace MvcContrib.UnitTests.IncludeHandling
 	[TestFixture]
 	public class IncludeCombinerStateFacts
 	{
-		private readonly IIncludeCombiner _combiner;
-		private readonly IIncludeReader _mockReader;
-		private readonly MockRepository _mocks;
-		private readonly IIncludeStorage _mockStorage;
-		private readonly IIncludeHandlingSettings _mockSettings;
-		private readonly IHttpContextProvider _mockHttp;
+		private IIncludeCombiner _combiner;
+		private IIncludeReader _mockReader;
+		private MockRepository _mocks;
+		private IIncludeStorage _mockStorage;
+		private IIncludeHandlingSettings _mockSettings;
+		private IHttpContextProvider _mockHttp;
+		
+		[Datapoint] 
+		public RenderingInDebug ScriptWithPath;
+		[Datapoint]
+		public RenderingInDebug CssInDebug;
+		[Datapoint]
+		public RenderingInDebug ScriptInDebug;
+
+		[Datapoint]
+		public RenderingInRelease CssInReleaseWithArseyUrl;
+		[Datapoint]
+		public RenderingInRelease ScriptInRelease;
+		[Datapoint]
+		public RenderingInRelease CssInRelease;
 
 		public IncludeCombinerStateFacts()
+		{
+			CssInDebug = new RenderingInDebug
+				{
+					Includes = new Dictionary<string, string> { { "/foo.css", "/foo.css" }, { "/bar.css", "/bar.css" } },
+					Type = IncludeType.Css,
+					Expected = string.Format("<link rel='stylesheet' type='text/css' href='/foo.css'/>{0}<link rel='stylesheet' type='text/css' href='/bar.css'/>{0}", Environment.NewLine)
+				};
+			ScriptInDebug = new RenderingInDebug
+				{
+					Includes = new Dictionary<string, string> { { "/foo.js", "/foo.js" }, { "/bar.js", "/bar.js" } },
+					Type = IncludeType.Js,
+					Expected = string.Format("<script type='text/javascript' src='/foo.js'></script>{0}<script type='text/javascript' src='/bar.js'></script>{0}", Environment.NewLine)
+				};
+			ScriptWithPath = new RenderingInDebug
+				{
+					Includes = new Dictionary<string, string> { { "~/content/js/foo.js", "/content/js/foo.js" }, { "/bar.js", "/bar.js" } },
+					Type = IncludeType.Js,
+					Expected = string.Format("<script type='text/javascript' src='/content/js/foo.js'></script>{0}<script type='text/javascript' src='/bar.js'></script>{0}", Environment.NewLine)
+				};
+
+			ScriptInRelease = new RenderingInRelease
+				{
+					Includes = new Dictionary<string, string> { { "~/content/js/foo.js", "/content/js/foo.js" }, { "/bar.js", "/bar.js" } },
+					Type = IncludeType.Js,
+					Key = "hashed",
+					Expected = "<script type='text/javascript' src='/content/js/hashed.js'></script>",
+					Settings = new JsTypeElement()
+				};
+			CssInRelease = new RenderingInRelease
+				{
+					Includes = new Dictionary<string, string> { { "~/content/css/foo.css", "/content/css/foo.css" }, { "/bar.css", "/bar.css" } },
+					Type = IncludeType.Css,
+					Key = "hashed==",
+					Expected = "<link rel='stylesheet' type='text/css' href='/content/css/hashed==.css'/>",
+					Settings = new CssTypeElement()
+				};
+			CssInReleaseWithArseyUrl = new RenderingInRelease
+				{
+					Includes = new Dictionary<string, string> { { "~/content/css/foo.css", "/content/css/foo.css" }, { "/bar.css", "/bar.css" } },
+					Type = IncludeType.Css,
+					Key = "really/nasty%20url=",
+					Expected = "<link rel='stylesheet' type='text/css' href='/content/css/really/nasty%20url=.css'/>",
+					Settings = new CssTypeElement()
+				};
+
+		}
+
+		[SetUp]
+		public void TestSetup()
 		{
 			_mocks = new MockRepository();
 			_mockSettings = _mocks.DynamicMock<IIncludeHandlingSettings>();
@@ -29,78 +92,6 @@ namespace MvcContrib.UnitTests.IncludeHandling
 			_mocks.ReplayAll();
 		}
 
-		public static IEnumerable<object[]> RenderingInDebug
-		{
-			get
-			{
-				yield return new object[]
-				{
-					new Dictionary<string, string> { { "/foo.css", "/foo.css" }, { "/bar.css", "/bar.css" } },
-					IncludeType.Css,
-					string.Format("<link rel='stylesheet' type='text/css' href='/foo.css'/>{0}<link rel='stylesheet' type='text/css' href='/bar.css'/>{0}", Environment.NewLine)
-				};
-				yield return new object[]
-				{
-					new Dictionary<string, string> { { "/foo.js", "/foo.js" }, { "/bar.js", "/bar.js" } },
-					IncludeType.Js,
-					string.Format("<script type='text/javascript' src='/foo.js'></script>{0}<script type='text/javascript' src='/bar.js'></script>{0}", Environment.NewLine)
-				};
-				yield return new object[]
-				{
-					new Dictionary<string, string> { { "~/content/js/foo.js", "/content/js/foo.js" }, { "/bar.js", "/bar.js" } },
-					IncludeType.Js,
-					string.Format("<script type='text/javascript' src='/content/js/foo.js'></script>{0}<script type='text/javascript' src='/bar.js'></script>{0}", Environment.NewLine)
-				};
-			}
-		}
-
-		public static IEnumerable<object[]> RenderingInRelease
-		{
-			get
-			{
-				yield return new object[]
-				{
-					new Dictionary<string, string> { { "~/content/js/foo.js", "/content/js/foo.js" }, { "/bar.js", "/bar.js" } },
-					IncludeType.Js,
-					"hashed",
-					"<script type='text/javascript' src='/content/js/hashed.js'></script>",
-					new JsTypeElement()
-				};
-				yield return new object[]
-				{
-					new Dictionary<string, string> { { "~/content/css/foo.css", "/content/css/foo.css" }, { "/bar.css", "/bar.css" } },
-					IncludeType.Css,
-					"hashed==",
-					"<link rel='stylesheet' type='text/css' href='/content/css/hashed==.css'/>",
-					new CssTypeElement()
-				};
-				yield return new object[]
-				{
-					new Dictionary<string, string> { { "~/content/css/foo.css", "/content/css/foo.css" }, { "/bar.css", "/bar.css" } },
-					IncludeType.Css,
-					"really/nasty%20url=",
-					"<link rel='stylesheet' type='text/css' href='/content/css/really/nasty%20url=.css'/>",
-					new CssTypeElement()
-				};
-			}
-		}
-
-		public static IEnumerable<object[]> RegisterCombination
-		{
-			get
-			{
-				yield return new object[]
-				{
-					IncludeType.Js,
-					new Dictionary<string, Include>
-					{
-						{ "~/content/js/foo.js", new Include(IncludeType.Js, "/content/js/foo.js", "alert('hello world!');", DateTime.UtcNow) }
-					},
-					new JsTypeElement()
-				};
-			}
-		}
-
 		[Test]
 		public void RenderIncludes_ShouldWriteNothing_WhenNoSourcesArePending()
 		{
@@ -108,52 +99,71 @@ namespace MvcContrib.UnitTests.IncludeHandling
 			Assert.AreEqual("", rendered);
 		}
 
+		public class RenderingInDebug
+		{
+			public IDictionary<string, string> Includes { get; set; }
+			public IncludeType Type { get; set; }
+			public string Expected { get; set; }
+		}
+
 		[Theory]
-		[PropertyData("RenderingInDebug")]
-		public void RenderIncludes_ShouldWriteOutEachIncludeSeparately_WhenInDebugMode(IDictionary<string, string> includes, IncludeType type, string expected)
+		public void RenderIncludes_ShouldWriteOutEachIncludeSeparately_WhenInDebugMode(RenderingInDebug data)
 		{
 			var stubContext = _mocks.Stub<HttpContextBase>();
 			stubContext.Replay();
 			stubContext.Expect(c => c.IsDebuggingEnabled).Return(true);
 			_mockHttp.Expect(s => s.Context).Return(stubContext);
-			foreach (var kvp in includes)
+			foreach (var kvp in data.Includes)
 			{
 				_mockReader.Expect(sr => sr.ToAbsolute(kvp.Key)).Return(kvp.Value);
 			}
 			_mockStorage.Expect(s => s.Clear());
-			string rendered = _combiner.RenderIncludes(includes.Keys, type, true);
-			Assert.AreEqual(rendered, expected);
+			string rendered = _combiner.RenderIncludes(data.Includes.Keys, data.Type, true);
+			Assert.AreEqual(rendered, data.Expected);
+		}
+
+		public class RenderingInRelease
+		{
+			public IDictionary<string, string> Includes { get; set; }
+			public IncludeType Type { get; set; }
+			public string Key { get; set; }
+			public string Expected { get; set; }
+			public IncludeTypeElement Settings { get; set; }
 		}
 
 		[Theory]
-		[FreezeClock]
-		[PropertyData("RenderingInRelease")]
-		public void RenderIncludes_ShouldWriteOutASingleReferenceToTheCompressorController_WhenInReleaseMode(IDictionary<string, string> includes, IncludeType type, string key, string expected, IncludeTypeElement settings)
+		public void RenderIncludes_ShouldWriteOutASingleReferenceToTheCompressorController_WhenInReleaseMode(RenderingInRelease data)
 		{
 			var stubContext = _mocks.Stub<HttpContextBase>();
 			stubContext.Replay();
 			stubContext.Expect(c => c.IsDebuggingEnabled).Return(false);
 			_mockHttp.Expect(s => s.Context).Return(stubContext);
-			_mockSettings.Expect(s => s.Types[type]).Return(settings);
-			foreach (var kvp in includes)
+			_mockSettings.Expect(s => s.Types[data.Type]).Return(data.Settings);
+			foreach (var kvp in data.Includes)
 			{
-				var include = new Include(type, kvp.Key, "foo", DateTime.UtcNow);
-				_mockReader.Expect(r => r.Read(kvp.Key, type)).Return(include);
+				var include = new Include(data.Type, kvp.Key, "foo", DateTime.UtcNow);
+				_mockReader.Expect(r => r.Read(kvp.Key, data.Type)).Return(include);
 				_mockStorage.Expect(s => s.Store(include));
 			}
-			_mockReader.Expect(r => r.ToAbsolute(Arg<string>.Is.NotNull)).Return(string.Format("/content/{0}/{1}.{0}", type.ToString().ToLowerInvariant(), key));
+			_mockReader.Expect(r => r.ToAbsolute(Arg<string>.Is.NotNull)).Return(string.Format("/content/{0}/{1}.{0}", data.Type.ToString().ToLowerInvariant(), data.Key));
 			string hash = null;
 			_mockStorage.Expect(s => hash = s.Store(Arg<IncludeCombination>.Is.NotNull)).Return("foo");
 
-			string reference = _combiner.RenderIncludes(includes.Keys, type, false);
-			Assert.AreEqual(expected, reference);
+			string reference = _combiner.RenderIncludes(data.Includes.Keys, data.Type, false);
+			Assert.AreEqual(data.Expected, reference);
 		}
 
-		[Theory]
-		[FreezeClock]
-		[PropertyData("RegisterCombination")]
-		public void RegisterCombination_ShouldReadAllSourcesToAddEachToTheCombination_AndReturnAHash(IncludeType type, IDictionary<string, Include> sources, IncludeTypeElement settings)
+		[Test]
+		public void RegisterCombination_ShouldReadAllSourcesToAddEachToTheCombination_AndReturnAHash()
 		{
+			var type = IncludeType.Js;
+			var sources = new Dictionary<string, Include>
+			{
+				{
+					"~/content/js/foo.js", new Include(IncludeType.Js, "/content/js/foo.js", "alert('hello world!');", DateTime.UtcNow)
+					}
+			};
+			var settings = new JsTypeElement();
 			foreach (var kvp in sources)
 			{
 				_mockReader.Expect(r => r.Read(kvp.Key, kvp.Value.Type)).Return(kvp.Value);

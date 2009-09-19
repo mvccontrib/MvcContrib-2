@@ -7,9 +7,10 @@ namespace MvcContrib.UnitTests.IncludeHandling
 	[TestFixture]
 	public class KeyGeneratorFacts
 	{
-		private readonly IKeyGenerator _keygen;
+		private IKeyGenerator _keygen;
 
-		public KeyGeneratorFacts()
+		[SetUp]
+		public void TestSetup()
 		{
 			_keygen = new KeyGenerator();
 		}

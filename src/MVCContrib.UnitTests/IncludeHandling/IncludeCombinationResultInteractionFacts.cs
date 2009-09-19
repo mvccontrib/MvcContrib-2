@@ -15,17 +15,38 @@ namespace MvcContrib.UnitTests.IncludeHandling
 	[TestFixture]
 	public class IncludeCombinationResultInteractionFacts
 	{
-		private readonly ControllerContext _controllerContext;
-		private readonly IncludeCombination _cssCombination;
-		private readonly HttpCachePolicyBase _mockCachePolicy;
-		private readonly ControllerBase _mockController;
-		private readonly HttpContextBase _mockHttpContext;
-		private readonly HttpRequestBase _mockRequest;
-		private readonly HttpResponseBase _mockResponse;
-		private readonly MockRepository _mocks;
-		private readonly IIncludeCombiner _stubCombiner;
+		private ControllerContext _controllerContext;
+		private IncludeCombination _cssCombination;
+		private HttpCachePolicyBase _mockCachePolicy;
+		private ControllerBase _mockController;
+		private HttpContextBase _mockHttpContext;
+		private HttpRequestBase _mockRequest;
+		private HttpResponseBase _mockResponse;
+		private MockRepository _mocks;
+		private IIncludeCombiner _stubCombiner;
+
+		[Datapoint]
+		public Req AnActualBrowserHandlingGzip;
+		[Datapoint] 
+		public Req AnActualBrowserHandlingGzipDeflateInThatOrder;
+
+		[Datapoint] public Req AnActualBrowserHandlingDeflateGzipInThatOrder;
+		[Datapoint] public Req AnActualBrowserHandlingDeflate;
+		[Datapoint] public Req IeHandlingGzipAndFailingMiserably;
+		[Datapoint] public Req AnyBrowserHandlingMangledAcceptEncodingHeader;
 
 		public IncludeCombinationResultInteractionFacts()
+		{
+			AnActualBrowserHandlingGzip = new Req {AcceptEncoding = "gzip", ExpectedContentEncoding = "gzip", Browser = "AnActualBrowser", BrowserMajorVersion = 3};
+			AnActualBrowserHandlingGzipDeflateInThatOrder = new Req { AcceptEncoding = "gzip,deflate", ExpectedContentEncoding = "gzip", Browser = "AnActualBrowser", BrowserMajorVersion = 3 };
+			AnActualBrowserHandlingDeflateGzipInThatOrder = new Req { AcceptEncoding = "deflate,gzip", ExpectedContentEncoding = "gzip", Browser = "AnActualBrowser", BrowserMajorVersion = 3 };
+			AnActualBrowserHandlingDeflate = new Req { AcceptEncoding = "deflate", ExpectedContentEncoding = "deflate", Browser = "AnActualBrowser", BrowserMajorVersion = 3 };
+			IeHandlingGzipAndFailingMiserably = new Req { AcceptEncoding = "gzip", ExpectedContentEncoding = null, Browser = "IE", BrowserMajorVersion = 5 };
+			AnyBrowserHandlingMangledAcceptEncodingHeader = new Req { AcceptEncoding = "mangled", ExpectedContentEncoding = null, Browser = "Anything", BrowserMajorVersion = 3 };
+		}
+
+		[SetUp]
+		public void TestSetup()
 		{
 			_mocks = new MockRepository();
 			_mockHttpContext = _mocks.StrictMock<HttpContextBase>();
@@ -73,23 +94,24 @@ namespace MvcContrib.UnitTests.IncludeHandling
 			_mocks.VerifyAll();
 		}
 
+		public class Req
+		{
+			public string AcceptEncoding { get; set; }
+			public string ExpectedContentEncoding { get; set; }
+			public string Browser { get; set; }
+			public int BrowserMajorVersion { get; set; }
+		}
+
 		[Theory]
-		[FreezeClock(2009,10,1,1,1,1)]
-		[InlineData("gzip", "gzip", "AnActualBrowser", 3)]
-		[InlineData("gzip,deflate", "gzip", "AnActualBrowser", 3)]
-		[InlineData("deflate,gzip", "gzip", "AnActualBrowser", 3)]
-		[InlineData("deflate", "deflate", "AnActualBrowser", 3)]
-		[InlineData("gzip", null, "IE", 5)]
-		[InlineData("mangled", null, "Anything", 3)]
-		public void WhenRequestAcceptsCompression_ShouldAppendContentEncodingHeader(string acceptEncoding, string expectedContentEncoding, string browser, int browserMajorVersion)
+		public void WhenRequestAcceptsCompression_ShouldAppendContentEncodingHeader(Req data)
 		{
 			var lastModifiedAt = DateTime.UtcNow;
 			_mockHttpContext.Expect(hc => hc.Response).Return(_mockResponse);
 			_mockHttpContext.Expect(hc => hc.Request).Return(_mockRequest);
-			_mockRequest.Expect(r => r.Headers[HttpHeaders.AcceptEncoding]).Return(acceptEncoding);
+			_mockRequest.Expect(r => r.Headers[HttpHeaders.AcceptEncoding]).Return(data.AcceptEncoding);
 			var stubBrowser = MockRepository.GenerateStub<HttpBrowserCapabilitiesBase>();
-			stubBrowser.Expect(b => b.Type).Return(browser);
-			stubBrowser.Expect(b => b.MajorVersion).Return(browserMajorVersion);
+			stubBrowser.Expect(b => b.Type).Return(data.Browser);
+			stubBrowser.Expect(b => b.MajorVersion).Return(data.BrowserMajorVersion);
 			stubBrowser.Replay();
 			_mockRequest.Expect(r => r.Browser).Return(stubBrowser);
 			_mockResponse.Expect(r => r.ContentEncoding = Encoding.UTF8);
@@ -97,9 +119,9 @@ namespace MvcContrib.UnitTests.IncludeHandling
 			_mockResponse.Expect(r => r.AddHeader(Arg<string>.Is.Equal(HttpHeaders.ContentLength), Arg<string>.Is.NotNull));
 			_mockResponse.Expect(r => r.OutputStream).Return(new MemoryStream(8092)).Repeat.Twice();
 			_mockResponse.Expect(r => r.Cache).Return(_mockCachePolicy);
-			if (expectedContentEncoding != null)
+			if (data.ExpectedContentEncoding != null)
 			{
-				_mockResponse.Expect(r => r.AppendHeader(HttpHeaders.ContentEncoding, expectedContentEncoding));
+				_mockResponse.Expect(r => r.AppendHeader(HttpHeaders.ContentEncoding, data.ExpectedContentEncoding));
 			}
 			_mockCachePolicy.Expect(cp => cp.SetETag(Arg<string>.Matches(etag => etag.StartsWith("foo") && etag.EndsWith(_cssCombination.LastModifiedAt.Ticks.ToString()))));
 			var cacheFor = TimeSpan.FromMinutes(30);
@@ -120,7 +142,6 @@ namespace MvcContrib.UnitTests.IncludeHandling
 		}
 
 		[Test]
-		[FreezeClock(2009, 10, 1, 1, 1, 1)]
 		public void WhenCacheForIsSet_ShouldAppendCacheHeaders()
 		{
 			var lastModifiedAt = DateTime.UtcNow;

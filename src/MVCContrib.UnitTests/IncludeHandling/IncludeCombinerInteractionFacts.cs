@@ -11,14 +11,15 @@ namespace MvcContrib.UnitTests.IncludeHandling
 	[TestFixture]
 	public class IncludeCombinerInteractionFacts
 	{
-		private readonly IIncludeCombiner _combiner;
-		private readonly IIncludeReader _mockReader;
-		private readonly MockRepository _mocks;
-		private readonly IIncludeStorage _mockStorage;
-		private readonly IIncludeHandlingSettings _mockSettings;
-		private readonly IHttpContextProvider _mockHttp;
+		private IIncludeCombiner _combiner;
+		private IIncludeReader _mockReader;
+		private MockRepository _mocks;
+		private IIncludeStorage _mockStorage;
+		private IIncludeHandlingSettings _mockSettings;
+		private IHttpContextProvider _mockHttp;
 
-		public IncludeCombinerInteractionFacts()
+		[SetUp]
+		public void TestSetup()
 		{
 			_mocks = new MockRepository();
 			_mockSettings = _mocks.StrictMock<IIncludeHandlingSettings>();
