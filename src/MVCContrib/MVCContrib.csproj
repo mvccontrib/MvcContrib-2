@@ -87,6 +87,8 @@
     <Compile Include="..\CommonAssemblyInfo.cs">
       <Link>CommonAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="ActionResults\PermanentRedirectResult.cs" />
+    <Compile Include="ActionResults\PermanentRedirectToActionResult.cs" />
     <Compile Include="ActionResults\XmlResult.cs" />
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Attributes\AbstractParameterBinderAttribute.cs" />

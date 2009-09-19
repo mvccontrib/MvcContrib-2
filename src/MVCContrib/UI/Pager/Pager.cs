@@ -236,7 +236,7 @@ namespace MvcContrib.UI.Pager
 
 			foreach(string key in values.Keys)
 			{
-				if(key == "page")
+				if(key == _pageQueryName)
 					//Don't re-add any existing 'page' variable to the querystring - this will be handled in CreatePageLink.
 				{
 					continue;

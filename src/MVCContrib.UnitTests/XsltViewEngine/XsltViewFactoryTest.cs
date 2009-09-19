@@ -1,10 +1,8 @@
 using System;
-using System.IO;
 using System.Web.Mvc;
 using System.Web.Routing;
 using MvcContrib.UnitTests.XsltViewEngine.Helpers;
 using MvcContrib.ViewFactories;
-using MvcContrib.XsltViewEngine;
 using NUnit.Framework;
 using Rhino.Mocks;
 
@@ -20,6 +18,7 @@ namespace MvcContrib.UnitTests.XsltViewEngine
 		{
 			base.SetUp();
             _fakeController = MockRepository.GenerateStub<ControllerBase>();
+            _fakeController.ViewData = new ViewDataDictionary();
 		}
 
 		[Test, ExpectedException(typeof(ArgumentException))]

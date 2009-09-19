@@ -25,6 +25,43 @@ namespace MvcContrib.TestHelper
         }
 
         /// <summary>
+        /// A way to start the fluent interface and and which method to use
+        /// since you have a method constraint in the route.
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="httpMethod"></param>
+        /// <returns></returns>
+        public static RouteData WithMethod(this string url, string httpMethod)
+        {
+            return Route(url, httpMethod);
+        }
+
+        public static RouteData WithMethod(this string url, HttpVerbs verb)
+        {
+            return WithMethod(url, verb.ToString("g"));
+        }
+
+        /// <summary>
+        /// Find the route for a URL and an Http Method
+        /// because you have a method contraint on the route 
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="httpMethod"></param>
+        /// <returns></returns>
+        public static RouteData Route(string url, string httpMethod)
+        {
+            var context = FakeHttpContext(url, httpMethod);
+            return RouteTable.Routes.GetRouteData(context);
+        }
+
+        private static HttpContextBase FakeHttpContext(string url, string method)
+        {
+            var context = FakeHttpContext(url);
+            context.Request.Stub(x => x.HttpMethod).Return(method).Repeat.Any();
+            return context;
+        }
+
+        /// <summary>
         /// Returns the corresponding route for the URL.  Returns null if no route was found.
         /// </summary>
         /// <param name="url">The app relative url to test.</param>
@@ -68,10 +105,10 @@ namespace MvcContrib.TestHelper
                         value = ( (ConstantExpression)methodCall.Arguments[ i ] ).Value;
                         break;
 
+					case ExpressionType.New:
                     case ExpressionType.MemberAccess:
                         value = Expression.Lambda(methodCall.Arguments[ i ]).Compile().DynamicInvoke();
                         break;
-				
                 }
 
 				value = (value == null ? value : value.ToString());
