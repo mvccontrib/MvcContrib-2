@@ -28,8 +28,6 @@ namespace MvcContrib.UI.Grid
 			return column;
 		}
 
-
-
 		/// <summary>
 		/// Specifies that a custom column should be constructed with the specified name.
 		/// </summary>
