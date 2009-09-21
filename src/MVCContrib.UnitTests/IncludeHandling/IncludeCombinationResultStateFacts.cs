@@ -7,12 +7,12 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using MvcContrib.IncludeHandling;
 using MvcContrib.IncludeHandling.Configuration;
+using NUnit.Framework;
 using Rhino.Mocks;
-using Xunit;
-using Xunit.Extensions;
 
 namespace MvcContrib.UnitTests.IncludeHandling
 {
+	[TestFixture]
 	public class IncludeCombinationResultStateFacts
 	{
 		private readonly ControllerContext _controllerContext;
@@ -37,24 +37,23 @@ namespace MvcContrib.UnitTests.IncludeHandling
 			_stubCombiner = _mocks.Stub<IIncludeCombiner>();
 
 			_mocks.ReplayAll();
-			_cssCombination = new IncludeCombination(IncludeType.Css, new[] { "foo.css" }, "#foo{color:red;}", Clock.UtcNow, new CssTypeElement());
+			_cssCombination = new IncludeCombination(IncludeType.Css, new[] { "foo.css" }, "#foo{color:red;}", DateTime.UtcNow, new CssTypeElement());
 		}
 
-		[Fact]
+		[Test]
 		public void WhenConstructedViaCombinerAndKey_CombinationIsSet()
 		{
 			var mockCombiner = _mocks.StrictMock<IIncludeCombiner>();
 			_mocks.ReplayAll();
 			mockCombiner.Expect(c => c.GetCombination("foo")).Return(_cssCombination);
-			IncludeCombinationResult result = null;
-			Assert.DoesNotThrow(() => result = new IncludeCombinationResult(mockCombiner, "foo", Clock.UtcNow));
-			Assert.Equal(_cssCombination, result.Combination);
+			IncludeCombinationResult result = new IncludeCombinationResult(mockCombiner, "foo", DateTime.UtcNow);
+			Assert.AreEqual(_cssCombination, result.Combination);
 		}
 
-		[Fact]
+		[Test]
 		public void ConstructorThrows_WhenCombinerIsNull()
 		{
-			Assert.Throws<ArgumentNullException>(() => new IncludeCombinationResult(null, "foo", Clock.UtcNow));
+			Assert.Throws<ArgumentNullException>(() => new IncludeCombinationResult(null, "foo", DateTime.UtcNow));
 		}
 
 		[Theory]
@@ -62,10 +61,10 @@ namespace MvcContrib.UnitTests.IncludeHandling
 		[InlineData("")]
 		public void ConstructorThrows_WhenKeyIsBad(string key)
 		{
-			Assert.Throws<ArgumentException>(() => new IncludeCombinationResult(_mocks.Stub<IIncludeCombiner>(), key, Clock.UtcNow));
+			Assert.Throws<ArgumentException>(() => new IncludeCombinationResult(_mocks.Stub<IIncludeCombiner>(), key, DateTime.UtcNow));
 		}
 
-		[Fact]
+		[Test]
 		public void WhenCombinationContainsNoContent_ShouldNotThrow()
 		{
 			_stubHttpContext.Expect(hc => hc.Response).Return(_stubResponse);
@@ -77,10 +76,10 @@ namespace MvcContrib.UnitTests.IncludeHandling
 			_stubResponse.Expect(r => r.OutputStream).Return(new MemoryStream(8092)).Repeat.Twice();
 			_stubResponse.Expect(r => r.Cache).Return(_stubCache);
 
-			var emptyCombination = new IncludeCombination(IncludeType.Css, new[] { "foo.css" }, "", Clock.UtcNow, new CssTypeElement());
+			var emptyCombination = new IncludeCombination(IncludeType.Css, new[] { "foo.css" }, "", DateTime.UtcNow, new CssTypeElement());
 			_stubCombiner.Expect(c => c.GetCombination("foo")).Return(emptyCombination);
-			var result = new IncludeCombinationResult(_stubCombiner, "foo", Clock.UtcNow);
-			Assert.DoesNotThrow(() => result.ExecuteResult(_controllerContext));
+			var result = new IncludeCombinationResult(_stubCombiner, "foo", DateTime.UtcNow);
+			result.ExecuteResult(_controllerContext);
 		}
 	}
 }

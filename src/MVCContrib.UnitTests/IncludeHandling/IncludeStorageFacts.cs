@@ -2,12 +2,12 @@ using System;
 using System.Collections.Generic;
 using MvcContrib.IncludeHandling;
 using MvcContrib.IncludeHandling.Configuration;
+using NUnit.Framework;
 using Rhino.Mocks;
-using Xunit;
-using Xunit.Extensions;
 
 namespace MvcContrib.UnitTests.IncludeHandling
 {
+	[TestFixture]
 	public class IncludeStorageFacts
 	{
 		private readonly IncludeCombination _combination;
@@ -20,89 +20,84 @@ namespace MvcContrib.UnitTests.IncludeHandling
 			_mocks = new MockRepository();
 			_stubKeyGen = _mocks.Stub<IKeyGenerator>();
 			_storage = new StaticIncludeStorage(_stubKeyGen);
-			_combination = new IncludeCombination(IncludeType.Css, new[] { "~/content/css/foo.css" }, "#foo {color:red}", Clock.UtcNow, new CssTypeElement());
+			_combination = new IncludeCombination(IncludeType.Css, new[] { "~/content/css/foo.css" }, "#foo {color:red}", DateTime.UtcNow, new CssTypeElement());
 			_mocks.ReplayAll();
 		}
 
-		[Fact]
+		[Test]
 		public void StoreInclude_ShouldThrowWhenNull()
 		{
 			const Include include = null;
 			Assert.Throws<ArgumentNullException>(() => _storage.Store(include));
 		}
 
-		[Fact]
+		[Test]
 		public void StoreInclude_DoesNotThrow_WhenIncludeIsValid()
 		{
-			var include = new Include(IncludeType.Js, "/foo.js", "alert('foo');", Clock.UtcNow);
-			Assert.DoesNotThrow(() => _storage.Store(include));
+			var include = new Include(IncludeType.Js, "/foo.js", "alert('foo');", DateTime.UtcNow);
+			_storage.Store(include);
 		}
 
-		[Fact]
+		[Test]
 		public void StoreIncludeTwice_DoesNotThrow()
 		{
-			var include = new Include(IncludeType.Js, "/foo.js", "alert('foo');", Clock.UtcNow);
-			Assert.DoesNotThrow(() => _storage.Store(include));
-			Assert.DoesNotThrow(() => _storage.Store(include));
+			var include = new Include(IncludeType.Js, "/foo.js", "alert('foo');", DateTime.UtcNow);
+			_storage.Store(include);
+			_storage.Store(include);
 		}
 
-		[Fact]
+		[Test]
 		public void StoreCombination_ShouldThrowWhenNull()
 		{
 			const IncludeCombination combination = null;
 			Assert.Throws<ArgumentNullException>(() => _storage.Store(combination));
 		}
 
-		[Fact]
+		[Test]
 		public void StoreCombination_DoesNotThrow_WhenCombinationIsValid()
 		{
 			_stubKeyGen.Expect(kg => kg.Generate(_combination.Sources)).Return("foo");
-			string key = null;
-			Assert.DoesNotThrow(() => key = _storage.Store(_combination));
-			Assert.Equal("foo", key);
+			string key = _storage.Store(_combination);
+			Assert.AreEqual("foo", key);
 		}
 
-		[Fact]
+		[Test]
 		public void StoreCombinationTwice_DoesNotThrow()
 		{
 			_stubKeyGen.Expect(kg => kg.Generate(_combination.Sources)).Return("foo").Repeat.Twice();
-			Assert.DoesNotThrow(() => _storage.Store(_combination));
-			Assert.DoesNotThrow(() => _storage.Store(_combination));
+			_storage.Store(_combination);
+			_storage.Store(_combination);
 		}
 
-		[Fact]
+		[Test]
 		public void GetCombination_WhenCombinationExists_DoesNotThrow()
 		{
 			_stubKeyGen.Expect(kg => kg.Generate(_combination.Sources)).Return("foo");
 			var key = _storage.Store(_combination);
-			IncludeCombination result = null;
-			Assert.DoesNotThrow(() => result = _storage.GetCombination(key));
+			IncludeCombination result = _storage.GetCombination(key);
 
-			Assert.Equal(_combination.Content, result.Content);
+			Assert.AreEqual(_combination.Content, result.Content);
 		}
 
-		[Fact]
+		[Test]
 		public void GetCombination_WhenCombinationDoesNotExist_ReturnsNull()
 		{
-			IncludeCombination result = null;
-			Assert.DoesNotThrow(() => result = _storage.GetCombination("flsihjdf"));
-			Assert.Null(result);
+			IncludeCombination result = _storage.GetCombination("flsihjdf");
+			Assert.IsNull(result);
 		}
 
-		[Fact]
+		[Test]
 		public void GetAllIncludes_WillReturnAllIncludes()
 		{
-			IEnumerable<Include> includes = null;
-			Assert.DoesNotThrow(() => includes = _storage.GetAllIncludes());
-			Assert.NotNull(includes);
+			IEnumerable<Include> includes = _storage.GetAllIncludes();
+			Assert.IsNotNull(includes);
 		}
 
-		[Fact]
+		[Test]
 		public void GetAllCombinations_WillReturnAllCombinations()
 		{
-			IDictionary<string, IncludeCombination> combinations = null;
-			Assert.DoesNotThrow(() => combinations = _storage.GetAllCombinations());
-			Assert.NotNull(combinations);
+			IDictionary<string, IncludeCombination> combinations = _storage.GetAllCombinations();
+			Assert.IsNotNull(combinations);
 		}
 	}
 }

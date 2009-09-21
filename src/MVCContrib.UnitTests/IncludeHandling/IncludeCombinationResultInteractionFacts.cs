@@ -7,12 +7,12 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using MvcContrib.IncludeHandling;
 using MvcContrib.IncludeHandling.Configuration;
+using NUnit.Framework;
 using Rhino.Mocks;
-using Xunit;
-using Xunit.Extensions;
 
 namespace MvcContrib.UnitTests.IncludeHandling
 {
+	[TestFixture]
 	public class IncludeCombinationResultInteractionFacts
 	{
 		private readonly ControllerContext _controllerContext;
@@ -36,10 +36,10 @@ namespace MvcContrib.UnitTests.IncludeHandling
 			_controllerContext = new ControllerContext(_mockHttpContext, new RouteData(), _mockController);
 			_stubCombiner = _mocks.Stub<IIncludeCombiner>();
 			_mocks.ReplayAll();
-			_cssCombination = new IncludeCombination(IncludeType.Css, new[] { "foo.css" }, "#foo{color:red}", Clock.UtcNow, new CssTypeElement());
+			_cssCombination = new IncludeCombination(IncludeType.Css, new[] { "foo.css" }, "#foo{color:red}", DateTime.UtcNow, new CssTypeElement());
 		}
 
-		[Fact]
+		[Test]
 		public void WhenNoCombinationExists_ResponseCodeShouldBe404()
 		{
 			_mockHttpContext.Expect(hc => hc.Response).Return(_mockResponse);
@@ -47,13 +47,13 @@ namespace MvcContrib.UnitTests.IncludeHandling
 			_mockResponse.Expect(r => r.StatusCode = (int) HttpStatusCode.NotFound);
 			_stubCombiner.Expect(c => c.GetCombination("foo")).Return(null);
 
-			var result = new IncludeCombinationResult(_stubCombiner, "foo", Clock.UtcNow);
-			Assert.DoesNotThrow(() => result.ExecuteResult(_controllerContext));
+			var result = new IncludeCombinationResult(_stubCombiner, "foo", DateTime.UtcNow);
+			result.ExecuteResult(_controllerContext);
 
 			_mocks.VerifyAll();
 		}
 
-		[Fact]
+		[Test]
 		public void WhenCombinationExists_ShouldCorrectlySetUpResponse()
 		{
 			_mockHttpContext.Expect(hc => hc.Response).Return(_mockResponse);
@@ -67,8 +67,8 @@ namespace MvcContrib.UnitTests.IncludeHandling
 			_mockCachePolicy.Expect(cp => cp.SetETag(Arg<string>.Matches(etag => etag.StartsWith("foo") && etag.EndsWith(_cssCombination.LastModifiedAt.Ticks.ToString()))));
 			_stubCombiner.Expect(c => c.GetCombination("foo")).Return(_cssCombination);
 
-			var result = new IncludeCombinationResult(_stubCombiner, "foo", Clock.UtcNow);
-			Assert.DoesNotThrow(() => result.ExecuteResult(_controllerContext));
+			var result = new IncludeCombinationResult(_stubCombiner, "foo", DateTime.UtcNow);
+			result.ExecuteResult(_controllerContext);
 
 			_mocks.VerifyAll();
 		}
@@ -83,7 +83,7 @@ namespace MvcContrib.UnitTests.IncludeHandling
 		[InlineData("mangled", null, "Anything", 3)]
 		public void WhenRequestAcceptsCompression_ShouldAppendContentEncodingHeader(string acceptEncoding, string expectedContentEncoding, string browser, int browserMajorVersion)
 		{
-			var lastModifiedAt = Clock.UtcNow;
+			var lastModifiedAt = DateTime.UtcNow;
 			_mockHttpContext.Expect(hc => hc.Response).Return(_mockResponse);
 			_mockHttpContext.Expect(hc => hc.Request).Return(_mockRequest);
 			_mockRequest.Expect(r => r.Headers[HttpHeaders.AcceptEncoding]).Return(acceptEncoding);
@@ -104,7 +104,7 @@ namespace MvcContrib.UnitTests.IncludeHandling
 			_mockCachePolicy.Expect(cp => cp.SetETag(Arg<string>.Matches(etag => etag.StartsWith("foo") && etag.EndsWith(_cssCombination.LastModifiedAt.Ticks.ToString()))));
 			var cacheFor = TimeSpan.FromMinutes(30);
 			_mockCachePolicy.Expect(cp => cp.SetCacheability(HttpCacheability.Public));
-			_mockCachePolicy.Expect(cp => cp.SetExpires(Clock.UtcNow.Add(cacheFor))).IgnoreArguments();
+			_mockCachePolicy.Expect(cp => cp.SetExpires(DateTime.UtcNow.Add(cacheFor))).IgnoreArguments();
 			_mockCachePolicy.Expect(cp => cp.SetMaxAge(cacheFor)).IgnoreArguments();
 			_mockCachePolicy.Expect(cp => cp.SetValidUntilExpires(true));
 			_mockCachePolicy.Expect(cp => cp.SetLastModified(lastModifiedAt)).IgnoreArguments();
@@ -113,17 +113,17 @@ namespace MvcContrib.UnitTests.IncludeHandling
 			var stubSettings = _mocks.Stub<IIncludeHandlingSettings>();
 			stubSettings.Expect(x => x.Types[IncludeType.Css]).Return(new CssTypeElement());
 			stubSettings.Replay();
-			var result = new IncludeCombinationResult(_stubCombiner, "foo", Clock.UtcNow, stubSettings);
-			Assert.DoesNotThrow(() => result.ExecuteResult(_controllerContext));
+			var result = new IncludeCombinationResult(_stubCombiner, "foo", DateTime.UtcNow, stubSettings);
+			result.ExecuteResult(_controllerContext);
 
 			_mocks.VerifyAll();
 		}
 
-		[Fact]
+		[Test]
 		[FreezeClock(2009, 10, 1, 1, 1, 1)]
 		public void WhenCacheForIsSet_ShouldAppendCacheHeaders()
 		{
-			var lastModifiedAt = Clock.UtcNow;
+			var lastModifiedAt = DateTime.UtcNow;
 			var combination = new IncludeCombination(IncludeType.Css, new[] { "foo.css" }, "#Foo{color:red;}", lastModifiedAt, new CssTypeElement());
 			_mockHttpContext.Expect(hc => hc.Response).Return(_mockResponse);
 			_mockHttpContext.Expect(hc => hc.Request).Return(_mockRequest);
@@ -138,7 +138,7 @@ namespace MvcContrib.UnitTests.IncludeHandling
 
 			var cacheFor = TimeSpan.FromMinutes(30);
 			_mockCachePolicy.Expect(cp => cp.SetCacheability(HttpCacheability.Public));
-			_mockCachePolicy.Expect(cp => cp.SetExpires(Clock.UtcNow.Add(cacheFor)));
+			_mockCachePolicy.Expect(cp => cp.SetExpires(DateTime.UtcNow.Add(cacheFor)));
 			_mockCachePolicy.Expect(cp => cp.SetMaxAge(cacheFor));
 			_mockCachePolicy.Expect(cp => cp.SetValidUntilExpires(true));
 			_mockCachePolicy.Expect(cp => cp.SetLastModified(lastModifiedAt));
@@ -150,7 +150,7 @@ namespace MvcContrib.UnitTests.IncludeHandling
 			stubCss.Expect(s => s.CacheFor).Return(cacheFor);
 
 			var result = new IncludeCombinationResult(_stubCombiner, "foo", lastModifiedAt, stubSettings);
-			Assert.DoesNotThrow(() => result.ExecuteResult(_controllerContext));
+			result.ExecuteResult(_controllerContext);
 
 			_mocks.VerifyAll();
 		}

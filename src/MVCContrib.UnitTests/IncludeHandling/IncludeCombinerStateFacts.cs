@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Web;
 using MvcContrib.IncludeHandling;
 using MvcContrib.IncludeHandling.Configuration;
+using NUnit.Framework;
 using Rhino.Mocks;
-using Xunit;
-using Xunit.Extensions;
 
 namespace MvcContrib.UnitTests.IncludeHandling
 {
+	[TestFixture]
 	public class IncludeCombinerStateFacts
 	{
 		private readonly IIncludeCombiner _combiner;
@@ -94,19 +94,18 @@ namespace MvcContrib.UnitTests.IncludeHandling
 					IncludeType.Js,
 					new Dictionary<string, Include>
 					{
-						{ "~/content/js/foo.js", new Include(IncludeType.Js, "/content/js/foo.js", "alert('hello world!');", Clock.UtcNow) }
+						{ "~/content/js/foo.js", new Include(IncludeType.Js, "/content/js/foo.js", "alert('hello world!');", DateTime.UtcNow) }
 					},
 					new JsTypeElement()
 				};
 			}
 		}
 
-		[Fact]
+		[Test]
 		public void RenderIncludes_ShouldWriteNothing_WhenNoSourcesArePending()
 		{
-			string rendered = null;
-			Assert.DoesNotThrow(() => rendered = _combiner.RenderIncludes(new string[0], IncludeType.Js, false));
-			Assert.Equal("", rendered);
+			string rendered = _combiner.RenderIncludes(new string[0], IncludeType.Js, false);
+			Assert.AreEqual("", rendered);
 		}
 
 		[Theory]
@@ -122,9 +121,8 @@ namespace MvcContrib.UnitTests.IncludeHandling
 				_mockReader.Expect(sr => sr.ToAbsolute(kvp.Key)).Return(kvp.Value);
 			}
 			_mockStorage.Expect(s => s.Clear());
-			string rendered = null;
-			Assert.DoesNotThrow(() => rendered = _combiner.RenderIncludes(includes.Keys, type, true));
-			Assert.Equal(rendered, expected);
+			string rendered = _combiner.RenderIncludes(includes.Keys, type, true);
+			Assert.AreEqual(rendered, expected);
 		}
 
 		[Theory]
@@ -139,7 +137,7 @@ namespace MvcContrib.UnitTests.IncludeHandling
 			_mockSettings.Expect(s => s.Types[type]).Return(settings);
 			foreach (var kvp in includes)
 			{
-				var include = new Include(type, kvp.Key, "foo", Clock.UtcNow);
+				var include = new Include(type, kvp.Key, "foo", DateTime.UtcNow);
 				_mockReader.Expect(r => r.Read(kvp.Key, type)).Return(include);
 				_mockStorage.Expect(s => s.Store(include));
 			}
@@ -147,9 +145,8 @@ namespace MvcContrib.UnitTests.IncludeHandling
 			string hash = null;
 			_mockStorage.Expect(s => hash = s.Store(Arg<IncludeCombination>.Is.NotNull)).Return("foo");
 
-			string reference = null;
-			Assert.DoesNotThrow(() => reference = _combiner.RenderIncludes(includes.Keys, type, false));
-			Assert.Equal(expected, reference);
+			string reference = _combiner.RenderIncludes(includes.Keys, type, false);
+			Assert.AreEqual(expected, reference);
 		}
 
 		[Theory]
@@ -162,11 +159,10 @@ namespace MvcContrib.UnitTests.IncludeHandling
 				_mockReader.Expect(r => r.Read(kvp.Key, kvp.Value.Type)).Return(kvp.Value);
 				_mockStorage.Expect(s => s.Store(kvp.Value));
 			}
-			_mockStorage.Expect(s => s.Store(new IncludeCombination(type, sources.Keys, "content", Clock.UtcNow, settings))).IgnoreArguments().Return("foo");
+			_mockStorage.Expect(s => s.Store(new IncludeCombination(type, sources.Keys, "content", DateTime.UtcNow, settings))).IgnoreArguments().Return("foo");
 			_mockSettings.Expect(s => s.Types).Return(new Dictionary<IncludeType, IIncludeTypeSettings> {{type,settings }});
-			string key = null;
-			Assert.DoesNotThrow(() => key = _combiner.RegisterCombination(sources.Keys, IncludeType.Js, Clock.UtcNow));
-			Assert.Equal("foo", key);
+			string key = _combiner.RegisterCombination(sources.Keys, IncludeType.Js, DateTime.UtcNow);
+			Assert.AreEqual("foo", key);
 		}
 	}
 }

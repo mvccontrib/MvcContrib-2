@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Web.Mvc;
 using MvcContrib.IncludeHandling;
 using MvcContrib.IncludeHandling.Configuration;
+using NUnit.Framework;
 using Rhino.Mocks;
-using Xunit;
 
 namespace MvcContrib.UnitTests.IncludeHandling
 {
+	[TestFixture]
 	public class IncludeControllerFacts
 	{
 		private readonly IncludeController _controller;
@@ -24,53 +25,49 @@ namespace MvcContrib.UnitTests.IncludeHandling
 			_mocks.ReplayAll();
 		}
 
-		[Fact]
+		[Test]
 		public void Css_ShouldAskCombinerForCombinationMatchingKey()
 		{
 			var combination = new IncludeCombination(IncludeType.Css, new[] { "foo.css" }, "#Foo{color:red;}", DateTime.UtcNow, new CssTypeElement());
 			_mockSettings.Expect(s => s.Types[IncludeType.Css]).Return(new CssTypeElement());
 			_mockCombiner.Expect(c => c.GetCombination("foo")).Return(combination);
-			ActionResult result = null;
-			Assert.DoesNotThrow(() => result = _controller.Css("foo"));
+			ActionResult result = _controller.Css("foo");
 
-			Assert.IsType<IncludeCombinationResult>(result);
-			Assert.Equal(combination, ((IncludeCombinationResult) result).Combination);
+			Assert.IsInstanceOfType(typeof(IncludeCombinationResult), result);
+			Assert.AreEqual(combination, ((IncludeCombinationResult) result).Combination);
 			_mocks.VerifyAll();
 		}
 
-		[Fact]
+		[Test]
 		public void Js_ShouldAskCombinerForCombinationMatchingKey()
 		{
 			var combination = new IncludeCombination(IncludeType.Js, new[] { "foo.js" }, "alert('foo!');", DateTime.UtcNow, new JsTypeElement());
 			_mockSettings.Expect(s => s.Types[IncludeType.Js]).Return(new JsTypeElement());
 			_mockCombiner.Expect(c => c.GetCombination("foo")).Return(combination);
-			ActionResult result = null;
-			Assert.DoesNotThrow(() => result = _controller.Js("foo"));
+			ActionResult result = _controller.Js("foo");
 
-			Assert.IsType<IncludeCombinationResult>(result);
-			Assert.Equal(combination, ((IncludeCombinationResult) result).Combination);
+			Assert.IsInstanceOfType(typeof(IncludeCombinationResult), result);
+			Assert.AreEqual(combination, ((IncludeCombinationResult) result).Combination);
 			_mocks.VerifyAll();
 		}
 
-		[Fact]
+		[Test]
 		public void Index_ShouldAskCombinerForAllCombinations_AndAllIncludes()
 		{
 			_mockCombiner.Expect(c => c.GetAllIncludes()).Return(new List<Include>());
 			_mockCombiner.Expect(c => c.GetAllCombinations()).Return(new Dictionary<string, IncludeCombination>());
 
-			ActionResult result = null;
-			Assert.DoesNotThrow(() => result = _controller.Index());
-			Assert.IsType<ViewResult>(result);
+			ActionResult result = _controller.Index();
+			Assert.IsInstanceOfType(typeof(ViewResult), result);
 			_mocks.VerifyAll();
 		}
 
-		[Fact]
+		[Test]
 		public void Clear_ShouldTellCombinerToClear()
 		{
 			_mockCombiner.Expect(c => c.Clear());
-			ActionResult result = null;
-			Assert.DoesNotThrow(() => result = _controller.Clear());
-			Assert.IsType<RedirectToRouteResult>(result);
+			ActionResult result = _controller.Clear();
+			Assert.IsInstanceOfType(typeof(RedirectToRouteResult), result);
 			_mocks.VerifyAll();
 		}
 	}

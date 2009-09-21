@@ -7,11 +7,12 @@ using MvcContrib.IncludeHandling.Configuration;
 using MvcContrib.Interfaces;
 using MvcContrib.Services;
 using MvcContrib.TestHelper;
+using NUnit.Framework;
 using Rhino.Mocks;
-using Xunit;
 
 namespace MvcContrib.UnitTests.IncludeHandling
 {
+	[TestFixture]
 	public class IncludeCombinerHtmlExtensionsFacts
 	{
 		private readonly HtmlHelper _html;
@@ -34,18 +35,18 @@ namespace MvcContrib.UnitTests.IncludeHandling
 			DependencyResolver.InitializeWith(resolver);
 		}
 
-		[Fact]
+		[Test]
 		public void AddInclude_ShouldAppendIncludeToSetInViewData()
 		{
 			_html.IncludeCss("~/content/css/site.css");
 
 			var set = _viewData[getViewDataKey(IncludeType.Css)] as IList<string>;
-			Assert.NotNull(set);
-			Assert.Equal(1, set.Count);
-			Assert.Equal("~/content/css/site.css", set[0]);
+			Assert.IsNotNull(set);
+			Assert.AreEqual(1, set.Count);
+			Assert.AreEqual("~/content/css/site.css", set[0]);
 		}
 
-		[Fact]
+		[Test]
 		public void AddMultipleIncludes_ShouldAppendIncludeToSetInSameOrderAsAdded()
 		{
 			_html.IncludeJs("foo");
@@ -53,14 +54,14 @@ namespace MvcContrib.UnitTests.IncludeHandling
 			_html.IncludeJs("baz");
 
 			var set = _viewData[getViewDataKey(IncludeType.Js)] as IList<string>;
-			Assert.NotNull(set);
-			Assert.Equal(3, set.Count);
-			Assert.Equal("foo", set[0]);
-			Assert.Equal("bar", set[1]);
-			Assert.Equal("baz", set[2]);
+			Assert.IsNotNull(set);
+			Assert.AreEqual(3, set.Count);
+			Assert.AreEqual("foo", set[0]);
+			Assert.AreEqual("bar", set[1]);
+			Assert.AreEqual("baz", set[2]);
 		}
 
-		[Fact]
+		[Test]
 		public void AddSameIncludeMoreThanOnce_ShouldOnlyAddIncludeTheFirstTime()
 		{
 			_html.IncludeJs("foo");
@@ -68,52 +69,52 @@ namespace MvcContrib.UnitTests.IncludeHandling
 			_html.IncludeJs("foo");
 
 			var set = _viewData[getViewDataKey(IncludeType.Js)] as IList<string>;
-			Assert.NotNull(set);
-			Assert.Equal(2, set.Count);
-			Assert.Equal("foo", set[0]);
-			Assert.Equal("bar", set[1]);
+			Assert.IsNotNull(set);
+			Assert.AreEqual(2, set.Count);
+			Assert.AreEqual("foo", set[0]);
+			Assert.AreEqual("bar", set[1]);
 		}
 
-		[Fact]
+		[Test]
 		public void IncludeJs_ViaParams_ShouldWork()
 		{
 			_html.IncludeJs("foo.js", "bar.js");
 			var set = _viewData[getViewDataKey(IncludeType.Js)] as IList<string>;
-			Assert.NotNull(set);
-			Assert.Equal(2, set.Count);
-			Assert.Equal("foo.js", set[0]);
-			Assert.Equal("bar.js", set[1]);
+			Assert.IsNotNull(set);
+			Assert.AreEqual(2, set.Count);
+			Assert.AreEqual("foo.js", set[0]);
+			Assert.AreEqual("bar.js", set[1]);
 		}
 
-		[Fact]
+		[Test]
 		public void IncludeCss_ViaParams_ShouldWork()
 		{
 			_html.IncludeCss("foo.css", "bar.css");
 			var set = _viewData[getViewDataKey(IncludeType.Css)] as IList<string>;
-			Assert.NotNull(set);
-			Assert.Equal(2, set.Count);
-			Assert.Equal("foo.css", set[0]);
-			Assert.Equal("bar.css", set[1]);
+			Assert.IsNotNull(set);
+			Assert.AreEqual(2, set.Count);
+			Assert.AreEqual("foo.css", set[0]);
+			Assert.AreEqual("bar.css", set[1]);
 		}
 
-		[Fact]
+		[Test]
 		public void AddIncludesOfDifferentTypes_ShouldAddToAppropriateSet()
 		{
 			_html.IncludeJs("foo.js");
 			_html.IncludeCss("foo.css");
 
 			var jsSet = _viewData[getViewDataKey(IncludeType.Js)] as IList<string>;
-			Assert.NotNull(jsSet);
-			Assert.Equal(1, jsSet.Count);
-			Assert.Equal("foo.js", jsSet[0]);
+			Assert.IsNotNull(jsSet);
+			Assert.AreEqual(1, jsSet.Count);
+			Assert.AreEqual("foo.js", jsSet[0]);
 
 			var cssSet = _viewData[getViewDataKey(IncludeType.Css)] as IList<string>;
-			Assert.NotNull(cssSet);
-			Assert.Equal(1, cssSet.Count);
-			Assert.Equal("foo.css", cssSet[0]);
+			Assert.IsNotNull(cssSet);
+			Assert.AreEqual(1, cssSet.Count);
+			Assert.AreEqual("foo.css", cssSet[0]);
 		}
 
-		[Fact]
+		[Test]
 		public void RenderCss_ShouldFlushTheSet()
 		{
 			var stubContext = _mocks.Stub<HttpContextBase>();
@@ -122,15 +123,15 @@ namespace MvcContrib.UnitTests.IncludeHandling
 			_mockHttpContextProvider.Expect(s => s.Context).Return(stubContext);
 			_html.IncludeCss("/foo.css");
 			var before = _viewData[getViewDataKey(IncludeType.Css)] as IList<string>;
-			Assert.Equal(1, before.Count);
+			Assert.AreEqual(1, before.Count);
 
 			_html.RenderCss(true);
 
 			var after = _viewData[getViewDataKey(IncludeType.Css)] as IList<string>;
-			Assert.Equal(0, after.Count);
+			Assert.AreEqual(0, after.Count);
 		}
 
-		[Fact]
+		[Test]
 		public void RenderJs_ShouldFlushTheSet()
 		{
 			var stubContext = _mocks.Stub<HttpContextBase>();
@@ -139,12 +140,12 @@ namespace MvcContrib.UnitTests.IncludeHandling
 			_mockHttpContextProvider.Expect(s => s.Context).Return(stubContext);
 			_html.IncludeJs("/foo.js");
 			var before = _viewData[getViewDataKey(IncludeType.Js)] as IList<string>;
-			Assert.Equal(1, before.Count);
+			Assert.AreEqual(1, before.Count);
 
 			_html.RenderJs(true);
 
 			var after = _viewData[getViewDataKey(IncludeType.Js)] as IList<string>;
-			Assert.Equal(0, after.Count);
+			Assert.AreEqual(0, after.Count);
 		}
 
 		private static string getViewDataKey(IncludeType type)

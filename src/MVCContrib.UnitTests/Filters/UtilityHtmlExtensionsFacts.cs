@@ -5,12 +5,12 @@ using System.Web;
 using System.Web.Mvc;
 using MvcContrib.Filters;
 using MvcContrib.TestHelper;
+using NUnit.Framework;
 using Rhino.Mocks;
-using Xunit;
-using Xunit.Extensions;
 
-namespace MvcContrib.UnitTests
+namespace MvcContrib.UnitTests.Filters
 {
+	[TestFixture]
 	public class UtilityHtmlExtensionsFacts
 	{
 		private readonly HtmlHelper _html;
@@ -51,7 +51,7 @@ namespace MvcContrib.UnitTests
 			_mockRequest.Expect(r => r.QueryString).Return(queryString);
 			_mockRequest.Expect(r => r.Cookies).Return(cookies);
 
-			Assert.Equal(expected, _html.IsInDebugMode());
+			Assert.AreEqual(expected, _html.IsInDebugMode());
 		}
 	}
 }

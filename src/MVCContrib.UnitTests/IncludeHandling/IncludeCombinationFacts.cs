@@ -1,11 +1,12 @@
+using System;
 using System.Collections.Generic;
 using MvcContrib.IncludeHandling;
 using MvcContrib.IncludeHandling.Configuration;
-using Xunit;
-using Xunit.Extensions;
+using NUnit.Framework;
 
 namespace MvcContrib.UnitTests.IncludeHandling
 {
+	[TestFixture]
 	public class IncludeCombinationFacts
 	{
 		public static IEnumerable<object[]> GetResponseBodyBytes_Data
@@ -34,7 +35,7 @@ namespace MvcContrib.UnitTests.IncludeHandling
 		{
 			get
 			{
-				var now = Clock.UtcNow;
+				var now = DateTime.UtcNow;
 				var sources = new[] { "foo.js" };
 				yield return new object[]
 				{
@@ -63,10 +64,9 @@ namespace MvcContrib.UnitTests.IncludeHandling
 		[PropertyData("GetResponseBodyBytes_Data")]
 		public void GetResponseBodyBytes_CorrectlyCompressesCombination(ResponseCompression compression, string content, byte[] expected)
 		{
-			var combination = new IncludeCombination(IncludeType.Js, new[] { "foo.js" }, content, Clock.UtcNow, new JsTypeElement());
-			byte[] result = null;
-			Assert.DoesNotThrow(() => result = combination.Bytes[compression]);
-			Assert.Equal(expected, result);
+			var combination = new IncludeCombination(IncludeType.Js, new[] { "foo.js" }, content, DateTime.UtcNow, new JsTypeElement());
+			byte[] result = combination.Bytes[compression];
+			Assert.AreEqual(expected, result);
 		}
 
 		[Theory]
@@ -75,7 +75,7 @@ namespace MvcContrib.UnitTests.IncludeHandling
 		public void Equals_CorrectlyComparesTwoCombinations(IncludeCombination a, IncludeCombination b, bool expected)
 		{
 			var result = a.Equals(b);
-			Assert.Equal(expected, result);
+			Assert.AreEqual(expected, result);
 		}
 
 		[Theory]
@@ -84,7 +84,7 @@ namespace MvcContrib.UnitTests.IncludeHandling
 		public void Equals_CorrectlyComparesCombinationToObject(IncludeCombination a, object b, bool expected)
 		{
 			var result = a.Equals(b);
-			Assert.Equal(expected, result);
+			Assert.AreEqual(expected, result);
 		}
 
 		[Theory]
@@ -93,31 +93,31 @@ namespace MvcContrib.UnitTests.IncludeHandling
 		public void Equals_CorrectlyComparesObjectToCombination(object a, IncludeCombination b, bool expected)
 		{
 			var result = a.Equals(b);
-			Assert.Equal(expected, result);
+			Assert.AreEqual(expected, result);
 		}
 
-		[Fact]
+		[Test]
 		public void Equals_CorrectlyHandlesNullCombination()
 		{
-			var combination = new IncludeCombination(IncludeType.Js, new[] { "foo.js" }, "alert('foo');", Clock.UtcNow, new JsTypeElement());
+			var combination = new IncludeCombination(IncludeType.Js, new[] { "foo.js" }, "alert('foo');", DateTime.UtcNow, new JsTypeElement());
 			var result = combination.Equals(null);
-			Assert.False(result);
+			Assert.IsFalse(result);
 		}
 
-		[Fact]
+		[Test]
 		public void Equals_CorrectlyHandlesNullObject()
 		{
-			var combination = new IncludeCombination(IncludeType.Js, new[] { "foo.js" }, "alert('foo');", Clock.UtcNow, new JsTypeElement());
+			var combination = new IncludeCombination(IncludeType.Js, new[] { "foo.js" }, "alert('foo');", DateTime.UtcNow, new JsTypeElement());
 			var result = combination.Equals((object) null);
-			Assert.False(result);
+			Assert.IsFalse(result);
 		}
 
-		[Fact]
+		[Test]
 		public void Equals_CorrectlyHandlesComparisonToDifferentType()
 		{
-			var combination = new IncludeCombination(IncludeType.Js, new[] { "foo.js" }, "alert('foo');", Clock.UtcNow, new JsTypeElement());
+			var combination = new IncludeCombination(IncludeType.Js, new[] { "foo.js" }, "alert('foo');", DateTime.UtcNow, new JsTypeElement());
 			var result = combination.Equals(new string[1]);
-			Assert.False(result);
+			Assert.IsFalse(result);
 		}
 	}
 }

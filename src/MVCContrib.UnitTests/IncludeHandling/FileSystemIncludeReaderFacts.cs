@@ -1,10 +1,10 @@
 using System;
 using MvcContrib.IncludeHandling;
-using Xunit;
-using Xunit.Extensions;
+using NUnit.Framework;
 
 namespace MvcContrib.UnitTests.IncludeHandling
 {
+	[TestFixture]
 	public class FileSystemIncludeReaderFacts
 	{
 		private readonly IIncludeReader _reader;
@@ -14,12 +14,11 @@ namespace MvcContrib.UnitTests.IncludeHandling
 			_reader = new FileSystemIncludeReader("/", "c:\\");
 		}
 
-		[Fact]
+		[Test]
 		public void ToAbsolute_ConvertsPathWhenSourceIsRelative()
 		{
-			string result = null;
-			Assert.DoesNotThrow(() => result = _reader.ToAbsolute("~/foo.css"));
-			Assert.Equal("/foo.css", result);
+			var result = _reader.ToAbsolute("~/foo.css");
+			Assert.AreEqual("/foo.css", result);
 		}
 
 		[Theory]
@@ -40,15 +39,14 @@ namespace MvcContrib.UnitTests.IncludeHandling
 			_reader = new FileSystemIncludeReader("/", Environment.CurrentDirectory);
 		}
 
-		[Fact]
+		[Test]
 		public void WhenFileExists_WillReadIt()
 		{
-			Include include = null;
-			Assert.DoesNotThrow(() => include = _reader.Read("IncludeHandling\\exists.txt", IncludeType.Js));
-			Assert.Equal("hello world, i exist!", include.Content);
+			Include include = _reader.Read("IncludeHandling\\exists.txt", IncludeType.Js);
+			Assert.AreEqual("hello world, i exist!", include.Content);
 		}
 
-		[Fact]
+		[Test]
 		public void WhenFileNotFound_WillThrow()
 		{
 			Assert.Throws<InvalidOperationException>(() => _reader.Read("c:\\doesNotExist.txt", IncludeType.Css));

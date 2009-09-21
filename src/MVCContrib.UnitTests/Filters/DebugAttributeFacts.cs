@@ -4,12 +4,12 @@ using System.Collections.Specialized;
 using System.Web;
 using System.Web.Mvc;
 using MvcContrib.Filters;
+using NUnit.Framework;
 using Rhino.Mocks;
-using Xunit;
-using Xunit.Extensions;
 
-namespace MvcContrib.UnitTests
+namespace MvcContrib.UnitTests.Filters
 {
+	[TestFixture]
 	public class DebugAttributeFacts
 	{
 		private readonly DebugAttribute _filter;
@@ -41,13 +41,13 @@ namespace MvcContrib.UnitTests
 			}
 		}
 
-		[Fact]
+		[Test]
 		public void OnActionExecuting_DoesNothing()
 		{
 			Assert.DoesNotThrow(() => _filter.OnActionExecuting(_mocks.Stub<ActionExecutingContext>()));
 		}
 
-		[Fact]
+		[Test]
 		public void WhenDebugIsNullOrEmptyInQueryString_NothingShouldHappen()
 		{
 			_mockRequest.Expect(r => r.QueryString).Return(new NameValueCollection());
@@ -75,8 +75,8 @@ namespace MvcContrib.UnitTests
 			if (!debugCookieWasPresent)
 			{
 				var result = cookies["debug"];
-				Assert.NotNull(result);
-				Assert.Equal("1", result.Value);
+				Assert.IsNotNull(result);
+				Assert.AreEqual("1", result.Value);
 			}
 			_mocks.VerifyAll();
 		}
@@ -98,7 +98,7 @@ namespace MvcContrib.UnitTests
 			Assert.DoesNotThrow(() => _filter.OnActionExecuted(_mockFilterContext));
 			if (debugCookieWasPresent)
 			{
-				Assert.Null(cookies["debug"]);
+				Assert.IsNull(cookies["debug"]);
 			}
 			_mocks.VerifyAll();
 		}

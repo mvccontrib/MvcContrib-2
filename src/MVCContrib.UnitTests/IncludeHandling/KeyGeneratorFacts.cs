@@ -1,9 +1,10 @@
 using System;
 using MvcContrib.IncludeHandling;
-using Xunit;
+using NUnit.Framework;
 
 namespace MvcContrib.UnitTests.IncludeHandling
 {
+	[TestFixture]
 	public class KeyGeneratorFacts
 	{
 		private readonly IKeyGenerator _keygen;
@@ -13,38 +14,36 @@ namespace MvcContrib.UnitTests.IncludeHandling
 			_keygen = new KeyGenerator();
 		}
 
-		[Fact]
+		[Test]
 		public void Generate_WillThrowWhenInputIsNull()
 		{
 			Assert.Throws<ArgumentNullException>(() => _keygen.Generate(null));
 		}
 
-		[Fact]
+		[Test]
 		public void Generate_WillGenerateAKeyBasedOnInput()
 		{
-			string key = null;
-			Assert.DoesNotThrow(() => key = _keygen.Generate(new[] { "foobar" }));
-			Assert.Equal("iEPX-SQWIR3p67lj_0zigSWTKHg@", key);
+			string key = _keygen.Generate(new[] { "foobar" });
+			Assert.AreEqual("iEPX-SQWIR3p67lj_0zigSWTKHg@", key);
 		}
 
-		[Fact]
+		[Test]
 		public void Generate_WillNotGenerateTheSameKeyForDifferentInputs()
 		{
 			var random = new Random(DateTime.UtcNow.Millisecond);
 			var input1 = random.Next().ToString();
 			var input2 = random.Next().ToString();
 
-			string key1 = null, key2 = null;
-			Assert.DoesNotThrow(() => key1 = _keygen.Generate(new[] { input1 }));
-			Assert.DoesNotThrow(() => key2 = _keygen.Generate(new[] { input2 }));
+			string key1 = _keygen.Generate(new[] {input1});
+			var key2 = _keygen.Generate(new[] {input2});
 
 			if (input1 == input2)
 			{
-				Assert.Equal(key1, key2);
+				Assert.AreEqual(key1, key2);
 			}
 			else
 			{
-				Assert.NotEqual(key1, key2);
+				Assert.AreNotEqual(key1, key2);
 			}
 		}
 	}
