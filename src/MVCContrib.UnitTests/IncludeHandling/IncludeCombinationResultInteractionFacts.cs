@@ -159,7 +159,7 @@ namespace MvcContrib.UnitTests.IncludeHandling
 
 			var cacheFor = TimeSpan.FromMinutes(30);
 			_mockCachePolicy.Expect(cp => cp.SetCacheability(HttpCacheability.Public));
-			_mockCachePolicy.Expect(cp => cp.SetExpires(DateTime.UtcNow.Add(cacheFor)));
+			_mockCachePolicy.Expect(cp => cp.SetExpires(lastModifiedAt.Add(cacheFor)));
 			_mockCachePolicy.Expect(cp => cp.SetMaxAge(cacheFor));
 			_mockCachePolicy.Expect(cp => cp.SetValidUntilExpires(true));
 			_mockCachePolicy.Expect(cp => cp.SetLastModified(lastModifiedAt));

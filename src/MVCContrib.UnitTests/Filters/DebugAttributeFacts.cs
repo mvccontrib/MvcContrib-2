@@ -44,9 +44,10 @@ namespace MvcContrib.UnitTests.Filters
 		[Test]
 		public void OnActionExecuting_DoesNothing()
 		{
-			_filter.OnActionExecuting(_mocks.Stub<ActionExecutingContext>());
+			var context = _mocks.Stub<ActionExecutingContext>();
+			context.Replay();
+			_filter.OnActionExecuting(context);
 			Assert.IsTrue(true);
-			_mocks.VerifyAll();
 		}
 
 		[Test]
