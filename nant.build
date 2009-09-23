@@ -9,7 +9,7 @@
 	<property name="results.dir" value="${build.base}\results" />
 	<property name="samples.dir" value="src\samples"/>
 	<property name="revisionnumber" value="0" dynamic="true"/>
-	<property name="revisionnumber" value="${CCNetLabel}" if="${property::exists('CCNetLabel')}"/>
+	<property name="revisionnumber" value="${Build.Number}" if="${property::exists('Build.Number')}"/>
 	<property name="project.fullversion" value="1.0.${revisionnumber}.0" dynamic="true"/>
 	<property name="version.major" value="1"/>
 	<property name="version.minor" value="0"/>
@@ -138,7 +138,7 @@
 	</target>
 
 	<target name="package">
-		<!-- TODO: How to we generate ChangeLog now that we're using git?-->
+		<!-- TODO: How do we generate ChangeLog now that we're using git?-->
 		<!-- 		
 		  MvcContrib
 			license
