@@ -8,14 +8,17 @@
 	<property name="build.base" value="build"/>
 	<property name="results.dir" value="${build.base}\results" />
 	<property name="samples.dir" value="src\samples"/>
-	<property name="revisionnumber" value="0" dynamic="true"/>
-	<property name="revisionnumber" value="${build.number}" if="${property::exists('build.number')}"/>
-	<property name="project.fullversion" value="1.0.${revisionnumber}.0" dynamic="true"/>
-	<property name="version.major" value="1"/>
-	<property name="version.minor" value="0"/>
-	<property name="version.build" value="0"/>
-	<property name="version.revision" value="0"/>
-	<property name="project.fullversion" value="${version.major}.${version.minor}.${version.build}.${version.revision}" dynamic="true" />
+	<property name="project.fullversion" value="1.0.0.99" />
+	<property name="project.fullversion" value="${build.number}" if="${property::exists('build.number')}"/>
+	<!--
+		<property name="revisionnumber" value="0" dynamic="true"/>
+		<property name="project.fullversion" value="1.0.${revisionnumber}.0" dynamic="true"/>
+		<property name="version.major" value="1"/>
+		<property name="version.minor" value="0"/>
+		<property name="version.build" value="0"/>
+		<property name="version.revision" value="0"/>
+		<property name="project.fullversion" value="${version.major}.${version.minor}.${version.build}.${version.revision}" dynamic="true" />
+	-->
 	<property name="nant.settings.currentframework" value="net-3.5" />
 	<property name="msbuild.path" value="${framework::get-framework-directory(framework::get-target-framework())}\msbuild.exe" />
 	<property name="runtests" value="true" unless="${property::exists('runtests')}" />
