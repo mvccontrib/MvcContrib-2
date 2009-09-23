@@ -9,7 +9,7 @@
 	<property name="results.dir" value="${build.base}\results" />
 	<property name="samples.dir" value="src\samples"/>
 	<property name="revisionnumber" value="0" dynamic="true"/>
-	<property name="revisionnumber" value="${Build_Number}" if="${property::exists('Build_Number')}"/>
+	<property name="revisionnumber" value="${build.number}" if="${property::exists('build.number')}"/>
 	<property name="project.fullversion" value="1.0.${revisionnumber}.0" dynamic="true"/>
 	<property name="version.major" value="1"/>
 	<property name="version.minor" value="0"/>
