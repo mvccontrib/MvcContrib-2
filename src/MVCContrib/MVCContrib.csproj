@@ -252,23 +252,39 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <EmbeddedResource Include="UI\InputBuilder\Views\InputBuilders\Field.Master" />
-    <EmbeddedResource Include="UI\InputBuilder\Views\InputBuilders\HiddenField.Master" />
+    <EmbeddedResource Include="UI\InputBuilder\Views\InputBuilders\Field.Master">
+      <SubType>ASPXCodeBehind</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\InputBuilder\Views\InputBuilders\HiddenField.Master">
+      <SubType>ASPXCodeBehind</SubType>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="UI\InputBuilder\Views\InputBuilders\Boolean.aspx" />
+    <EmbeddedResource Include="UI\InputBuilder\Views\InputBuilders\Boolean.aspx">
+      <SubType>ASPXCodeBehind</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\InputBuilder\Views\InputBuilders\DateTime.aspx">
       <SubType>ASPXCodeBehind</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\InputBuilder\Views\InputBuilders\Enum.aspx" />
-    <EmbeddedResource Include="UI\InputBuilder\Views\InputBuilders\Guid.aspx" />
+    <EmbeddedResource Include="UI\InputBuilder\Views\InputBuilders\Guid.aspx">
+      <SubType>ASPXCodeBehind</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\InputBuilder\Views\InputBuilders\Int32.aspx">
       <SubType>ASPXCodeBehind</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\InputBuilder\Views\InputBuilders\MultilineText.aspx" />
-    <EmbeddedResource Include="UI\InputBuilder\Views\InputBuilders\RadioButtons.aspx" />
-    <EmbeddedResource Include="UI\InputBuilder\Views\InputBuilders\ReadOnly.aspx" />
-    <EmbeddedResource Include="UI\InputBuilder\Views\InputBuilders\String.aspx" />
+    <EmbeddedResource Include="UI\InputBuilder\Views\InputBuilders\MultilineText.aspx">
+      <SubType>ASPXCodeBehind</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\InputBuilder\Views\InputBuilders\RadioButtons.aspx">
+      <SubType>ASPXCodeBehind</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\InputBuilder\Views\InputBuilders\ReadOnly.aspx">
+      <SubType>ASPXCodeBehind</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\InputBuilder\Views\InputBuilders\String.aspx">
+      <SubType>ASPXCodeBehind</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\InputBuilder\Views\InputBuilders\Submit.aspx">
       <SubType>ASPXCodeBehind</SubType>
     </EmbeddedResource>

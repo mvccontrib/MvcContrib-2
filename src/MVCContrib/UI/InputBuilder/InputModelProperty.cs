@@ -18,6 +18,8 @@ namespace MvcContrib.UI.InputBuilder
 
         public bool HasValidationMessages { get; set; }
 
+        public string Layout { get; set; }
+
         public bool HasExample()
         {
             return !string.IsNullOrEmpty(Example);

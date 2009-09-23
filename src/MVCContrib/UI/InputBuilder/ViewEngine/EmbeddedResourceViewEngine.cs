@@ -9,11 +9,11 @@ namespace MvcContrib.UI.InputBuilder
 		{
 			var inputs = subdirs.Concat(new string[]{"InputBuilders"});
 
-			PartialViewLocationFormats = inputs.Select(s => "~/Views/" + s + "/{0}.aspx").ToArray();
+            PartialViewLocationFormats = inputs.Select(s => "~/Views/" + s + "/{0}.aspx").Concat(subdirs.Select(s => "~/Views/" + s + "/{0}.ascx")).ToArray();
 
 			MasterLocationFormats = inputs.Select(s => "~/Views/" + s + "/{0}.master").ToArray();
 
-			ViewLocationFormats = subdirs.Select(s => "~/Views/" + s + "/{0}.aspx").ToArray(); ;
+            ViewLocationFormats = inputs.Select(s => "~/Views/" + s + "/{0}.aspx").Concat(subdirs.Select(s => "~/Views/" + s + "/{0}.ascx")).ToArray(); ;
 		}
 	}
 }

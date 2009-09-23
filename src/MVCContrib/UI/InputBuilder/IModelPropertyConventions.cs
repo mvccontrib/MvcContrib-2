@@ -15,5 +15,6 @@ namespace MvcContrib.UI.InputBuilder
         string PartialNameConvention(PropertyInfo propertyInfo);
         InputModelProperty ModelPropertyBuilder(PropertyInfo propertyInfo,object model);
         bool PropertyIsRequiredConvention(PropertyInfo propertyInfo);
+        string Layout(string partialName);
     }
 }

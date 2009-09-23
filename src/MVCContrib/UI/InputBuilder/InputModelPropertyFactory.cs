@@ -27,6 +27,7 @@ namespace MvcContrib.UI.InputBuilder
             model.Example = _conventions.ExampleForPropertyConvention(propertyInfo);
             model.HasValidationMessages = _conventions.ModelIsInvalidConvention(propertyInfo, _htmlHelper);
             model.Type = _conventions.PropertyTypeConvention(propertyInfo);
+            model.Layout= _conventions.Layout(model.PartialName);
 
             return model;
         }

@@ -74,7 +74,14 @@ namespace MvcContrib.UI.InputBuilder
             return propertyInfo.AttributeExists<RequiredAttribute>();
         }
 
-		public virtual Type PropertyTypeConvention(PropertyInfo propertyInfo)
+        public string Layout(string partialName)
+        {
+            if (partialName.ToLower().Equals("guid"))
+                return "HiddenField";
+            return "Field";
+        }
+
+        public virtual Type PropertyTypeConvention(PropertyInfo propertyInfo)
         {
             return propertyInfo.PropertyType;
         }
