@@ -162,7 +162,7 @@
     <Compile Include="AssertionExtensions.cs" />
     <Compile Include="CultureHelper.cs" />
     <Compile Include="CustomPaginationTester.cs" />
-    <Compile Include="Filters\DebugAttributeFacts.cs" />
+    <Compile Include="Filters\DebugAttributeTester.cs" />
     <Compile Include="Filters\LayoutAttributeTester.cs" />
     <Compile Include="BaseViewTester.cs" />
     <Compile Include="Binders\SubControllerBinderTester.cs" />
@@ -183,7 +183,7 @@
     <Compile Include="Filters\PassParametersDuringRedirectAttributeTester.cs" />
     <Compile Include="Filters\SubControllerActionToViewDataAttributeTester.cs" />
     <Compile Include="Filters\TempDataToViewDataTester.cs" />
-    <Compile Include="Filters\UtilityHtmlExtensionsFacts.cs" />
+    <Compile Include="Filters\UtilityHtmlExtensionsTester.cs" />
     <Compile Include="FluentHtml\AutoLabelTests.cs" />
     <Compile Include="FluentHtml\ButtonTests.cs" />
     <Compile Include="FluentHtml\CheckBoxListTests.cs" />
@@ -225,17 +225,17 @@
     </Compile>
     <Compile Include="HashTester.cs" />
     <Compile Include="HttpContextExtensionsTester.cs" />
-    <Compile Include="IncludeHandling\FileSystemIncludeReaderFacts.cs" />
-    <Compile Include="IncludeHandling\IncludeCombinationFacts.cs" />
-    <Compile Include="IncludeHandling\IncludeCombinationResultInteractionFacts.cs" />
-    <Compile Include="IncludeHandling\IncludeCombinationResultStateFacts.cs" />
-    <Compile Include="IncludeHandling\IncludeCombinerHtmlExtensionsFacts.cs" />
-    <Compile Include="IncludeHandling\IncludeCombinerInteractionFacts.cs" />
-    <Compile Include="IncludeHandling\IncludeCombinerStateFacts.cs" />
-    <Compile Include="IncludeHandling\IncludeControllerFacts.cs" />
-    <Compile Include="IncludeHandling\IncludeHandlingSectionHandlerFacts.cs" />
-    <Compile Include="IncludeHandling\IncludeStorageFacts.cs" />
-    <Compile Include="IncludeHandling\KeyGeneratorFacts.cs" />
+    <Compile Include="IncludeHandling\FileSystemIncludeReaderTester.cs" />
+    <Compile Include="IncludeHandling\IncludeCombinationTester.cs" />
+    <Compile Include="IncludeHandling\IncludeCombinationResultInteractionTester.cs" />
+    <Compile Include="IncludeHandling\IncludeCombinationResultStateTester.cs" />
+    <Compile Include="IncludeHandling\IncludeCombinerHtmlExtensionsTester.cs" />
+    <Compile Include="IncludeHandling\IncludeCombinerInteractionTester.cs" />
+    <Compile Include="IncludeHandling\IncludeCombinerStateTester.cs" />
+    <Compile Include="IncludeHandling\IncludeControllerTester.cs" />
+    <Compile Include="IncludeHandling\IncludeHandlingSectionHandlerTester.cs" />
+    <Compile Include="IncludeHandling\IncludeStorageTester.cs" />
+    <Compile Include="IncludeHandling\KeyGeneratorTester.cs" />
     <Compile Include="IoC\DependencyResolverTester.cs" />
     <Compile Include="IoC\IDependency.cs" />
     <Compile Include="IoC\INestedDependency.cs" />

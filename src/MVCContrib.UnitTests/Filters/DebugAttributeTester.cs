@@ -9,7 +9,7 @@ using Rhino.Mocks;
 namespace MvcContrib.UnitTests.Filters
 {
 	[TestFixture]
-	public class DebugAttributeFacts
+	public class DebugAttributeTester
 	{
 		private DebugAttribute _filter;
 		private ActionExecutedContext _mockFilterContext;
@@ -21,7 +21,7 @@ namespace MvcContrib.UnitTests.Filters
 		public CookiesData DebugPresent;
 		[Datapoint]public CookiesData DebugNotPresent;
 
-		public DebugAttributeFacts()
+		public DebugAttributeTester()
 		{
 			DebugPresent = new CookiesData {Cookies = new HttpCookieCollection {new HttpCookie("debug", "1")},DebugCookieWasPresent = true};
 			DebugNotPresent = new CookiesData {Cookies = new HttpCookieCollection(), DebugCookieWasPresent = false};

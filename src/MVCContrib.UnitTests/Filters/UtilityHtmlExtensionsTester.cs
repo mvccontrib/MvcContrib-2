@@ -11,7 +11,7 @@ using Rhino.Mocks;
 namespace MvcContrib.UnitTests.Filters
 {
 	[TestFixture]
-	public class UtilityHtmlExtensionsFacts
+	public class UtilityHtmlExtensionsTester
 	{
 		[Datapoint] public DebugMode NothingInQueryString;
 		[Datapoint]
@@ -31,7 +31,7 @@ namespace MvcContrib.UnitTests.Filters
 		[Datapoint]
 		public DebugMode NotExpiredOneInCookies;
 
-		public UtilityHtmlExtensionsFacts()
+		public UtilityHtmlExtensionsTester()
 		{
 			NothingInQueryString = new DebugMode { QueryString = new NameValueCollection(), Cookies = new HttpCookieCollection(), Expected = false };
 			BlankInQueryString = new DebugMode { QueryString = new NameValueCollection { { "debug", null } }, Cookies = new HttpCookieCollection(), Expected = false };
