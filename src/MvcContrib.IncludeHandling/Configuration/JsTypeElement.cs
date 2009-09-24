@@ -12,11 +12,6 @@ namespace MvcContrib.IncludeHandling.Configuration
 
 		#region IJsMinifySettings Members
 
-		public bool Verbose
-		{
-			get { return jsOptions.Verbose; }
-		}
-
 		public bool Obfuscate
 		{
 			get { return jsOptions.Obfuscate; }

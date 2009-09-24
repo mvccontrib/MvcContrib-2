@@ -39,7 +39,6 @@ namespace MvcContrib.UnitTests.IncludeHandling
 			Assert.AreEqual(false, section.Js.DisableOptimizations);
 			Assert.AreEqual(true, section.Js.Obfuscate);
 			Assert.AreEqual(true, section.Js.PreserveSemiColons);
-			Assert.AreEqual(false, section.Js.Verbose);
 		}
 
 		[Test]
@@ -67,7 +66,6 @@ namespace MvcContrib.UnitTests.IncludeHandling
 			Assert.AreEqual(true, section.Js.DisableOptimizations);
 			Assert.AreEqual(false, section.Js.Obfuscate);
 			Assert.AreEqual(false, section.Js.PreserveSemiColons);
-			Assert.AreEqual(true, section.Js.Verbose);
 		}
 
 		[Datapoint] public string pathValidation1 = "pathValidation1";

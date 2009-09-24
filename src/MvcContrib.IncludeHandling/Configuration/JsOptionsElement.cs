@@ -7,15 +7,8 @@ namespace MvcContrib.IncludeHandling.Configuration
 		private const string DISABLEOPTIMIZATIONS = "disableOptimizations";
 		private const string OBFUSCATE = "obfuscate";
 		private const string PRESERVESEMICOLONS = "preserveSemiColons";
-		private const string VERBOSE = "verbose";
 
 		#region IJsMinifySettings Members
-
-		[ConfigurationProperty(VERBOSE, DefaultValue = false)]
-		public bool Verbose
-		{
-			get { return (bool) this[VERBOSE]; }
-		}
 
 		[ConfigurationProperty(OBFUSCATE, DefaultValue = true)]
 		public bool Obfuscate

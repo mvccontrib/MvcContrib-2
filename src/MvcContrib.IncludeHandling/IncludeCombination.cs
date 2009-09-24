@@ -136,7 +136,7 @@ namespace MvcContrib.IncludeHandling
 				case IncludeType.Js:
 					var compressor = new JavaScriptCompressor(Content);
 					var jsSettings = (JsTypeElement) settings;
-					var minifiedJs = compressor.Compress(jsSettings.Verbose, jsSettings.Obfuscate, jsSettings.PreserveSemiColons, jsSettings.DisableOptimizations, settings.LineBreakAt);
+					var minifiedJs = compressor.Compress(jsSettings.Obfuscate, jsSettings.PreserveSemiColons, jsSettings.DisableOptimizations, settings.LineBreakAt);
 					return minifiedJs;
 
 				case IncludeType.Css:
