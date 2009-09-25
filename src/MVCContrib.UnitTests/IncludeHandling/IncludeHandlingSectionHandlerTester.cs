@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.IO;
+using System.Xml;
 using MvcContrib.IncludeHandling;
 using MvcContrib.IncludeHandling.Configuration;
 using NUnit.Framework;
@@ -12,10 +14,27 @@ namespace MvcContrib.UnitTests.IncludeHandling
 	[TestFixture]
 	public class IncludeHandlingSectionHandlerTester
 	{
+		private class FakeSectionHandler : IncludeHandlingSectionHandler
+		{
+			public new void DeserializeSection(XmlReader reader)
+			{
+				base.DeserializeSection(reader);
+			}
+		}
+
+		private IIncludeHandlingSettings readConfig(string name)
+		{
+			var section = new FakeSectionHandler();
+			var fileStream = new FileStream(string.Format("IncludeHandling\\configs\\{0}.xml", name), FileMode.Open);
+			var reader = new XmlTextReader(fileStream);
+			section.DeserializeSection(reader);
+			return section;
+		}
+
 		[Test]
 		public void DefaultsAreCorrect()
 		{
-			var section = (IIncludeHandlingSettings) ConfigurationManager.GetSection("defaultsAreCorrect");
+			var section = readConfig("DefaultsAreCorrect");
 
 			Assert.AreEqual("~/include/{0}/{1}", section.Css.Path);
 			Assert.AreEqual(TimeSpan.FromDays(365), section.Css.CacheFor);
@@ -44,7 +63,7 @@ namespace MvcContrib.UnitTests.IncludeHandling
 		[Test]
 		public void CanChangeAllTheDefaultsEvenThoughIShouldntWriteATestWithABigSurfaceAreaLikeThisNaughtyPete()
 		{
-			var section = (IIncludeHandlingSettings) ConfigurationManager.GetSection("canChangeDefaults");
+			var section = readConfig("CanChangeAllTheDefaultsEvenThoughIShouldntWriteATestWithABigSurfaceAreaLikeThisNaughtyPete");
 
 			Assert.AreEqual("~/foo/{0}/{1}", section.Css.Path);
 			Assert.AreEqual(new TimeSpan(10, 10, 10), section.Css.CacheFor);
@@ -75,7 +94,7 @@ namespace MvcContrib.UnitTests.IncludeHandling
 		[ExpectedException(typeof(ConfigurationErrorsException))]
 		public void WhenPathMissingAFormatPlaceHolder_WillThrow(string sectionName)
 		{
-			var section = (IIncludeHandlingSettings) ConfigurationManager.GetSection(sectionName);
+			var section = readConfig("WhenPathMissingAFormatPlaceHolder_WillThrow_pathValidation1");
 			string path = null;
 			Assert.Throws<ConfigurationErrorsException>(() => path = section.Css.Path);
 		}
