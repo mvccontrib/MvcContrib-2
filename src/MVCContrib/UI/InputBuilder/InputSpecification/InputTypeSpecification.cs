@@ -2,6 +2,7 @@ using System;
 using System.Reflection;
 using System.Web.Mvc;
 using System.Web.Mvc.Html;
+using MvcContrib.UI.Html;
 
 namespace MvcContrib.UI.InputBuilder
 {
@@ -43,7 +44,7 @@ namespace MvcContrib.UI.InputBuilder
 
         protected virtual void RenderPartial(InputModelProperty model)
         {
-            HtmlHelper.RenderPartial(model.PartialName, model);
+            HtmlHelper.RenderPartial(model.PartialName, model,model.Layout);
         }
 
         public InputModelProperty Model

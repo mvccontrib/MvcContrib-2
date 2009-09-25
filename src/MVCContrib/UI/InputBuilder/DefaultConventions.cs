@@ -94,11 +94,13 @@ namespace MvcContrib.UI.InputBuilder
 
 		public virtual object ValueFromModelPropertyConvention(PropertyInfo propertyInfo, object model)
         {
-            var value = propertyInfo.GetValue(model, new object[0]);
-            if (value == null)
-                return string.Empty;
-            return value;
-            
+            if (model != null)
+            {
+                var value = propertyInfo.GetValue(model, new object[0]);
+                if (value != null)
+                    return value;                    
+            }
+            return string.Empty;            
         }
     }
 }
