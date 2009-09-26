@@ -8,7 +8,6 @@ using StructureMap;
 
 namespace MvcContrib.UnitTests.ControllerFactories
 {
-	[TestFixture]
 	public class StructureMapControllerFactoryTester
 	{
 		[TestFixture]

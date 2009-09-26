@@ -8,7 +8,6 @@ using Rhino.Mocks;
 
 namespace MvcContrib.UnitTests.SimplyRestful
 {
-	[TestFixture]
 	public class SimplyRestfulRouteMatchTester
 	{
 		[TestFixture]

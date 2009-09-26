@@ -36,6 +36,12 @@ namespace MvcContrib.UnitTests.IncludeHandling
 			DependencyResolver.InitializeWith(resolver);
 		}
 
+		[TearDown]
+		public void Teardown()
+		{
+			DependencyResolver.InitializeWith(null);
+		}
+
 		[Test]
 		public void AddInclude_ShouldAppendIncludeToSetInViewData()
 		{

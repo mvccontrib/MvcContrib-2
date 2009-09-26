@@ -21,6 +21,7 @@
 	-->
 	<property name="nant.settings.currentframework" value="net-3.5" />
 	<property name="msbuild.path" value="${framework::get-framework-directory(framework::get-target-framework())}\msbuild.exe" />
+	<property name="nunit.path" value="bin\nunit\nunit-console-x86.exe" />
 	<property name="runtests" value="true" unless="${property::exists('runtests')}" />
 	
 	<!-- default configuration -->
@@ -107,8 +108,11 @@
 	<target name="test" depends="init" if="${runtests}">
 		<delete dir="${results.dir}" if="${directory::exists('${results.dir}')}" verbose="true" />
 		<mkdir dir="${results.dir}"/>
+		<exec program="${nunit.path}" 
+			commandline="${build.dir}/MvcContrib.UnitTests.dll /xml:${results.dir}\TestResult.xml" 
+			workingdir="." />
 
-		<nunit2 failonerror="true" verbose="true">
+		<!--<nunit2 failonerror="true" verbose="true">
 			<formatter type="Xml" outputdir="${results.dir}" usefile="true" extension=".xml"/>
 			<formatter type="Plain" />
 			<test assemblyname="${build.dir}/MVCContrib.UnitTests.dll">
@@ -116,7 +120,7 @@
 					<exclude name="Integration" />
 				</categories>
 			</test>
-		</nunit2>
+		</nunit2>-->
 	</target>
 
 	<target name="move-for-samples">    

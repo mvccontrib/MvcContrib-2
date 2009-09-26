@@ -5,7 +5,6 @@ using Rhino.Mocks;
 
 namespace MvcContrib.UnitTests.IoC
 {
-	[TestFixture]
 	public class WindsorDependencyResolverTester
 	{
 		[TestFixture]

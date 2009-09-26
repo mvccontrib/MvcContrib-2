@@ -7,7 +7,6 @@ using Rhino.Mocks;
 
 namespace MvcContrib.UnitTests.UI
 {
-	[TestFixture]
 	public class CapturingResponseFilterTester
 	{
 		[TestFixture]

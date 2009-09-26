@@ -7,7 +7,6 @@ using MvcContrib.Castle;
 
 namespace MvcContrib.UnitTests.IoC
 {
-	[TestFixture]
 	public class WindsorExtensionTester
 	{
 

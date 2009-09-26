@@ -8,7 +8,6 @@ using NUnit.Framework;
 namespace MvcContrib.UnitTests.UI.Html
 {
 	[Obsolete("The element API has been deprecated. Consider using MvcContrib.FluentHtml or System.Web.Mvc.TagBuilder instead.")]
-	[TestFixture]
 	public class InputElementListTester
 	{
 		[TestFixture]

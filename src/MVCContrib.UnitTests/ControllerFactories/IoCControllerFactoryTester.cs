@@ -10,7 +10,6 @@ using Rhino.Mocks;
 
 namespace MvcContrib.UnitTests.ControllerFactories.IoCControllerFactoryTester
 {
-	[TestFixture]
 	public class IoCControllerFactoryTester
 	{
 		[TestFixture]

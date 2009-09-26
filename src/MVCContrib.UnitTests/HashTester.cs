@@ -6,7 +6,6 @@ using NUnit.Framework;
 
 namespace MvcContrib.UnitTests
 {
-	[TestFixture]
 	public class HashTester
 	{
 
@@ -107,7 +106,6 @@ namespace MvcContrib.UnitTests
 		}
 	}
 
-	[TestFixture]
 	public class GenericHashTester
 	{
 		[TestFixture]
