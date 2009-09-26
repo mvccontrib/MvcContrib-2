@@ -103,6 +103,13 @@
 				<include name="**/*.spark" />
 			</fileset>
 		</copy>
+		
+		<copy todir="${build.dir}/IncludeHandling">
+			<fileset basedir="${solution.dir}/MvcContrib.UnitTests/IncludeHandling">
+				<include name="**/*.xml" />
+				<include name="**/*.txt" />
+			</fileset>
+		</copy>
 	</target>
 
 	<target name="test" depends="init" if="${runtests}">

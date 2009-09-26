@@ -87,14 +87,18 @@ namespace MvcContrib.UnitTests.IncludeHandling
 			Assert.AreEqual(false, section.Js.PreserveSemiColons);
 		}
 
-		[Datapoint] public string pathValidation1 = "pathValidation1";
-		[Datapoint] public string pathValidation2 = "pathValidation2";
-
-		[Theory]
-		[ExpectedException(typeof(ConfigurationErrorsException))]
-		public void WhenPathMissingAFormatPlaceHolder_WillThrow(string sectionName)
+		[Test]
+		public void WhenPathMissingAFormatPlaceHolder_WillThrow()
 		{
 			var section = readConfig("WhenPathMissingAFormatPlaceHolder_WillThrow_pathValidation1");
+			string path = null;
+			Assert.Throws<ConfigurationErrorsException>(() => path = section.Css.Path);
+		}
+
+		[Test]
+		public void WhenPathMissingAFormatPlaceHolder_WillThrow2()
+		{
+			var section = readConfig("WhenPathMissingAFormatPlaceHolder_WillThrow_pathValidation2");
 			string path = null;
 			Assert.Throws<ConfigurationErrorsException>(() => path = section.Css.Path);
 		}

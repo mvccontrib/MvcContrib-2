@@ -63,53 +63,87 @@ namespace MvcContrib.UnitTests.Filters
 			public bool DebugCookieWasPresent { get; set; }
 		}
 
-		[Theory]
-		public void WhenDebugIs1InQueryString_CookieShouldBeCreatedAndAddedToResponse(CookiesData data)
+		[Test]
+		public void WhenDebugIs1InQueryString_CookieShouldBeCreatedAndAddedToResponse_WithDebugCookie()
 		{
+			var data = new CookiesData { Cookies = new HttpCookieCollection { new HttpCookie("debug", "1") }, DebugCookieWasPresent = true };
+
 			_mockFilterContext.Expect(fc => fc.HttpContext).Return(_mockHttpContext);
 			_mockRequest.Expect(r => r.QueryString).Return(new NameValueCollection { { "debug", "1" } });
 			_mockHttpContext.Expect(hc => hc.Response).Return(_mockResponse);
 			_mockResponse.Expect(r => r.Cookies).Return(data.Cookies);
-			if (!data.DebugCookieWasPresent)
-			{
-				_mockFilterContext.Expect(fc => fc.HttpContext).Return(_mockHttpContext).Repeat.Times(2);
-				_mockHttpContext.Expect(hc => hc.Request).Return(_mockRequest);
-				_mockRequest.Expect(r => r.Url).Return(new Uri("http://foo.com"));
-				_mockHttpContext.Expect(hc => hc.Response).Return(_mockResponse);
-				_mockResponse.Expect(r => r.Cookies).Return(data.Cookies);
-			}
 
 			_filter.OnActionExecuted(_mockFilterContext);
-			
-			if (!data.DebugCookieWasPresent)
-			{
-				var result = data.Cookies["debug"];
-				Assert.IsNotNull(result);
-				Assert.AreEqual("1", result.Value);
-			}
+
+			var result = data.Cookies["debug"];
+			Assert.IsNotNull(result);
+			Assert.AreEqual("1", result.Value);
+
 			_mocks.VerifyAll();
+
 		}
 
-		[Theory]
-		public void WhenDebugIs0InQueryString_CookieShouldBeRemovedFromResponseIfPresent(CookiesData data)
+		[Test]
+		public void WhenDebugIs1InQueryString_CookieShouldBeCreatedAndAddedToResponse_WithoutDebugCookie()
 		{
+			var data = new CookiesData { Cookies = new HttpCookieCollection(), DebugCookieWasPresent = false };
+
+			_mockFilterContext.Expect(fc => fc.HttpContext).Return(_mockHttpContext);
+			_mockRequest.Expect(r => r.QueryString).Return(new NameValueCollection { { "debug", "1" } });
+			_mockHttpContext.Expect(hc => hc.Response).Return(_mockResponse);
+			_mockResponse.Expect(r => r.Cookies).Return(data.Cookies);
+
+			_mockFilterContext.Expect(fc => fc.HttpContext).Return(_mockHttpContext).Repeat.Times(2);
+			_mockHttpContext.Expect(hc => hc.Request).Return(_mockRequest);
+			_mockRequest.Expect(r => r.Url).Return(new Uri("http://foo.com"));
+			_mockHttpContext.Expect(hc => hc.Response).Return(_mockResponse);
+			_mockResponse.Expect(r => r.Cookies).Return(data.Cookies);
+
+			_filter.OnActionExecuted(_mockFilterContext);
+
+			var result = data.Cookies["debug"];
+			Assert.IsNotNull(result);
+			Assert.AreEqual("1", result.Value);
+
+			_mocks.VerifyAll();
+
+		}
+
+		[Test]
+		public void WhenDebugIs0InQueryString_CookieShouldBeRemovedFromResponseIfPresent_WithoutDebugCookie()
+		{
+			var data  = new CookiesData { Cookies = new HttpCookieCollection(), DebugCookieWasPresent = false };
 			_mockFilterContext.Expect(fc => fc.HttpContext).Return(_mockHttpContext);
 			_mockRequest.Expect(r => r.QueryString).Return(new NameValueCollection { { "debug", "0" } });
 			_mockHttpContext.Expect(hc => hc.Response).Return(_mockResponse);
 			_mockResponse.Expect(r => r.Cookies).Return(data.Cookies);
-			if (data.DebugCookieWasPresent)
-			{
-				_mockFilterContext.Expect(fc => fc.HttpContext).Return(_mockHttpContext);
-				_mockHttpContext.Expect(hc => hc.Response).Return(_mockResponse);
-				_mockResponse.Expect(r => r.Cookies).Return(data.Cookies);
-			}
+
+			_filter.OnActionExecuted(_mockFilterContext);
 			
+			Assert.IsNull(data.Cookies["debug"]);
+
+			_mocks.VerifyAll();
+		}
+
+		[Test]
+		public void WhenDebugIs0InQueryString_CookieShouldBeRemovedFromResponseIfPresent_WithDebugCookie() 
+		{
+			var data = new CookiesData { Cookies = new HttpCookieCollection { new HttpCookie("debug", "1") }, DebugCookieWasPresent = true };
+			
+			_mockFilterContext.Expect(fc => fc.HttpContext).Return(_mockHttpContext);
+			_mockRequest.Expect(r => r.QueryString).Return(new NameValueCollection { { "debug", "0" } });
+			_mockHttpContext.Expect(hc => hc.Response).Return(_mockResponse);
+			_mockResponse.Expect(r => r.Cookies).Return(data.Cookies);
+
+			_mockFilterContext.Expect(fc => fc.HttpContext).Return(_mockHttpContext);
+			_mockHttpContext.Expect(hc => hc.Response).Return(_mockResponse);
+			_mockResponse.Expect(r => r.Cookies).Return(data.Cookies);
+
 			_filter.OnActionExecuted(_mockFilterContext);
 
-			if (data.DebugCookieWasPresent)
-			{
-				Assert.IsNull(data.Cookies["debug"]);
-			}
+
+			Assert.IsNull(data.Cookies["debug"]);
+
 			_mocks.VerifyAll();
 		}
 	}

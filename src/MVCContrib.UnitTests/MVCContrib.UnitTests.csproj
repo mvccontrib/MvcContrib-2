@@ -470,7 +470,6 @@
     <Content Include="IncludeHandling\exists.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="UI\InputBuilder\UnitTests.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Configuration\" />

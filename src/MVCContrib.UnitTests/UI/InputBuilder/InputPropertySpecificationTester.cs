@@ -1,28 +1,28 @@
 using MvcContrib.UI.InputBuilder;
 using NUnit.Framework;
 
-namespace UnitTests
+namespace MvcContrib.UnitTests.UI.InputBuilder
 {
-    [TestFixture]
-    public class InputPropertySpecificationTester
-    {
-        [Test]
-        public void The_toString_should_call_the_render_method()
-        {
-            //arrange
-            var spec = new InputPropertySpecification();
-            var property = new InputModelProperty();
-            spec.Model = property;
-            spec.Render = (a, b) =>
-                              {
-                                  Assert.AreEqual(property, b);
-                                  return "foo";
-                              };
-            //act
-            var result = spec.ToString();
+	[TestFixture]
+	public class InputPropertySpecificationTester
+	{
+		[Test]
+		public void The_toString_should_call_the_render_method()
+		{
+			//arrange
+			var spec = new InputPropertySpecification();
+			var property = new InputModelProperty();
+			spec.Model = property;
+			spec.Render = (a, b) =>
+			{
+				Assert.AreEqual(property, b);
+				return "foo";
+			};
+			//act
+			var result = spec.ToString();
             
-            //assert
-            Assert.AreEqual("foo",result);
-        }
-    }
+			//assert
+			Assert.AreEqual("foo",result);
+		}
+	}
 }
