@@ -73,6 +73,7 @@
     <Compile Include="TestControllerBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="IWriteableHttpFileCollection.cs" />
+    <Compile Include="WebTestUtility.cs" />
     <Compile Include="WriteableHttpFileCollection.cs" />
   </ItemGroup>
   <ItemGroup>

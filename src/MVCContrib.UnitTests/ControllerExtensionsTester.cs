@@ -1,7 +1,7 @@
 using MvcContrib.Filters;
 using MvcContrib.UnitTests.ConventionController;
 using NUnit.Framework;
-using NUnit.Framework.SyntaxHelpers;
+
 
 namespace MvcContrib.UnitTests
 {

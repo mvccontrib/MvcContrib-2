@@ -13,25 +13,25 @@ namespace MvcContrib.UnitTests.FluentHtml.Helpers
 	{
 		public static T ShouldBeOfType<T>(this object obj)
 		{
-			Assert.IsInstanceOfType(typeof(T), obj);
+			Assert.IsInstanceOf<T>(obj);
 			return (T)obj;
 		}
 
 		public static object ShouldBeOfType(this object obj, Type type)
 		{
-			Assert.IsInstanceOfType(type, obj);
+			Assert.IsInstanceOf(type, obj);
 			return obj;
 		}
 
 		public static object ShouldNotBeOfType<T>(this object obj)
 		{
-			Assert.IsNotInstanceOfType(typeof(T), obj);
+			Assert.IsNotInstanceOf<T>(obj);
 			return obj;
 		}
 
 		public static object ShouldNotBeOfType(this object obj, Type type)
 		{
-			Assert.IsNotInstanceOfType(type, obj);
+			Assert.IsNotInstanceOf(type, obj);
 			return obj;
 		}
 

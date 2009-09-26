@@ -5,7 +5,7 @@ using System.Security.Principal;
 using System.Web.Mvc;
 using System.Xml;
 using NUnit.Framework;
-using NUnit.Framework.SyntaxHelpers;
+
 using Rhino.Mocks;
 
 namespace MvcContrib.UnitTests
@@ -24,7 +24,7 @@ namespace MvcContrib.UnitTests
             Assert.That(viewData.Get(typeof(Url)), Is.EqualTo(url));
         }
 
-        [Test, ExpectedException(ExceptionType = typeof(ArgumentException),
+        [Test, ExpectedException(typeof(ArgumentException),
             ExpectedMessage = "No object exists that is of type 'System.Net.Mail.MailMessage'.")]
         public void ShouldGetObjectBasedOnType()
         {

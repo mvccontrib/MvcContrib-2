@@ -146,7 +146,7 @@ namespace MvcContrib.UnitTests.BrailViewEngine
 			_viewEngine.Options.AssembliesToReference.Add(System.Reflection.Assembly.Load("MVCContrib.UnitTests"));
 			_viewEngine.Options.BaseType = "MvcContrib.UnitTests.BrailViewEngine.TestBrailBase";
 			BrailBase view = _viewEngine.Process("view", null);
-			Assert.IsInstanceOfType(typeof(TestBrailBase), view);
+			Assert.IsInstanceOf<TestBrailBase>(view);
 		}
 
 		private string GetViewOutput(string viewName)

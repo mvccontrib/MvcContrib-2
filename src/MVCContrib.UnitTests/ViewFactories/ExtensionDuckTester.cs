@@ -2,7 +2,7 @@ using System;
 using System.Web.Mvc;
 using MvcContrib.ViewEngines;
 using NUnit.Framework;
-using NUnit.Framework.SyntaxHelpers;
+
 using NVelocity.Util.Introspection;
 using Rhino.Mocks;
 

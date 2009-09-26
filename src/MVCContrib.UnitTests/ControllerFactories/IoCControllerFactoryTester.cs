@@ -5,7 +5,7 @@ using MvcContrib.ControllerFactories;
 using MvcContrib.Interfaces;
 using MvcContrib.Services;
 using NUnit.Framework;
-using NUnit.Framework.SyntaxHelpers;
+
 using Rhino.Mocks;
 
 namespace MvcContrib.UnitTests.ControllerFactories.IoCControllerFactoryTester

@@ -6,7 +6,7 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using MvcContrib.UI.LegacyGrid;
 using NUnit.Framework;
-using NUnit.Framework.SyntaxHelpers;
+
 using Rhino.Mocks;
 using System.Collections.Generic;
 using MvcContrib.Pagination;

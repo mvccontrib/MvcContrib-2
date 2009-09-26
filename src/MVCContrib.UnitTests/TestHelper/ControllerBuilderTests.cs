@@ -7,7 +7,7 @@ using MvcContrib.Interfaces;
 using MvcContrib.Services;
 using MvcContrib.TestHelper;
 using NUnit.Framework;
-using NUnit.Framework.SyntaxHelpers;
+
 using Rhino.Mocks;
 using Assert=NUnit.Framework.Assert;
 

@@ -4,7 +4,7 @@ using System.Linq;
 using NUnit.Framework;
 using System.Collections.Generic;
 using MvcContrib.Pagination;
-using NUnit.Framework.SyntaxHelpers;
+
 
 namespace MvcContrib.UnitTests
 {

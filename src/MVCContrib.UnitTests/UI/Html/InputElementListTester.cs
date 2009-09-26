@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using MvcContrib.UI.Tags;
-using NUnit.Framework.SyntaxHelpers;
+
 using System.Linq;
 using NUnit.Framework;
 

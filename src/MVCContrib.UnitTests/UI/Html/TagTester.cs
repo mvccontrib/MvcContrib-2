@@ -1,6 +1,5 @@
 using MvcContrib.UI.Tags;
 using NUnit.Framework;
-using NUnit.Framework.SyntaxHelpers;
 
 namespace MvcContrib.UnitTests.UI.Html
 {
