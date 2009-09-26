@@ -20,6 +20,15 @@ namespace MvcContrib.UnitTests
 			return context;
 		}
 
+        public static HttpContextBase DynamicHttpContextBase(string requestPath)
+        {
+            var mocks = new MockRepository();
+			var context = mocks.DynamicHttpContextBase();
+            SetupResult.For(context.Request.Path).Return(requestPath);
+            mocks.ReplayAll();
+            return context;
+        }
+
 		public static HttpContextBase DynamicHttpContextBase(this MockRepository mocks)
 		{
 			return mocks.DynamicHttpContextBase

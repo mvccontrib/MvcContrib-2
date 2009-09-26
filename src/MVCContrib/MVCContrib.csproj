@@ -158,6 +158,12 @@
     <Compile Include="UI\DataList\DataList.cs" />
     <Compile Include="UI\DataList\DataListExtensions.cs" />
     <Compile Include="UI\Grid\AutoColumnGridModel.cs" />
+    <Compile Include="UI\Grid\Sortable\ColumnSortOptions.cs" />
+    <Compile Include="UI\Grid\Sortable\ISortableDataSource.cs" />
+    <Compile Include="UI\Grid\Sortable\ComparableSortList.cs" />
+    <Compile Include="UI\Grid\Sortable\ISortableGridRenderer.cs" />
+    <Compile Include="UI\Grid\Sortable\SortableLinkRenderer.cs" />
+    <Compile Include="UI\Grid\Sortable\SortableHtmlGridRenderer.cs" />
     <Compile Include="UI\HtmlAttributeRendererExtensions.cs" />
     <Compile Include="UI\Grid\ActionSyntax\ActionSyntaxExtensions.cs" />
     <Compile Include="UI\Grid\ColumnBuilder.cs" />
