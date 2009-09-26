@@ -5,7 +5,7 @@ using System.Web.Mvc;
 
 namespace MvcContrib.UI.Html
 {
-	public static class HtmlHelperExtensions
+	public static class HtmlHelperExtension
 	{
         /// <summary>
         /// Normalizes a url in the form ~/path/to/resource.aspx.
