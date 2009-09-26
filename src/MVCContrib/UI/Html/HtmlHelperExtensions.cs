@@ -41,6 +41,22 @@ namespace MvcContrib.UI.Html
         }
 
         /// <summary>
+        /// Renders a link tag referencing the stylesheet.  Assumes the CSS is in the /content/css directory unless a
+        /// full relative URL is specified.  Also provides an additional parameter to specify the media
+        /// that the stylesheet is targeting.
+        /// </summary>
+        /// <param name="html"></param>
+        /// <param name="cssFile"></param>
+        /// <param name="media"></param>
+        /// <returns></returns>
+        public static string Stylesheet(this HtmlHelper html, string cssFile, string media)
+        {
+            string cssPath = cssFile.Contains("~") ? cssFile : "~/content/css/" + cssFile;
+            string url = ResolveUrl(html, cssPath);
+            return string.Format("<link type=\"text/css\" rel=\"stylesheet\" href=\"{0}\" media=\"{1}\" />\n", url, media);
+        }
+
+        /// <summary>
         /// Renders a script tag referencing the javascript file.  Assumes the file is in the /scripts directory
         /// unless a full relative URL is specified.
         /// </summary>

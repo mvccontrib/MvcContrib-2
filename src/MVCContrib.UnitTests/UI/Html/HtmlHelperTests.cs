@@ -69,6 +69,24 @@ namespace MvcContrib.UnitTests.UI.Html
 
             Assert.That(html.Stylesheet("styles.css"), Is.EqualTo(expectedTag));
         }
+
+        [Test]
+        public void Stylesheet_correctly_specifies_single_media_to_css_tag()
+        {
+            var html = createHtmlHelper("/site");
+            var expectedTag = "<link type=\"text/css\" rel=\"stylesheet\" href=\"/site/content/css/styles.css\" media=\"screen\" />\n";
+
+            Assert.That(html.Stylesheet("styles.css", "screen"), Is.EqualTo(expectedTag)); 
+        }
+
+        [Test]
+        public void Stylesheet_correctly_specifies_multiple_media_to_css_tag()
+        {
+            var html = createHtmlHelper("/site");
+            var expectedTag = "<link type=\"text/css\" rel=\"stylesheet\" href=\"/site/content/css/styles.css\" media=\"screen, print\" />\n";
+
+            Assert.That(html.Stylesheet("styles.css", "screen, print"), Is.EqualTo(expectedTag));
+        }
         
         [Test]
         public void Stylesheet_maps_relative_paths()
