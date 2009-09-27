@@ -8,7 +8,7 @@ namespace MvcContrib.UI.InputBuilder
             return inputSpecification;
         }
 
-        public static IInputSpecification Example(this IInputSpecification inputSpecification, string example)
+		public static IInputPropertySpecification Example(this IInputPropertySpecification inputSpecification, string example)
         {
             inputSpecification.Model.Example = example;
             return inputSpecification;
@@ -20,7 +20,7 @@ namespace MvcContrib.UI.InputBuilder
             return inputSpecification;
         }
 
-        public static IInputSpecification Required(this IInputSpecification inputSpecification)
+		public static IInputPropertySpecification Required(this IInputPropertySpecification inputSpecification)
         {
             inputSpecification.Model.PropertyIsRequired = true;
             return inputSpecification;

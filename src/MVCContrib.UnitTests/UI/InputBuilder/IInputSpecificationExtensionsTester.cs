@@ -14,11 +14,12 @@ namespace UnitTests
             inputSpecification.Model= new InputModelProperty();
 
             //act
-            inputSpecification
-                .Partial("partial")
-                .Example("new example")
-                .Label("label")
-                .Required();
+        	inputSpecification
+        		.Example("new example")
+        		.Required()
+        		.Partial("partial")
+        		.Label("label");
+
 
             //assert
             Assert.AreEqual("partial", inputSpecification.Model.PartialName);

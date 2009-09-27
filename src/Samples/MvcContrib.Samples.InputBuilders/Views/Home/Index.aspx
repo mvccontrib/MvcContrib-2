@@ -14,7 +14,7 @@ Inherits="System.Web.Mvc.ViewPage<SampleModel>" %>
     <%=Html.ValidationSummary() %>
         This sample demonstrates how you could use partials and master pages to create your field inputs for your Strongly Typed View.
         <%=Html.Input(c => c.Name).Partial("ReadOnly")%>        
-        <%=Html.Input(c => c.TimeStamp).Partial("DatePicker").Example("An Overridden example")%>
+        <%=Html.Input(c => c.TimeStamp).Example("An Overridden example").Partial("DatePicker")%>
         <%=Html.Input(c => c.Guid)%>
         <%=Html.Input(c => c.Enum)%>
         <%=Html.Input(c => c.EnumAsRadioButton)%>

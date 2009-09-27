@@ -189,6 +189,7 @@
     <Compile Include="UI\InputBuilder\InputBuilder.cs" />
     <Compile Include="UI\InputBuilder\InputModelProperty.cs" />
     <Compile Include="UI\InputBuilder\InputModelPropertyFactory.cs" />
+    <Compile Include="UI\InputBuilder\InputSpecification\IInputPropertySpecification.cs" />
     <Compile Include="UI\InputBuilder\InputSpecification\InputPropertySpecification.cs" />
     <Compile Include="UI\InputBuilder\InputSpecification\InputTypeSpecification.cs" />
     <Compile Include="UI\InputBuilder\ModelProperty.cs" />
@@ -286,6 +287,11 @@
       <SubType>ASPXCodeBehind</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\InputBuilder\Views\InputBuilders\Submit.aspx">
+      <SubType>ASPXCodeBehind</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="UI\InputBuilder\Views\InputBuilders\Form.aspx">
       <SubType>ASPXCodeBehind</SubType>
     </EmbeddedResource>
   </ItemGroup>

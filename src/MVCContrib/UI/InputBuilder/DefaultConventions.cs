@@ -81,7 +81,21 @@ namespace MvcContrib.UI.InputBuilder
             return "Field";
         }
 
-        public virtual Type PropertyTypeConvention(PropertyInfo propertyInfo)
+    	public string PartialNameForTypeConvention(Type type)
+    	{
+    		return "Form";
+    	}
+
+    	public string LabelForTypeConvention(Type type)
+    	{
+    		if(type.AttributeExists<LabelAttribute>())
+    		{
+    			return type.GetAttribute<LabelAttribute>().Label;
+    		}
+    		return type.Name.ToSeparatedWords();
+    	}
+
+    	public virtual Type PropertyTypeConvention(PropertyInfo propertyInfo)
         {
             return propertyInfo.PropertyType;
         }

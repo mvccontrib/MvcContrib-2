@@ -14,7 +14,8 @@ namespace UnitTests
         {
             //arrange
             var spec = new InputTypeSpecTester();
-            spec.ModelType = typeof (Model);   
+            spec.Model = new InputTypeProperty(){Type = typeof (Model)};
+        	  
             //act
             var result = spec.ToString();
             //assert
@@ -26,18 +27,9 @@ namespace UnitTests
 
     public class InputTypeSpecTester:InputTypeSpecification<Model>
     {
-        protected override IDisposable RenderForm()
-        {
-            return new FakeDisposable();
-        }
         protected override void RenderPartial(InputModelProperty model)
         {
             return;
-        }
-        protected override void RenderSubmitButton()
-        {
-            return;
-            
         }
     }
     public class FakeDisposable:IDisposable

@@ -2,15 +2,9 @@ using System;
 
 namespace MvcContrib.UI.InputBuilder
 {
-    public class InputModelProperty
+    public class InputModelProperty:InputTypeProperty
     {
-        public Type Type { get; set; }
-
         public string Name { get; set; }
-
-        public string Label { get; set; }
-
-        public string PartialName { get; set; }
 
         public bool PropertyIsRequired { get; set; }
 
@@ -18,11 +12,10 @@ namespace MvcContrib.UI.InputBuilder
 
         public bool HasValidationMessages { get; set; }
 
-        public string Layout { get; set; }
-
         public bool HasExample()
         {
             return !string.IsNullOrEmpty(Example);
         }
+		public virtual object Value { get; set; }
     }
 }

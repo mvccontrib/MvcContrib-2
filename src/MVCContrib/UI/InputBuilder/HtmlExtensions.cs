@@ -13,15 +13,19 @@ namespace MvcContrib.UI.InputBuilder
                                                                                 return "";
                                                                             };
 
-        public static IInputSpecification Input<T>(this HtmlHelper<T> htmlHelper, Expression<Func<T, object>> expr) where T : class
+        public static IInputPropertySpecification Input<T>(this HtmlHelper<T> htmlHelper, Expression<Func<T, object>> expr) where T : class
         {
             return new Input<T>(htmlHelper).RenderInput(expr);
         }
 
-        public static IInputSpecification InputForm<T>(this HtmlHelper<T> htmlHelper, string controller, string action) where T : class
-        {
-            return new Input<T>(htmlHelper).RenderForm(controller,action);
-        }
+		//public static IInputSpecification InputForm<T>(this HtmlHelper<T> htmlHelper, string controller, string action) where T : class
+		//{
+		//    return new Input<T>(htmlHelper).RenderForm(controller,action);
+		//}
+		public static IInputSpecification InputForm<T>(this HtmlHelper<T> htmlHelper) where T : class
+		{
+			return new Input<T>(htmlHelper).RenderForm();
+		}
 
         public static string SubmitButton(this HtmlHelper htmlHelper) 
         {

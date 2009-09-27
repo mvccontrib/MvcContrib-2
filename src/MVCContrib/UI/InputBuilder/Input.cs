@@ -14,7 +14,7 @@ namespace MvcContrib.UI.InputBuilder
 			_htmlHelper = htmlHelper;
 		}
 
-		public IInputSpecification RenderInput(Expression<Func<T, object>> expression)
+		public IInputPropertySpecification RenderInput(Expression<Func<T, object>> expression)
 		{
 			PropertyInfo propertyInfo = ReflectionHelper.FindPropertyFromExpression(expression);
 
@@ -29,11 +29,21 @@ namespace MvcContrib.UI.InputBuilder
 		{
 			return new InputTypeSpecification<T>
 			       	{
-			       		ModelType = typeof (T),
 			       		HtmlHelper = _htmlHelper,
 			       		Controller = controller,
 			       		Action = action,
+
 			       	};
 		}
+		public IInputSpecification RenderForm()
+		{
+			return new InputTypeSpecification<T>
+			{
+				Model = new InputModelPropertyFactory<T>(_htmlHelper, InputBuilder.Conventions).Create(),
+				HtmlHelper = _htmlHelper,
+			};
+		}
+
+
 	}
 }

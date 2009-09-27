@@ -31,5 +31,32 @@ namespace MvcContrib.UI.InputBuilder
 
             return model;
         }
-    }
+		public InputTypeProperty Create()
+		{
+			InputTypeProperty model = new ModelType<T>(){Value = _htmlHelper.ViewData.Model};
+			model.PartialName = _conventions.PartialNameForTypeConvention(typeof(T));
+			model.Label = _conventions.LabelForTypeConvention(typeof(T));
+			model.Type = typeof(T);// _conventions.PropertyTypeConvention(propertyInfo);
+			model.Layout = _conventions.Layout(model.PartialName);		
+			return model;
+		}
+	}
+
+	public class ModelType<T> : InputTypeProperty
+	{
+		public T Value { get; set; }
+	}
+
+	public class InputTypeProperty 
+	{
+		public InputModelProperty[] Properties { get; set; }
+	
+		public string PartialName { get; set; }
+
+		public string Label { get; set; }
+
+		public Type Type { get; set; }
+
+		public string Layout { get; set; }
+	}
 }
