@@ -3,10 +3,12 @@ using System.Web.Mvc;
 using System.Web.Mvc.Html;
 using System.Web.Routing;
 using MvcContrib.UI.InputBuilder;
+using MvcContrib.UnitTests.UI.InputBuilder;
 using NUnit.Framework;
 
-namespace UnitTests
+namespace MvcContrib.UnitTests.UI.InputBuilder
 {
+
     [TestFixture]
     public class InputTypeSpecificationHelper
     {
@@ -23,7 +25,7 @@ namespace UnitTests
         }
 
         
-    }
+	}
 
     public class InputTypeSpecTester:InputTypeSpecification<Model>
     {
@@ -36,7 +38,7 @@ namespace UnitTests
     {
         public void Dispose()
         {
-            
-        }
-    }
+           
+		}
+	}
 }

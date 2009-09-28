@@ -2,11 +2,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using NUnit.Framework;
-using NUnit.Framework.SyntaxHelpers;
+
 
 namespace MvcContrib.UnitTests
 {
-	[TestFixture]
 	public class HashTester
 	{
 
@@ -107,7 +106,6 @@ namespace MvcContrib.UnitTests
 		}
 	}
 
-	[TestFixture]
 	public class GenericHashTester
 	{
 		[TestFixture]

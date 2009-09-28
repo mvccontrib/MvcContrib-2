@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Web.Mvc;
 using MvcContrib.UI.Grid;
 using NUnit.Framework;
@@ -168,5 +169,49 @@ namespace MvcContrib.UnitTests.UI.Grid
 			_grid.HeaderRowAttributes(attrs);
 			_model.Sections.HeaderRow.Attributes(null).ShouldBeTheSameAs(attrs);
 		}
+
+        [Test]
+        public void Should_store_sorted_column_options()
+        {
+            SetRequestContext(null, null);
+            var model = new GridModel<Person>();
+            Grid<Person> grid = new Grid<Person>(_people, _writer, _context);
+            grid.WithModel(model).Columns(col => col.For(x => x.Name).Sortable(true));
+            grid.Render();
+            GridColumn<Person> column = ((IGridModel<Person>)model).Columns.FirstOrDefault();
+            column.ShouldNotBeNull();
+            column.IsSortable.ShouldBeTrue();
+        }
+
+        [Test]
+        public void Should_not_be_sortable_when_not_set()
+        {
+            SetRequestContext(null, null);
+            var model = new GridModel<Person>();
+            Grid<Person> grid = new Grid<Person>(_people, _writer, _context);
+            grid.WithModel(model).Columns(col => col.For(x => x.Name));
+            grid.Render();
+            GridColumn<Person> column = ((IGridModel<Person>)model).Columns.FirstOrDefault();
+            column.ShouldNotBeNull();
+            column.IsSortable.ShouldBeFalse();
+        }
+
+        [Test]
+        public void Should_create_sortable_datasource_with_sortable_columns()
+        {
+            SetRequestContext(null, null);
+            Grid<Person> grid = new Grid<Person>(_people, _writer, _context);
+            grid.WithModel(_model).Columns(col => col.For(x => x.Name).Sortable(true));
+            grid.Render();
+            grid.DataSource.ShouldBe<ComparableSortList<Person>>();
+        }
+
+        private void SetRequestContext(string column, string order)
+        {
+            _context.HttpContext = MvcMockHelpers.DynamicHttpContextBase();
+            _context.HttpContext.Request.QueryString["SortBy"] = column;
+            _context.HttpContext.Request.QueryString["SortOrder"] = order;
+
+        }
 	}
 }

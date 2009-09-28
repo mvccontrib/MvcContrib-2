@@ -5,7 +5,7 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using MvcContrib.Filters;
 using NUnit.Framework;
-using NUnit.Framework.SyntaxHelpers;
+
 using Rhino.Mocks;
 
 namespace MvcContrib.UnitTests.Filters

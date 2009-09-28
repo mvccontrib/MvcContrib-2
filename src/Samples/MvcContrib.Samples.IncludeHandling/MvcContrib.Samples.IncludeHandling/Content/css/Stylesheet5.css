@@ -1,0 +1,43 @@
+﻿/* FORM LAYOUT ELEMENTS   
+----------------------------------------------------------*/
+
+fieldset 
+{
+    margin: 1em 0;
+    padding: 1em;
+    border: 1px solid #CCC;
+}
+
+fieldset p 
+{
+    margin: 2px 12px 10px 10px;
+}
+
+fieldset label 
+{
+    display: block;
+}
+
+fieldset label.inline 
+{
+    display: inline;
+}
+
+legend 
+{
+    font-size: 1.1em;
+    font-weight: 600;
+    padding: 2px 4px 8px 4px;
+}
+
+input[type="text"] 
+{
+    width: 200px;
+    border: 1px solid #CCC;
+}
+
+input[type="password"] 
+{
+    width: 200px;
+    border: 1px solid #CCC;
+}

@@ -4,7 +4,6 @@ using Rhino.Mocks;
 
 namespace MvcContrib.UnitTests.ControllerFactories
 {
-	[TestFixture]
 	public abstract class SpecBase
 	{
 		protected MockRepository _mocks;

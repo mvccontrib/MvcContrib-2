@@ -2,7 +2,7 @@ using System.Web;
 using System.Web.Routing;
 using MvcContrib.SimplyRestful;
 using NUnit.Framework;
-using NUnit.Framework.SyntaxHelpers;
+
 using Rhino.Mocks;
 
 namespace MvcContrib.UnitTests.SimplyRestful
@@ -25,7 +25,7 @@ namespace MvcContrib.UnitTests.SimplyRestful
 			SimplyRestfulRouteHandler.BuildRoutes(routeCollection, "/admin");
 			foreach(Route route in routeCollection)
 			{
-				Assert.That(route.Url, Text.StartsWith("admin"));
+				Assert.That(route.Url, Is.StringStarting("admin"));
 			}
 		}
 
@@ -36,8 +36,8 @@ namespace MvcContrib.UnitTests.SimplyRestful
 			SimplyRestfulRouteHandler.BuildRoutes(routeCollection, "/admin/");
 			foreach(Route route in routeCollection)
 			{
-				Assert.That(route.Url, Text.StartsWith("admin"));
-				Assert.That(route.Url, Text.DoesNotStartWith("admin//"));
+				Assert.That(route.Url, Is.StringStarting("admin"));
+				Assert.That(route.Url, Is.Not.StringStarting("admin//"));
 			}
 		}
 
@@ -48,7 +48,7 @@ namespace MvcContrib.UnitTests.SimplyRestful
 			SimplyRestfulRouteHandler.BuildRoutes(routeCollection, null);
 			foreach(Route route in routeCollection)
 			{
-				Assert.That(route.Url, Text.StartsWith("{controller}"));
+				Assert.That(route.Url, Is.StringStarting("{controller}"));
 			}
 		}
 

@@ -146,6 +146,10 @@
     </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="Yahoo.Yui.Compressor, Version=1.4.0.0, Culture=neutral, PublicKeyToken=f8b4b81ec75097e2, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\Yahoo.Yui.Compressor\Yahoo.Yui.Compressor.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\CommonAssemblyInfo.cs">
@@ -158,6 +162,7 @@
     <Compile Include="AssertionExtensions.cs" />
     <Compile Include="CultureHelper.cs" />
     <Compile Include="CustomPaginationTester.cs" />
+    <Compile Include="Filters\DebugAttributeTester.cs" />
     <Compile Include="Filters\LayoutAttributeTester.cs" />
     <Compile Include="BaseViewTester.cs" />
     <Compile Include="Binders\SubControllerBinderTester.cs" />
@@ -178,6 +183,7 @@
     <Compile Include="Filters\PassParametersDuringRedirectAttributeTester.cs" />
     <Compile Include="Filters\SubControllerActionToViewDataAttributeTester.cs" />
     <Compile Include="Filters\TempDataToViewDataTester.cs" />
+    <Compile Include="Filters\UtilityHtmlExtensionsTester.cs" />
     <Compile Include="FluentHtml\AutoLabelTests.cs" />
     <Compile Include="FluentHtml\ButtonTests.cs" />
     <Compile Include="FluentHtml\CheckBoxListTests.cs" />
@@ -219,6 +225,17 @@
     </Compile>
     <Compile Include="HashTester.cs" />
     <Compile Include="HttpContextExtensionsTester.cs" />
+    <Compile Include="IncludeHandling\FileSystemIncludeReaderTester.cs" />
+    <Compile Include="IncludeHandling\IncludeCombinationTester.cs" />
+    <Compile Include="IncludeHandling\IncludeCombinationResultInteractionTester.cs" />
+    <Compile Include="IncludeHandling\IncludeCombinationResultStateTester.cs" />
+    <Compile Include="IncludeHandling\IncludeCombinerHtmlExtensionsTester.cs" />
+    <Compile Include="IncludeHandling\IncludeCombinerInteractionTester.cs" />
+    <Compile Include="IncludeHandling\IncludeCombinerStateTester.cs" />
+    <Compile Include="IncludeHandling\IncludeControllerTester.cs" />
+    <Compile Include="IncludeHandling\IncludeHandlingSectionHandlerTester.cs" />
+    <Compile Include="IncludeHandling\IncludeStorageTester.cs" />
+    <Compile Include="IncludeHandling\KeyGeneratorTester.cs" />
     <Compile Include="IoC\DependencyResolverTester.cs" />
     <Compile Include="IoC\IDependency.cs" />
     <Compile Include="IoC\INestedDependency.cs" />
@@ -284,6 +301,8 @@
     <Compile Include="UI\Grid\GridRendererTester.cs" />
     <Compile Include="UI\Grid\GridTester.cs" />
     <Compile Include="UI\Grid\Person.cs" />
+    <Compile Include="UI\Grid\SortableColumnRenderTester.cs" />
+    <Compile Include="UI\Grid\SortableGridRendererTests.cs" />
     <Compile Include="UI\HtmlAttributesTester.cs" />
     <Compile Include="UI\DomQueryBuilderTester.cs" />
     <Compile Include="UI\DomQueryTester.cs" />
@@ -344,6 +363,10 @@
     <ProjectReference Include="..\MvcContrib.FluentHtml\MvcContrib.FluentHtml.csproj">
       <Project>{35AFBC04-8C09-42B7-A56A-EA404688A5B1}</Project>
       <Name>MvcContrib.FluentHtml</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MvcContrib.IncludeHandling\MvcContrib.IncludeHandling.csproj">
+      <Project>{1DC33742-317D-4E6A-AD80-BDA57C22BBC0}</Project>
+      <Name>MvcContrib.IncludeHandling</Name>
     </ProjectReference>
     <ProjectReference Include="..\MvcContrib.SparkViewEngine\MvcContrib.SparkViewEngine.csproj">
       <Project>{56202292-9363-4DED-99DD-824A111EE18D}</Project>
@@ -434,7 +457,21 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="UI\InputBuilder\UnitTests.csproj" />
+    <Content Include="IncludeHandling\configs\CanChangeAllTheDefaultsEvenThoughIShouldntWriteATestWithABigSurfaceAreaLikeThisNaughtyPete.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="IncludeHandling\configs\WhenPathMissingAFormatPlaceHolder_WillThrow_pathValidation2.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="IncludeHandling\configs\WhenPathMissingAFormatPlaceHolder_WillThrow_pathValidation1.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="IncludeHandling\configs\DefaultsAreCorrect.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="IncludeHandling\exists.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Configuration\" />

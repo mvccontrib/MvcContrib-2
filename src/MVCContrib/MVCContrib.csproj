@@ -97,6 +97,7 @@
     <Compile Include="Attributes\DeserializeAttribute.cs" />
     <Compile Include="Binders\SubControllerBinder.cs" />
     <Compile Include="EnumerableExtensions.cs" />
+    <Compile Include="Filters\DebugAttribute.cs" />
     <Compile Include="Filters\LayoutAttribute.cs" />
     <Compile Include="Filters\ModelStateToTempDataAttribute.cs" />
     <Compile Include="Filters\PassParametersDuringRedirectAttribute.cs" />
@@ -109,9 +110,13 @@
     <Compile Include="Filters\TempDataToViewData.cs" />
     <Compile Include="Hash.cs" />
     <Compile Include="HttpContextExtensions.cs" />
+    <Compile Include="HttpContextProvider.cs" />
+    <Compile Include="HttpHeaders.cs" />
+    <Compile Include="IHttpContextProvider.cs" />
     <Compile Include="Interfaces\IDependencyResolver.cs" />
     <Compile Include="ControllerFactories\IoCControllerFactory.cs" />
     <Compile Include="ISubController.cs" />
+    <Compile Include="MimeTypes.cs" />
     <Compile Include="Pagination\CustomPagination.cs" />
     <Compile Include="Pagination\IPagination.cs" />
     <Compile Include="Pagination\LazyPagination.cs" />
@@ -138,6 +143,7 @@
     <Compile Include="SimplyRestful\RestfulGetAction.cs" />
     <Compile Include="SimplyRestful\RestfulPostAction.cs" />
     <Compile Include="SimplyRestful\SimplyRestfulRouteHandler.cs" />
+    <Compile Include="StringExtensions.cs" />
     <Compile Include="SubController.cs" />
     <Compile Include="UI\ASPXViewEngine\AutoTypeViewPage.cs">
       <SubType>ASPXCodeBehind</SubType>
@@ -152,6 +158,12 @@
     <Compile Include="UI\DataList\DataList.cs" />
     <Compile Include="UI\DataList\DataListExtensions.cs" />
     <Compile Include="UI\Grid\AutoColumnGridModel.cs" />
+    <Compile Include="UI\Grid\Sortable\ColumnSortOptions.cs" />
+    <Compile Include="UI\Grid\Sortable\ISortableDataSource.cs" />
+    <Compile Include="UI\Grid\Sortable\ComparableSortList.cs" />
+    <Compile Include="UI\Grid\Sortable\ISortableGridRenderer.cs" />
+    <Compile Include="UI\Grid\Sortable\SortableLinkRenderer.cs" />
+    <Compile Include="UI\Grid\Sortable\SortableHtmlGridRenderer.cs" />
     <Compile Include="UI\HtmlAttributeRendererExtensions.cs" />
     <Compile Include="UI\Grid\ActionSyntax\ActionSyntaxExtensions.cs" />
     <Compile Include="UI\Grid\ColumnBuilder.cs" />
@@ -281,7 +293,6 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="UI\InputBuilder\Views\InputBuilders\Form.aspx">
-      <SubType>ASPXCodeBehind</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

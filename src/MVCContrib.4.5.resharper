@@ -18,6 +18,7 @@
         <INDENT_EMBRACED_INITIALIZER_BLOCK>False</INDENT_EMBRACED_INITIALIZER_BLOCK>
         <INDENT_SIZE>4</INDENT_SIZE>
         <INITIALIZER_BRACES>NEXT_LINE</INITIALIZER_BRACES>
+        <INSERT_TABS>True</INSERT_TABS>
         <MODIFIERS_ORDER IsNull="False">
           <Item>public</Item>
           <Item>protected</Item>

@@ -3,12 +3,11 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using MvcContrib.StructureMap;
 using NUnit.Framework;
-using NUnit.Framework.SyntaxHelpers;
+
 using StructureMap;
 
 namespace MvcContrib.UnitTests.ControllerFactories
 {
-	[TestFixture]
 	public class StructureMapControllerFactoryTester
 	{
 		[TestFixture]

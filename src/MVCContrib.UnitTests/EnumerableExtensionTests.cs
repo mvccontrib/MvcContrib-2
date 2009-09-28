@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Web.Mvc;
 using MvcContrib.EnumerableExtensions;
 using NUnit.Framework;
-using NUnit.Framework.SyntaxHelpers;
+
 using System.Linq;
 namespace MvcContrib.UnitTests
 {

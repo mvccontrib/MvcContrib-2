@@ -5,7 +5,7 @@ using System.Security.Policy;
 using System.Security.Principal;
 using System.Xml;
 using NUnit.Framework;
-using NUnit.Framework.SyntaxHelpers;
+
 using Rhino.Mocks;
 
 namespace MvcContrib.UnitTests
@@ -24,7 +24,7 @@ namespace MvcContrib.UnitTests
             Assert.That(bag.Get(typeof(Url)), Is.EqualTo(url));
         }
 
-        [Test, ExpectedException(ExceptionType = typeof(ArgumentException),
+        [Test, ExpectedException(typeof(ArgumentException),
             ExpectedMessage = "No object exists that is of type 'System.Net.Mail.MailMessage'.")]
         public void ShouldGetObjectBasedOnType()
         {
@@ -37,7 +37,7 @@ namespace MvcContrib.UnitTests
             bag.Get(typeof(MailMessage));
         }
 
-        [Test, ExpectedException(ExceptionType = typeof(ArgumentException),
+        [Test, ExpectedException(typeof(ArgumentException),
             ExpectedMessage = "You can only add one default object for type 'System.Security.Policy.Url'.")]
         public void AddingTwoDefaultObjectsOfSameTypeThrows()
         {

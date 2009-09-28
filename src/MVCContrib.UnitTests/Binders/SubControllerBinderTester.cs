@@ -1,7 +1,7 @@
 using System.Web.Mvc;
 using MvcContrib.Binders;
 using NUnit.Framework;
-using NUnit.Framework.SyntaxHelpers;
+
 
 namespace MvcContrib.UnitTests.Binders
 {
@@ -27,7 +27,7 @@ namespace MvcContrib.UnitTests.Binders
 			var bindingContext = new ModelBindingContext {ModelType = typeof(FooController)};
 
 			object value = binder.BindModel(new ControllerContext(), bindingContext);
-			Assert.That(value, Is.InstanceOfType(typeof(FooController)));
+			Assert.That(value, Is.InstanceOf<FooController>());
 		}
 
 		[Test]
