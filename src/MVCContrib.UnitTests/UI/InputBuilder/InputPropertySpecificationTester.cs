@@ -11,7 +11,7 @@ namespace UnitTests
         {
             //arrange
             var spec = new InputPropertySpecification();
-            var property = new InputModelProperty();
+            var property = new PropertyViewModel();
             spec.Model = property;
             spec.Render = (a, b) =>
                               {

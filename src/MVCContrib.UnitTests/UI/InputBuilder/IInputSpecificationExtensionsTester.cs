@@ -11,7 +11,7 @@ namespace UnitTests
         {
             //arrange
             var inputSpecification = new InputPropertySpecification();
-            inputSpecification.Model= new InputModelProperty();
+            inputSpecification.Model= new PropertyViewModel();
 
             //act
         	inputSpecification

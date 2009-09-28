@@ -14,7 +14,7 @@ namespace UnitTests
         {
             //arrange
             var spec = new InputTypeSpecTester();
-            spec.Model = new InputTypeProperty(){Type = typeof (Model)};
+            spec.Model = new TypeViewModel(){Type = typeof (Model)};
         	  
             //act
             var result = spec.ToString();
@@ -27,7 +27,7 @@ namespace UnitTests
 
     public class InputTypeSpecTester:InputTypeSpecification<Model>
     {
-        protected override void RenderPartial(InputModelProperty model)
+        protected override void RenderPartial(PropertyViewModel model)
         {
             return;
         }

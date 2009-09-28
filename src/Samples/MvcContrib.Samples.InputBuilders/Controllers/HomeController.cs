@@ -28,13 +28,14 @@ namespace Web.Controllers
                                 TimeStamp = DateTime.Today.AddHours(13).AddMinutes(30)
 			                });
 		}
-
+		[AcceptVerbs(HttpVerbs.Post)]
+		[ActionName("InputForm")]		
 		public ActionResult Save(SampleModel model)
 		{
 			if (ModelState.IsValid)
 			{
 			}
-			return View("index", model);
+			return View( model);
 		}
 	}
 }

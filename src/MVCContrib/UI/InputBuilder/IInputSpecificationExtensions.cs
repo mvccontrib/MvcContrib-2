@@ -1,30 +1,29 @@
 namespace MvcContrib.UI.InputBuilder
 {
-    public static class IInputSpecificationExtensions
-    {
-        public static IInputSpecification Partial(this IInputSpecification inputSpecification, string partialViewName)
-        {
-            inputSpecification.Model.PartialName = partialViewName;
-            return inputSpecification;
-        }
+	public static class IInputSpecificationExtensions
+	{
+		public static IInputSpecification<TypeViewModel> Partial<T>(this IInputSpecification<T> inputSpecification, string partialViewName) where T : TypeViewModel
+		{
+			inputSpecification.Model.PartialName = partialViewName;
+			return (IInputSpecification<TypeViewModel>)inputSpecification;
+		}
 
-		public static IInputPropertySpecification Example(this IInputPropertySpecification inputSpecification, string example)
-        {
-            inputSpecification.Model.Example = example;
-            return inputSpecification;
-        }
+		public static IInputSpecification<PropertyViewModel> Example(this IInputSpecification<PropertyViewModel> inputSpecification, string example)
+		{
+			inputSpecification.Model.Example = example;
+			return inputSpecification;
+		}
 
-        public static IInputSpecification Label(this IInputSpecification inputSpecification, string label)
-        {
-            inputSpecification.Model.Label = label;
-            return inputSpecification;
-        }
+		public static IInputSpecification<TypeViewModel> Label<T>(this IInputSpecification<T> inputSpecification, string label) where T :TypeViewModel
+		{
+			inputSpecification.Model.Label = label;
+			return (IInputSpecification<TypeViewModel>)inputSpecification;
+		}
 
-		public static IInputPropertySpecification Required(this IInputPropertySpecification inputSpecification)
-        {
-            inputSpecification.Model.PropertyIsRequired = true;
-            return inputSpecification;
-        }
-    
-    }
+		public static IInputSpecification<PropertyViewModel> Required(this IInputSpecification<PropertyViewModel> inputSpecification)
+		{
+			inputSpecification.Model.PropertyIsRequired = true;
+			return inputSpecification;
+		}
+	}
 }

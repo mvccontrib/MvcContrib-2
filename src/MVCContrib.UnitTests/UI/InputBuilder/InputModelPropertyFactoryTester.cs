@@ -16,7 +16,7 @@ namespace UnitTests
         {
             //arrange+            
             var model = new Model() { String = "foo" };            
-            var factory = new InputModelPropertyFactory<Model>(CreateHelper(model), new FactoryConventions());
+            var factory = new InputModelFactory<Model>(CreateHelper(model), new FactoryConventions());
 
             PropertyInfo property = model.GetType().GetProperty("String");
 
@@ -62,9 +62,9 @@ namespace UnitTests
 				return "String";
 			}
 
-			public override InputModelProperty ModelPropertyBuilder(PropertyInfo propertyInfo, object value)
+			public override PropertyViewModel ModelPropertyBuilder(PropertyInfo propertyInfo, object value)
 			{
-				return new ModelProperty<string>();
+				return new PropertyViewModel<string>();
 			}
 
 			public override bool PropertyIsRequiredConvention(PropertyInfo propertyInfo)

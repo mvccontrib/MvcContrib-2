@@ -47,9 +47,9 @@ namespace UnitTests
             var result = _conventions.ModelPropertyBuilder(pi, m.timestamp);
 
             //assert
-            Assert.IsInstanceOfType(typeof(ModelProperty<DateTime>),result);
+            Assert.IsInstanceOfType(typeof(PropertyViewModel<DateTime>),result);
 
-            Assert.AreEqual(((ModelProperty<DateTime>) result).Value, DateTime.Today);
+            Assert.AreEqual(((PropertyViewModel<DateTime>) result).Value, DateTime.Today);
         }
 
         [Test]
@@ -63,9 +63,9 @@ namespace UnitTests
             var result = _conventions.ModelPropertyBuilder(pi, m.String);
 
             //assert
-            Assert.IsInstanceOfType(typeof(ModelProperty<object>), result);
+            Assert.IsInstanceOfType(typeof(PropertyViewModel<object>), result);
 
-            Assert.AreEqual(((ModelProperty<object>)result).Value, "foo");
+            Assert.AreEqual(((PropertyViewModel<object>)result).Value, "foo");
         }
 
 
@@ -80,9 +80,9 @@ namespace UnitTests
             var result = _conventions.ModelPropertyBuilder(pi, m.Enum);
 
             //assert
-            Assert.IsInstanceOfType(typeof(ModelProperty<IEnumerable<SelectListItem>>), result);
+            Assert.IsInstanceOfType(typeof(PropertyViewModel<IEnumerable<SelectListItem>>), result);
 
-            Assert.AreEqual(((ModelProperty<IEnumerable<SelectListItem>>)result).Value.Count(), 2);
+            Assert.AreEqual(((PropertyViewModel<IEnumerable<SelectListItem>>)result).Value.Count(), 2);
         }
 
         [Test]
