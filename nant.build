@@ -198,6 +198,12 @@
 				<include name="/**/bin/${project.config}/Rhino.Mocks.Dll" />
 			</fileset>
 		</copy>
+		<mkdir dir="${ContribRelease}InputBuilderTemplates/" />
+		<copy todir="${ContribRelease}InputBuilderTemplates/" flatten="true">
+			<fileset basedir="${solution.dir}">
+				<include name="MvcContrib/UI/InputBuilder/Views/InputBuilders/*.*" />
+			</fileset>
+		</copy>
 		<zip zipfile="build/MVCContrib.release.zip" includeemptydirs="false" >
 			<fileset basedir="${ContribRelease}">
 				<include name="license.txt" />

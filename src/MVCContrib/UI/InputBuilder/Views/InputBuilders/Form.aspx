@@ -6,5 +6,5 @@
 	using(Html.BeginForm())
 	{%>
 		<%Html.RenderPartials(Model);%>
-	<%=Html.SubmitButton() %>
-<%}%>
+		<%=Html.SubmitButton() %>
+<%	}%>
