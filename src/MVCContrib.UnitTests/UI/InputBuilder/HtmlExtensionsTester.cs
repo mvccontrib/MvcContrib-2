@@ -16,7 +16,7 @@ namespace MvcContrib.UnitTests.UI.InputBuilder
 			var helper = InputModelPropertyFactoryTester.CreateHelper(new Model());
 			//act
 
-			var result = helper.SubmitButton();
+			var result = helper.InputButtons();
             
 			//assert
 			Assert.IsEmpty(result);

@@ -23,7 +23,7 @@ namespace MvcContrib.UI.InputBuilder.InputSpecification
 
 		public override string ToString()
 		{
-			var factory = new InputModelFactory<T>(HtmlHelper, InputBuilder.Conventions);
+			var factory = new ViewModelFactory<T>(HtmlHelper, InputBuilder.Conventions);
 
 			var models = new List<PropertyViewModel>();
 			foreach(PropertyInfo propertyInfo in Model.Type.GetProperties())

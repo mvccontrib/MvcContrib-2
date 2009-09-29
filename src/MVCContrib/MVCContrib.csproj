@@ -199,7 +199,7 @@
     <Compile Include="UI\InputBuilder\Conventions\IModelPropertyConventions.cs" />
     <Compile Include="UI\InputBuilder\InputSpecification\Input.cs" />
     <Compile Include="UI\InputBuilder\InputBuilder.cs" />
-    <Compile Include="UI\InputBuilder\InputSpecification\InputModelFactory.cs" />
+    <Compile Include="UI\InputBuilder\InputSpecification\ViewModelFactory.cs" />
     <Compile Include="UI\InputBuilder\InputSpecification\InputPropertySpecification.cs" />
     <Compile Include="UI\InputBuilder\InputSpecification\InputTypeSpecification.cs" />
     <Compile Include="UI\InputBuilder\Views\PropertyViewModel.cs" />
@@ -300,7 +300,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Configuration\" />
-    <Folder Include="UI\InputBuilder\Model\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

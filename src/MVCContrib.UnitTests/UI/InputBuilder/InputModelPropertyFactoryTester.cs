@@ -19,7 +19,7 @@ namespace MvcContrib.UnitTests.UI.InputBuilder
 		{
 			//arrange+            
 			var model = new Model() { String = "foo" };            
-			var factory = new InputModelFactory<Model>(CreateHelper(model), new FactoryConventions());
+			var factory = new ViewModelFactory<Model>(CreateHelper(model), new FactoryConventions());
 
 			PropertyInfo property = model.GetType().GetProperty("String");
 

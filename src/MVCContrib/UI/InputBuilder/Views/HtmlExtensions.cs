@@ -27,7 +27,7 @@ namespace MvcContrib.UI.InputBuilder.Views
 			return new Input<T>(htmlHelper).RenderForm();
 		}
 
-		public static string SubmitButton(this HtmlHelper htmlHelper)
+		public static string InputButtons(this HtmlHelper htmlHelper)
 		{
 			Render(htmlHelper, new PropertyViewModel
 			{
@@ -45,7 +45,7 @@ namespace MvcContrib.UI.InputBuilder.Views
 		{
 			helper.RenderPartial((TypeViewModel)model);
 		}
-		public static void RenderPartials(this HtmlHelper helper, PropertyViewModel[] model)
+		public static void InputFields(this HtmlHelper helper, PropertyViewModel[] model)
 		{
 			foreach(var viewModel in model)
 			{

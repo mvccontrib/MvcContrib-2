@@ -22,7 +22,7 @@ namespace MvcContrib.UI.InputBuilder.InputSpecification
 
 			return new InputPropertySpecification
 			{
-				Model = new InputModelFactory<T>(_htmlHelper, InputBuilder.Conventions).Create(propertyInfo),
+				Model = new ViewModelFactory<T>(_htmlHelper, InputBuilder.Conventions).Create(propertyInfo),
 				HtmlHelper = _htmlHelper,
 			};
 		}
@@ -41,7 +41,7 @@ namespace MvcContrib.UI.InputBuilder.InputSpecification
 		{
 			return new InputTypeSpecification<T>
 			{
-				Model = new InputModelFactory<T>(_htmlHelper, InputBuilder.Conventions).Create(),
+				Model = new ViewModelFactory<T>(_htmlHelper, InputBuilder.Conventions).Create(),
 				HtmlHelper = _htmlHelper,
 			};
 		}
