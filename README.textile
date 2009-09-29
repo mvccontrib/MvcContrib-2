@@ -7,3 +7,5 @@ For details on how to contribute please "read the git guide":http://MvcContrib.g
 For documentation and binary releases please visit the "CodePlex wiki":http://mvccontrib.codeplex.com
 
 For continuous builds, please see http://teamcity.codebetter.com
+
+test
