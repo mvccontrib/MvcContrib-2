@@ -3,8 +3,9 @@ using System.Reflection;
 using System.Web.Mvc;
 using System.Web.Mvc.Html;
 using MvcContrib.UI.Html;
+using MvcContrib.UI.InputBuilder.Views;
 
-namespace MvcContrib.UI.InputBuilder
+namespace MvcContrib.UI.InputBuilder.InputSpecification
 {
 	public class InputTypeSpecification<T> : IInputSpecification<TypeViewModel> where T : class
 	{

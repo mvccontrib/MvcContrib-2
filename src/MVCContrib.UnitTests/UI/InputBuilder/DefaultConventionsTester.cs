@@ -2,7 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using MvcContrib.UI.InputBuilder;
+using MvcContrib.UI.InputBuilder.Conventions;
+using MvcContrib.UI.InputBuilder.Views;
 using NUnit.Framework;
 
 namespace MvcContrib.UnitTests.UI.InputBuilder

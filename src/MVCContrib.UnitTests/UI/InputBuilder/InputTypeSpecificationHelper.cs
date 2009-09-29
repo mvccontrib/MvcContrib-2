@@ -2,7 +2,8 @@ using System;
 using System.Web.Mvc;
 using System.Web.Mvc.Html;
 using System.Web.Routing;
-using MvcContrib.UI.InputBuilder;
+using MvcContrib.UI.InputBuilder.InputSpecification;
+using MvcContrib.UI.InputBuilder.Views;
 using MvcContrib.UnitTests.UI.InputBuilder;
 using NUnit.Framework;
 

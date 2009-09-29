@@ -2,7 +2,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Text.RegularExpressions;
 
-namespace MvcContrib.UI.InputBuilder
+namespace MvcContrib.UI.InputBuilder.Helpers
 {
 	public static class ReflectionHelper
 	{

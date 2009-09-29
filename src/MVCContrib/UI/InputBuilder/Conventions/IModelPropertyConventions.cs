@@ -1,8 +1,9 @@
 using System;
 using System.Reflection;
 using System.Web.Mvc;
+using MvcContrib.UI.InputBuilder.Views;
 
-namespace MvcContrib.UI.InputBuilder
+namespace MvcContrib.UI.InputBuilder.Conventions
 {
 	public interface IModelPropertyConventions
 	{

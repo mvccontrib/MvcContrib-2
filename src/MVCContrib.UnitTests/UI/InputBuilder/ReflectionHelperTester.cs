@@ -1,7 +1,7 @@
 using System;
 using System.Linq.Expressions;
 using System.Reflection;
-using MvcContrib.UI.InputBuilder;
+using MvcContrib.UI.InputBuilder.Helpers;
 using NUnit.Framework;
 
 namespace MvcContrib.UnitTests.UI.InputBuilder

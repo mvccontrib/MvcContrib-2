@@ -1,7 +1,7 @@
 using System;
 using System.Web.Hosting;
 using System.Web.Mvc;
-using MvcContrib.UI.InputBuilder;
+using MvcContrib.UI.InputBuilder.ViewEngine;
 using NUnit.Framework;
 
 namespace MvcContrib.UnitTests.UI.InputBuilder

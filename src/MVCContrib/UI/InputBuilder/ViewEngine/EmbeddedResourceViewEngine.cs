@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Web.Mvc;
 
-namespace MvcContrib.UI.InputBuilder
+namespace MvcContrib.UI.InputBuilder.ViewEngine
 {
 	public class InputBuilderViewEngine : WebFormViewEngine
 	{

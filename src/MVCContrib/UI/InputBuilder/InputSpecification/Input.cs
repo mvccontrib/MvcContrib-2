@@ -2,8 +2,10 @@ using System;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Web.Mvc;
+using MvcContrib.UI.InputBuilder.Helpers;
+using MvcContrib.UI.InputBuilder.Views;
 
-namespace MvcContrib.UI.InputBuilder
+namespace MvcContrib.UI.InputBuilder.InputSpecification
 {
 	public class Input<T> where T : class
 	{

@@ -2,8 +2,10 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.Reflection;
 using System.Web.Mvc;
-using MvcContrib.UI.InputBuilder;
 using MvcContrib.UI.InputBuilder.Attributes;
+using MvcContrib.UI.InputBuilder.Conventions;
+using MvcContrib.UI.InputBuilder.InputSpecification;
+using MvcContrib.UI.InputBuilder.Views;
 using NUnit.Framework;
 
 namespace MvcContrib.UnitTests.UI.InputBuilder

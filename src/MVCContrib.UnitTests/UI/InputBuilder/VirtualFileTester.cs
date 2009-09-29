@@ -1,4 +1,4 @@
-using MvcContrib.UI.InputBuilder;
+using MvcContrib.UI.InputBuilder.ViewEngine;
 using NUnit.Framework;
 
 namespace MvcContrib.UnitTests.UI.InputBuilder

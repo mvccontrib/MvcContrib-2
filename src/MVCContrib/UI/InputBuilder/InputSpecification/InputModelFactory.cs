@@ -1,7 +1,9 @@
 using System.Reflection;
 using System.Web.Mvc;
+using MvcContrib.UI.InputBuilder.Conventions;
+using MvcContrib.UI.InputBuilder.Views;
 
-namespace MvcContrib.UI.InputBuilder
+namespace MvcContrib.UI.InputBuilder.InputSpecification
 {
 	public class InputModelFactory<T> where T : class
 	{

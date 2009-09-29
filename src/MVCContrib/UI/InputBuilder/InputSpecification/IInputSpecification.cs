@@ -1,4 +1,4 @@
-namespace MvcContrib.UI.InputBuilder
+namespace MvcContrib.UI.InputBuilder.InputSpecification
 {
 	public interface IInputSpecification<T>
 	{

@@ -1,8 +1,9 @@
 using System;
 using System.Web.Mvc;
 using MvcContrib.UI.Html;
+using MvcContrib.UI.InputBuilder.Views;
 
-namespace MvcContrib.UI.InputBuilder
+namespace MvcContrib.UI.InputBuilder.InputSpecification
 {
 	public class InputPropertySpecification : IInputSpecification<PropertyViewModel>,IInputSpecification<TypeViewModel>
 	{

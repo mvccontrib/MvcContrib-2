@@ -5,8 +5,10 @@ using System.Linq;
 using System.Reflection;
 using System.Web.Mvc;
 using MvcContrib.UI.InputBuilder.Attributes;
+using MvcContrib.UI.InputBuilder.Helpers;
+using MvcContrib.UI.InputBuilder.Views;
 
-namespace MvcContrib.UI.InputBuilder
+namespace MvcContrib.UI.InputBuilder.Conventions
 {
 	public class DefaultConventions : IModelPropertyConventions
 	{

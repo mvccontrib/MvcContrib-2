@@ -1,5 +1,5 @@
-﻿<%@ Import Namespace="System.Web.Mvc.Html"%>
-<%@ Import Namespace="MvcContrib.UI.InputBuilder"%>
+﻿<%@ Import Namespace="MvcContrib.UI.InputBuilder.Views"%>
+<%@ Import Namespace="System.Web.Mvc.Html"%>
 <%@ Master Language="C#" Inherits="System.Web.Mvc.ViewMasterPage<PropertyViewModel>" %>
 <%
     Example.Visible = Model.HasExample();

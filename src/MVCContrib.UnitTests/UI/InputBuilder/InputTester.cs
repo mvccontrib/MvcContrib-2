@@ -1,4 +1,4 @@
-using MvcContrib.UI.InputBuilder;
+using MvcContrib.UI.InputBuilder.InputSpecification;
 using NUnit.Framework;
 
 namespace MvcContrib.UnitTests.UI.InputBuilder
@@ -11,7 +11,7 @@ namespace MvcContrib.UnitTests.UI.InputBuilder
 		{
 			//arrange
 			Model model=new Model(){String = "foo"};
-			var input = new MvcContrib.UI.InputBuilder.Input<Model>(InputModelPropertyFactoryTester.CreateHelper(model));
+			var input = new Input<Model>(InputModelPropertyFactoryTester.CreateHelper(model));
             
 			//act
 			var result = input.RenderInput(m => m.String);

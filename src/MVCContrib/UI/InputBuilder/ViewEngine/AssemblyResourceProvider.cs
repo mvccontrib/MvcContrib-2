@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.Caching;
 using System.Web.Hosting;
 
-namespace MvcContrib.UI.InputBuilder
+namespace MvcContrib.UI.InputBuilder.ViewEngine
 {
 	public class AssemblyResourceProvider : VirtualPathProvider
 	{

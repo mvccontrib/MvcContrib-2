@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Web.Hosting;
 using System.Web.Mvc;
+using MvcContrib.UI.InputBuilder.Conventions;
+using MvcContrib.UI.InputBuilder.ViewEngine;
 
 namespace MvcContrib.UI.InputBuilder
 {
