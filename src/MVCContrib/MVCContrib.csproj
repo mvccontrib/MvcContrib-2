@@ -202,6 +202,7 @@
     <Compile Include="UI\InputBuilder\InputSpecification\ViewModelFactory.cs" />
     <Compile Include="UI\InputBuilder\InputSpecification\InputPropertySpecification.cs" />
     <Compile Include="UI\InputBuilder\InputSpecification\InputTypeSpecification.cs" />
+    <Compile Include="UI\InputBuilder\Views\Partial.cs" />
     <Compile Include="UI\InputBuilder\Views\PropertyViewModel.cs" />
     <Compile Include="UI\InputBuilder\Views\TypeViewModel.cs" />
     <Compile Include="UI\InputBuilder\Conventions\PropertyInfoExtensions.cs" />

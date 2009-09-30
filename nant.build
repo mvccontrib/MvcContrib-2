@@ -64,7 +64,7 @@
 				<attribute type="AssemblyVersionAttribute" value="${project.fullversion}" />
 				<attribute type="AssemblyFileVersionAttribute" value="${project.fullversion}" />
 				<attribute type="AssemblyCopyrightAttribute" value="Copyright © ${company.name} 2007-${datetime::get-year(datetime::now())}" />
-				<attribute type="AssemblyProductAttribute" value="${project::get-name()}" />
+				<attribute type="AssemblyProductAttribute" value="${project::get-name()} 1.5 RC" />
 				<attribute type="AssemblyCompanyAttribute" value="${company.name}" />
 				<attribute type="AssemblyConfigurationAttribute" value="${project.config}" />
 				<attribute type="AssemblyInformationalVersionAttribute" value="${project.fullversion}" />

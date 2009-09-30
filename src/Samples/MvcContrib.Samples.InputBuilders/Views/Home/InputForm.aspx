@@ -1,5 +1,6 @@
 <%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" 
-Inherits="System.Web.Mvc.ViewPage<SampleModel>" %>
+Inherits="System.Web.Mvc.ViewPage<SampleInput>" %>
+<%@ Import Namespace="MvcContrib.UI.InputBuilder.Views"%>
 <%@ Import Namespace="Web.Models"%>
 <%@ Import Namespace="MvcContrib.UI.InputBuilder"%>
 

@@ -1,5 +1,6 @@
 ﻿<%@ Page Language="C#" MasterPageFile="~/Views/Shared/Site.Master" 
-Inherits="System.Web.Mvc.ViewPage<SampleModel>" %>
+Inherits="System.Web.Mvc.ViewPage<SampleInput>" %>
+<%@ Import Namespace="MvcContrib.UI.InputBuilder.Views"%>
 <%@ Import Namespace="Web.Models"%>
 <%@ Import Namespace="MvcContrib.UI.InputBuilder"%>
 
@@ -13,7 +14,7 @@ Inherits="System.Web.Mvc.ViewPage<SampleModel>" %>
     <%=Html.BeginForm("save","Home") %>
     <%=Html.ValidationSummary() %>
         This sample demonstrates how you could use partials and master pages to create your field inputs for your Strongly Typed View.
-        <%=Html.Input(c => c.Name).Partial("ReadOnly")%>        
+        <%=Html.Input(c => c.Name).Partial(Partial.ReadOnly)%>        
         <%=Html.Input(c => c.TimeStamp).Example("An Overridden example").Partial("DatePicker")%>
         <%=Html.Input(c => c.Guid)%>
         <%=Html.Input(c => c.Enum)%>
@@ -21,7 +22,7 @@ Inherits="System.Web.Mvc.ViewPage<SampleModel>" %>
         <%=Html.Input(c => c.Html).Label("Label Overiden From the View")%>
         <%=Html.Input(c => c.IsNeeded)%>
         <%=Html.Input(c=>c.IntegerRangeValue) %>
-        <%=Html.SubmitButton() %>
+        <%=Html.InputButtons()%>
         <%Html.EndForm();%>
     </p>
     
@@ -29,7 +30,7 @@ Inherits="System.Web.Mvc.ViewPage<SampleModel>" %>
     &lt;%=Html.ValidationSummary() %&gt;
         This sample demonstrates how you could use partials and master pages to create your field inputs for your Strongly Typed View.
         &lt;%Html.BeginForm("save","home");%&gt;
-        &lt;%=Html.Input(c => c.Name)%&gt;
+        &lt;%=Html.Input(c => c.Name).Partial(Partial.ReadOnly)%&gt;
         &lt;%=Html.Input(c => c.TimeStamp)%&gt;
         &lt;%=Html.Input(c => c.TimeStamp).UsingPartial("DatePicker").WithExample("An Overridden example")%&gt;
         &lt;%=Html.Input(c => c.Guid)%&gt;
@@ -38,7 +39,7 @@ Inherits="System.Web.Mvc.ViewPage<SampleModel>" %>
         &lt;%=Html.Input(c => c.Html).WithLabel("Label Overiden From the View")%&gt;
         &lt;%=Html.Input(c => c.IsNeeded)%&gt;
         &lt;%=Html.Input(c=>c.IntegerRangeValue) %&gt;
-        &lt;%=Html.SubmitButton() %&gt;
+        &lt;%=Html.InputButtons() %&gt;
         &lt;%Html.EndForm();%&gt;
     </pre>
     <%

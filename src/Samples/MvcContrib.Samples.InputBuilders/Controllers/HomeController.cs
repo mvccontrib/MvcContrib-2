@@ -9,33 +9,31 @@ namespace Web.Controllers
 	{
 		public ActionResult InputForm()
 		{
-			return View(new SampleModel()
-			                {
-			                    Name = "stuff",
-                                TimeStamp = DateTime.Today.AddHours(13).AddMinutes(30)
-			                });
+			return View(new SampleInput
+			            	{
+			            		Name = "stuff",
+			            		TimeStamp = DateTime.Today.AddHours(13).AddMinutes(30)
+			            	});
 		}
 
-		[OutputCache(Duration = 10,VaryByParam = "")]
+		[OutputCache(Duration = 10, VaryByParam = "")]
 		public ActionResult Index()
 		{
-			ViewData["Message"] = "Welcome to ASP.NET MVC!";
-
-			//ViewData.ModelState.AddModelError("Html","The Html is required!");
-			return View(new SampleModel()
-			                {
-			                    Name = "foo",
-                                TimeStamp = DateTime.Today.AddHours(13).AddMinutes(30)
-			                });
+			return View(new SampleInput
+			            	{
+			            		Name = "foo",
+			            		TimeStamp = DateTime.Today.AddHours(13).AddMinutes(30)
+			            	});
 		}
+
 		[AcceptVerbs(HttpVerbs.Post)]
-		[ActionName("InputForm")]		
-		public ActionResult Save(SampleModel model)
+		[ActionName("InputForm")]
+		public ActionResult Save(SampleInput model)
 		{
 			if (ModelState.IsValid)
 			{
 			}
-			return View( model);
+			return View(model);
 		}
 	}
 }
