@@ -5,7 +5,7 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using MvcContrib.TestHelper;
 using NUnit.Framework;
-using NUnit.Framework.SyntaxHelpers;
+
 using Assert=NUnit.Framework.Assert;
 using AssertionException=MvcContrib.TestHelper.AssertionException;
 

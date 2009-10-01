@@ -1,19 +1,23 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 
-namespace MvcContrib.UI.InputBuilder
+namespace MvcContrib.UI.InputBuilder.ViewEngine
 {
 	public class InputBuilderViewEngine : WebFormViewEngine
 	{
 		public InputBuilderViewEngine(string[] subdirs)
 		{
-			var inputs = subdirs.Concat(new string[]{"InputBuilders"});
+			IEnumerable<string> inputs = subdirs.Concat(new[] {"InputBuilders"});
 
-			PartialViewLocationFormats = inputs.Select(s => "~/Views/" + s + "/{0}.aspx").ToArray();
+			PartialViewLocationFormats =
+				inputs.Select(s => "~/Views/" + s + "/{0}.aspx").Concat(subdirs.Select(s => "~/Views/" + s + "/{0}.ascx")).ToArray();
 
 			MasterLocationFormats = inputs.Select(s => "~/Views/" + s + "/{0}.master").ToArray();
 
-			ViewLocationFormats = subdirs.Select(s => "~/Views/" + s + "/{0}.aspx").ToArray(); ;
+			ViewLocationFormats =
+				inputs.Select(s => "~/Views/" + s + "/{0}.aspx").Concat(subdirs.Select(s => "~/Views/" + s + "/{0}.ascx")).ToArray();
+			;
 		}
 	}
 }

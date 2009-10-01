@@ -2,7 +2,7 @@ using System;
 using MvcContrib.Interfaces;
 using MvcContrib.Services;
 using NUnit.Framework;
-using NUnit.Framework.SyntaxHelpers;
+
 
 namespace MvcContrib.UnitTests.IoC
 {

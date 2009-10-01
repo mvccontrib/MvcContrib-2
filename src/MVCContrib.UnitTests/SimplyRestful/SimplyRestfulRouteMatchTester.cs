@@ -3,12 +3,11 @@ using System.Web;
 using System.Web.Routing;
 using MvcContrib.SimplyRestful;
 using NUnit.Framework;
-using NUnit.Framework.SyntaxHelpers;
+
 using Rhino.Mocks;
 
 namespace MvcContrib.UnitTests.SimplyRestful
 {
-	[TestFixture]
 	public class SimplyRestfulRouteMatchTester
 	{
 		[TestFixture]

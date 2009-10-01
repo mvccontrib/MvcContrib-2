@@ -5,7 +5,7 @@ using System.Web.Routing;
 using Microsoft.Practices.Unity;
 using MvcContrib.Unity;
 using NUnit.Framework;
-using NUnit.Framework.SyntaxHelpers;
+
 using Rhino.Mocks;
 
 namespace MvcContrib.UnitTests.ControllerFactories

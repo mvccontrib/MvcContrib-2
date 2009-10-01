@@ -5,7 +5,7 @@ using Castle.Components.Binder;
 using MvcContrib.Attributes;
 using MvcContrib.Castle;
 using NUnit.Framework;
-using NUnit.Framework.SyntaxHelpers;
+
 using Rhino.Mocks;
 
 namespace MvcContrib.UnitTests.MetaData

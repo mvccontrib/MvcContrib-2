@@ -4,7 +4,6 @@ using StructureMap;
 
 namespace MvcContrib.UnitTests.IoC
 {
-    [TestFixture]
     public class StructureMapDependencyResolverTester
     {
         [TestFixture]

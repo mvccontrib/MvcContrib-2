@@ -8,7 +8,6 @@ using Spring.Objects.Factory.Xml;
 
 namespace MvcContrib.UnitTests.IoC
 {
-    [TestFixture]
     public class SpringDependencyResolverTester
     {
         [TestFixture]

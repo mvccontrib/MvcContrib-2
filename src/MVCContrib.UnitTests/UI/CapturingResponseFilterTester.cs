@@ -2,12 +2,11 @@ using System.IO;
 using System.Text;
 using MvcContrib.UI;
 using NUnit.Framework;
-using NUnit.Framework.SyntaxHelpers;
+
 using Rhino.Mocks;
 
 namespace MvcContrib.UnitTests.UI
 {
-	[TestFixture]
 	public class CapturingResponseFilterTester
 	{
 		[TestFixture]

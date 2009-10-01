@@ -8,16 +8,20 @@
 	<property name="build.base" value="build"/>
 	<property name="results.dir" value="${build.base}\results" />
 	<property name="samples.dir" value="src\samples"/>
-	<property name="revisionnumber" value="0" dynamic="true"/>
-	<property name="revisionnumber" value="${CCNetLabel}" if="${property::exists('CCNetLabel')}"/>
-	<property name="project.fullversion" value="1.0.${revisionnumber}.0" dynamic="true"/>
-	<property name="version.major" value="1"/>
-	<property name="version.minor" value="0"/>
-	<property name="version.build" value="0"/>
-	<property name="version.revision" value="0"/>
-	<property name="project.fullversion" value="${version.major}.${version.minor}.${version.build}.${version.revision}" dynamic="true" />
+	<property name="project.fullversion" value="1.0.0.99" />
+	<property name="project.fullversion" value="${build.number}" if="${property::exists('build.number')}"/>
+	<!--
+		<property name="revisionnumber" value="0" dynamic="true"/>
+		<property name="project.fullversion" value="1.0.${revisionnumber}.0" dynamic="true"/>
+		<property name="version.major" value="1"/>
+		<property name="version.minor" value="0"/>
+		<property name="version.build" value="0"/>
+		<property name="version.revision" value="0"/>
+		<property name="project.fullversion" value="${version.major}.${version.minor}.${version.build}.${version.revision}" dynamic="true" />
+	-->
 	<property name="nant.settings.currentframework" value="net-3.5" />
 	<property name="msbuild.path" value="${framework::get-framework-directory(framework::get-target-framework())}\msbuild.exe" />
+	<property name="nunit.path" value="bin\nunit\nunit-console-x86.exe" />
 	<property name="runtests" value="true" unless="${property::exists('runtests')}" />
 	
 	<!-- default configuration -->
@@ -60,7 +64,7 @@
 				<attribute type="AssemblyVersionAttribute" value="${project.fullversion}" />
 				<attribute type="AssemblyFileVersionAttribute" value="${project.fullversion}" />
 				<attribute type="AssemblyCopyrightAttribute" value="Copyright © ${company.name} 2007-${datetime::get-year(datetime::now())}" />
-				<attribute type="AssemblyProductAttribute" value="${project::get-name()}" />
+				<attribute type="AssemblyProductAttribute" value="${project::get-name()} 1.5 RC" />
 				<attribute type="AssemblyCompanyAttribute" value="${company.name}" />
 				<attribute type="AssemblyConfigurationAttribute" value="${project.config}" />
 				<attribute type="AssemblyInformationalVersionAttribute" value="${project.fullversion}" />
@@ -99,13 +103,23 @@
 				<include name="**/*.spark" />
 			</fileset>
 		</copy>
+		
+		<copy todir="${build.dir}/IncludeHandling">
+			<fileset basedir="${solution.dir}/MvcContrib.UnitTests/IncludeHandling">
+				<include name="**/*.xml" />
+				<include name="**/*.txt" />
+			</fileset>
+		</copy>
 	</target>
 
 	<target name="test" depends="init" if="${runtests}">
 		<delete dir="${results.dir}" if="${directory::exists('${results.dir}')}" verbose="true" />
 		<mkdir dir="${results.dir}"/>
+		<exec program="${nunit.path}" 
+			commandline="${build.dir}/MvcContrib.UnitTests.dll /xml:${results.dir}\TestResult.xml" 
+			workingdir="." />
 
-		<nunit2 failonerror="true" verbose="true">
+		<!--<nunit2 failonerror="true" verbose="true">
 			<formatter type="Xml" outputdir="${results.dir}" usefile="true" extension=".xml"/>
 			<formatter type="Plain" />
 			<test assemblyname="${build.dir}/MVCContrib.UnitTests.dll">
@@ -113,7 +127,7 @@
 					<exclude name="Integration" />
 				</categories>
 			</test>
-		</nunit2>
+		</nunit2>-->
 	</target>
 
 	<target name="move-for-samples">    
@@ -138,7 +152,7 @@
 	</target>
 
 	<target name="package">
-		<!-- TODO: How to we generate ChangeLog now that we're using git?-->
+		<!-- TODO: How do we generate ChangeLog now that we're using git?-->
 		<!-- 		
 		  MvcContrib
 			license
@@ -182,6 +196,12 @@
 			<fileset basedir="${solution.dir}">
 				<include name="/**/bin/${project.config}/Microsoft.Web.MVC.dll" />
 				<include name="/**/bin/${project.config}/Rhino.Mocks.Dll" />
+			</fileset>
+		</copy>
+		<mkdir dir="${ContribRelease}InputBuilderTemplates/" />
+		<copy todir="${ContribRelease}InputBuilderTemplates/" flatten="true">
+			<fileset basedir="${solution.dir}">
+				<include name="MvcContrib/UI/InputBuilder/Views/InputBuilders/*.*" />
 			</fileset>
 		</copy>
 		<zip zipfile="build/MVCContrib.release.zip" includeemptydirs="false" >

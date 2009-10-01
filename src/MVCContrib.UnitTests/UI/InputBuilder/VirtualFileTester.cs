@@ -1,36 +1,36 @@
-using MvcContrib.UI.InputBuilder;
+using MvcContrib.UI.InputBuilder.ViewEngine;
 using NUnit.Framework;
 
-namespace UnitTests
+namespace MvcContrib.UnitTests.UI.InputBuilder
 {
-    [TestFixture]
-    public class VirtualFileTester
-    {
+	[TestFixture]
+	public class VirtualFileTester
+	{
 
-        [Test]
-        public void The_file_should_locate_a_embedded_resource()
-        {
-            //arrange
-            var file = new AssemblyResourceVirtualFile("~/Views/InputBuilders/String.aspx");
+		[Test]
+		public void The_file_should_locate_a_embedded_resource()
+		{
+			//arrange
+			var file = new AssemblyResourceVirtualFile("~/Views/InputBuilders/String.aspx");
             
-            //act
-            var result = file.Open();
+			//act
+			var result = file.Open();
 
-            //assert
-            Assert.IsNotNull(result);
-        }
+			//assert
+			Assert.IsNotNull(result);
+		}
 
-        [Test]
-        public void The_file_should_not_locate_an_invalid_path()
-        {
-            //arrange
-            var file = new AssemblyResourceVirtualFile("~/foo");
+		[Test]
+		public void The_file_should_not_locate_an_invalid_path()
+		{
+			//arrange
+			var file = new AssemblyResourceVirtualFile("~/foo");
 
-            //act
-            var result = file.Open();
+			//act
+			var result = file.Open();
 
-            //assert
-            Assert.IsNull(result);
-        }
-    }
+			//assert
+			Assert.IsNull(result);
+		}
+	}
 }

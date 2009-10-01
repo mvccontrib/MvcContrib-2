@@ -16,6 +16,7 @@ namespace MvcContrib.UI.Grid
 		private readonly TextWriter _writer;
 		private readonly ViewContext context;
 		private IGridModel<T> _gridModel = new GridModel<T>();
+        private bool _isGridRenderedWithSorting = false;
 
 		/// <summary>
 		/// The GridModel that holds the internal representation of this grid.
@@ -57,7 +58,9 @@ namespace MvcContrib.UI.Grid
 			foreach (var column in builder)
 			{
 				_gridModel.Columns.Add(column);
-			}
+                if (column.IsSortable)
+                    _isGridRenderedWithSorting = true;
+            }
 
 			return this;
 		}
@@ -97,10 +100,37 @@ namespace MvcContrib.UI.Grid
 			return this;
 		}
 
-		public void Render()
-		{
-			_gridModel.Renderer.Render(_gridModel, DataSource, _writer, context);
-		}
+        public void Render()
+        {
+            EnsureSortCapability();
+            _gridModel.Renderer.Render(_gridModel, DataSource, _writer, context);
+        }
+
+        private void EnsureSortCapability()
+        {
+            if (_isGridRenderedWithSorting == true)
+            {
+                if (DataSource is ISortableDataSource<T> == false)
+                    DataSource = new ComparableSortList<T>(DataSource);
+                EnsureSortableRenderer();
+            }
+        }
+
+        private void EnsureSortableRenderer()
+        {
+            if (_gridModel.Renderer is ISortableGridRenderer<T> == false)
+            {
+                if (IsDefaultRenderer())
+                    _gridModel.Renderer = new SortableHtmlTableGridRenderer<T>();
+                else
+                    throw new InvalidOperationException("The given grid renderer is not ISortableGridRenderer<T>, but columns are marked for sorting. Please supply a proper renderer, allow default use, or remove sorted columns.");
+            }
+        }
+
+        private bool IsDefaultRenderer()
+        {
+            return _gridModel.Renderer is HtmlTableGridRenderer<T>;
+        }
 
 		public IGridWithOptions<T> RowAttributes(Func<GridRowViewData<T>, IDictionary<string, object>> attributes)
 		{

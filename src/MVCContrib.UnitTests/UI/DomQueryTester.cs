@@ -1,13 +1,12 @@
 using System;
 using MvcContrib.UI;
 using NUnit.Framework;
-using NUnit.Framework.SyntaxHelpers;
+
 using System.Linq;
 
 namespace MvcContrib.UnitTests.UI
 {
 	[Obsolete("The element API has been deprecated. Consider using MvcContrib.FluentHtml or System.Web.Mvc.TagBuilder instead.")]
-	[TestFixture]
 	public class DomQueryTester
 	{
 		[TestFixture]

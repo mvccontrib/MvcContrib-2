@@ -2,7 +2,7 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using MvcContrib.Routing;
 using NUnit.Framework;
-using NUnit.Framework.SyntaxHelpers;
+
 using Rhino.Mocks;
 
 namespace MvcContrib.UnitTests
@@ -23,7 +23,7 @@ namespace MvcContrib.UnitTests
 
 			foreach (Route route in routes)
 			{
-				Assert.That(route.RouteHandler, Is.InstanceOfType(typeof(DebugRouteHandler)));
+				Assert.That(route.RouteHandler, Is.InstanceOf<DebugRouteHandler>());
 			}
 
 		}
@@ -53,7 +53,7 @@ namespace MvcContrib.UnitTests
 			var context = new RequestContext(mocks.DynamicHttpContextBase(), new RouteData());
 
 			var httpHandler = handler.GetHttpHandler(context);
-			Assert.That(httpHandler, Is.InstanceOfType(typeof(DebugHttpHandler)));
+			Assert.That(httpHandler, Is.InstanceOf<DebugHttpHandler>());
 			Assert.That(((DebugHttpHandler)httpHandler).RequestContext, Is.SameAs(context));
 		}
 
@@ -71,7 +71,7 @@ namespace MvcContrib.UnitTests
 		{
 			var route = DebugRoute.Singleton;
 			Assert.That(route.Url, Is.EqualTo("{*catchall}"));
-			Assert.That(route.RouteHandler, Is.InstanceOfType(typeof(DebugRouteHandler)));
+			Assert.That(route.RouteHandler, Is.InstanceOf<DebugRouteHandler>());
 		}
 
 		[Test]

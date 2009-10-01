@@ -1,7 +1,8 @@
-using MvcContrib.UI.InputBuilder;
+using MvcContrib.UI.InputBuilder.InputSpecification;
+using MvcContrib.UI.InputBuilder.Views;
 using NUnit.Framework;
 
-namespace UnitTests
+namespace MvcContrib.UnitTests.UI.InputBuilder
 {
     [TestFixture]
     public class InputPropertySpecificationTester
@@ -11,7 +12,7 @@ namespace UnitTests
         {
             //arrange
             var spec = new InputPropertySpecification();
-            var property = new InputModelProperty();
+            var property = new PropertyViewModel();
             spec.Model = property;
             spec.Render = (a, b) =>
                               {
@@ -21,8 +22,8 @@ namespace UnitTests
             //act
             var result = spec.ToString();
             
-            //assert
-            Assert.AreEqual("foo",result);
-        }
-    }
+			//assert
+			Assert.AreEqual("foo",result);
+		}
+	}
 }

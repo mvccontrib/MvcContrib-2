@@ -2,11 +2,14 @@ using System;
 using System.Web.Mvc;
 using System.Web.Mvc.Html;
 using System.Web.Routing;
-using MvcContrib.UI.InputBuilder;
+using MvcContrib.UI.InputBuilder.InputSpecification;
+using MvcContrib.UI.InputBuilder.Views;
+using MvcContrib.UnitTests.UI.InputBuilder;
 using NUnit.Framework;
 
-namespace UnitTests
+namespace MvcContrib.UnitTests.UI.InputBuilder
 {
+
     [TestFixture]
     public class InputTypeSpecificationHelper
     {
@@ -14,7 +17,8 @@ namespace UnitTests
         {
             //arrange
             var spec = new InputTypeSpecTester();
-            spec.ModelType = typeof (Model);   
+            spec.Model = new TypeViewModel(){Type = typeof (Model)};
+        	  
             //act
             var result = spec.ToString();
             //assert
@@ -22,29 +26,20 @@ namespace UnitTests
         }
 
         
-    }
+	}
 
     public class InputTypeSpecTester:InputTypeSpecification<Model>
     {
-        protected override IDisposable RenderForm()
-        {
-            return new FakeDisposable();
-        }
-        protected override void RenderPartial(InputModelProperty model)
+        protected override void RenderPartial(PropertyViewModel model)
         {
             return;
-        }
-        protected override void RenderSubmitButton()
-        {
-            return;
-            
         }
     }
     public class FakeDisposable:IDisposable
     {
         public void Dispose()
         {
-            
-        }
-    }
+           
+		}
+	}
 }

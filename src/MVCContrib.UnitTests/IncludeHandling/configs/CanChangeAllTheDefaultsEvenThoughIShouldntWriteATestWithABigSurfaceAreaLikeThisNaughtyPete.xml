@@ -1,0 +1,8 @@
+﻿<includeHandling>
+	<css path="~/foo/{0}/{1}" cacheFor="10:10:10.000" compressionOrder="gzip" lineBreakAt="180" minify="false">
+		<options compressionType="Hybrid" />
+	</css>
+	<js path="~/bar/{0}/{1}" cacheFor="11.11:11:11.100" compressionOrder="deflate,gzip" lineBreakAt="-1" minify="false">
+		<options disableOptimizations="true" obfuscate="false" preserveSemiColons="false" />
+	</js>
+</includeHandling>

@@ -44,6 +44,12 @@ namespace MvcContrib.UI.Grid
 		/// <returns></returns>
 		IGridColumn<T> DoNotEncode();
 
+        /// <summary>
+        /// Render column with sort link in header.
+        /// </summary>
+        /// <returns></returns>
+        IGridColumn<T> Sortable(bool isDefaultSort);
+
 		/// <summary>
 		/// Defines additional attributes for the column heading.
 		/// </summary>

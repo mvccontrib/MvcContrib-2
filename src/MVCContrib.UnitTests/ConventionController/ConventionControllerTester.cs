@@ -1,7 +1,7 @@
 using System.Web.Mvc;
 using MvcContrib.ActionResults;
 using NUnit.Framework;
-using NUnit.Framework.SyntaxHelpers;
+
 using Rhino.Mocks;
 
 namespace MvcContrib.UnitTests.ConventionController

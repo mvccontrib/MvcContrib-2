@@ -3,11 +3,10 @@ using MvcContrib.UnitTests.Castle;
 using NUnit.Framework;
 using Castle.Windsor;
 using MvcContrib.Castle;
-using NUnit.Framework.SyntaxHelpers;
+
 
 namespace MvcContrib.UnitTests.IoC
 {
-	[TestFixture]
 	public class WindsorExtensionTester
 	{
 

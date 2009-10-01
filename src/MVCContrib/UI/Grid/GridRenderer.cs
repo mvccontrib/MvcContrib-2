@@ -51,7 +51,6 @@ namespace MvcContrib.UI.Grid
 			RenderGridEnd(!hasItems);
 		}
 
-
 		protected void RenderText(string text)
 		{
 			Writer.Write(text);
@@ -119,7 +118,7 @@ namespace MvcContrib.UI.Grid
 				else
 				{
 					RenderHeaderCellStart(column);
-					RenderText(column.DisplayName);
+                    RenderHeaderText(column);
 					RenderHeaderCellEnd();
 				}
 			}
@@ -128,6 +127,11 @@ namespace MvcContrib.UI.Grid
 
 			return true;
 		}
+
+        protected virtual void RenderHeaderText(GridColumn<T> column)
+        {
+            RenderText(column.DisplayName);
+        }
 
 		protected virtual bool ShouldRenderHeader()
 		{

@@ -1,26 +1,20 @@
-﻿<%@ Import Namespace="System.Web.Mvc.Html"%>
-<%@ Import Namespace="MvcContrib.UI.InputBuilder"%>
-<%@ Master Language="C#" Inherits="System.Web.Mvc.ViewMasterPage<InputModelProperty>" %>
+﻿<%@ Import Namespace="MvcContrib.UI.InputBuilder.Views"%>
+<%@ Import Namespace="System.Web.Mvc.Html"%>
+<%@ Master Language="C#" Inherits="System.Web.Mvc.ViewMasterPage<PropertyViewModel>" %>
 <%
     Example.Visible = Model.HasExample();
 %>
-<div style="padding:5px; ">
-    <div style=" margin-right:10px; float:left; font-weight:bold;width:200px; text-align:right; clear:both">    
-        
+<div style="padding:5px; clear:both">
+    <span style=" margin-right:10px; float:left; font-weight:bold;width:200px; text-align:right">
         <asp:ContentPlaceHolder ID="Label" runat="server">
-        <label for="<%=Model.Name%>"><%=Html.Encode(Model.Label)%></label></asp:ContentPlaceHolder>
-        
+        <label for="<%=Model.Name%>"><%=Html.Encode(Model.Label)%></label></asp:ContentPlaceHolder>        
         <%=Model.PropertyIsRequired?"*":""%><%=Model.Label.Length>0?":":"" %> 
-    </div>
-    
+    </span>    
     <asp:ContentPlaceHolder ID="Input" runat="server"/>
-
     <asp:ContentPlaceHolder ID="Validation" runat="server">
         <%=Html.ValidationMessage(Model.Name,"*") %>
-    </asp:ContentPlaceHolder>
-    
+    </asp:ContentPlaceHolder>    
     <asp:ContentPlaceHolder ID="Example" runat="Server" Visible="false">
         <span class="example">ex.: <%=Html.Encode(Model.Example)%></span>
-    </asp:ContentPlaceHolder>
-    
+    </asp:ContentPlaceHolder>    
 </div>

@@ -1,7 +1,8 @@
-using MvcContrib.UI.InputBuilder;
+using MvcContrib.UI.InputBuilder.InputSpecification;
+using MvcContrib.UI.InputBuilder.Views;
 using NUnit.Framework;
 
-namespace UnitTests
+namespace MvcContrib.UnitTests.UI.InputBuilder
 {
     [TestFixture]
     public class IInputSpecificationExtensionsTester
@@ -11,22 +12,23 @@ namespace UnitTests
         {
             //arrange
             var inputSpecification = new InputPropertySpecification();
-            inputSpecification.Model= new InputModelProperty();
+            inputSpecification.Model= new PropertyViewModel();
 
             //act
-            inputSpecification
-                .Partial("partial")
-                .Example("new example")
-                .Label("label")
-                .Required();
+        	inputSpecification
+        		.Example("new example")
+        		.Required()
+        		.Partial("partial")
+        		.Label("label");
 
-            //assert
-            Assert.AreEqual("partial", inputSpecification.Model.PartialName);
-            Assert.AreEqual("new example", inputSpecification.Model.Example);
-            Assert.AreEqual("label", inputSpecification.Model.Label);
-            Assert.IsTrue(inputSpecification.Model.PropertyIsRequired);
-        }
+
+			//assert
+			Assert.AreEqual("partial", inputSpecification.Model.PartialName);
+			Assert.AreEqual("new example", inputSpecification.Model.Example);
+			Assert.AreEqual("label", inputSpecification.Model.Label);
+			Assert.IsTrue(inputSpecification.Model.PropertyIsRequired);
+		}
 
         
-    }
+	}
 }

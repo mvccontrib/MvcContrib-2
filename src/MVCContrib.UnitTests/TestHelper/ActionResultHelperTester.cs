@@ -4,7 +4,7 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using NUnit.Framework;
 using MvcContrib.TestHelper;
-using NUnit.Framework.SyntaxHelpers;
+
 using Assert=NUnit.Framework.Assert;
 
 namespace MvcContrib.UnitTests.TestHelper

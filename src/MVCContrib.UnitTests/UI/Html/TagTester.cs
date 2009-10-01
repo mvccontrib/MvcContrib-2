@@ -1,6 +1,5 @@
 using MvcContrib.UI.Tags;
 using NUnit.Framework;
-using NUnit.Framework.SyntaxHelpers;
 
 namespace MvcContrib.UnitTests.UI.Html
 {
@@ -12,7 +11,6 @@ namespace MvcContrib.UnitTests.UI.Html
 	 * On Inputs the Tag Type test will also test for Type Attribute.
 	 */
 	[System.Obsolete("The element API has been deprecated. Consider using MvcContrib.FluentHtml or System.Web.Mvc.TagBuilder instead.")]
-	[TestFixture] 
 	public class TagTester
 	{
 		[TestFixture]

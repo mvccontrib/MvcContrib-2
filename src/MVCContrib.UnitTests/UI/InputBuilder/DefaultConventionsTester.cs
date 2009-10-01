@@ -2,54 +2,55 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using MvcContrib.UI.InputBuilder;
+using MvcContrib.UI.InputBuilder.Conventions;
+using MvcContrib.UI.InputBuilder.Views;
 using NUnit.Framework;
 
-namespace UnitTests
+namespace MvcContrib.UnitTests.UI.InputBuilder
 {
-    [TestFixture]
-    public class DefaultConventionsTester
-    {
-    	private IModelPropertyConventions _conventions;
+	[TestFixture]
+	public class DefaultConventionsTester
+	{
+		private IModelPropertyConventions _conventions;
 
-    	[SetUp]
-    	public void Setup()
-    	{
+		[SetUp]
+		public void Setup()
+		{
 			this._conventions = new DefaultConventions();
-    	}
+		}
 
 
-        [Test]
-        public void Model_is_invalid_should_return_true()
-        {
-            Model m = new Model() { String = "foo" };
-            var pi = m.GetType().GetProperty("String");
-            //arrange
-            var helper = InputModelPropertyFactoryTester.CreateHelper(m);
-            helper.ViewData.ModelState.AddModelError("String","foo bar");
-            //act
-            var result = _conventions.ModelIsInvalidConvention(pi, helper);
+		[Test]
+		public void Model_is_invalid_should_return_true()
+		{
+			Model m = new Model() { String = "foo" };
+			var pi = m.GetType().GetProperty("String");
+			//arrange
+			var helper = InputModelPropertyFactoryTester.CreateHelper(m);
+			helper.ViewData.ModelState.AddModelError("String","foo bar");
+			//act
+			var result = _conventions.ModelIsInvalidConvention(pi, helper);
 
-            //assert
-            Assert.IsTrue(result);
+			//assert
+			Assert.IsTrue(result);
 
-        }
+		}
 
 
-        [Test]
-        public void Model_property_builder_should_return_a_model_of_datetime()
-        {
-            Model m = new Model(){timestamp = DateTime.Today};
-            var pi = m.GetType().GetProperty("timestamp");
-            //arrange
-            
+		[Test]
+		public void Model_property_builder_should_return_a_model_of_datetime()
+		{
+			Model m = new Model(){timestamp = DateTime.Today};
+			var pi = m.GetType().GetProperty("timestamp");
+			//arrange
+
             //act
             var result = _conventions.ModelPropertyBuilder(pi, m.timestamp);
 
             //assert
-            Assert.IsInstanceOfType(typeof(ModelProperty<DateTime>),result);
+            Assert.IsInstanceOf(typeof(PropertyViewModel<DateTime>),result);
 
-            Assert.AreEqual(((ModelProperty<DateTime>) result).Value, DateTime.Today);
+            Assert.AreEqual(((PropertyViewModel<DateTime>) result).Value, DateTime.Today);
         }
 
         [Test]
@@ -63,9 +64,9 @@ namespace UnitTests
             var result = _conventions.ModelPropertyBuilder(pi, m.String);
 
             //assert
-            Assert.IsInstanceOfType(typeof(ModelProperty<object>), result);
+            Assert.IsInstanceOf(typeof(PropertyViewModel<object>), result);
 
-            Assert.AreEqual(((ModelProperty<object>)result).Value, "foo");
+            Assert.AreEqual(((PropertyViewModel<object>)result).Value, "foo");
         }
 
 
@@ -80,9 +81,9 @@ namespace UnitTests
             var result = _conventions.ModelPropertyBuilder(pi, m.Enum);
 
             //assert
-            Assert.IsInstanceOfType(typeof(ModelProperty<IEnumerable<SelectListItem>>), result);
+            Assert.IsInstanceOf(typeof(PropertyViewModel<IEnumerable<SelectListItem>>), result);
 
-            Assert.AreEqual(((ModelProperty<IEnumerable<SelectListItem>>)result).Value.Count(), 2);
+            Assert.AreEqual(((PropertyViewModel<IEnumerable<SelectListItem>>)result).Value.Count(), 2);
         }
 
         [Test]
@@ -210,4 +211,5 @@ namespace UnitTests
             Assert.AreEqual("String", result);
         }
     }
+
 }

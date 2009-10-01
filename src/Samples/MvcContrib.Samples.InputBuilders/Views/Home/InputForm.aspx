@@ -1,5 +1,6 @@
 <%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" 
-Inherits="System.Web.Mvc.ViewPage<SampleModel>" %>
+Inherits="System.Web.Mvc.ViewPage<SampleInput>" %>
+<%@ Import Namespace="MvcContrib.UI.InputBuilder.Views"%>
 <%@ Import Namespace="Web.Models"%>
 <%@ Import Namespace="MvcContrib.UI.InputBuilder"%>
 
@@ -9,9 +10,9 @@ Inherits="System.Web.Mvc.ViewPage<SampleModel>" %>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     <h2>Html.InputForm() Template Sample</h2>
-            <%=Html.InputForm("Home","Save")%>
+            <%=Html.InputForm()%>
             
      <pre>
-            &lt;%=Html.InputForm("Home","Save")%&gt;
+            &lt;%=Html.InputForm()%&gt;
      </pre>
 </asp:Content>
