@@ -17,7 +17,7 @@ namespace MvcContrib.UnitTests.Binders
 		[SetUp]
 		public void Setup()
 		{
-		    _context = new ModelBindingContext() { ModelType = typeof(object), ModelName = "test" };
+		    _context = new ModelBindingContext() { ModelMetadata    =  new ModelMetadata(new EmptyModelMetadataProvider(), null, null,typeof(object), null), ModelName = "test" };
 		}
 
 		[Test]

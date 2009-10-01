@@ -54,8 +54,8 @@ namespace MvcContrib.UnitTests.ViewFactories
 		[Test]
 		public void Invokes_Methods_On_HtmlHelper()
 		{
-			string expected = _htmlHelper.ActionLink("linkText", "actionName");
-			var actual = _htmlHelperDuck.Invoke("ActionLink", new object[] {"linkText", "actionName"}) as string;
+			string expected = _htmlHelper.Encode("foo");
+			var actual = _htmlHelperDuck.Invoke("Encode", new object[] {"foo"}) as string;
 
 			Assert.AreEqual(expected, actual); 
 		}
@@ -63,10 +63,10 @@ namespace MvcContrib.UnitTests.ViewFactories
 		[Test]
 		public void Invokes_Methods_On_HtmlHelper_Extension_Classes()
 		{
-		    string expected = _htmlHelper.TextBox("htmlName");
-			var actual = _htmlHelperDuck.Invoke("TextBox", new object[] {"htmlName"}) as string;
-
-			Assert.AreEqual(expected, actual); 
+		    string expected = _htmlHelper.TextBox("htmlName").ToHtmlString();
+			var actual = _htmlHelperDuck.Invoke("TextBox", new object[] {"htmlName"}) as MvcHtmlString;
+			Assert.IsNotNull(actual);
+			Assert.AreEqual(expected, actual.ToHtmlString()); 
 		}
 
 		[Test]

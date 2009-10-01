@@ -39,7 +39,7 @@ namespace MvcContrib
 		{
 			var body = action.Body as MethodCallExpression;
 			AddParameterValuesFromExpressionToTempData(controller, body);
-			var routeValues = ExpressionHelper.GetRouteValuesFromExpression(action);
+			var routeValues = Microsoft.Web.Mvc.Internal.ExpressionHelper.GetRouteValuesFromExpression(action);
 			RemoveReferenceTypesFromRouteValues(routeValues);
 			return new RedirectToRouteResult(routeValues);
 		}

@@ -17,7 +17,7 @@ namespace MvcContrib.ViewEngines
 
 		public static string TextBox(this HtmlHelper helper, string htmlName, string value, IDictionary htmlAttributes)
 		{
-			return helper.TextBox(htmlName, value, MakeGeneric(htmlAttributes));
+			return helper.TextBox(htmlName, value, MakeGeneric(htmlAttributes)).ToHtmlString();
 		}
 
 		private static IDictionary<string, object> MakeGeneric(IDictionary source)

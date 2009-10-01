@@ -43,7 +43,10 @@ namespace MvcContrib.UnitTests.ViewFactories
 			var htmlAttributes = new Hashtable();
 			htmlAttributes["attr"] = "value";
 
-			Assert.AreEqual(_htmlHelper.TextBox("htmlName", string.Empty, new { attr = "value" }), _htmlHelper.TextBox("htmlName", htmlAttributes));
+			var expected = _htmlHelper.TextBox("htmlName", string.Empty, new { attr = "value" }).ToHtmlString();
+			var actual = _htmlHelper.TextBox("htmlName", htmlAttributes);
+
+			Assert.AreEqual(expected, actual);
 		}
 
 		[Test]
@@ -52,7 +55,9 @@ namespace MvcContrib.UnitTests.ViewFactories
 			var htmlAttributes = new Hashtable();
 			htmlAttributes["attr"] = "value";
 
-			Assert.AreEqual(_htmlHelper.TextBox("htmlName", "value", new { attr = "value" }), _htmlHelper.TextBox("htmlName", "value", htmlAttributes));
+			var expected = _htmlHelper.TextBox("htmlName", "value", new { attr = "value" }).ToHtmlString();
+			var actual = _htmlHelper.TextBox("htmlName", "value", htmlAttributes);
+			Assert.AreEqual(expected, actual);
 		}
 	}
 }

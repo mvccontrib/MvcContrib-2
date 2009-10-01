@@ -114,7 +114,7 @@ namespace MvcContrib.UnitTests.MetaData
 		private ModelBindingContext CreateContext(string name, Type type)
 		{
 			var context = new ModelBindingContext();
-			context.ModelType = type;
+			context.ModelMetadata = new ModelMetadata(new EmptyModelMetadataProvider(), null, null, type, null);
 			context.ModelName = name;
 			return context;
 		}

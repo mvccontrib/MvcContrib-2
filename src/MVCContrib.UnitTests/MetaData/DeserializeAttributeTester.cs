@@ -46,7 +46,7 @@ namespace MvcContrib.UnitTests.MetaData
 
 		private ModelBindingContext CreateContext(Type type)
 		{
-			return new ModelBindingContext() { ModelType = type };
+			return new ModelBindingContext() { ModelMetadata = new ModelMetadata(new EmptyModelMetadataProvider(), null, null, type, null)};
 		}
 
 		[Test]
