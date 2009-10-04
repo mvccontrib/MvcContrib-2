@@ -267,5 +267,11 @@ namespace MvcContrib.UnitTests.TestHelper
 
 			"~/funky/nullable".Route().ShouldMapTo<FunkyController>(c => c.Nullable(null));
     	}
+
+    	[Test]
+    	public void should_be_able_to_generate_url_with_nullable_int_action_parameter()
+    	{
+			OutBoundUrl.Of<FunkyController>(c => c.Nullable(24)).ShouldMapToUrl("/funky/nullable/24");
+    	}
     }
 }
