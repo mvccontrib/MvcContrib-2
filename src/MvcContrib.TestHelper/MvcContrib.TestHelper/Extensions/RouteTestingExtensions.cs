@@ -106,7 +106,8 @@ namespace MvcContrib.TestHelper
                         break;
 
 					case ExpressionType.New:
-                    case ExpressionType.MemberAccess:
+					case ExpressionType.MemberAccess:
+					case ExpressionType.Convert:
                         value = Expression.Lambda(methodCall.Arguments[ i ]).Compile().DynamicInvoke();
                         break;
                 }
@@ -173,7 +174,11 @@ namespace MvcContrib.TestHelper
             foreach(var routeValueKey in routeValues.Keys)
             {
                 if(string.Equals(routeValueKey, key, StringComparison.InvariantCultureIgnoreCase))
-                    return routeValues[routeValueKey].ToString();
+                {
+					if (routeValues[routeValueKey] == null)
+						return null;
+                	return routeValues[routeValueKey].ToString();
+                }
             }
 
             return null;
