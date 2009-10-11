@@ -7,6 +7,18 @@ namespace Web.Controllers
 	[HandleError]
 	public class HomeController : Controller
 	{
+		public ActionResult Display()
+		{
+			return
+				View(new SampleDisplay
+				     	{
+				     		Name = "Jeffrey Palermo",
+				     		Html = "<i>some html content</i>",
+				     		IsNeeded = true,
+				     		TimeStamp = new DateTime(2000, 1, 1, 20, 15, 0)
+				     	});
+		}
+
 		public ActionResult InputForm()
 		{
 			return View(new SampleInput
