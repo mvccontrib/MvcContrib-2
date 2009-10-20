@@ -58,6 +58,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\SampleDisplay.cs" />
     <Compile Include="Models\NumberOfTypeEnum.cs" />
     <Compile Include="Models\SampleInput.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -82,6 +83,10 @@
     <Content Include="Views\Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Views\Home\Display.aspx" />
+    <Content Include="Views\Shared\YesNoBoolean.aspx">
+      <SubType>ASPXCodeBehind</SubType>
+    </Content>
     <Content Include="Views\Shared\DatePicker.aspx">
       <SubType>ASPXCodeBehind</SubType>
     </Content>
