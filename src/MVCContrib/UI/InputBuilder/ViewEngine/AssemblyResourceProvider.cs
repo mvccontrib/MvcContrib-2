@@ -12,7 +12,7 @@ namespace MvcContrib.UI.InputBuilder.ViewEngine
 		public bool IsAppResourcePath(string virtualPath)
 		{
 			String checkPath = VirtualPathUtility.ToAppRelative(virtualPath);
-			return checkPath.StartsWith("~/Views/Inputbuilders/",
+			return checkPath.StartsWith("~/Views/InputBuilders/",
 			                            StringComparison.InvariantCultureIgnoreCase);
 		}
 

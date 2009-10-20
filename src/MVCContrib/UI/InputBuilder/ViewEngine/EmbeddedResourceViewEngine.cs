@@ -13,7 +13,7 @@ namespace MvcContrib.UI.InputBuilder.ViewEngine
 			PartialViewLocationFormats =
 				inputs.Select(s => "~/Views/" + s + "/{0}.aspx").Concat(subdirs.Select(s => "~/Views/" + s + "/{0}.ascx")).ToArray();
 
-			MasterLocationFormats = inputs.Select(s => "~/Views/" + s + "/{0}.master").ToArray();
+			MasterLocationFormats = inputs.Select(s => "~/Views/" + s + "/{0}.Master").ToArray();
 
 			ViewLocationFormats =
 				inputs.Select(s => "~/Views/" + s + "/{0}.aspx").Concat(subdirs.Select(s => "~/Views/" + s + "/{0}.ascx")).ToArray();
