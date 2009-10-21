@@ -317,7 +317,6 @@
     <Compile Include="UI\Html\TagTester.cs" />
     <Compile Include="UI\InputBuilder\AssemblyResourceProvider.cs" />
     <Compile Include="UI\InputBuilder\AttributeTester.cs" />
-    <Compile Include="UI\InputBuilder\DefaultConventionsTester.cs" />
     <Compile Include="UI\InputBuilder\HtmlExtensionsTester.cs" />
     <Compile Include="UI\InputBuilder\IInputSpecificationExtensionsTester.cs" />
     <Compile Include="UI\InputBuilder\InputBuilderTester.cs" />

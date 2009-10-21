@@ -62,13 +62,22 @@ namespace MvcContrib.UI.InputBuilder.Views
 
 		public static void RenderPartial(this HtmlHelper helper, string partial, object model, string master)
 		{
-			ViewContext ViewContext = helper.ViewContext;
-			ViewEngineCollection viewEngineCollection = ViewEngines.Engines;
-			var newViewData = new ViewDataDictionary(helper.ViewData) {Model = model};
-			var newViewContext = new ViewContext(ViewContext, ViewContext.View, newViewData, ViewContext.TempData);
-			IView view = FindPartialView(newViewContext, partial, viewEngineCollection, master);
+			try
+			{
+				ViewContext ViewContext = helper.ViewContext;
+				ViewEngineCollection viewEngineCollection = ViewEngines.Engines;
+				var newViewData = new ViewDataDictionary(helper.ViewData) {Model = model};
+				var newViewContext = new ViewContext(ViewContext, ViewContext.View, newViewData, ViewContext.TempData);
+				IView view = FindPartialView(newViewContext, partial, viewEngineCollection, master);
+				view.Render(newViewContext, ViewContext.HttpContext.Response.Output);
+			}
+			catch (Exception ex)
+			{
+				string message = string.Format("Error trying to render the partial:{0} with master:{1} for model type:{2}"
+					, partial, master, model.GetType().Name);
 
-			view.Render(newViewContext, ViewContext.HttpContext.Response.Output);
+				throw new RenderInputBuilderException(message, ex);
+			}
 		}
 
 		private static IView FindPartialView(ViewContext viewContext, string partialViewName,

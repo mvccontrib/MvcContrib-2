@@ -1,7 +1,9 @@
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Reflection;
 using System.Web.Mvc;
+using MvcContrib.UI.InputBuilder;
 using MvcContrib.UI.InputBuilder.Attributes;
 using MvcContrib.UI.InputBuilder.Conventions;
 using MvcContrib.UI.InputBuilder.InputSpecification;
@@ -18,18 +20,16 @@ namespace MvcContrib.UnitTests.UI.InputBuilder
 		public void The_factory_should_call_the_conventions()
 		{
 			//arrange+            
-			var model = new Model() { String = "foo" };            
-			var factory = new ViewModelFactory<Model>(CreateHelper(model), new FactoryConventions());
-
-			PropertyInfo property = model.GetType().GetProperty("String");
+			var model = new Model() { StringProp = "foo" };
+			var factory = new ViewModelFactory<Model>(CreateHelper(model), MvcContrib.UI.InputBuilder.InputBuilder.Conventions.ToArray(), new DefaultNameConvention(), null);
 
 			//act
-			var inputModelProperty = factory.Create(property);
+			var inputModelProperty = factory.Create(m=>m.StringProp);
 
             
 			//assert
 			Assert.AreEqual(inputModelProperty.Type,typeof(String));
-			Assert.AreEqual(inputModelProperty.Name, "name");
+			Assert.AreEqual(inputModelProperty.Name, "StringProp");
 			Assert.AreEqual(inputModelProperty.PartialName, "String");
 			Assert.AreEqual(inputModelProperty.HasExample(), true);
 			Assert.AreEqual(inputModelProperty.Example, "example");
@@ -42,55 +42,14 @@ namespace MvcContrib.UnitTests.UI.InputBuilder
 			context.ViewData = new ViewDataDictionary();
 			context.ViewData.Model = model;
 			return new HtmlHelper<T>(context, new ViewDataContainer(context.ViewData));
-		}
-
-		private class FactoryConventions : DefaultConventions
-		{
-			public override string ExampleForPropertyConvention(PropertyInfo propertyInfo)
-			{
-				return "example";
-			}
-
-			public override string LabelForPropertyConvention(PropertyInfo propertyInfo)
-			{
-				return "label";
-			}
-
-			public override bool ModelIsInvalidConvention<T>(PropertyInfo propertyInfo, HtmlHelper<T> htmlHelper)
-			{
-				return false;
-			}
-
-			public override string PartialNameConvention(PropertyInfo propertyInfo)
-			{
-				return "String";
-			}
-
-			public override PropertyViewModel ModelPropertyBuilder(PropertyInfo propertyInfo, object value)
-			{
-				return new PropertyViewModel<string>();
-			}
-
-			public override bool PropertyIsRequiredConvention(PropertyInfo propertyInfo)
-			{
-				return true;
-			}
-
-			public override string PropertyNameConvention(PropertyInfo propertyInfo)
-			{
-				return "name";
-			}
-
-			public override object ValueFromModelPropertyConvention(PropertyInfo propertyInfo, object model)
-			{
-				return "value";
-			}
-		}
+		}		
 	}
 
 	public class Model
 	{
-		public string String { get; set; }
+		[Required]
+		[Example("example")]
+		public string StringProp { get; set; }
 
 		[Label("label")]
 		[Example("example")]

@@ -1,8 +1,8 @@
 using System;
+using System.Linq;
 using System.Linq.Expressions;
-using System.Reflection;
 using System.Web.Mvc;
-using MvcContrib.UI.InputBuilder.Helpers;
+using MvcContrib.UI.InputBuilder.Conventions;
 using MvcContrib.UI.InputBuilder.Views;
 
 namespace MvcContrib.UI.InputBuilder.InputSpecification
@@ -18,11 +18,10 @@ namespace MvcContrib.UI.InputBuilder.InputSpecification
 
 		public IInputSpecification<PropertyViewModel> RenderInput(Expression<Func<T, object>> expression)
 		{
-			PropertyInfo propertyInfo = ReflectionHelper.FindPropertyFromExpression(expression);
-
 			return new InputPropertySpecification
 			{
-				Model = new ViewModelFactory<T>(_htmlHelper, InputBuilder.Conventions).Create(propertyInfo),
+				Model =
+					new ViewModelFactory<T>(_htmlHelper, InputBuilder.Conventions.ToArray(), new DefaultNameConvention(),InputBuilder.TypeConventions.ToArray()).Create(expression),
 				HtmlHelper = _htmlHelper,
 			};
 		}
@@ -41,7 +40,7 @@ namespace MvcContrib.UI.InputBuilder.InputSpecification
 		{
 			return new InputTypeSpecification<T>
 			{
-				Model = new ViewModelFactory<T>(_htmlHelper, InputBuilder.Conventions).Create(),
+				Model = new ViewModelFactory<T>(_htmlHelper, InputBuilder.Conventions.ToArray(), new DefaultNameConvention(),InputBuilder.TypeConventions.ToArray()).Create(),
 				HtmlHelper = _htmlHelper,
 			};
 		}
