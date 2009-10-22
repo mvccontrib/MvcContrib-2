@@ -10,12 +10,13 @@ namespace MvcContrib.UI.InputBuilder.Conventions
 		{
 			return propertyInfo.PropertyType.IsAssignableFrom(typeof(Guid));
 		}
-
-		public override PropertyViewModel Create(PropertyInfo propertyInfo, object model, string name)
+		public override string Layout()
 		{
-			PropertyViewModel result = base.Create(propertyInfo, model, name);
-			result.Layout = "HiddenField";
-			return result;
+			return "HiddenField";
+		}
+		public override string PartialNameConvention(PropertyInfo propertyInfo)
+		{
+			return "Guid";
 		}
 	}
 }
