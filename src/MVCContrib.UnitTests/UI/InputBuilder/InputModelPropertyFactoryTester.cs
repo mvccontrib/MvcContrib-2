@@ -16,19 +16,39 @@ namespace MvcContrib.UnitTests.UI.InputBuilder
 	[TestFixture]
 	public class InputModelPropertyFactoryTester
 	{
-		[Test]
+		[Test,Ignore("still in process")]
 		public void The_factory_should_call_the_conventions()
+		{
+			//arrange+            
+			var model = new Model() { StringArray = new string[7]};
+			var factory = new ViewModelFactory<Model>(CreateHelper(model), MvcContrib.UI.InputBuilder.InputBuilder.Conventions.ToArray(), new DefaultNameConvention(), null);
+
+			//act
+			var inputModelProperty = factory.Create(m=>m.StringArray[0]);
+
+            
+			//assert
+			Assert.AreEqual(inputModelProperty.Type,typeof(String));
+			Assert.AreEqual(inputModelProperty.Name, "StringProp");
+			Assert.AreEqual(inputModelProperty.PartialName, "String");
+			Assert.AreEqual(inputModelProperty.HasExample(), true);
+			Assert.AreEqual(inputModelProperty.Example, "example");
+			Assert.AreEqual(inputModelProperty.PropertyIsRequired, true);
+		}
+
+		[Test]
+		public void The_factory_should_handle_arrays()
 		{
 			//arrange+            
 			var model = new Model() { StringProp = "foo" };
 			var factory = new ViewModelFactory<Model>(CreateHelper(model), MvcContrib.UI.InputBuilder.InputBuilder.Conventions.ToArray(), new DefaultNameConvention(), null);
 
 			//act
-			var inputModelProperty = factory.Create(m=>m.StringProp);
+			var inputModelProperty = factory.Create(m => m.StringProp);
 
-            
+
 			//assert
-			Assert.AreEqual(inputModelProperty.Type,typeof(String));
+			Assert.AreEqual(inputModelProperty.Type, typeof(String));
 			Assert.AreEqual(inputModelProperty.Name, "StringProp");
 			Assert.AreEqual(inputModelProperty.PartialName, "String");
 			Assert.AreEqual(inputModelProperty.HasExample(), true);
@@ -47,6 +67,8 @@ namespace MvcContrib.UnitTests.UI.InputBuilder
 
 	public class Model
 	{
+		public string[] StringArray { get; set; }
+
 		[Required]
 		[Example("example")]
 		public string StringProp { get; set; }

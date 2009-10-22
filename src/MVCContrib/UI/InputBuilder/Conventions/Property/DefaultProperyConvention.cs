@@ -22,10 +22,15 @@ namespace MvcContrib.UI.InputBuilder.Conventions
 			viewModel.Example = ExampleForPropertyConvention(propertyInfo);
 			viewModel.Label = LabelForPropertyConvention(propertyInfo);
 			viewModel.PropertyIsRequired = PropertyIsRequiredConvention(propertyInfo);
-			viewModel.Layout = "Field";
+			viewModel.Layout = Layout();
 			viewModel.Value = ValueFromModelPropertyConvention(propertyInfo, model);
 			viewModel.Name = name;
 			return viewModel;
+		}
+
+		public virtual string Layout()
+		{
+			return "Field";
 		}
 
 		public virtual PropertyViewModel CreateViewModel<T>()
