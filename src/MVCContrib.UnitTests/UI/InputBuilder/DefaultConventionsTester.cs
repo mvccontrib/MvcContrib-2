@@ -11,7 +11,7 @@ namespace MvcContrib.UnitTests.UI.InputBuilder
 	[TestFixture]
 	public class DefaultConventionsTester
 	{
-		private IModelPropertyConventions _conventions;
+		private IPropertyViewModelConventions _conventions;
 
 		[SetUp]
 		public void Setup()

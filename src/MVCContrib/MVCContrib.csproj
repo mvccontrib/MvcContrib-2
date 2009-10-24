@@ -190,13 +190,25 @@
     <Compile Include="UI\InputBuilder\Attributes\ExampleAttribute.cs" />
     <Compile Include="UI\InputBuilder\Attributes\LabelAttribute.cs" />
     <Compile Include="UI\InputBuilder\Attributes\PartialViewAttribute.cs" />
-    <Compile Include="UI\InputBuilder\Conventions\DefaultConventions.cs" />
+    <Compile Include="UI\InputBuilder\Conventions\Property\DateTimePropertyConvention.cs" />
+    <Compile Include="UI\InputBuilder\Conventions\PropertyName\DefaultNameConvention.cs" />
+    <Compile Include="UI\InputBuilder\Conventions\Property\DefaultProperyConvention.cs" />
+    <Compile Include="UI\InputBuilder\Conventions\Property\EnumPropertyConvention.cs" />
+    <Compile Include="UI\InputBuilder\Conventions\Property\GuidPropertyConvention.cs" />
+    <Compile Include="UI\InputBuilder\Conventions\PropertyName\IPropertyViewModelNameConvention.cs" />
+    <Compile Include="UI\InputBuilder\Conventions\Property\IPropertyViewModelFactory.cs" />
+    <Compile Include="UI\InputBuilder\DefaultConventionsFactory.cs" />
+    <Compile Include="UI\InputBuilder\DefaultTypeConventionsFactory.cs" />
     <Compile Include="UI\InputBuilder\Helpers\ExpressionHelper.cs" />
     <Compile Include="UI\InputBuilder\Helpers\ReflectionHelper.cs" />
+    <Compile Include="UI\InputBuilder\Conventions\Type\DefaultTypeViewModelFactoryConvention.cs" />
+    <Compile Include="UI\InputBuilder\Conventions\Type\ITypeViewModelFactory.cs" />
+    <Compile Include="UI\InputBuilder\ViewEngine\RenderInputBuilderException.cs" />
+    <Compile Include="UI\InputBuilder\Views\DisplayPartial.cs" />
+    <Compile Include="UI\InputBuilder\Views\HtmlDisplayExtensions.cs" />
     <Compile Include="UI\InputBuilder\Views\HtmlExtensions.cs" />
     <Compile Include="UI\InputBuilder\InputSpecification\IInputSpecification.cs" />
     <Compile Include="UI\InputBuilder\Views\IInputSpecificationExtensions.cs" />
-    <Compile Include="UI\InputBuilder\Conventions\IModelPropertyConventions.cs" />
     <Compile Include="UI\InputBuilder\InputSpecification\Input.cs" />
     <Compile Include="UI\InputBuilder\InputBuilder.cs" />
     <Compile Include="UI\InputBuilder\InputSpecification\ViewModelFactory.cs" />
@@ -205,7 +217,7 @@
     <Compile Include="UI\InputBuilder\Views\Partial.cs" />
     <Compile Include="UI\InputBuilder\Views\PropertyViewModel.cs" />
     <Compile Include="UI\InputBuilder\Views\TypeViewModel.cs" />
-    <Compile Include="UI\InputBuilder\Conventions\PropertyInfoExtensions.cs" />
+    <Compile Include="UI\InputBuilder\Conventions\Property\PropertyInfoExtensions.cs" />
     <Compile Include="UI\InputBuilder\ViewEngine\AssemblyResourceProvider.cs" />
     <Compile Include="UI\InputBuilder\ViewEngine\AssemblyResourceVirtualFile.cs" />
     <Compile Include="UI\InputBuilder\ViewEngine\EmbeddedResourceViewEngine.cs" />
@@ -266,6 +278,9 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <EmbeddedResource Include="UI\InputBuilder\Views\InputBuilders\Display.Master">
+      <SubType>ASPXCodeBehind</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\InputBuilder\Views\InputBuilders\Field.Master">
     </EmbeddedResource>
     <EmbeddedResource Include="UI\InputBuilder\Views\InputBuilders\HiddenField.Master">
@@ -274,10 +289,14 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="UI\InputBuilder\Views\InputBuilders\Boolean.aspx">
+      <SubType>ASPXCodeBehind</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\InputBuilder\Views\InputBuilders\DateTime.aspx">
+      <SubType>ASPXCodeBehind</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\InputBuilder\Views\InputBuilders\Enum.aspx" />
+    <EmbeddedResource Include="UI\InputBuilder\Views\InputBuilders\Enum.aspx">
+      <SubType>ASPXCodeBehind</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\InputBuilder\Views\InputBuilders\Guid.aspx">
     </EmbeddedResource>
     <EmbeddedResource Include="UI\InputBuilder\Views\InputBuilders\Int32.aspx">
@@ -296,6 +315,17 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="UI\InputBuilder\Views\InputBuilders\Form.aspx">
+      <SubType>ASPXCodeBehind</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="UI\InputBuilder\Views\InputBuilders\DisplayInline.aspx">
+      <SubType>ASPXCodeBehind</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\InputBuilder\Views\InputBuilders\DisplayLabel.aspx">
+      <SubType>ASPXCodeBehind</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\InputBuilder\Views\InputBuilders\DisplayParagraph.aspx">
       <SubType>ASPXCodeBehind</SubType>
     </EmbeddedResource>
   </ItemGroup>

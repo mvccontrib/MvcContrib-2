@@ -10,11 +10,11 @@ namespace MvcContrib.UnitTests.UI.InputBuilder
 		public void The_input_should_a_property_specification()
 		{
 			//arrange
-			Model model=new Model(){String = "foo"};
+			Model model=new Model(){StringProp = "foo"};
 			var input = new Input<Model>(InputModelPropertyFactoryTester.CreateHelper(model));
             
 			//act
-			var result = input.RenderInput(m => m.String);
+			var result = input.RenderInput(m => m.StringProp);
             
 			//assert
 			Assert.IsInstanceOf<InputPropertySpecification>(result);
@@ -24,7 +24,7 @@ namespace MvcContrib.UnitTests.UI.InputBuilder
 		[Test]
 		public void Input_should_build_a_InputTypeSpecification()
 		{
-			Model model = new Model() { String = "foo" };
+			Model model = new Model() { StringProp = "foo" };
 			var input = new Input<Model>(InputModelPropertyFactoryTester.CreateHelper(model));
 
 			//act

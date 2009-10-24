@@ -22,11 +22,11 @@ namespace MvcContrib.UnitTests.UI.InputBuilder
 		}
 
 		[Test]
-		public void testname()
+		public void Should_create_a_propertyInfo_from_an_expression()
 		{
-			var expected = typeof(Model).GetProperty("String");
+			var expected = typeof(Model).GetProperty("StringProp");
 
-			Expression<Func<Model, object>> expression = m => m.String;
+			Expression<Func<Model, object>> expression = m => m.StringProp;
 
 
 			//act

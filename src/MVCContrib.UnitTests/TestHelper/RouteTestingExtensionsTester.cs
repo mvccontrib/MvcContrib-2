@@ -51,6 +51,11 @@ namespace MvcContrib.UnitTests.TestHelper
 			{
 				return null;
 			}
+
+        	public ActionResult Nullable(int? id)
+        	{
+        		return null;
+        	}
         }
 		public class Bar
 		{
@@ -242,6 +247,31 @@ namespace MvcContrib.UnitTests.TestHelper
     	public void should_match_guid()
     	{
 			"~/funky/guid/80e70232-e660-40ae-af6b-2b2b8e87ee48".Route().ShouldMapTo<FunkyController>(c => c.Guid(new Guid("80e70232-e660-40ae-af6b-2b2b8e87ee48")));
+    	}
+
+    	[Test]
+    	public void should_match_nullable_int()
+    	{
+			"~/funky/nullable/24".Route().ShouldMapTo<FunkyController>(c => c.Nullable(24));
+    	}
+
+    	[Test]
+    	public void should_match_nullable_int_when_null()
+    	{
+			RouteTable.Routes.Clear();
+			RouteTable.Routes.IgnoreRoute("{resource}.gif/{*pathInfo}");
+			RouteTable.Routes.MapRoute(
+				"default",
+				"{controller}/{action}/{id}",
+				new { controller = "Funky", Action = "Index", id = (int?)null });
+
+			"~/funky/nullable".Route().ShouldMapTo<FunkyController>(c => c.Nullable(null));
+    	}
+
+    	[Test]
+    	public void should_be_able_to_generate_url_with_nullable_int_action_parameter()
+    	{
+			OutBoundUrl.Of<FunkyController>(c => c.Nullable(24)).ShouldMapToUrl("/funky/nullable/24");
     	}
     }
 }

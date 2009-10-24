@@ -1,0 +1,9 @@
+﻿<%@ Import Namespace="MvcContrib.UI.InputBuilder.Views"%>
+<%@ Import Namespace="System.Web.Mvc.Html"%>
+<%@ Import Namespace="MvcContrib.UI.InputBuilder"%>
+<%@ Master Language="C#" Inherits="System.Web.Mvc.ViewMasterPage<PropertyViewModel>" %>
+<asp:ContentPlaceHolder ID="Header" runat="server"><p></asp:ContentPlaceHolder>
+<asp:ContentPlaceHolder ID="Label" runat="server">
+<span class="display-label <%=Model.Name.ToLower()%>-label"><%=Html.Encode(Model.Label)%><%=Model.Label.Length>0?": ":"" %></span></asp:ContentPlaceHolder>
+<asp:ContentPlaceHolder ID="Display" runat="server"><span class="display-value <%=Model.Name.ToLower()%>-value"><%=Model.Value %></span></asp:ContentPlaceHolder>
+<asp:ContentPlaceHolder ID="Footer" runat="server"></p></asp:ContentPlaceHolder>

@@ -1,8 +1,11 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Web.Mvc;
 using System.Web.Mvc.Html;
 using MvcContrib.UI.Html;
+using MvcContrib.UI.InputBuilder.Conventions;
 using MvcContrib.UI.InputBuilder.Views;
 
 namespace MvcContrib.UI.InputBuilder.InputSpecification
@@ -23,7 +26,7 @@ namespace MvcContrib.UI.InputBuilder.InputSpecification
 
 		public override string ToString()
 		{
-			var factory = new ViewModelFactory<T>(HtmlHelper, InputBuilder.Conventions);
+			var factory = new ViewModelFactory<T>(HtmlHelper, InputBuilder.Conventions.ToArray(), new DefaultNameConvention(),InputBuilder.TypeConventions.ToArray());
 
 			var models = new List<PropertyViewModel>();
 			foreach(PropertyInfo propertyInfo in Model.Type.GetProperties())
@@ -36,7 +39,7 @@ namespace MvcContrib.UI.InputBuilder.InputSpecification
 
 		protected virtual void RenderPartial(PropertyViewModel model)
 		{
-			HtmlHelper.RenderPartial(model.PartialName, model, model.Layout);
+				HtmlHelper.RenderPartial(model.PartialName, model, model.Layout);
 		}
 	}
 }

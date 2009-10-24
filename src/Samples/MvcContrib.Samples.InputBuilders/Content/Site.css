@@ -13,6 +13,11 @@ body
     color: #696969;
 }
 
+.display-label
+{
+    font-weight:bold;
+}
+
 a:link
 {
     color: #034af3;

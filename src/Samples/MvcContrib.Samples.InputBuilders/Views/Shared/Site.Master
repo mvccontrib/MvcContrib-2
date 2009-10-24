@@ -26,6 +26,7 @@
             <div id="menucontainer">
             
                 <ul id="menu">              
+                    <li><%= Html.ActionLink("Display Sample", "Display", "Home")%></li>
                     <li><%= Html.ActionLink("Input Sample", "Index", "Home")%></li>
                     <li><%= Html.ActionLink("InputForm Sample", "InputForm", "Home")%></li>
                 </ul>

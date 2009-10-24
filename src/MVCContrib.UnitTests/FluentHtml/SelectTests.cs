@@ -30,21 +30,14 @@ namespace MvcContrib.UnitTests.FluentHtml
 		{
 			var options = new Dictionary<int, string> { { 1, "One" }, { 2, "Two" } };
 
-			var html = new Select("foo.Bar").Options(options).Selected(1).ToString();
+			var html = new Select("foo.Bar").Selected(1).Options(options).ToString();
 
 			var element = html.ShouldHaveHtmlNode("foo_Bar");
 
 			var optionNodes = element.ShouldHaveChildNodesCount(2);
 
-			var option1 = optionNodes[0].ShouldBeNamed(HtmlTag.Option);
-			option1.ShouldHaveAttribute(HtmlAttribute.Value).WithValue("1");
-			option1.ShouldHaveAttribute(HtmlAttribute.Selected).WithValue(HtmlAttribute.Selected);
-			option1.ShouldHaveInnerTextEqual(options[1]);
-
-			var option2 = optionNodes[1].ShouldBeNamed(HtmlTag.Option);
-			option2.ShouldHaveAttribute(HtmlAttribute.Value).WithValue("2");
-			option2.ShouldNotHaveAttribute(HtmlAttribute.Selected);
-			option2.ShouldHaveInnerTextEqual(options[2]);
+			optionNodes[0].ShouldBeSelectedOption(1, "One");
+			optionNodes[1].ShouldBeUnSelectedOption(2, "Two");
 		}
 
 		[Test]

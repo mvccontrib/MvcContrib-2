@@ -34,7 +34,8 @@ namespace MvcContrib.TestHelper
                         value = ((ConstantExpression)methodCall.Arguments[i]).Value;
                         break;
 
-                    case ExpressionType.MemberAccess:
+					case ExpressionType.MemberAccess:
+					case ExpressionType.Convert:
                         value = Expression.Lambda(methodCall.Arguments[i]).Compile().DynamicInvoke();
                         break;
 
