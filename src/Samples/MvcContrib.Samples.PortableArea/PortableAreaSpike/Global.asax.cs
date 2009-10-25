@@ -28,6 +28,7 @@ namespace PortableAreaSpike
 			PortableArea.Bus.Add(typeof (LogAllMessagesObserver));
 			//wire up a handler that validates a login for the Login Area.
 			PortableArea.Bus.Add(typeof (LoginHandler));
+			PortableArea.Bus.Add(typeof(ForgotPasswordHandler));
 
 			//Default MVC2 registration syntax
 			AreaRegistration.RegisterAllAreas();

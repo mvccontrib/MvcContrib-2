@@ -1,4 +1,5 @@
-<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<LoginInput>" %>
+<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<ForgotPasswordInput>" %>
+<%@ Import Namespace="LoginPortableArea.Login.Controllers"%>
 <%@ Import Namespace="LoginPortableArea.Login.Models"%>
 <%@ Import Namespace="MvcContrib.UI.InputBuilder.Views"%>
 
@@ -8,7 +9,6 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <h2>Login</h2>
+    <h2>Forgot Password</h2>
     <%=Html.InputForm() %>
-    <a href="<%=Url.Action("ForgotPassword") %>">Forgot Password</a>
 </asp:Content>

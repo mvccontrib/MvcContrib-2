@@ -17,18 +17,45 @@ namespace LoginPortableArea.Login.Controllers
 		[HttpPost]
 		public ActionResult Index(LoginInput loginInput)
 		{
-			var message = new LoginInputMessage {Input = loginInput, Result = new LoginResult()};
-
-			PortableArea.Bus.Send(message);
-
-			if (message.Result.Success)
+			if (ModelState.IsValid)
 			{
-				FormsAuthentication.RedirectFromLoginPage(loginInput.Username, false);
+				var message = new LoginInputMessage {Input = loginInput, Result = new LoginResult()};
+
+				PortableArea.Bus.Send(message);
+
+				if (message.Result.Success)
+				{
+					FormsAuthentication.RedirectFromLoginPage(loginInput.Username, false);
+				}
+
+				ModelState.AddModelError("model", message.Result.Message);
 			}
-
-			ModelState.AddModelError("model", message.Result.Message);
-
 			return View(loginInput);
+		}
+		
+		[HttpGet]
+		public ActionResult ForgotPassword()
+		{
+			return View();	
+		}
+
+		[HttpPost]
+		public ActionResult ForgotPassword(ForgotPasswordInput forgotPasswordInput)
+		{
+			if (ModelState.IsValid)
+			{
+				var message = new ForgotPasswordInputMessage {Input = forgotPasswordInput, Result = new ForgotPasswordResult()};
+
+				PortableArea.Bus.Send(message);
+
+				if (message.Result.Success)
+				{
+					return View("forgotpasswordsent", (object) message.Result.Message);
+				}
+
+				ModelState.AddModelError("model", message.Result.Message);
+			}
+			return View(forgotPasswordInput);			
 		}
 	}
 }

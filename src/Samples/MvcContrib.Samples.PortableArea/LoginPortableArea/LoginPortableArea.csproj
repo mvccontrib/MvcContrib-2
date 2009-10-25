@@ -36,6 +36,9 @@
       <HintPath>..\..\bin\MvcContrib.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -46,6 +49,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Login\Models\ForgotPasswordInput.cs" />
+    <Compile Include="Login\Messages\ForgotPasswordInputMessage.cs" />
+    <Compile Include="Login\Messages\ForgotPasswordResult.cs" />
     <Compile Include="Login\Controllers\LoginController.cs" />
     <Compile Include="Login\Models\LoginInput.cs" />
     <Compile Include="Login\Messages\LoginInputMessage.cs" />
@@ -56,6 +62,16 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Login\Views\Login\Index.aspx">
+      <SubType>ASPXCodeBehind</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Login\Views\Login\ForgotPassword.aspx">
+      <SubType>ASPXCodeBehind</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Login\Views\Login\ForgotPasswordSent.aspx">
       <SubType>ASPXCodeBehind</SubType>
     </EmbeddedResource>
   </ItemGroup>

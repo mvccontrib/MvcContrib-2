@@ -55,11 +55,15 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Services\IAuthenticationService.asax.cs" />
-    <Compile Include="Services\PortableAreaHandlers\LogAllMessagesObserver.asax.cs" />
-    <Compile Include="Services\PortableAreaHandlers\LoginHandler.asax.cs" />
-    <Compile Include="Services\MockAuthenticationService.asax.cs" />
+    <Compile Include="Services\IAuthenticationService.cs" />
+    <Compile Include="Services\PortableAreaHandlers\ForgotPasswordHandler.cs" />
+    <Compile Include="Services\IUserRepository.cs" />
+    <Compile Include="Services\PortableAreaHandlers\LogAllMessagesObserver.cs" />
+    <Compile Include="Services\PortableAreaHandlers\LoginHandler.cs" />
+    <Compile Include="Services\MockAuthenticationService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\User.cs" />
+    <Compile Include="Services\UserRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Global.asax" />
