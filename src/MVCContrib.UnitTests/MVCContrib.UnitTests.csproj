@@ -274,6 +274,8 @@
     <Compile Include="MvcRouteTester.cs" />
     <Compile Include="ConventionController\RescueTester.cs" />
     <Compile Include="LazyPaginationTester.cs" />
+    <Compile Include="PortableAreas\ApplicationBusTester.cs" />
+    <Compile Include="PortableAreas\MessageHandlerFactoryTester.cs" />
     <Compile Include="RouteDebuggerTester.cs" />
     <Compile Include="Routing\RegexRouteTester.cs" />
     <Compile Include="SimplyRestful\RestfulActionResolverTester.cs" />
