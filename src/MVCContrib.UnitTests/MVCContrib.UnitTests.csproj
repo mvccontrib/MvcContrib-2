@@ -471,6 +471,7 @@
     <Content Include="IncludeHandling\exists.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <EmbeddedResource Include="XsltViewEngine\Data\Views\MyController\Greetings.xslt" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Configuration\" />
