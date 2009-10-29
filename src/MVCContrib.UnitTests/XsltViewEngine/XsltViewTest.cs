@@ -29,6 +29,27 @@ namespace MvcContrib.UnitTests.XsltViewEngine
 		}
 
 		[Test]
+		public void RendersViewWithCustomPageVar()
+		{
+			string xml = @"<greetings><greeting language=""english""><p>Hello...</p></greeting></greetings>";
+			string expected = "Selected language: english<p>Hello...</p>";
+
+			var viewData = new XsltViewData();
+			viewData.PageVars.Add("language", "english");
+			viewData.DataSources.Add(new XslDataSource(new MockXslDataSource(xml)));
+			_context.Controller.ViewData.Model = viewData;
+			
+
+			var viewFactory = new XsltViewFactory(virtualPathProvider);
+			var viewResult = viewFactory.FindView(_context, "Greetings", null, false);
+			var viewContext = new ViewContext(_context, viewResult.View, new ViewDataDictionary(viewData), new TempDataDictionary());
+
+			viewResult.View.Render(viewContext, Response.Output);
+			string actual = Response.Output.ToString().Replace("\r\n", "").Replace("\t", "");
+			actual.ShouldEqual(expected);
+		}
+
+		[Test]
 		public void RenderViewTest()
 		{
 			var vData = new XsltViewData();

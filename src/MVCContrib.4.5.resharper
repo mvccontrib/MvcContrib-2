@@ -57,6 +57,7 @@
     <VB>
       <FormatSettings>
         <INDENT_SIZE>4</INDENT_SIZE>
+        <INSERT_TABS>True</INSERT_TABS>
       </FormatSettings>
       <ImportsSettings />
       <Naming2 />
