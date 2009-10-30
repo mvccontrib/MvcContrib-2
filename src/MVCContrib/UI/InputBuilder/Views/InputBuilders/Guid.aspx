@@ -1,4 +1,4 @@
-<%@ Page Title="" Language="C#" MasterPageFile="HiddenField.Master" Inherits="System.Web.Mvc.ViewPage<PropertyViewModel<object>>" %>
+<%@ Page Title="" Language="C#" Inherits="System.Web.Mvc.ViewPage<PropertyViewModel<object>>" %>
 <%@ Import Namespace="MvcContrib.UI.InputBuilder.Views"%>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="Label" runat="server"></asp:Content>
