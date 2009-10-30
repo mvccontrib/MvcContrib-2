@@ -30,21 +30,14 @@ namespace MvcContrib.UnitTests.FluentHtml
 		{
 			var options = new Dictionary<int, string> { { 1, "One" }, { 2, "Two" } };
 
-			var html = new Select("foo.Bar").Options(options).Selected(1).ToString();
+			var html = new Select("foo.Bar").Selected(1).Options(options).ToString();
 
 			var element = html.ShouldHaveHtmlNode("foo_Bar");
 
 			var optionNodes = element.ShouldHaveChildNodesCount(2);
 
-			var option1 = optionNodes[0].ShouldBeNamed(HtmlTag.Option);
-			option1.ShouldHaveAttribute(HtmlAttribute.Value).WithValue("1");
-			option1.ShouldHaveAttribute(HtmlAttribute.Selected).WithValue(HtmlAttribute.Selected);
-			option1.ShouldHaveInnerTextEqual(options[1]);
-
-			var option2 = optionNodes[1].ShouldBeNamed(HtmlTag.Option);
-			option2.ShouldHaveAttribute(HtmlAttribute.Value).WithValue("2");
-			option2.ShouldNotHaveAttribute(HtmlAttribute.Selected);
-			option2.ShouldHaveInnerTextEqual(options[2]);
+			optionNodes[0].ShouldBeSelectedOption(1, "One");
+			optionNodes[1].ShouldBeUnSelectedOption(2, "Two");
 		}
 
 		[Test]
@@ -115,13 +108,31 @@ namespace MvcContrib.UnitTests.FluentHtml
 				new FakeModel {Price = null, Title = "One"},
 				new FakeModel {Price = 2, Title = "Two"}
 			};
-			var html = new Select("foo.Bar").Options(items, "Price", "Title").Selected(items[0].Price).ToString();
 
-			var element = html.ShouldHaveHtmlNode("foo_Bar");
-			var optionNodes = element.ShouldHaveChildNodesCount(2);
+            var optionNodes = new Select("foo.Bar").Options(items, "Price", "Title").Selected(items[0].Price).ToString()
+                .ShouldHaveHtmlNode("foo_Bar")
+                .ShouldHaveChildNodesCount(2);
+
 			optionNodes[0].ShouldBeSelectedOption(items[0].Price, items[0].Title);
 			optionNodes[1].ShouldBeUnSelectedOption(items[1].Price, items[1].Title);
 		}
+
+        [Test]
+        public void basic_select_can_set_selected_value_before_options()
+        {
+            var items = new List<FakeModel>
+			{
+				new FakeModel {Price = 1, Title = "One"},
+				new FakeModel {Price = 2, Title = "Two"}
+			};
+
+            var optionNodes = new Select("foo.Bar").Options(items, "Price", "Title").Selected(items[1].Price).ToString()
+                .ShouldHaveHtmlNode("foo_Bar")
+                .ShouldHaveChildNodesCount(2);
+
+            optionNodes[0].ShouldBeUnSelectedOption(items[0].Price, items[0].Title);
+            optionNodes[1].ShouldBeSelectedOption(items[1].Price, items[1].Title);
+        }
 
 		[Test]
 		public void select_option_null_renders_with_no_options()
@@ -178,12 +189,26 @@ namespace MvcContrib.UnitTests.FluentHtml
 		public void select_with_lambda_selector_for_options_should_render()
 		{
 			var items = new List<FakeModel> { new FakeModel {Price = 1, Title = "One"} };
-			var html = new Select("x").Options(items, x => x.Price, x => x.Title).ToString();
-
-			var element = html.ShouldHaveHtmlNode("x");
-			var options = element.ShouldHaveChildNodesCount(1);
+            var options = new Select("x").Options(items, x => x.Price, x => x.Title).ToString()
+                .ShouldHaveHtmlNode("x")
+                .ShouldHaveChildNodesCount(1);
 			options[0].ShouldBeUnSelectedOption("1", "One");
 		}
+
+        [Test]
+        public void select_with_lambda_selector_can_called_selected_before_options()
+        {
+            var items = new List<FakeModel>
+            {
+                new FakeModel { Price = 1, Title = "One" },
+                new FakeModel { Price = 2, Title = "Two" }
+            };
+            var options = new Select("x").Selected(2).Options(items, x => x.Price, x => x.Title).ToString()
+                .ShouldHaveHtmlNode("x")
+                .ShouldHaveChildNodesCount(2);
+            options[0].ShouldBeUnSelectedOption("1", "One");
+            options[1].ShouldBeSelectedOption("2", "Two");
+        }
 
 		[Test, ExpectedException(typeof(ArgumentNullException))]
 		public void select_options_with_null_text_field_selector_should_throw()
@@ -196,6 +221,17 @@ namespace MvcContrib.UnitTests.FluentHtml
 		{
 			new Select("x").Options(new List<FakeModel>(), x => x.Price, null);	
 		}
+
+        [Test]
+        public void select_options_with_simple_enumeration_of_objects_can_have_selected_called_first()
+        {
+            var optionNodes = new Select("foo").Selected(2).Options(new[] { 1, 2 }).ToString()
+                .ShouldHaveHtmlNode("foo")
+                .ShouldHaveChildNodesCount(2);
+
+            optionNodes[0].ShouldBeUnSelectedOption("1", "1");
+            optionNodes[1].ShouldBeSelectedOption("2", "2");
+        }
 
 		[Test]
 		public void select_options_with_simple_enumeration_of_objects_can_have_a_first_option_text_specified()
