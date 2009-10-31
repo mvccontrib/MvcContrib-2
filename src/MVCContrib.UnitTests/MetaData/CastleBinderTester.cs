@@ -97,7 +97,7 @@ namespace MvcContrib.UnitTests.MetaData
 			var binder = new CastleBindAttribute();
 			var customer = (Customer)binder.BindModel(_context, CreateContext("cust", typeof(Customer)));
 
-			Assert.That(customer.Id, Is.EqualTo(0));
+			Assert.That(customer, Is.Null);
 		}
 
 		[Test]
@@ -109,6 +109,16 @@ namespace MvcContrib.UnitTests.MetaData
 			var customer = (Customer)binder.BindModel(_context, CreateContext("cust", typeof(Customer)));
 
 			Assert.That(customer.Id, Is.EqualTo(5));
+		}
+
+		[Test]
+		public void Should_return_null_when_unable_to_find_model_name() 
+		{
+			var binder = new CastleBindAttribute();
+			object value = binder.BindModel(_context, CreateContext("cust", typeof(Customer)));
+			var customer = value as Customer;
+
+			Assert.That(customer, Is.Null);
 		}
 
 		private ModelBindingContext CreateContext(string name, Type type)
