@@ -307,15 +307,11 @@
     <Compile Include="UI\HtmlAttributesTester.cs" />
     <Compile Include="UI\DomQueryBuilderTester.cs" />
     <Compile Include="UI\DomQueryTester.cs" />
-    <Compile Include="UI\ElementTester.cs" />
     <Compile Include="UI\Html\GridColumnBuilderTester.cs" />
     <Compile Include="UI\Html\HtmlGridTester.cs" />
     <Compile Include="UI\Html\HtmlHelperTests.cs" />
-    <Compile Include="UI\Html\InputElementListTester.cs" />
     <Compile Include="UI\Html\ModelVisualizerTester.cs" />
     <Compile Include="UI\Html\Person.cs" />
-    <Compile Include="UI\Html\ScriptElementTester.cs" />
-    <Compile Include="UI\Html\TagTester.cs" />
     <Compile Include="UI\InputBuilder\AssemblyResourceProvider.cs" />
     <Compile Include="UI\InputBuilder\AttributeTester.cs" />
     <Compile Include="UI\InputBuilder\HtmlExtensionsTester.cs" />
