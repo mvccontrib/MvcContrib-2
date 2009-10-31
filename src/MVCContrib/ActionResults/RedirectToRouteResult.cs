@@ -2,7 +2,7 @@ using System;
 using System.Linq.Expressions;
 using System.Web.Mvc;
 using System.Web.Routing;
-using Microsoft.Web.Mvc.Internal;
+
 
 namespace MvcContrib.ActionResults
 {
@@ -30,7 +30,7 @@ namespace MvcContrib.ActionResults
 		/// </summary>
 		/// <param name="expression"></param>
 		public RedirectToRouteResult(Expression<Action<T>> expression)
-			: this(expression, expr => ExpressionHelper.GetRouteValuesFromExpression(expr)) {}
+			: this(expression, expr => Microsoft.Web.Mvc.Internal.ExpressionHelper.GetRouteValuesFromExpression(expr)) {}
 
 		/// <summary>
 		/// Creates a new instance of the RedirectToRouteResult class using the specified ExpressionParser

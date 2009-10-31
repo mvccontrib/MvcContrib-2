@@ -24,18 +24,6 @@ namespace MvcContrib.Spring
 			_objectFactory = objectFactory;
 		}
 
-		/// <summary>
-		/// Configures the controller factory to use the
-		/// given spring.net IApplicationContext for controller
-		/// lookup.  If you call Configure multiple times, the 
-		/// last call will prevail.
-		/// </summary>
-		/// <param name="ctx"></param>
-		public static void Configure(IApplicationContext ctx)
-		{
-			_objectFactory = ctx;
-		}
-
 	    public IController CreateController(RequestContext context, string controllerName)
 	    {
 			if(string.IsNullOrEmpty(controllerName))
