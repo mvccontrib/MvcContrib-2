@@ -221,16 +221,6 @@
     <Compile Include="UI\InputBuilder\ViewEngine\AssemblyResourceProvider.cs" />
     <Compile Include="UI\InputBuilder\ViewEngine\AssemblyResourceVirtualFile.cs" />
     <Compile Include="UI\InputBuilder\ViewEngine\EmbeddedResourceViewEngine.cs" />
-    <Compile Include="UI\LegacyGrid\GridColumn.cs" />
-    <Compile Include="UI\LegacyGrid\GridColumnBuilder.cs" />
-    <Compile Include="UI\LegacyGrid\GridHelper.cs" />
-    <Compile Include="UI\LegacyGrid\Grid.cs" />
-    <Compile Include="UI\LegacyGrid\IExpressionColumnBuilder.cs" />
-    <Compile Include="UI\LegacyGrid\IGridSections.cs" />
-    <Compile Include="UI\LegacyGrid\INestedGridColumnBuilder.cs" />
-    <Compile Include="UI\LegacyGrid\IRootGridColumnBuilder.cs" />
-    <Compile Include="UI\LegacyGrid\ISimpleColumnBuilder.cs" />
-    <Compile Include="UI\LegacyGrid\GridBase.cs" />
     <Compile Include="UI\Html\HtmlHelperExtensions.cs" />
     <Compile Include="UI\Html\HtmlStringExtensions.cs" />
     <Compile Include="UI\MenuBuilder\ActionMenuItem.cs" />

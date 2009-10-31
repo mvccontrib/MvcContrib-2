@@ -290,8 +290,6 @@
     <Compile Include="TestHelper\TestHelperController.cs" />
     <Compile Include="TestHelper\TestHelperWithArgsController.cs" />
     <Compile Include="TestHelper\WriteableHttpFileCollectionTests.cs" />
-    <Compile Include="UI\BlockRendererTester.cs" />
-    <Compile Include="UI\CapturingResponseFilterTester.cs" />
     <Compile Include="UI\ASPXViewEngine\AutoTypeViewPageTester.cs" />
     <Compile Include="UI\ASPXViewEngine\AutoTypeViewUserControlTester.cs" />
     <Compile Include="UI\DataListTests.cs" />
@@ -304,8 +302,6 @@
     <Compile Include="UI\Grid\Person.cs" />
     <Compile Include="UI\Grid\SortableColumnRenderTester.cs" />
     <Compile Include="UI\Grid\SortableGridRendererTests.cs" />
-    <Compile Include="UI\Html\GridColumnBuilderTester.cs" />
-    <Compile Include="UI\Html\HtmlGridTester.cs" />
     <Compile Include="UI\Html\HtmlHelperTests.cs" />
     <Compile Include="UI\Html\ModelVisualizerTester.cs" />
     <Compile Include="UI\Html\Person.cs" />
