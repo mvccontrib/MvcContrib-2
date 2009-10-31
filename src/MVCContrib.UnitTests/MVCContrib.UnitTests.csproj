@@ -281,7 +281,6 @@
     <Compile Include="SimplyRestful\SimplyRestfulRouteHandlerTester.cs" />
     <Compile Include="SimplyRestful\SimplyRestfulRouteMatchTester.cs" />
     <Compile Include="SimplyRestful\SimplyRestfulSpecs.cs" />
-    <Compile Include="SparkViewEngine\ViewSourceLoaderAdapterTester.cs" />
     <Compile Include="SubControllerTester.cs" />
     <Compile Include="TestHelper\ActionResultHelperTester.cs" />
     <Compile Include="TestHelper\ControllerBuilderTests.cs" />
@@ -356,10 +355,6 @@
       <Project>{1DC33742-317D-4E6A-AD80-BDA57C22BBC0}</Project>
       <Name>MvcContrib.IncludeHandling</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MvcContrib.SparkViewEngine\MvcContrib.SparkViewEngine.csproj">
-      <Project>{56202292-9363-4DED-99DD-824A111EE18D}</Project>
-      <Name>MvcContrib.SparkViewEngine</Name>
-    </ProjectReference>
     <ProjectReference Include="..\MvcContrib.Spring\MvcContrib.Spring.csproj">
       <Project>{5CE100F1-E229-43A2-9564-90C4B90558C6}</Project>
       <Name>MvcContrib.Spring</Name>
@@ -430,18 +425,6 @@
     </None>
     <None Include="BrailViewEngine\Views\view.brail">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="SparkViewEngine\Views\Home\foreach.spark">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="SparkViewEngine\Views\Home\List.spark">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="SparkViewEngine\Views\Layouts\Application.spark">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="SparkViewEngine\Views\Shared\SparkPartial.spark">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
