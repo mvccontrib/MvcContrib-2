@@ -14,6 +14,7 @@ namespace MvcContrib.UnitTests.ControllerFactories
 	public class SpringControllerFactoryTester
 	{
 		private IControllerFactory _factory;
+		private RequestContext _context;
 
 		[SetUp]
 		public void Setup()
@@ -22,11 +23,10 @@ namespace MvcContrib.UnitTests.ControllerFactories
 			                   "  <objects xmlns=\"http://www.springframework.net\" " +
 			                   "    xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" " +
 			                   "    xsi:schemaLocation=\"http://www.springframework.net http://www.springframework.net/xsd/spring-objects.xsd\"> " +
-			                   "    <object id=\"SimpleController\" singleton=\"false\" type=\"" +
-			                   typeof(SpringSimpleController).FullName + "\"/> " +
-			                   "    <object id=\"DisposableController\" singleton=\"false\" type=\"" +
-			                   typeof(SpringDisposableController).FullName + "\"/> " +
-			                   "  </objects>";
+			                   "    <object id=\"SimpleController\" singleton=\"false\" type=\"" + typeof(SpringSimpleController).FullName + "\"/> " +
+			                   "    <object id=\"DisposableController\" singleton=\"false\" type=\"" + typeof(SpringDisposableController).FullName + "\"/> " +
+			                   "    <object id=\"TestAreaSimpleController\" singleton=\"false\" type=\"" + typeof(TestArea.SpringSimpleController).FullName + "\"/>" +
+							   "  </objects>";
 
 			var stream = new MemoryStream(Encoding.Default.GetBytes(objectXml));
 			var factory = new XmlObjectFactory(new InputStreamResource(stream, "In memory xml"));
@@ -34,19 +34,21 @@ namespace MvcContrib.UnitTests.ControllerFactories
 			SpringControllerFactory.Configure(factory);
 
 			_factory = new SpringControllerFactory();
+
+			_context = new RequestContext(MvcMockHelpers.DynamicHttpContextBase(), new RouteData());
 		}
 
 		[Test]
 		public void Should_throw_when_not_configured()
 		{
 			SpringControllerFactory.Configure(null);
-			Assert.Throws<ArgumentException>(() => _factory.CreateController(null, "Simple"));
+			Assert.Throws<ArgumentException>(() => _factory.CreateController(_context, "Simple"));
 		}
 
 		[Test]
 		public void Should_resolve_controller_type_by_name()
 		{
-			var controller = _factory.CreateController(null, "Simple");
+			var controller = _factory.CreateController(_context, "Simple");
 			controller.ShouldBe<SpringSimpleController>();
 		}
 
@@ -61,7 +63,15 @@ namespace MvcContrib.UnitTests.ControllerFactories
 		[Test]
 		public void Should_throw_for_invalid_controller()
 		{
-			Assert.Throws<InvalidOperationException>(() => _factory.CreateController(null, "foo"));
+			Assert.Throws<InvalidOperationException>(() => _factory.CreateController(_context, "foo"));
+		}
+
+		[Test]
+		public void Resolves_controller_in_area()
+		{
+			_context.RouteData.DataTokens.Add("area", "TestArea");
+			var controller = _factory.CreateController(_context, "Simple");
+			controller.ShouldBe<TestArea.SpringSimpleController>();
 		}
 
 		private class SpringSimpleController : IController
@@ -82,6 +92,16 @@ namespace MvcContrib.UnitTests.ControllerFactories
 			}
 
 			public void Execute(RequestContext controllerContext) {}
+		}
+	}
+}
+
+namespace MvcContrib.UnitTests.ControllerFactories.TestArea
+{
+	public class SpringSimpleController : IController
+	{
+		public void Execute(RequestContext controllerContext)
+		{
 		}
 	}
 }
