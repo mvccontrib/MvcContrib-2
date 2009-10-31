@@ -159,6 +159,7 @@
     <Compile Include="AcceptPostAttributeTester.cs" />
     <Compile Include="ActionResults\PermanentRedirectResultTester.cs" />
     <Compile Include="ActionResults\PermanentRedirectToActionResultTester.cs" />
+    <Compile Include="ActionResults\RedirectToRouteResultTester.cs" />
     <Compile Include="AssertionExtensions.cs" />
     <Compile Include="CultureHelper.cs" />
     <Compile Include="CustomPaginationTester.cs" />
@@ -171,8 +172,6 @@
     <Compile Include="ControllerExtensionsTester.cs" />
     <Compile Include="ControllerFactories\ControllerFactoryTestExtension.cs" />
     <Compile Include="ControllerFactories\UnityControllerFactoryTester.cs" />
-    <Compile Include="ConventionController\AnotherTestController.cs" />
-    <Compile Include="ConventionController\ConventionControllerTester.cs" />
     <Compile Include="ConventionController\CustomActionResult.cs" />
     <Compile Include="ConventionController\TestBinder.cs" />
     <Compile Include="ConventionController\TestController.cs" />
