@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Web.Mvc;
 using System.Web.Routing;
 using Microsoft.Web.Mvc.Internal;
+using MvcContrib.ActionResults;
 using MvcContrib.Filters;
 
 namespace MvcContrib
@@ -37,42 +38,12 @@ namespace MvcContrib
 		public static RedirectToRouteResult RedirectToAction<T>(this Controller controller, Expression<Action<T>> action)
 			where T : Controller
 		{
-			var body = action.Body as MethodCallExpression;
+			/*var body = action.Body as MethodCallExpression;
 			AddParameterValuesFromExpressionToTempData(controller, body);
 			var routeValues = Microsoft.Web.Mvc.Internal.ExpressionHelper.GetRouteValuesFromExpression(action);
 			RemoveReferenceTypesFromRouteValues(routeValues);
-			return new RedirectToRouteResult(routeValues);
-		}
-
-		/// <summary>
-		/// The ExpressionHelper.GetRouteValuesFromExpression() method in MVC Futures will 
-		/// put all parameters from the lambda expression into the route value dictionary,
-		/// but if the parameter is a reference type, that doesn't make sense and leads to 
-		/// URLs like http://mysite.com/account/add?model=MyProject.AccountViewModel and
-		/// extraneous errors in ModelState.  So we'll strip out those reference types
-		/// in here.
-		/// 
-		/// If you really wanted to have a reference type in the route value dictionary,
-		/// you should override ToString() in the object and have it return something 
-		/// meaningful that could be added to the route value dictionary.  If you do that,
-		/// this method will see the route value as a string and will not strip it out.
-		/// </summary>
-		/// <param name="dictionary"></param>
-		private static void RemoveReferenceTypesFromRouteValues(RouteValueDictionary dictionary)
-		{
-			var keysToRemove = new List<string>();
-			foreach(var pair in dictionary)
-			{
-				if(pair.Value != null && !(pair.Value is string || pair.Value.GetType().IsSubclassOf(typeof(ValueType))))
-				{
-					keysToRemove.Add(pair.Key);
-				}
-			}
-
-			foreach(string key in keysToRemove)
-			{
-				dictionary.Remove(key);
-			}
+			return new RedirectToRouteResult(routeValues);*/
+			return new RedirectToRouteResult<T>(action);
 		}
 
 		/// <summary>
@@ -83,7 +54,6 @@ namespace MvcContrib
 		public static bool IsController(Type type)
 		{
 			return type != null
-			       //				&& type.IsPublic
 			       && type.Name.EndsWith("Controller", StringComparison.OrdinalIgnoreCase)
 			       && !type.IsAbstract
 			       && typeof(IController).IsAssignableFrom(type);

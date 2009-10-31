@@ -1,7 +1,6 @@
-using MvcContrib.Filters;
+using System.Web.Mvc;
 using MvcContrib.UnitTests.ConventionController;
 using NUnit.Framework;
-
 
 namespace MvcContrib.UnitTests
 {
@@ -28,41 +27,22 @@ namespace MvcContrib.UnitTests
 			Assert.That(redirectToRouteResult.RouteValues["Id"], Is.EqualTo(2));
 		}
 
-		[Test]
-		public void Should_store_all_parameters_in_the_action_in_TempData()
+		public class AnotherTestController : Controller
 		{
-			var someObject = new AnotherTestController.SomeObject {One = 1, Two = "two"};
-			var controller = new AnotherTestController();
-			var redirectToRouteResult = controller.RedirectToAction(c => c.AnotherAction(someObject));
+			public RedirectToRouteResult RedirectActionOnSameControllerWithExtensions()
+			{
+				return this.RedirectToAction(c => c.SomeAction(1));
+			}
 
-			controller.TempData[PassParametersDuringRedirectAttribute.RedirectParameterPrefix + "obj"].ShouldEqual(someObject);
-		}
+			public RedirectToRouteResult RedirectActionOnAnotherControllerWithExtensions()
+			{
+				return this.RedirectToAction<TestController>(c => c.BasicAction(1));
+			}
 
-		[Test]
-		public void Should_remove_reference_type_parameters_from_the_route_values()
-		{
-			var someObject = new AnotherTestController.SomeObject {One = 1, Two = "two"};
-			var controller = new AnotherTestController();
-			var redirectToRouteResult = controller.RedirectToAction(c => c.AnotherAction(someObject));
-			Assert.That(redirectToRouteResult.RouteValues.ContainsKey("obj"), Is.False);
-		}
-
-		[Test]
-		public void Should_not_remove_string_parameters_from_the_route_values()
-		{
-			var controller = new AnotherTestController();
-			var redirectToRouteResult = controller.RedirectToAction(c => c.YetAnotherAction("asdf"));
-			Assert.That(redirectToRouteResult.RouteValues.ContainsKey("s"), Is.True);
-			Assert.That(redirectToRouteResult.RouteValues["s"], Is.EqualTo("asdf"));
-		}
-
-		[Test]
-		public void Should_not_remove_null_parameters_from_the_route_values()
-		{
-			var someObject = new AnotherTestController.SomeObject {One = 1, Two = "two"};
-			var controller = new AnotherTestController();
-			var redirectToRouteResult = controller.RedirectToAction(c => c.AnotherAction(someObject));
-			Assert.That(redirectToRouteResult.RouteValues["obj"], Is.Null);
+			public ActionResult SomeAction(int id)
+			{
+				return new EmptyResult();
+			}
 		}
 	}
 }
