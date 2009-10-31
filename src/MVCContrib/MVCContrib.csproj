@@ -159,8 +159,6 @@
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="UI\ASPXViewEngine\AutoTypingHelper.cs" />
-    <Compile Include="UI\BlockRenderer.cs" />
-    <Compile Include="UI\CapturingResponseFilter.cs" />
     <Compile Include="UI\CleanTagBuilder.cs" />
     <Compile Include="UI\DataList\DataList.cs" />
     <Compile Include="UI\DataList\DataListExtensions.cs" />
