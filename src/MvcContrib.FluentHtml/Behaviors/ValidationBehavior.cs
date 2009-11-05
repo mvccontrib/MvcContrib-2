@@ -31,14 +31,23 @@ namespace MvcContrib.FluentHtml.Behaviors
 			}
 
 			ModelState state;
-			if (modelStateDictionaryFunc().TryGetValue(name, out state) && state.Errors != null && state.Errors.Count > 0)
+			if (modelStateDictionaryFunc().TryGetValue(name, out state))
 			{
-				element.Builder.AddCssClass(validationErrorCssClass);
+				if(HasErrors(state))
+				{
+					element.Builder.AddCssClass(validationErrorCssClass);
+				}
+
 				if(state.Value != null)
 				{
 					supportsModelState.ApplyModelState(state);
 				}
 			}
+		}
+
+		private bool HasErrors(ModelState state)
+		{
+			return state.Errors != null && state.Errors.Count > 0;
 		}
 	}
 }

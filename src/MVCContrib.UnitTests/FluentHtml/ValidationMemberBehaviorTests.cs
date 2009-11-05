@@ -75,6 +75,33 @@ namespace MvcContrib.UnitTests.FluentHtml
 		}
 
 		[Test]
+    	public void element_without_error_renders_with_attempted_value()
+    	{
+    		stateDictionary.Add("Price", new ModelState() { Value = new ValueProviderResult("foo", "foo", CultureInfo.CurrentCulture) });
+
+			var target = new ValidationBehavior(() => stateDictionary);
+			expression = x => x.Price;
+			var textbox = new TextBox(expression.GetNameFor(), expression.GetMemberExpression(), new List<IBehaviorMarker> { target });
+			var element = textbox.ToString().ShouldHaveHtmlNode("Price");
+			element.ShouldHaveAttribute(HtmlAttribute.Value).WithValue("foo");
+
+    	}
+
+    	[Test]
+    	public void does_not_add_css_class_when_retrieving_value_from_modelstate_with_no_error()
+    	{
+			stateDictionary.Add("Price", new ModelState() { Value = new ValueProviderResult("foo", "foo", CultureInfo.CurrentCulture) });
+			
+			var target = new ValidationBehavior(() => stateDictionary);
+			expression = x => x.Price;
+			var textbox = new TextBox(expression.GetNameFor(), null, new List<IBehaviorMarker> { target });
+			var element = textbox.ToString().ShouldHaveHtmlNode("Price");
+
+			element.ShouldHaveAttribute(HtmlAttribute.Value).WithValue("foo");
+			element.ShouldNotHaveAttribute(HtmlAttribute.Class);
+    	}
+
+		[Test]
 		public void handles_checkboxes_correctly()
 		{
 			stateDictionary.AddModelError("Done", "Foo");
