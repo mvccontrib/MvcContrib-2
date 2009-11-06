@@ -142,7 +142,17 @@ namespace MvcContrib.UnitTests.ControllerFactories.IoCControllerFactoryTester
 				factory.ReleaseController(controller);
 			}
 
-			[Test]
+            [Test]
+            public void And_default_resolver_is_null_then_ReleaseImplementation_should_not_be_called_on_the_default_resolver()
+            {
+                DependencyResolver.InitializeWith(null);
+                var controller = new IocTestController();
+
+                IControllerFactory factory = new IoCControllerFactory();
+                factory.ReleaseController(controller);
+            }
+
+            [Test]
 			public void And_controller_implements_IDisposable_then_dispose_should_be_called()
 			{
 				var controller = new DisposableIocTestController();

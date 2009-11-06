@@ -47,5 +47,13 @@ namespace MvcContrib.Services
 				throw new InvalidOperationException(string.Format("Could not create instance of type '{0}'", type.Name), exc);
 			}
 		}
-	}
+
+        public static void DisposeImplementation(object instance)
+        {
+            if(resolver != null)
+            {
+                resolver.DisposeImplementation(instance);
+            }
+        }
+    }
 }

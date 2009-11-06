@@ -60,7 +60,7 @@ namespace MvcContrib.ControllerFactories
 			}
 			else
 			{
-				DependencyResolver.Resolver.DisposeImplementation(controller);
+				DependencyResolver.DisposeImplementation(controller);
 			}
 		} 
 	}
