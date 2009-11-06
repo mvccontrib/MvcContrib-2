@@ -89,14 +89,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\bin\rhinomocks\Rhino.Mocks.dll</HintPath>
     </Reference>
-    <Reference Include="Spark, Version=1.0.0.0, Culture=neutral, PublicKeyToken=7f8549eed921a12c, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\spark\Bin\Spark.dll</HintPath>
-    </Reference>
-    <Reference Include="Spark.Web.Mvc, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\spark\Bin\Spark.Web.Mvc.dll</HintPath>
-    </Reference>
     <Reference Include="Spring.Core, Version=1.1.0.2, Culture=neutral, PublicKeyToken=65e474d141e25e07, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\bin\spring.net\Spring.Core.dll</HintPath>
@@ -159,6 +151,7 @@
     <Compile Include="AcceptPostAttributeTester.cs" />
     <Compile Include="ActionResults\PermanentRedirectResultTester.cs" />
     <Compile Include="ActionResults\PermanentRedirectToActionResultTester.cs" />
+    <Compile Include="ActionResults\RedirectToRouteResultTester.cs" />
     <Compile Include="AssertionExtensions.cs" />
     <Compile Include="CultureHelper.cs" />
     <Compile Include="CustomPaginationTester.cs" />
@@ -171,8 +164,6 @@
     <Compile Include="ControllerExtensionsTester.cs" />
     <Compile Include="ControllerFactories\ControllerFactoryTestExtension.cs" />
     <Compile Include="ControllerFactories\UnityControllerFactoryTester.cs" />
-    <Compile Include="ConventionController\AnotherTestController.cs" />
-    <Compile Include="ConventionController\ConventionControllerTester.cs" />
     <Compile Include="ConventionController\CustomActionResult.cs" />
     <Compile Include="ConventionController\TestBinder.cs" />
     <Compile Include="ConventionController\TestController.cs" />
@@ -282,7 +273,6 @@
     <Compile Include="SimplyRestful\SimplyRestfulRouteHandlerTester.cs" />
     <Compile Include="SimplyRestful\SimplyRestfulRouteMatchTester.cs" />
     <Compile Include="SimplyRestful\SimplyRestfulSpecs.cs" />
-    <Compile Include="SparkViewEngine\ViewSourceLoaderAdapterTester.cs" />
     <Compile Include="SubControllerTester.cs" />
     <Compile Include="TestHelper\ActionResultHelperTester.cs" />
     <Compile Include="TestHelper\ControllerBuilderTests.cs" />
@@ -291,8 +281,6 @@
     <Compile Include="TestHelper\TestHelperController.cs" />
     <Compile Include="TestHelper\TestHelperWithArgsController.cs" />
     <Compile Include="TestHelper\WriteableHttpFileCollectionTests.cs" />
-    <Compile Include="UI\BlockRendererTester.cs" />
-    <Compile Include="UI\CapturingResponseFilterTester.cs" />
     <Compile Include="UI\ASPXViewEngine\AutoTypeViewPageTester.cs" />
     <Compile Include="UI\ASPXViewEngine\AutoTypeViewUserControlTester.cs" />
     <Compile Include="UI\DataListTests.cs" />
@@ -305,11 +293,6 @@
     <Compile Include="UI\Grid\Person.cs" />
     <Compile Include="UI\Grid\SortableColumnRenderTester.cs" />
     <Compile Include="UI\Grid\SortableGridRendererTests.cs" />
-    <Compile Include="UI\HtmlAttributesTester.cs" />
-    <Compile Include="UI\DomQueryBuilderTester.cs" />
-    <Compile Include="UI\DomQueryTester.cs" />
-    <Compile Include="UI\Html\GridColumnBuilderTester.cs" />
-    <Compile Include="UI\Html\HtmlGridTester.cs" />
     <Compile Include="UI\Html\HtmlHelperTests.cs" />
     <Compile Include="UI\Html\ModelVisualizerTester.cs" />
     <Compile Include="UI\Html\Person.cs" />
@@ -326,7 +309,6 @@
     <Compile Include="UI\InputBuilder\VirtualFileTester.cs" />
     <Compile Include="UI\MenuBuilder\MenuBuilderTests.cs" />
     <Compile Include="UI\PagerTests.cs" />
-    <Compile Include="UI\ScriptableElementTester.cs" />
     <Compile Include="UrlHelperExtensionsTester.cs" />
     <Compile Include="ViewDataExtensionsForIDictionaryTester.cs" />
     <Compile Include="ViewDataExtensionsForViewDataTester.cs" />
@@ -364,10 +346,6 @@
     <ProjectReference Include="..\MvcContrib.IncludeHandling\MvcContrib.IncludeHandling.csproj">
       <Project>{1DC33742-317D-4E6A-AD80-BDA57C22BBC0}</Project>
       <Name>MvcContrib.IncludeHandling</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MvcContrib.SparkViewEngine\MvcContrib.SparkViewEngine.csproj">
-      <Project>{56202292-9363-4DED-99DD-824A111EE18D}</Project>
-      <Name>MvcContrib.SparkViewEngine</Name>
     </ProjectReference>
     <ProjectReference Include="..\MvcContrib.Spring\MvcContrib.Spring.csproj">
       <Project>{5CE100F1-E229-43A2-9564-90C4B90558C6}</Project>
@@ -439,18 +417,6 @@
     </None>
     <None Include="BrailViewEngine\Views\view.brail">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="SparkViewEngine\Views\Home\foreach.spark">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="SparkViewEngine\Views\Home\List.spark">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="SparkViewEngine\Views\Layouts\Application.spark">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="SparkViewEngine\Views\Shared\SparkPartial.spark">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>

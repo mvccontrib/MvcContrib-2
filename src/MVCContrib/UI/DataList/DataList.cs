@@ -186,7 +186,7 @@ namespace MvcContrib.UI.DataList
         /// <param name="item">The item.</param>
         protected virtual void RenderCell(T item)
         {
-            Writer.Write(string.Format("<td{0}>", _cellAttribute.BuildHtmlAttributes(true)));
+            Writer.Write(string.Format("<td{0}>", BuildHtmlAttributes(_cellAttribute)));
             if (ItemRenderer != null)
                 ItemRenderer(item);
             Writer.Write("</td>");
@@ -197,7 +197,7 @@ namespace MvcContrib.UI.DataList
         /// </summary>
         public virtual void Render()
         {
-            Write(string.Format("<{0}{1}>", TABLE, _tableAttributes.BuildHtmlAttributes(true)));
+            Write(string.Format("<{0}{1}>", TABLE, BuildHtmlAttributes(_tableAttributes)));
             BuildTable();
             Write(string.Format("</{0}>", TABLE));
         }
@@ -285,7 +285,7 @@ namespace MvcContrib.UI.DataList
 
         private void RenderNoItemCell()
         {
-            Write(string.Format("<td{0}>", _cellAttribute.BuildHtmlAttributes(true)));
+			Write(string.Format("<td{0}>", BuildHtmlAttributes(_cellAttribute)));
             if (_noItemTemplate != null)
                 _noItemTemplate();
             Write("</td>");
@@ -299,5 +299,19 @@ namespace MvcContrib.UI.DataList
 
             return columns;
         }
+
+		private string BuildHtmlAttributes(IDictionary<string, object> attributes)
+		{
+			if (attributes == null || attributes.Count == 0) 
+			{
+				return string.Empty;
+			}
+
+			const string attributeFormat = "{0}=\"{1}\"";
+
+			string[] strings = attributes.Select(pair => string.Format(attributeFormat, pair.Key, pair.Value)).ToArray();
+
+			return string.Format(" {0}", string.Join(" ", strings));
+		}
     }
 }

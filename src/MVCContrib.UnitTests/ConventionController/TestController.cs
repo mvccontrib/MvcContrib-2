@@ -5,14 +5,6 @@ using MvcContrib.Attributes;
 
 namespace MvcContrib.UnitTests.ConventionController
 {
-	class TestControllerWithNoDefaultActions : Controller
-	{
-		public ActionResult Index()
-		{
-			return new EmptyResult();
-		}
-	}
-
 	class TestController : Controller
 	{
 		public bool ActionWasCalled;
@@ -81,16 +73,6 @@ namespace MvcContrib.UnitTests.ConventionController
 		public ActionResult XmlResult()
 		{
 			return new XmlResult("Test 1 2 3");
-		}
-
-		public RedirectToRouteResult RedirectActionOnSameController()
-		{
-			return this.RedirectToAction<TestController>(c => c.BasicAction(1));
-		}
-
-		public RedirectToRouteResult RedirectActionOnAnotherController()
-		{
-			return this.RedirectToAction<AnotherTestController>(c => c.SomeAction(2));
 		}
 	}
 }

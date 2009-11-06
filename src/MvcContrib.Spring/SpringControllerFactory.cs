@@ -1,7 +1,6 @@
 using System;
 using System.Web.Mvc;
 using System.Web.Routing;
-using Spring.Context;
 using Spring.Objects.Factory;
 
 namespace MvcContrib.Spring
@@ -24,49 +23,48 @@ namespace MvcContrib.Spring
 			_objectFactory = objectFactory;
 		}
 
-		/// <summary>
-		/// Configures the controller factory to use the
-		/// given spring.net IApplicationContext for controller
-		/// lookup.  If you call Configure multiple times, the 
-		/// last call will prevail.
-		/// </summary>
-		/// <param name="ctx"></param>
-		public static void Configure(IApplicationContext ctx)
+		public IController CreateController(RequestContext context, string controllerName)
 		{
-			_objectFactory = ctx;
+			if(string.IsNullOrEmpty(controllerName))
+			{
+				throw new ArgumentNullException("controllerName");
+			}
+
+			controllerName = GetArea(context) + controllerName + "Controller";
+
+			if(_objectFactory == null)
+			{
+				throw new ArgumentException("CreateController has been called before Configure.");
+			}
+
+			try
+			{
+				return (IController)_objectFactory.GetObject(controllerName);
+			}
+			catch(Exception e)
+			{
+				throw new InvalidOperationException("Failed creating instance of: " +
+				                                    controllerName + " using spring.net object factory", e);
+			}
 		}
 
-	    public IController CreateController(RequestContext context, string controllerName)
-	    {
-			if(string.IsNullOrEmpty(controllerName))
-				throw new ArgumentNullException("controllerName");
+		private string GetArea(RequestContext context)
+		{
+			if(context.RouteData.DataTokens.ContainsKey("area"))
+			{
+				return context.RouteData.DataTokens["area"].ToString();
+			}
+			return string.Empty;
+		}
 
-	    	controllerName = controllerName + "Controller";
-
-	    	if(_objectFactory == null)
-	    	{
-	    		throw new ArgumentException("CreateController has been called before Configure.");
-	    	}
-	    	
-			try
-	    	{
-	    		return (IController)_objectFactory.GetObject(controllerName);
-	    	}
-	    	catch(Exception e)
-	    	{
-	    		throw new InvalidOperationException("Failed creating instance of: " +
-	    		                            controllerName + " using spring.net object factory", e);
-	    	}
-	    }
-
-	    public void ReleaseController(IController controller)
-	    {
+		public void ReleaseController(IController controller)
+		{
 			var disposable = controller as IDisposable;
 
-			if (disposable != null) 
+			if(disposable != null)
 			{
 				disposable.Dispose();
 			}
-	    }
+		}
 	}
 }
