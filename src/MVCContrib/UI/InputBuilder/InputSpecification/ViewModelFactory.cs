@@ -33,9 +33,7 @@ namespace MvcContrib.UI.InputBuilder.InputSpecification
 		{
 			PropertyInfo propertyInfo = ReflectionHelper.FindPropertyFromExpression(expression);
 			string name = ReflectionHelper.BuildNameFrom(expression);
-			//string id = ReflectionHelper.
 			bool indexed = ReflectionHelper.IsIndexed(expression);
-
 			return Create(propertyInfo, name, indexed, expression.Body.Type);
 		}
 
@@ -69,7 +67,10 @@ namespace MvcContrib.UI.InputBuilder.InputSpecification
 			{
 				if (factory.CanHandle(propertyInfo))
 				{
-					return factory.Create(propertyInfo, model, name, indexed, type, (IViewModelFactory)this);
+					if(factory is IRequireViewModelFactory)
+						((IRequireViewModelFactory)factory).Set(this);
+					
+					return factory.Create(propertyInfo, model, name, type);
 				}
 			}
 			throw new InvalidOperationException("Could not find an Input Builder convention(IPropertyViewModelFactory) for type:" + propertyInfo.PropertyType + " and Name:" + name);

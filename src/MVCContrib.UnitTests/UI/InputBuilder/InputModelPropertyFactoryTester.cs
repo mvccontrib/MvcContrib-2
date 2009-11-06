@@ -33,7 +33,7 @@ namespace MvcContrib.UnitTests.UI.InputBuilder
 			Assert.AreEqual(inputModelProperty.HasExample(), false);
 			Assert.AreEqual(inputModelProperty.PropertyIsRequired, false);
 			Assert.AreEqual(inputModelProperty.PartialName, "Array");
-			Assert.AreEqual(inputModelProperty.Layout, "");
+			Assert.AreEqual(inputModelProperty.Layout, "Field");
 			Assert.IsInstanceOf<IEnumerable<TypeViewModel>>(inputModelProperty.Value);
 		}
 
@@ -44,7 +44,7 @@ namespace MvcContrib.UnitTests.UI.InputBuilder
 			var model = new Model {StringArray = new[] {"foo", "bar", "wow", "this", "is"}};
 			var factory = new ViewModelFactory<Model>(CreateHelper(model),
 			                                          MvcContrib.UI.InputBuilder.InputBuilder.Conventions.ToArray(),
-			                                          new DefaultNameConvention(), null);
+													  new DefaultNameConvention(), MvcContrib.UI.InputBuilder.InputBuilder.TypeConventions.ToArray());
 
 			//act
 			PropertyViewModel inputModelProperty = factory.Create(m => m.StringArray);
@@ -56,18 +56,17 @@ namespace MvcContrib.UnitTests.UI.InputBuilder
 			Assert.AreEqual(inputModelProperty.HasExample(), false);
 			Assert.AreEqual(inputModelProperty.PropertyIsRequired, false);
 			Assert.AreEqual(inputModelProperty.PartialName, "Array");
-			Assert.AreEqual(inputModelProperty.Layout, "Array");
-			//Assert.AreEqual(inputModelProperty., "Array");
+			Assert.AreEqual(inputModelProperty.Layout, "Field");
 		}
 
-		[Test]
+		[Test,Ignore("not supported")]
 		public void The_factory_should_handle_an_array_indexer()
 		{
 			//arrange+            
-			var model = new Model {StringArray = new string[7]};
+			var model = new Model {StringArray = new string[]{"asdf","fddfdf"}};
 			var factory = new ViewModelFactory<Model>(CreateHelper(model),
 			                                          MvcContrib.UI.InputBuilder.InputBuilder.Conventions.ToArray(),
-			                                          new DefaultNameConvention(), null);
+													  new DefaultNameConvention(), MvcContrib.UI.InputBuilder.InputBuilder.TypeConventions.ToArray());
 
 			//act
 			PropertyViewModel inputModelProperty = factory.Create(m => m.StringArray[0]);

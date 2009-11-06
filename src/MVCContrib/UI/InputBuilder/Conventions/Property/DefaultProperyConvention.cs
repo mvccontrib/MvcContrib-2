@@ -16,27 +16,22 @@ namespace MvcContrib.UI.InputBuilder.Conventions
 			return true;
 		}
 
-		public virtual PropertyViewModel Create(PropertyInfo propertyInfo, object model, string name, bool indexed, Type type, IViewModelFactory factory)
+		public virtual PropertyViewModel Create(PropertyInfo propertyInfo, object model, string name, Type type)
 		{
 			PropertyViewModel viewModel = CreateViewModel<object>();
-			viewModel.PartialName = PartialNameConvention(propertyInfo, indexed);
+			viewModel.PartialName = PartialNameConvention(propertyInfo);
 			viewModel.Type = type;
 			viewModel.Example = ExampleForPropertyConvention(propertyInfo);
 			viewModel.Label = LabelForPropertyConvention(propertyInfo);
 			viewModel.PropertyIsRequired = PropertyIsRequiredConvention(propertyInfo);
-			viewModel.Layout = Layout(propertyInfo, indexed);
-			viewModel.Value = ValueFromModelPropertyConvention(propertyInfo, model, name,factory);
+			viewModel.Layout = Layout(propertyInfo);
+			viewModel.Value = ValueFromModelPropertyConvention(propertyInfo, model, name);
 			viewModel.Name = name;
 			return viewModel;
 		}
 
-		public virtual string Layout(PropertyInfo propertyInfo, bool indexed)
+		public virtual string Layout(PropertyInfo propertyInfo)
 		{
-			if (propertyInfo.PropertyType.IsArray&& !indexed)
-			{
-				return "Array";
-			}
-
 			return "Field";
 		}
 
@@ -74,11 +69,16 @@ namespace MvcContrib.UI.InputBuilder.Conventions
 			       htmlHelper.ViewData.ModelState[propertyInfo.Name].Errors.Count > 0;
 		}
 
-		public virtual object ValueFromModelPropertyConvention(PropertyInfo propertyInfo, object model, string parentName, IViewModelFactory factory)
+		public virtual object ValueFromModelPropertyConvention(PropertyInfo propertyInfo, object model, string parentName)
 		{
 			if(model != null)
 			{
-				object value = propertyInfo.GetValue(model, new object[0]);
+				object value=null;
+				try
+				{
+					value = propertyInfo.GetValue(model, new object[0]);
+				}catch{}
+
 				if(value != null)
 				{
 					return value;
@@ -87,7 +87,7 @@ namespace MvcContrib.UI.InputBuilder.Conventions
 			return string.Empty;
 		}
 
-		public virtual string PartialNameConvention(PropertyInfo propertyInfo, bool indexed)
+		public virtual string PartialNameConvention(PropertyInfo propertyInfo)
 		{
 			if(propertyInfo.AttributeExists<UIHintAttribute>())
 			{
@@ -97,14 +97,6 @@ namespace MvcContrib.UI.InputBuilder.Conventions
 			if(propertyInfo.AttributeExists<DataTypeAttribute>())
 			{
 				return propertyInfo.GetAttribute<DataTypeAttribute>().DataType.ToString();
-			}
-			if(propertyInfo.PropertyType.IsArray)
-			{
-				if(indexed)
-				{
-					return propertyInfo.PropertyType.Name.Replace("[]","");
-				}
-				return "Array";
 			}
 			return propertyInfo.PropertyType.Name;
 		}
