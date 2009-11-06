@@ -8,7 +8,13 @@ using MvcContrib.UI.InputBuilder.Views;
 
 namespace MvcContrib.UI.InputBuilder.InputSpecification
 {
-	public class ViewModelFactory<T> where T : class
+	public interface IViewModelFactory {		
+		TypeViewModel Create(Type type);
+
+		PropertyViewModel Create(PropertyInfo propertyInfo, string name, bool indexed, Type type,object model);
+	}
+
+	public class ViewModelFactory<T> : IViewModelFactory where T : class
 	{
 		private readonly IPropertyViewModelFactory[] _propertyFactories;
 		private readonly ITypeViewModelFactory[] _typeFactories;
@@ -26,13 +32,17 @@ namespace MvcContrib.UI.InputBuilder.InputSpecification
 		public PropertyViewModel Create(Expression<Func<T, object>> expression)
 		{
 			PropertyInfo propertyInfo = ReflectionHelper.FindPropertyFromExpression(expression);
-			return Create(propertyInfo);
+			string name = ReflectionHelper.BuildNameFrom(expression);
+			//string id = ReflectionHelper.
+			bool indexed = ReflectionHelper.IsIndexed(expression);
+
+			return Create(propertyInfo, name, indexed, expression.Body.Type);
 		}
 
-		public PropertyViewModel Create(PropertyInfo propertyInfo)
+		public PropertyViewModel Create(PropertyInfo propertyInfo, string parentName)
 		{
-			string name = _nameConventions.PropertyName(propertyInfo);
-			return Create(propertyInfo,name);
+			string name = parentName+ _nameConventions.PropertyName(propertyInfo);
+			return Create(propertyInfo,name, false, propertyInfo.PropertyType);
 		}
 
 		public virtual object ValueFromModelPropertyConvention(PropertyInfo propertyInfo, object model)
@@ -48,13 +58,18 @@ namespace MvcContrib.UI.InputBuilder.InputSpecification
 			return string.Empty;
 		}
 
-		protected virtual PropertyViewModel Create(PropertyInfo propertyInfo, string name)
+		public virtual PropertyViewModel Create(PropertyInfo propertyInfo, string name, bool indexed, Type type)
 		{
-			foreach(IPropertyViewModelFactory factory in _propertyFactories)
+			return Create(propertyInfo, name, indexed, type, _htmlHelper.ViewData.Model);
+		}
+
+		public virtual PropertyViewModel Create(PropertyInfo propertyInfo, string name, bool indexed, Type type,object model)
+		{
+			foreach (IPropertyViewModelFactory factory in _propertyFactories)
 			{
-				if(factory.CanHandle(propertyInfo))
+				if (factory.CanHandle(propertyInfo))
 				{
-					return factory.Create(propertyInfo, _htmlHelper.ViewData.Model, name);
+					return factory.Create(propertyInfo, model, name, indexed, type, (IViewModelFactory)this);
 				}
 			}
 			throw new InvalidOperationException("Could not find an Input Builder convention(IPropertyViewModelFactory) for type:" + propertyInfo.PropertyType + " and Name:" + name);
@@ -62,14 +77,18 @@ namespace MvcContrib.UI.InputBuilder.InputSpecification
 
 		public TypeViewModel Create()
 		{
-			foreach(ITypeViewModelFactory factory in _typeFactories)
+			return Create(typeof(T));
+		}
+		public TypeViewModel Create(Type type)
+		{
+			foreach (ITypeViewModelFactory factory in _typeFactories)
 			{
-				if(factory.CanHandle(typeof(T)))
+				if (factory.CanHandle(type))
 				{
-					return factory.Create(typeof(T));
+					return factory.Create(type);
 				}
 			}
-			throw new InvalidOperationException("Could not find an Input Builder Type Convention(ITypeViewModelFactory) for type:" + typeof(T).Name);
+			throw new InvalidOperationException("Could not find an Input Builder Type Convention(ITypeViewModelFactory) for type:" + type.Name);
 		}
 	}
 }

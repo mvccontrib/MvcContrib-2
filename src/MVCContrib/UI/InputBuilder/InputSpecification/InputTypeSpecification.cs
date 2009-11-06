@@ -31,7 +31,7 @@ namespace MvcContrib.UI.InputBuilder.InputSpecification
 			var models = new List<PropertyViewModel>();
 			foreach(PropertyInfo propertyInfo in Model.Type.GetProperties())
 			{
-				models.Add(factory.Create(propertyInfo));
+				models.Add(factory.Create(propertyInfo,Model.Name));
 			}
 			HtmlHelper.RenderPartial(Model.PartialName, models.ToArray());
 			return string.Empty;

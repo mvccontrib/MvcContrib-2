@@ -24,7 +24,7 @@ namespace LoginPortableArea.Login.Controllers
 				PortableArea.Bus.Send(message);
 
 				if (message.Result.Success)
-				{
+				{wl
 					FormsAuthentication.RedirectFromLoginPage(loginInput.Username, false);
 				}
 

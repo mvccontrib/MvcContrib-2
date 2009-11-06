@@ -2,7 +2,6 @@ namespace MvcContrib.UI.InputBuilder.Views
 {
 	public class PropertyViewModel : TypeViewModel
 	{
-		public string Name { get; set; }
 
 		public bool PropertyIsRequired { get; set; }
 

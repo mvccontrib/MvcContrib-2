@@ -20,7 +20,7 @@ namespace MvcContrib.UnitTests.UI.InputBuilder
 			//assert
 			Assert.AreEqual("This Pascal Cased String",result);
 		}
-
+		
 		[Test]
 		public void Should_create_a_propertyInfo_from_an_expression()
 		{

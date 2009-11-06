@@ -194,6 +194,7 @@
     <Compile Include="UI\Element.cs" />
     <Compile Include="UI\ElementRenderTool.cs" />
     <Compile Include="UI\Html\ModelVisualizerExtension.cs" />
+    <Compile Include="UI\InputBuilder\ArrayPropertyConvention.cs" />
     <Compile Include="UI\InputBuilder\Attributes\ExampleAttribute.cs" />
     <Compile Include="UI\InputBuilder\Attributes\LabelAttribute.cs" />
     <Compile Include="UI\InputBuilder\Attributes\PartialViewAttribute.cs" />
@@ -285,10 +286,14 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <EmbeddedResource Include="UI\InputBuilder\Views\InputBuilders\Row.Master">
+      <SubType>ASPXCodeBehind</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\InputBuilder\Views\InputBuilders\Display.Master">
       <SubType>ASPXCodeBehind</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\InputBuilder\Views\InputBuilders\Field.Master">
+      <SubType>ASPXCodeBehind</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\InputBuilder\Views\InputBuilders\HiddenField.Master">
       <SubType>ASPXCodeBehind</SubType>
@@ -305,6 +310,7 @@
       <SubType>ASPXCodeBehind</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\InputBuilder\Views\InputBuilders\Guid.aspx">
+      <SubType>ASPXCodeBehind</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\InputBuilder\Views\InputBuilders\Int32.aspx">
     </EmbeddedResource>
@@ -333,6 +339,16 @@
       <SubType>ASPXCodeBehind</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\InputBuilder\Views\InputBuilders\DisplayParagraph.aspx">
+      <SubType>ASPXCodeBehind</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="UI\InputBuilder\Views\InputBuilders\Array.aspx">
+      <SubType>ASPXCodeBehind</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="UI\InputBuilder\Views\InputBuilders\SubForm.aspx">
       <SubType>ASPXCodeBehind</SubType>
     </EmbeddedResource>
   </ItemGroup>

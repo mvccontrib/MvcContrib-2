@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq.Expressions;
 using System.Text;
@@ -52,6 +53,13 @@ namespace MvcContrib.UI.InputBuilder.Views
 			foreach(PropertyViewModel viewModel in model)
 			{
 				helper.RenderPartial((TypeViewModel)viewModel);
+			}
+		}
+		public static void InputFields(this HtmlHelper helper, IEnumerable<TypeViewModel> model)
+		{
+			foreach (TypeViewModel viewModel in model)
+			{
+				helper.RenderPartial(viewModel);
 			}
 		}
 

@@ -1,0 +1,7 @@
+﻿<%@ Import Namespace="MvcContrib.UI.InputBuilder.Views"%>
+<%@ Import Namespace="System.Web.Mvc.Html"%>
+<%@ Master Language="C#" Inherits="System.Web.Mvc.ViewMasterPage<PropertyViewModel>" %>
+<asp:ContentPlaceHolder ID="Label"		runat="server" visible="false"/>
+<asp:ContentPlaceHolder ID="Input"		runat="server"/>
+<asp:ContentPlaceHolder ID="Validation" runat="server"><%=Html.ValidationMessage(Model.Name,"*") %></asp:ContentPlaceHolder>    
+<asp:ContentPlaceHolder ID="Example"	runat="Server" visible="false"/>

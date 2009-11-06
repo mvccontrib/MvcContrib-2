@@ -7,6 +7,7 @@ namespace MvcContrib.UI.InputBuilder
 	{
 		public DefaultConventionsFactory()
 		{
+			Add(new ArrayPropertyConvention());
 			Add(new GuidPropertyConvention());
 			Add(new EnumPropertyConvention());
 			Add(new DateTimePropertyConvention());
