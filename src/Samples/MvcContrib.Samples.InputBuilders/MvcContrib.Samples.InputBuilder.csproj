@@ -87,18 +87,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Home\Display.aspx" />
-    <None Include="Views\Shared\Array.Master">
-      <SubType>ASPXCodeBehind</SubType>
-    </None>
-    <Content Include="Views\Shared\AddNewChildRow.aspx">
-      <SubType>ASPXCodeBehind</SubType>
-    </Content>
-    <Content Include="Views\Shared\Array.aspx">
-      <SubType>ASPXCodeBehind</SubType>
-    </Content>
-    <Content Include="Views\Shared\SubForm.aspx">
-      <SubType>ASPXCodeBehind</SubType>
-    </Content>
     <Content Include="Views\Shared\YesNoBoolean.aspx">
       <SubType>ASPXCodeBehind</SubType>
     </Content>
