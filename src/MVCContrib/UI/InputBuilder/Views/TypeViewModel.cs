@@ -17,6 +17,8 @@ namespace MvcContrib.UI.InputBuilder.Views
 		public virtual object Value { get; set; }
 
 		public string Name { get; set; }
+
+		public int Index { get; set; }
 	}
 
 	public class ModelType<T> : TypeViewModel

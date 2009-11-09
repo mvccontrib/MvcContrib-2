@@ -32,7 +32,7 @@ namespace MvcContrib.UI.InputBuilder
 				item.PartialName = "Subform";
 				item.Properties= GetProperies(o,item.Name+".").ToArray();
 				item.Layout = "";
-				
+				item.Index = index;
 				values.Add(item);
 				index++;
 			}
@@ -51,7 +51,7 @@ namespace MvcContrib.UI.InputBuilder
 
 		public override string Layout(PropertyInfo propertyInfo)
 		{
-			return "Field";
+			return "Array";
 		}
 
 		public override string PartialNameConvention(PropertyInfo propertyInfo)

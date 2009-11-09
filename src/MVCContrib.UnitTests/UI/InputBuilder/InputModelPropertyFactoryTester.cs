@@ -33,7 +33,7 @@ namespace MvcContrib.UnitTests.UI.InputBuilder
 			Assert.AreEqual(inputModelProperty.HasExample(), false);
 			Assert.AreEqual(inputModelProperty.PropertyIsRequired, false);
 			Assert.AreEqual(inputModelProperty.PartialName, "Array");
-			Assert.AreEqual(inputModelProperty.Layout, "Field");
+			Assert.AreEqual(inputModelProperty.Layout, "Array");
 			Assert.IsInstanceOf<IEnumerable<TypeViewModel>>(inputModelProperty.Value);
 		}
 
@@ -56,7 +56,7 @@ namespace MvcContrib.UnitTests.UI.InputBuilder
 			Assert.AreEqual(inputModelProperty.HasExample(), false);
 			Assert.AreEqual(inputModelProperty.PropertyIsRequired, false);
 			Assert.AreEqual(inputModelProperty.PartialName, "Array");
-			Assert.AreEqual(inputModelProperty.Layout, "Field");
+			Assert.AreEqual(inputModelProperty.Layout, "Array");
 		}
 
 		[Test,Ignore("not supported")]

@@ -24,7 +24,9 @@ namespace Web.Controllers
 			return View(new SampleInput
 			            	{
 			            		Name = "stuff",
-			            		TimeStamp = DateTime.Today.AddHours(13).AddMinutes(30)
+			            		TimeStamp = DateTime.Today.AddHours(13).AddMinutes(30),
+			            		ChildrenForms = new ChildInput[]{new ChildInput(){Name = "the first child"},new ChildInput(){Name = "the second child"},  },
+                                
 			            	});
 		}
 

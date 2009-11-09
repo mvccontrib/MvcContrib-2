@@ -44,9 +44,12 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
-    <Reference Include="System.Web.Mvc, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Mvc, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\bin\System.Web.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.Routing" />
   </ItemGroup>
   <ItemGroup>
@@ -84,6 +87,18 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Home\Display.aspx" />
+    <None Include="Views\Shared\Array.Master">
+      <SubType>ASPXCodeBehind</SubType>
+    </None>
+    <Content Include="Views\Shared\AddNewChildRow.aspx">
+      <SubType>ASPXCodeBehind</SubType>
+    </Content>
+    <Content Include="Views\Shared\Array.aspx">
+      <SubType>ASPXCodeBehind</SubType>
+    </Content>
+    <Content Include="Views\Shared\SubForm.aspx">
+      <SubType>ASPXCodeBehind</SubType>
+    </Content>
     <Content Include="Views\Shared\YesNoBoolean.aspx">
       <SubType>ASPXCodeBehind</SubType>
     </Content>

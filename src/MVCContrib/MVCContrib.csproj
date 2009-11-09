@@ -245,6 +245,9 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <EmbeddedResource Include="UI\InputBuilder\Views\InputBuilders\Array.Master">
+      <SubType>ASPXCodeBehind</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\InputBuilder\Views\InputBuilders\Row.Master">
       <SubType>ASPXCodeBehind</SubType>
     </EmbeddedResource>
