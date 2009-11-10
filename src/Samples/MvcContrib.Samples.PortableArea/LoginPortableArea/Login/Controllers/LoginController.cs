@@ -2,7 +2,7 @@ using System.Web.Mvc;
 using System.Web.Security;
 using LoginPortableArea.Login.Messages;
 using LoginPortableArea.Login.Models;
-using MvcContrib.PortableAreas;
+using MvcContrib;
 
 namespace LoginPortableArea.Login.Controllers
 {
@@ -21,10 +21,10 @@ namespace LoginPortableArea.Login.Controllers
 			{
 				var message = new LoginInputMessage {Input = loginInput, Result = new LoginResult()};
 
-				PortableArea.Bus.Send(message);
+				Bus.Send(message);
 
 				if (message.Result.Success)
-				{wl
+				{
 					FormsAuthentication.RedirectFromLoginPage(loginInput.Username, false);
 				}
 
@@ -32,11 +32,11 @@ namespace LoginPortableArea.Login.Controllers
 			}
 			return View(loginInput);
 		}
-		
+
 		[HttpGet]
 		public ActionResult ForgotPassword()
 		{
-			return View();	
+			return View();
 		}
 
 		[HttpPost]
@@ -46,7 +46,7 @@ namespace LoginPortableArea.Login.Controllers
 			{
 				var message = new ForgotPasswordInputMessage {Input = forgotPasswordInput, Result = new ForgotPasswordResult()};
 
-				PortableArea.Bus.Send(message);
+				Bus.Send(message);
 
 				if (message.Result.Success)
 				{
@@ -55,7 +55,7 @@ namespace LoginPortableArea.Login.Controllers
 
 				ModelState.AddModelError("model", message.Result.Message);
 			}
-			return View(forgotPasswordInput);			
+			return View(forgotPasswordInput);
 		}
 	}
 }

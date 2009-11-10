@@ -1,4 +1,4 @@
-using LoginPortableArea.Login.Controllers;
+using LoginPortableArea.Login.Messages;
 using MvcContrib.PortableAreas;
 
 namespace PortableAreaSpike

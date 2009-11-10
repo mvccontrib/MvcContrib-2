@@ -127,7 +127,7 @@
     <Compile Include="PortableAreas\IEventMessage.cs" />
     <Compile Include="PortableAreas\IMessageHandler.cs" />
     <Compile Include="PortableAreas\IMessageHandlerFactory.cs" />
-    <Compile Include="PortableAreas\PortableArea.cs" />
+    <Compile Include="Bus.cs" />
     <Compile Include="PortableAreas\PortableAreaRegistration.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>

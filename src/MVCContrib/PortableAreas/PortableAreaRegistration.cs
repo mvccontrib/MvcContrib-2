@@ -10,7 +10,7 @@ namespace MvcContrib.PortableAreas
 		
 		public override void RegisterArea(AreaRegistrationContext context)
 		{
-			RegisterArea(context,PortableArea.Bus);
+			RegisterArea(context,Bus.Instance);
 		}
 
 		public virtual void RegisterTheViewsInTheEmbeddedViewEngine( Type areaRegistrationType)
