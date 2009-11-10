@@ -9,9 +9,12 @@
 	var arrayIndexName = arrayName + ".Index";
 %>
 <script type="text/javascript">
-/* <![CDATA[ */
+/* <![CDATA[ */	
+	
 $(document).ready(function(){
 	
+	$('.removeLink<%=typeName %>').click(removeRow);
+
 	var id = 0;
 	var depth = <%= depth %>;
 
@@ -91,6 +94,8 @@ $(document).ready(function(){
 
 			templateDiv.find('.errorIndicator').remove();
 			
+			templateDiv.find('.removeLink<%=typeName %>').click(removeRow);
+			
 			$(templateDiv).find("*").not("option").not(":button").each(clearInputs<%=typeName %>);
 
 			templateDiv.appendTo("#<%=parentDivId %>");
@@ -101,6 +106,25 @@ $(document).ready(function(){
 			return false;
 		});
 	});	
+	
+		function removeRow() {
+		var firstDiv = "<%= typeName %>0";
+		var parentDivClass = $(this).parent().parent().attr("class");
+
+		var parentRow = $(this).parent().parent();
+
+		if (parentDivClass != firstDiv){
+			parentRow.remove();
+		}
+		else {
+			parentRow.find("*").not("option").not(":button").each(clearInputs<%=typeName %>);
+		}
+		
+		reworkAll<%=typeName%>();
+		
+		return false;
+	}
+
 });
 	/* ]]> */
 </script>

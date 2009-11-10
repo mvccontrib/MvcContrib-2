@@ -9,4 +9,5 @@
 <div class="<%=formName%>" style="border-bottom: 1px dashed #cccccc;">
 <input type="hidden" name="<%=name%>.Index" id="" value="<%=Model.Index %>" />
 <% Html.InputFields( Model.Properties );%>
+<div class="removeLink"><a href="#" class="removeLink<%=name %>">Remove</a></div>
 </div>

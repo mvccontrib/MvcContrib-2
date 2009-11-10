@@ -315,7 +315,9 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="UI\InputBuilder\Views\InputBuilders\AddNewChildRow.aspx" />
+    <EmbeddedResource Include="UI\InputBuilder\Views\InputBuilders\AddNewChildRow.aspx">
+      <SubType>ASPXCodeBehind</SubType>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Configuration\" />
