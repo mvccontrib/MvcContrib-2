@@ -4,11 +4,33 @@ namespace MvcContrib.PortableAreas
 {
 	public class PortableArea
 	{
-		static PortableArea()
+		private static IApplicationBus _bus;
+		private static object _busLock = new object();
+
+		public static IApplicationBus Bus { 
+		get
 		{
-			Bus=new ApplicationBus(new MessageHandlerFactory());
+			InitializeTheDefaultBus();
+			return _bus;
+		}
+			set
+			{
+				_bus=value;					
+			}
 		}
 
-		public static IApplicationBus Bus { get; protected set;}
+		private static void InitializeTheDefaultBus()
+		{
+			if(_bus==null)
+			{
+				lock(_busLock)
+				{
+					if(_bus==null)
+					{
+						_bus = new ApplicationBus(new MessageHandlerFactory());
+					}
+				}
+			}
+		}
 	}
 }
