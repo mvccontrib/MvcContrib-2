@@ -9,12 +9,12 @@ namespace MvcContrib.UnitTests.Binders
 	[TestFixture]
 	public class SubControllerBinderTester
 	{
-		private MockValueProvider valueProvider;
+		private IValueProvider valueProvider;
 
 		[SetUp]
 		public void Setup()
 		{
-			valueProvider = new MockValueProvider(foo => "bar");
+			valueProvider = new FormCollection() {{"foo", "bar"}}.ToValueProvider();
 		}
 
 		public class FooController : SubController
