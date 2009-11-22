@@ -22,7 +22,7 @@
 			<li><%= Html.RouteLink("home", new { controller = "home", action = "index" })%></li>
 			<li><%= Html.RouteLink("jquery + jquery-ui", new { controller = "home", action = "jsjquery" })%></li>
 			<li><%= Html.RouteLink("mootools", new { controller = "home", action = "jsmootools" })%></li>
-			<li><%= Html.RouteLink("scriptaculous", new { controller = "home", action = "jsscriptaculous" })%></li>
+			<li><%= Html.RouteLink("Prototype", new { controller = "home", action = "JsPrototype" })%></li>
 			<li><%= Html.RouteLink("many js includes", new { controller = "home", action = "jsmany" })%></li>
 			<li><%= Html.RouteLink("one include", new { controller = "home", action = "cssone" })%></li>
 			<li><%= Html.RouteLink("many includes", new { controller = "home", action = "cssmany" })%></li>
