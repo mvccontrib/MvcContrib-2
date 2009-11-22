@@ -93,8 +93,6 @@
     <Compile Include="ActionResults\XmlResult.cs" />
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Attributes\AbstractParameterBinderAttribute.cs" />
-    <Compile Include="Attributes\AcceptGetAttribute.cs" />
-    <Compile Include="Attributes\AcceptPostAttribute.cs" />
     <Compile Include="Attributes\DeserializeAttribute.cs" />
     <Compile Include="Binders\SubControllerBinder.cs" />
     <Compile Include="EnumerableExtensions.cs" />

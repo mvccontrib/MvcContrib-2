@@ -147,8 +147,6 @@
     <Compile Include="..\CommonAssemblyInfo.cs">
       <Link>CommonAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="AcceptGetAttributeTester.cs" />
-    <Compile Include="AcceptPostAttributeTester.cs" />
     <Compile Include="ActionResults\PermanentRedirectResultTester.cs" />
     <Compile Include="ActionResults\PermanentRedirectToActionResultTester.cs" />
     <Compile Include="ActionResults\RedirectToRouteResultTester.cs" />
