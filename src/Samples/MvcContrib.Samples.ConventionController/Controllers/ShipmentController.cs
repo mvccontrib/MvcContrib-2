@@ -19,7 +19,7 @@ namespace MvcContrib.Samples.Controllers
 			return View("index");
 		}
 
-		public ActionResult New([Deserialize("shipment")] Shipment newShipment)
+		public ActionResult New([Bind(Prefix = "shipment")] Shipment newShipment)
 		{
 			return View("new", newShipment);
 		}
@@ -31,7 +31,7 @@ namespace MvcContrib.Samples.Controllers
 			return View("track", new List<string>() { id });
 		}
 
-		public ActionResult Track([Deserialize("trackingNumbers")] string[] trackingNumbers)
+		public ActionResult Track(string[] trackingNumbers)
 		{
 			List<string> validTrackingNumbers = new List<string>();
 			foreach (string trackingNumber in trackingNumbers)
