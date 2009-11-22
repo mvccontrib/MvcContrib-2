@@ -26,7 +26,8 @@ namespace Web.Controllers
 			            		Name = "stuff",
 			            		TimeStamp = DateTime.Today.AddHours(13).AddMinutes(30),
 			            		ChildrenForms = new ChildInput[]{new ChildInput(){Name = "the first child"},new ChildInput(){Name = "the second child"},  },
-                                
+								ChildrenFormsNoAdd = new ChildInput[] { new ChildInput() { Name = "the first child" }, new ChildInput() { Name = "the second child" }, },
+								ChildrenFormsNoDelete = new ChildInput[] { new ChildInput() { Name = "the first child" }, new ChildInput() { Name = "the second child" }, },
 			            	});
 		}
 

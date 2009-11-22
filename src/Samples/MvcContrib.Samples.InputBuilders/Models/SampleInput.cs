@@ -30,6 +30,26 @@ namespace Web.Models
 		public bool IsNeeded { get; set; }
 
 		public ChildInput[] ChildrenForms { get; set; }
+		[NoAdd]
+		public ChildInput[] ChildrenFormsNoAdd { get; set; }
+		[NoDelete]
+		public ChildInput[] ChildrenFormsNoDelete { get; set; }
+		
+		[CanDeleteAll]
+		public ChildInput[] ChildrenFormsCanDeleteAll { get; set; }
+
+	}
+
+	public class CanDeleteAllAttribute : Attribute
+	{
+	}
+
+	public class NoDeleteAttribute : Attribute
+	{
+	}
+
+	public class NoAddAttribute : Attribute
+	{
 	}
 
 	public class ChildInput
