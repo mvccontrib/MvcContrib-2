@@ -14,6 +14,7 @@ namespace MvcContrib.Castle
 	/// }
 	/// ]]>
 	/// </summary>
+	[Obsolete("Consider using System.Web.Mvc.DefaultModelBinder instead.")]
 	[AttributeUsage(AttributeTargets.Parameter, AllowMultiple = false, Inherited = false), Serializable]
 	public class CastleBindAttribute : AbstractParameterBinderAttribute
 	{

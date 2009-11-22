@@ -23,7 +23,9 @@ namespace MvcContrib.UnitTests.ConventionController
 		}
 
 		[TestFilter]
+#pragma warning disable 618,612
 		public ActionResult BinderFilterOrderingAction([TestBinder] object item)
+#pragma warning restore 618,612
 		{
 			return new EmptyResult();
 		}
@@ -49,7 +51,9 @@ namespace MvcContrib.UnitTests.ConventionController
 			return new EmptyResult();
 		}
 
+#pragma warning disable 618,612
 		public ActionResult ComplexAction([Deserialize("ids")] int[] ids)
+#pragma warning restore 618,612
 		{
 			ActionWasCalled = true;
 			return new EmptyResult();

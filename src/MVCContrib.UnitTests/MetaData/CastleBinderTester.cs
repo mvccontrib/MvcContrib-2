@@ -11,6 +11,7 @@ using Rhino.Mocks;
 namespace MvcContrib.UnitTests.MetaData
 {
 	[TestFixture]
+	[Obsolete("Consider using System.Web.Mvc.DefaultModelBinder instead.")]
 	public class CastleBinderTester
 	{
 		private MockRepository _mocks;

@@ -7,6 +7,7 @@ using System.Web.Routing;
 
 namespace MvcContrib.Attributes
 {
+	[Obsolete("Consider using System.Web.Mvc.DefaultModelBinder instead.")]
 	[Serializable]
 	[AttributeUsage(AttributeTargets.Parameter | AttributeTargets.Property | AttributeTargets.Interface | AttributeTargets.Enum | AttributeTargets.Struct | AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
 	public abstract class AbstractParameterBinderAttribute : CustomModelBinderAttribute, IModelBinder

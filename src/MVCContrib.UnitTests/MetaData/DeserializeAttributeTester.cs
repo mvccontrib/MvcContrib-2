@@ -9,6 +9,7 @@ using System.Collections.Specialized;
 
 namespace MvcContrib.UnitTests.MetaData
 {
+	[Obsolete("Consider using System.Web.Mvc.DefaultModelBinder instead.")]
 	[TestFixture]
 	public class DeserializeAttributeTester
 	{
