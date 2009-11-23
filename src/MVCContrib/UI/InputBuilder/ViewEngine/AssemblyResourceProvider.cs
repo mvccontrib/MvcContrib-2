@@ -15,7 +15,7 @@ namespace MvcContrib.UI.InputBuilder.ViewEngine
 		public Type TypeToLocateAssembly { get; set; }
 		public string GetFullyQualifiedTypeFromPath(string path)
 		{
-			string replace = path.ToLower().Replace("~/", Namespace.ToLower());
+			string replace = path.ToLower().Replace("~", Namespace.ToLower());
 			if(!string.IsNullOrEmpty(VirtualPath))
 				replace = replace.Replace(VirtualPath.ToLower(), "");
 			return replace.Replace("/", ".").ToLower();

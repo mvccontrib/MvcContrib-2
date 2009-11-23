@@ -26,7 +26,7 @@ namespace MvcContrib.PortableAreas
 
 		public string GetNamespace(Type type)
 		{
-			return type.Namespace+".";
+			return type.Namespace;
 		}
 
 		public string GetVirtualPath(string name)
