@@ -87,7 +87,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Home\Display.aspx" />
-    <Content Include="Views\Shared\AddNewChildRow.aspx" />
+    <Content Include="Views\Shared\ArrayAddButton.aspx" />
     <Content Include="Views\Shared\Array.aspx" />
     <Content Include="Views\Shared\SubForm.aspx" />
     <Content Include="Views\Shared\YesNoBoolean.aspx">
@@ -103,6 +103,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Shared\Array.Master" />
+    <Content Include="Views\Shared\ArrayRemoveButton.aspx" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

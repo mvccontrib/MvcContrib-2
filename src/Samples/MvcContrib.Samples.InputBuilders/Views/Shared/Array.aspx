@@ -28,7 +28,7 @@
 		<%
 	fieldcount++;} %>
 		<%if (model.HasDeleteButton()){%>
-		<td><div class="removeLink"><button class="removeLink<%=Model.Name %>">Remove</button></div></td>
+		<td><%Html.RenderPartial("ArrayRemoveButton", Model); %></td>
 		<%fieldcount++;} %>	
 		</tr><%
 		index++;
@@ -37,7 +37,7 @@
 	<%if (Model.HasAddButton())
    {%>
 	<tfoot>
-	<tr><td colspan="<%=fieldcount %>"><%Html.RenderPartial("AddNewChildRow", Model); %></td></tr>
+	<tr><td colspan="<%=fieldcount %>"><%Html.RenderPartial("ArrayAddButton", Model); %></td></tr>
 	</tfoot>
 	<%} %>
 </table>
@@ -151,7 +151,7 @@ $(document).ready(function(){
 		function removeRow() {
 		var firstDiv = "<%= typeName %>0";
 
-		var parentRow = $(this).parent().parent().parent();
+		var parentRow = $(this).parent().parent();
 		var parentDivClass = parentRow.attr("class");
 
 		if (parentDivClass != firstDiv){
