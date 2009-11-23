@@ -34,7 +34,10 @@ namespace MvcContrib.UI.InputBuilder.ViewEngine
 		static AssemblyResourceProvider()
 		{
 			ResourcePaths = new Dictionary<string, AssemblyResource>();
-			var resource = new AssemblyResource() { VirtualPath = "/views/inputbuilders", TypeToLocateAssembly = typeof(AssemblyResourceProvider), Namespace = "MvcContrib.UI.InputBuilder." };
+			var resource = new AssemblyResource() { 
+				VirtualPath = "/views/inputbuilders", 
+				TypeToLocateAssembly = typeof(AssemblyResourceProvider), 
+				Namespace = "MvcContrib.UI.InputBuilder.Views.InputBuilders" };
 			AddResource(resource);
 		}
 		public static void AddResource(AssemblyResource assemblyResource)
