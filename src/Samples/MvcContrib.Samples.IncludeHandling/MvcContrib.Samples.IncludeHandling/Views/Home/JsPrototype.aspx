@@ -5,8 +5,8 @@
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
-<%= Html.IncludeJs("~/content/js/lib/prototype.js")%>
-<%= Html.IncludeJs("~/content/js/lib/scriptaculous/scriptaculous.js")%>
+<% Html.IncludeJs("~/content/js/lib/prototype.js");%>
+<% Html.IncludeJs("~/content/js/lib/scriptaculous/scriptaculous.js");%>
 
     <h2>JsPrototype</h2>
 

@@ -5,7 +5,7 @@
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
-<%= Html.IncludeJs("~/content/js/lib/moo/mootools-core-nc.js")%>
+<% Html.IncludeJs("~/content/js/lib/moo/mootools-core-nc.js");%>
     <h2>JsMooTools</h2>
 
 </asp:Content>

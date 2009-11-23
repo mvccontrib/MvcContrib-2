@@ -6,6 +6,7 @@ using NUnit.Framework;
 
 namespace MvcContrib.UnitTests
 {
+	[Obsolete("Consider using System.Web.Mvc.DefaultModelBinder instead.")]
 	[TestFixture]
 	public class NameValueDeserializerTester
 	{

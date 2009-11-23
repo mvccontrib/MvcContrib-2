@@ -19,7 +19,7 @@
 		
 		#parse("shared/header.vm")
 				
-		$html.renderaction("ads", "home")
+		$html.RenderAction("ads", "home")
 		
 	</div>	
     <div>  

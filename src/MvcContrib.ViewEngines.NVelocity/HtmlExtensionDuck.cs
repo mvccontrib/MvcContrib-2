@@ -21,7 +21,8 @@ namespace MvcContrib.ViewEngines
 			typeof(System.Web.Mvc.Html.SelectExtensions),
 			typeof(System.Web.Mvc.Html.TextAreaExtensions),
 			typeof(System.Web.Mvc.Html.ValidationExtensions),
-			typeof(System.Web.Mvc.Html.RenderPartialExtensions)
+			typeof(System.Web.Mvc.Html.RenderPartialExtensions),
+			typeof(System.Web.Mvc.Html.ChildActionExtensions)
 		};
 
 		public HtmlExtensionDuck(ViewContext viewContext, IViewDataContainer container)

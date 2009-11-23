@@ -4,6 +4,7 @@ using System.Web.Mvc;
 
 namespace MvcContrib.Attributes
 {
+	[Obsolete("Consider using System.Web.Mvc.DefaultModelBinder instead.")]
 	[Serializable]
 	public class DeserializeAttribute : AbstractParameterBinderAttribute
 	{

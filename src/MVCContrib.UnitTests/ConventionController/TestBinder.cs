@@ -4,6 +4,7 @@ using MvcContrib.Attributes;
 
 namespace MvcContrib.UnitTests.ConventionController
 {
+	[Obsolete("Consider using System.Web.Mvc.DefaultModelBinder instead.")]
 	public class TestBinder : AbstractParameterBinderAttribute
 	{
 		public TestBinder() : base(null)

@@ -34,7 +34,7 @@ namespace Demo.Site
 		{
 			RegisterRoutes(RouteTable.Routes);
 			var httpContextProvider = new HttpContextProvider(HttpContext.Current);
-			var controllers = new Controller[] { new HomeController(), new AccountController() };
+			var controllers = new [] { typeof(HomeController), typeof(AccountController) };
 			var includeHandlingSettings = (IIncludeHandlingSettings) ConfigurationManager.GetSection("includeHandling");
 			DependencyResolver.InitializeWith(new QnDDepResolver(httpContextProvider, includeHandlingSettings, controllers));
 			ControllerBuilder.Current.SetControllerFactory(new IoCControllerFactory());
@@ -43,47 +43,43 @@ namespace Demo.Site
 
 	public class QnDDepResolver : IDependencyResolver
 	{
-		private readonly IDictionary<Type, object> types;
+		private readonly IDictionary<Type, Func<object>> types;
 
-		public QnDDepResolver(IHttpContextProvider httpContextProvider, IIncludeHandlingSettings settings, Controller[] controllers)
+		public QnDDepResolver(IHttpContextProvider httpContextProvider, IIncludeHandlingSettings settings, Type[] controllers)
 		{
-			types = new Dictionary<Type, object>
+			types = new Dictionary<Type, Func<object>>
 			{
-				{ typeof (IHttpContextProvider), httpContextProvider },
-				{ typeof (IKeyGenerator), new KeyGenerator() },
-				{ typeof (IIncludeHandlingSettings), settings }
+				{ typeof (IHttpContextProvider),() => httpContextProvider },
+				{ typeof (IKeyGenerator), () => new KeyGenerator() },
+				{ typeof (IIncludeHandlingSettings), () => settings }
 			};
-			types.Add(typeof(IIncludeReader), new FileSystemIncludeReader((IHttpContextProvider)types[typeof(IHttpContextProvider)]));
+			types.Add(typeof(IIncludeReader), () => new FileSystemIncludeReader(GetImplementationOf<IHttpContextProvider>()));
 
-			var keyGen = (IKeyGenerator)types[typeof(IKeyGenerator)];
+			types.Add(typeof(IIncludeStorage), () => new StaticIncludeStorage(GetImplementationOf<IKeyGenerator>()));
 
-			types.Add(typeof(IIncludeStorage), new StaticIncludeStorage(keyGen));
+			types.Add(typeof(IIncludeCombiner), () => new IncludeCombiner(settings, GetImplementationOf<IIncludeReader>(), GetImplementationOf<IIncludeStorage>(), GetImplementationOf<IHttpContextProvider>()));
 
-			var includeReader = (IIncludeReader)types[typeof(IIncludeReader)];
-			var storage = (IIncludeStorage)types[typeof(IIncludeStorage)];
-			var combiner = new IncludeCombiner(settings, includeReader, storage, (IHttpContextProvider)types[typeof(IHttpContextProvider)]);
-			types.Add(typeof(IIncludeCombiner), combiner);
-
-			types.Add(typeof(IncludeController), new IncludeController(settings, combiner));
+			types.Add(typeof(IncludeController), () => new IncludeController(settings, GetImplementationOf<IIncludeCombiner>()));
 			foreach (var controller in controllers)
 			{
-				types.Add(controller.GetType(), controller);
+				var controllerType = controller;
+				types.Add(controllerType, () => Activator.CreateInstance(controllerType));
 			}
 		}
 
 		public Interface GetImplementationOf<Interface>()
 		{
-			return (Interface)types[typeof(Interface)];
+			return (Interface)types[typeof(Interface)]();
 		}
 
 		public Interface GetImplementationOf<Interface>(Type type)
 		{
-			return (Interface)types[type];
+			return (Interface)types[type]();
 		}
 
 		public object GetImplementationOf(Type type)
 		{
-			return types[type];
+			return types[type]();
 		}
 
 		public void DisposeImplementation(object instance)
