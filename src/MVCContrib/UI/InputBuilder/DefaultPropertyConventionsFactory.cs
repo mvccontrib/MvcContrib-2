@@ -3,9 +3,9 @@ using MvcContrib.UI.InputBuilder.Conventions;
 
 namespace MvcContrib.UI.InputBuilder
 {
-	public class DefaultConventionsFactory : List<IPropertyViewModelFactory>
+	public class DefaultPropertyConventionsFactory : List<IPropertyViewModelFactory>
 	{
-		public DefaultConventionsFactory()
+		public DefaultPropertyConventionsFactory()
 		{
 			Add(new ArrayPropertyConvention());
 			Add(new GuidPropertyConvention());

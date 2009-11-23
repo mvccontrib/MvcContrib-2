@@ -10,7 +10,7 @@ namespace MvcContrib.UI.InputBuilder
 {
 	public class InputBuilder
 	{
-		private static Func<IList<IPropertyViewModelFactory>> _propertyConventionProvider = () => new DefaultConventionsFactory();
+		private static Func<IList<IPropertyViewModelFactory>> _propertyConventionProvider = () => new DefaultPropertyConventionsFactory();
 		private static Func<IList<ITypeViewModelFactory>> _typeConventionProvider = () => new DefaultTypeConventionsFactory();
 		public static Action<VirtualPathProvider> RegisterPathProvider = HostingEnvironment.RegisterVirtualPathProvider;
 

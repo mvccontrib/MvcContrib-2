@@ -12,15 +12,14 @@
         <%=Model.PropertyIsRequired?"*":""%><%=Model.Label.Length>0?":":"" %> 
     </div>    
     <div style="float:left;">
-    <%Html.RenderPartial("AddNewChildRow",Model); %>
-    <div id="<%=Model.Name %>Fields">
     <asp:ContentPlaceHolder ID="Input" runat="server"/>
-    </div>
     <asp:ContentPlaceHolder ID="Validation" runat="server">
         <%=Html.ValidationMessage(Model.Name,"*") %>
     </asp:ContentPlaceHolder>
     <asp:ContentPlaceHolder ID="Example" runat="Server" Visible="false">
         <span class="example">ex.: <%=Html.Encode(Model.Example)%></span>
     </asp:ContentPlaceHolder>    
+    
     </div>
+        
 </div>

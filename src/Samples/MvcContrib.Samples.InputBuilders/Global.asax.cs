@@ -37,16 +37,6 @@ namespace MvcContrib.UI.InputBuilder
 			//ModelBinders.Binders.DefaultBinder = new Microsoft.Web.Mvc.DataAnnotations.DataAnnotationsModelBinder();
 
 			InputBuilder.BootStrap();
-			InputBuilder.SetPropertyConvention(() => new MyConventions());
-		}
-	}
-
-	public class MyConventions : DefaultConventionsFactory
-	{
-		public MyConventions():base()
-		{
-			Insert(0,new ArrayConvention());
-			
 		}
 	}
 }

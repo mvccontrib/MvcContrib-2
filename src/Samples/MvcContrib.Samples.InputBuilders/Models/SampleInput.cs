@@ -40,18 +40,6 @@ namespace Web.Models
 
 	}
 
-	public class CanDeleteAllAttribute : Attribute
-	{
-	}
-
-	public class NoDeleteAttribute : Attribute
-	{
-	}
-
-	public class NoAddAttribute : Attribute
-	{
-	}
-
 	public class ChildInput
 	{
 		public string Name { get; set; }

@@ -187,10 +187,13 @@
     <Compile Include="UI\Grid\RenderingContext.cs" />
     <Compile Include="UI\Grid\Syntax.cs" />
     <Compile Include="UI\Html\ModelVisualizerExtension.cs" />
-    <Compile Include="UI\InputBuilder\ArrayPropertyConvention.cs" />
+    <Compile Include="UI\InputBuilder\Attributes\CanDeleteAllAttribute.cs" />
     <Compile Include="UI\InputBuilder\Attributes\ExampleAttribute.cs" />
     <Compile Include="UI\InputBuilder\Attributes\LabelAttribute.cs" />
+    <Compile Include="UI\InputBuilder\Attributes\NoAddAttribute.cs" />
+    <Compile Include="UI\InputBuilder\Attributes\NoDeleteAttribute.cs" />
     <Compile Include="UI\InputBuilder\Attributes\PartialViewAttribute.cs" />
+    <Compile Include="UI\InputBuilder\Conventions\Property\ArrayPropertyConvention.cs" />
     <Compile Include="UI\InputBuilder\Conventions\Property\DateTimePropertyConvention.cs" />
     <Compile Include="UI\InputBuilder\Conventions\PropertyName\DefaultNameConvention.cs" />
     <Compile Include="UI\InputBuilder\Conventions\Property\DefaultProperyConvention.cs" />
@@ -198,7 +201,7 @@
     <Compile Include="UI\InputBuilder\Conventions\Property\GuidPropertyConvention.cs" />
     <Compile Include="UI\InputBuilder\Conventions\PropertyName\IPropertyViewModelNameConvention.cs" />
     <Compile Include="UI\InputBuilder\Conventions\Property\IPropertyViewModelFactory.cs" />
-    <Compile Include="UI\InputBuilder\DefaultConventionsFactory.cs" />
+    <Compile Include="UI\InputBuilder\DefaultPropertyConventionsFactory.cs" />
     <Compile Include="UI\InputBuilder\DefaultTypeConventionsFactory.cs" />
     <Compile Include="UI\InputBuilder\Helpers\ExpressionHelper.cs" />
     <Compile Include="UI\InputBuilder\Helpers\ReflectionHelper.cs" />
@@ -224,6 +227,7 @@
     <Compile Include="UI\InputBuilder\ViewEngine\EmbeddedResourceViewEngine.cs" />
     <Compile Include="UI\Html\HtmlHelperExtensions.cs" />
     <Compile Include="UI\Html\HtmlStringExtensions.cs" />
+    <Compile Include="UI\InputBuilder\Views\TypeViewModelExtensions.asax.cs" />
     <Compile Include="UI\MenuBuilder\ActionMenuItem.cs" />
     <Compile Include="UI\MenuBuilder\MenuHelpText.cs" />
     <Compile Include="UI\MenuBuilder\MenuTitle.cs" />
@@ -310,14 +314,8 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="UI\InputBuilder\Views\InputBuilders\SubForm.aspx">
-      <SubType>ASPXCodeBehind</SubType>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="UI\InputBuilder\Views\InputBuilders\AddNewChildRow.aspx">
-      <SubType>ASPXCodeBehind</SubType>
-    </EmbeddedResource>
+    <EmbeddedResource Include="UI\InputBuilder\Views\InputBuilders\ArrayAddButton.aspx" />
+    <EmbeddedResource Include="UI\InputBuilder\Views\InputBuilders\ArrayRemoveButton.aspx" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Configuration\" />
