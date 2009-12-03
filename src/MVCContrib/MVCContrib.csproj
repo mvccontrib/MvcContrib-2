@@ -186,6 +186,7 @@
     <Compile Include="UI\Grid\Syntax.cs" />
     <Compile Include="UI\Html\ModelVisualizerExtension.cs" />
     <Compile Include="UI\InputBuilder\Attributes\CanDeleteAllAttribute.cs" />
+    <Compile Include="UI\InputBuilder\Attributes\DisplayOrderAttribute.cs" />
     <Compile Include="UI\InputBuilder\Attributes\ExampleAttribute.cs" />
     <Compile Include="UI\InputBuilder\Attributes\LabelAttribute.cs" />
     <Compile Include="UI\InputBuilder\Attributes\NoAddAttribute.cs" />
@@ -201,6 +202,7 @@
     <Compile Include="UI\InputBuilder\Conventions\Property\IPropertyViewModelFactory.cs" />
     <Compile Include="UI\InputBuilder\DefaultPropertyConventionsFactory.cs" />
     <Compile Include="UI\InputBuilder\DefaultTypeConventionsFactory.cs" />
+    <Compile Include="UI\InputBuilder\Helpers\DisplayOrderExtensions.cs" />
     <Compile Include="UI\InputBuilder\Helpers\ExpressionHelper.cs" />
     <Compile Include="UI\InputBuilder\Helpers\ReflectionHelper.cs" />
     <Compile Include="UI\InputBuilder\Conventions\Type\DefaultTypeViewModelFactoryConvention.cs" />

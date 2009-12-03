@@ -295,6 +295,7 @@
     <Compile Include="UI\Html\Person.cs" />
     <Compile Include="UI\InputBuilder\AssemblyResourceProvider.cs" />
     <Compile Include="UI\InputBuilder\AttributeTester.cs" />
+    <Compile Include="UI\InputBuilder\DisplayOrderExtensionsSpecs.cs" />
     <Compile Include="UI\InputBuilder\HtmlExtensionsTester.cs" />
     <Compile Include="UI\InputBuilder\IInputSpecificationExtensionsTester.cs" />
     <Compile Include="UI\InputBuilder\InputBuilderTester.cs" />
