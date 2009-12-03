@@ -90,7 +90,7 @@ namespace MvcContrib.UI.InputBuilder.ViewEngine
 
 		public override VirtualFile GetFile(string virtualPath)
 		{
-			if(IsAppResourcePath(virtualPath))
+            if (IsAppResourcePath(virtualPath) && !base.FileExists(virtualPath))
 			{
 				var resource = GetResource(virtualPath);// ResourcePaths[virtualPath.ToLower()];
 				return new AssemblyResourceVirtualFile(virtualPath, resource);

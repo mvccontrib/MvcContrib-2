@@ -30,8 +30,8 @@ namespace MvcContrib.UI.InputBuilder
 
 			RegisterPathProvider(pathProvider);
 
-			ViewEngines.Engines.Clear();
-			ViewEngines.Engines.Add(new InputBuilderViewEngine(new[] {"{1}", "Shared"}));
+			//ViewEngines.Engines.Clear();
+			ViewEngines.Engines.Add(new InputBuilderViewEngine(new string[0]));
 		}
 
 		public static void SetPropertyConvention(Func<IList<IPropertyViewModelFactory>> conventionProvider)

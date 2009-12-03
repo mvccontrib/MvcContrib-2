@@ -15,15 +15,13 @@ namespace MvcContrib.UnitTests.UI.InputBuilder
 		public void The_bootstrapper_should_wire_up_the_view_engine()
 		{
 			//arrange
-			System.Web.Mvc.ViewEngines.Engines.Add(new WebFormViewEngine());
-			System.Web.Mvc.ViewEngines.Engines.Add(new WebFormViewEngine());
-
+            
 			MvcContrib.UI.InputBuilder.InputBuilder.RegisterPathProvider=FakeRegister;
 			//act
 			MvcContrib.UI.InputBuilder.InputBuilder.BootStrap();
 
 			//assert
-			Assert.AreEqual(System.Web.Mvc.ViewEngines.Engines.Count, 1);
+			Assert.AreEqual(System.Web.Mvc.ViewEngines.Engines.Count, 2);
 			Assert.IsInstanceOf<AssemblyResourceProvider>(_virtualPathProvider);
 		}
 
