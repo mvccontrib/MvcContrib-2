@@ -172,7 +172,7 @@ namespace MvcContrib.Filters
 		{
 			//todo  determin how to call into the view engine to locate a view. changed from string viewname to IView
 			return new ViewContext(controllerContext, null, new ViewDataDictionary(exception),
-			                       controllerContext.Controller.TempData);
+			                       controllerContext.Controller.TempData, controllerContext.HttpContext.Response.Output);
 		}
 
 		/// <summary>

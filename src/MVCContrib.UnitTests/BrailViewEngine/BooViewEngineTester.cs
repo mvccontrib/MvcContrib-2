@@ -133,7 +133,7 @@ namespace MvcContrib.UnitTests.BrailViewEngine
 		{
 			_mocks.ReplayAll();
 			BrailBase view = _viewEngine.Process("view", "/Master");
-            _viewContext = new ViewContext(controllerContext, view, new ViewDataDictionary(), new TempDataDictionary());             
+            _viewContext = new ViewContext(controllerContext, view, new ViewDataDictionary(), new TempDataDictionary(), new StringWriter());             
             view.Render(_viewContext, _httpContext.Response.Output);
 			Assert.IsNotNull(view.ViewContext);
 			Assert.AreEqual(view.ViewContext, view.Layout.ViewContext);
@@ -157,7 +157,7 @@ namespace MvcContrib.UnitTests.BrailViewEngine
 		private string GetViewOutput(string viewName, string masterName)
 		{
 			BrailBase view = _viewEngine.Process(viewName, masterName);
-            _viewContext = new ViewContext(controllerContext, view, new ViewDataDictionary(), new TempDataDictionary()); 
+            _viewContext = new ViewContext(controllerContext, view, new ViewDataDictionary(), new TempDataDictionary(), new StringWriter()); 
             view.Render(_viewContext, _httpContext.Response.Output);
 			return _httpContext.Response.Output.ToString();
 		}

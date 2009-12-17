@@ -36,7 +36,7 @@ namespace MvcContrib.UnitTests
 		    var view = mocks.DynamicMock<IView>();
 			mocks.ReplayAll();
 
-			_viewContext = new ViewContext(controllerContext, view, new ViewDataDictionary(), new TempDataDictionary());
+			_viewContext = new ViewContext(controllerContext, view, new ViewDataDictionary(), new TempDataDictionary(), new StringWriter());
 		}
 	}
 }

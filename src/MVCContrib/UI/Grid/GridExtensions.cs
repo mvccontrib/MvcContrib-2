@@ -123,15 +123,6 @@ namespace MvcContrib.UI.Grid
 			};
 		}
 
-		private static void RenderPartialForSection<T>(GridRowViewData<T> viewData, RenderingContext context, string partialName) 
-		{
-			var view = context.ViewEngines.TryLocatePartial(context.ViewContext, partialName);
-			var newViewData = new ViewDataDictionary<GridRowViewData<T>>(viewData);
-			var newContext = new ViewContext(context.ViewContext, context.ViewContext.View, newViewData,
-											 context.ViewContext.TempData);
-			view.Render(newContext, context.Writer);
-		}
-
 		/// <summary>
 		/// Renders the specified text at the start of every row instead of the default output.
 		/// </summary>
@@ -179,7 +170,7 @@ namespace MvcContrib.UI.Grid
 			column.CustomItemRenderer = (context, item) => {
 				var view = context.ViewEngines.TryLocatePartial(context.ViewContext, partialName);
 				var newViewData = new ViewDataDictionary<T>(item);
-				var newContext = new ViewContext(context.ViewContext, context.ViewContext.View, newViewData, context.ViewContext.TempData);
+				var newContext = new ViewContext(context.ViewContext, context.ViewContext.View, newViewData, context.ViewContext.TempData, context.ViewContext.Writer);
 				view.Render(newContext, context.Writer);
 			};
 			return column;

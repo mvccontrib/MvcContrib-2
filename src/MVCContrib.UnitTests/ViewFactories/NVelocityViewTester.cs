@@ -52,7 +52,7 @@ namespace MvcContrib.UnitTests.ViewFactories
 		{
 
 			var view = _factory.FindView(_controllerContext, "view", null,false).View;
-            var viewContext = new ViewContext(_controllerContext, view, new ViewDataDictionary(), new TempDataDictionary());
+            var viewContext = new ViewContext(_controllerContext, view, new ViewDataDictionary(), new TempDataDictionary(), new StringWriter());
 
 			_mocks.ReplayAll();
 
@@ -67,7 +67,7 @@ namespace MvcContrib.UnitTests.ViewFactories
 
 			var view = _factory.FindView(_controllerContext, "view", "master",false).View;
 
-            var viewContext = new ViewContext(_controllerContext, view, new ViewDataDictionary(), new TempDataDictionary());
+            var viewContext = new ViewContext(_controllerContext, view, new ViewDataDictionary(), new TempDataDictionary(), new StringWriter());
             
             _mocks.ReplayAll();
 
@@ -83,7 +83,7 @@ namespace MvcContrib.UnitTests.ViewFactories
 			viewData["test"] = "test";
 
 			var view = _factory.FindView(_controllerContext, "view", null,false).View;
-            var viewContext = new ViewContext(_controllerContext, view, viewData, new TempDataDictionary());
+            var viewContext = new ViewContext(_controllerContext, view, viewData, new TempDataDictionary(), new StringWriter());
 
 			_mocks.ReplayAll();
 
@@ -99,7 +99,7 @@ namespace MvcContrib.UnitTests.ViewFactories
          tempData["test"] = "test";
 
          var view = _factory.FindView(_controllerContext, "view", null, false).View;
-         var viewContext = new ViewContext(_controllerContext, view, new ViewDataDictionary(), tempData);
+         var viewContext = new ViewContext(_controllerContext, view, new ViewDataDictionary(), tempData, new StringWriter());
 
          _mocks.ReplayAll();
 

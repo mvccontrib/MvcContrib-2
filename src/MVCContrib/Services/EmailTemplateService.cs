@@ -148,7 +148,7 @@ namespace MvcContrib.Services
 					throw new InvalidOperationException(string.Format("Could not find a view named '{0}'", viewName));
 				}
 
-				var viewContext = new ViewContext(controllerContext, view, controllerContext.Controller.ViewData, controllerContext.Controller.TempData);
+				var viewContext = new ViewContext(controllerContext, view, controllerContext.Controller.ViewData, controllerContext.Controller.TempData, response.Output);
                 view.Render(viewContext, controllerContext.HttpContext.Response.Output);
 
 				response.Flush(); //flush content to our filter

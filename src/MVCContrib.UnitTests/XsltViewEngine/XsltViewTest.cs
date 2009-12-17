@@ -1,3 +1,4 @@
+using System.IO;
 using System.Web.Hosting;
 using System.Web.Mvc;
 using System.Web.Routing;
@@ -42,7 +43,7 @@ namespace MvcContrib.UnitTests.XsltViewEngine
 
 			var viewFactory = new XsltViewFactory(virtualPathProvider);
 			var viewResult = viewFactory.FindView(_context, "Greetings", null, false);
-			var viewContext = new ViewContext(_context, viewResult.View, new ViewDataDictionary(viewData), new TempDataDictionary());
+			var viewContext = new ViewContext(_context, viewResult.View, new ViewDataDictionary(viewData), new TempDataDictionary(), new StringWriter());
 
 			viewResult.View.Render(viewContext, Response.Output);
 			string actual = Response.Output.ToString().Replace("\r\n", "").Replace("\t", "");
@@ -80,7 +81,7 @@ namespace MvcContrib.UnitTests.XsltViewEngine
 
 			Assert.IsNotNull(viewResult.View);
 
-            var viewContext = new ViewContext(_context, viewResult.View, new ViewDataDictionary(vData), new TempDataDictionary());
+            var viewContext = new ViewContext(_context, viewResult.View, new ViewDataDictionary(vData), new TempDataDictionary(), new StringWriter());
             
 
 			viewResult.View.Render(viewContext, Response.Output);

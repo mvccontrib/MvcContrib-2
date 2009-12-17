@@ -1,3 +1,4 @@
+using System.IO;
 using System.Web.Mvc;
 using System.Web.Routing;
 using MvcContrib.UI.Html;
@@ -17,7 +18,7 @@ namespace MvcContrib.UnitTests.UI.Html
             var httpContext = _mocks.DynamicHttpContextBase();
             var controllerContext = new ControllerContext(httpContext, new RouteData(), _mocks.DynamicMock<ControllerBase>());
             var view = _mocks.DynamicMock<IView>();
-            var viewContext = new ViewContext(controllerContext, view, new ViewDataDictionary(), new TempDataDictionary());
+            var viewContext = new ViewContext(controllerContext, view, new ViewDataDictionary(), new TempDataDictionary(), new StringWriter());
             var html = new HtmlHelper(viewContext, _mocks.DynamicMock<IViewDataContainer>());
 
             SetupResult.For(httpContext.Request.ApplicationPath).Return(appPath);

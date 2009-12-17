@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Mvc.Html;
@@ -37,7 +38,7 @@ namespace MvcContrib.UnitTests.ViewFactories
 		    var view = _mocks.DynamicMock<IView>();
 			_mocks.ReplayAll();
             var viewPage = new ViewPage();
-            var viewContext = new ViewContext(controllerContext, view,new ViewDataDictionary(), new TempDataDictionary());
+            var viewContext = new ViewContext(controllerContext, view,new ViewDataDictionary(), new TempDataDictionary(), new StringWriter());
 
 		    
 		    _htmlHelper = new HtmlHelper(viewContext, viewPage);

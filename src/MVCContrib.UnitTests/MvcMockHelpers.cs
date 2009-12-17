@@ -127,7 +127,7 @@ namespace MvcContrib.UnitTests
 
             var controllerContext = new ControllerContext(httpContext, new RouteData(), controller);            
             
-            return new ViewContext(controllerContext, view, new ViewDataDictionary(), new TempDataDictionary());
+            return new ViewContext(controllerContext, view, new ViewDataDictionary(), new TempDataDictionary(), new StringWriter());
         }
 
 		public static TController SetupControllerContext<TController>(this TController controller)  where TController : Controller
