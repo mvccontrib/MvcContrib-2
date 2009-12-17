@@ -1,3 +1,4 @@
+using System.IO;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
@@ -20,7 +21,7 @@ namespace MvcContrib.TestHelper
 				mockControllerContext,
 				mockView,
 				viewData,
-				new TempDataDictionary());
+				new TempDataDictionary(), new StringWriter());
 
 			var mockViewDataContainer = mocks.DynamicMock<IViewDataContainer>();
 

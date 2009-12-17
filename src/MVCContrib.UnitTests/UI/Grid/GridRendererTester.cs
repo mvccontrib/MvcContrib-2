@@ -358,6 +358,7 @@ namespace MvcContrib.UnitTests.UI.Grid
 			var renderer = new HtmlTableGridRenderer<Person>(_engines);
 
 			var viewContext = MockRepository.GenerateStub<ViewContext>();
+			viewContext.Writer = _writer;
 			viewContext.View = MockRepository.GenerateStub<IView>();
 			viewContext.TempData = new TempDataDictionary();
 			var response = MockRepository.GenerateStub<HttpResponseBase>();
