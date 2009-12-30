@@ -212,5 +212,12 @@ namespace MvcContrib.UnitTests.TestHelper
 			Assert.AreEqual(testValue,
 			                controller.HttpContext.Cache[testKey]);
 		}
+
+		[Test]
+		public void Initializes_UrlHelper()
+		{
+			var controller = builder.CreateController<TestHelperController>();
+			controller.Url.ShouldNotBeNull();
+		}
 	}
 }

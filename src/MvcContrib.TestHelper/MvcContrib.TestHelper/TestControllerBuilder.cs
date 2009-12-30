@@ -159,6 +159,7 @@ namespace MvcContrib.TestHelper
 			var controllerContext = new ControllerContext(HttpContext, RouteData, controller);
 			controller.ControllerContext = controllerContext;
 			controller.TempData = TempDataDictionary;
+			controller.Url = new UrlHelper(controllerContext.RequestContext);
 		}
 
 
