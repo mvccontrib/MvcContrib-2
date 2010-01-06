@@ -66,6 +66,19 @@ namespace MvcContrib.UnitTests.Filters
 			context.Controller.TempData[PassParametersDuringRedirectAttribute.RedirectParameterPrefix + "viewModel"].ShouldBeNull();
 		}
 
+		[Test]
+		public void Should_remove_items_from_routevalues_once_stored_in_tempdata()
+		{
+			var result = new RedirectToRouteResult<SampleController>(x => x.Index(_someObject, 5));
+			var context = new ActionExecutedContext() {
+				Result = result,
+				Controller = new SampleController()
+			};
+
+			_filter.OnActionExecuted(context);
+			result.RouteValues.ContainsKey("viewModel").ShouldBeFalse();
+		}
+
 		public class SomeObject
 		{
 			public int One { get; set; }

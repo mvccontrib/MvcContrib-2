@@ -38,11 +38,6 @@ namespace MvcContrib
 		public static RedirectToRouteResult RedirectToAction<T>(this Controller controller, Expression<Action<T>> action)
 			where T : Controller
 		{
-			/*var body = action.Body as MethodCallExpression;
-			AddParameterValuesFromExpressionToTempData(controller, body);
-			var routeValues = Microsoft.Web.Mvc.Internal.ExpressionHelper.GetRouteValuesFromExpression(action);
-			RemoveReferenceTypesFromRouteValues(routeValues);
-			return new RedirectToRouteResult(routeValues);*/
 			return new RedirectToRouteResult<T>(action);
 		}
 
@@ -57,36 +52,6 @@ namespace MvcContrib
 			       && type.Name.EndsWith("Controller", StringComparison.OrdinalIgnoreCase)
 			       && !type.IsAbstract
 			       && typeof(IController).IsAssignableFrom(type);
-		}
-
-
-		// Copied this method from Microsoft.Web.Mvc.dll (MVC Futures)...
-		// Microsoft.Web.Mvc.Internal.ExpresisonHelper.AddParameterValuesFromExpressionToDictionary().
-		// The only change I made is saving the parameter values to TempData instead
-		// of a RouteValueDictionary.
-		private static void AddParameterValuesFromExpressionToTempData(Controller controller, MethodCallExpression call)
-		{
-			ParameterInfo[] parameters = call.Method.GetParameters();
-			if(parameters.Length > 0)
-			{
-				for(int i = 0; i < parameters.Length; i++)
-				{
-					Expression expression = call.Arguments[i];
-					object obj2 = null;
-					ConstantExpression expression2 = expression as ConstantExpression;
-					if(expression2 != null)
-					{
-						obj2 = expression2.Value;
-					}
-					else
-					{
-						Expression<Func<object>> expression3 =
-							Expression.Lambda<Func<object>>(Expression.Convert(expression, typeof(object)), new ParameterExpression[0]);
-						obj2 = expression3.Compile()();
-					}
-					controller.TempData[PassParametersDuringRedirectAttribute.RedirectParameterPrefix + parameters[i].Name] = obj2;
-				}
-			}
 		}
 	}
 }

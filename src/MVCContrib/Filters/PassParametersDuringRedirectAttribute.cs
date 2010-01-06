@@ -4,6 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Web.Mvc;
+using System.Web.Routing;
 using MvcContrib.ActionResults;
 
 namespace MvcContrib.Filters
@@ -34,10 +35,24 @@ namespace MvcContrib.Filters
 		public override void OnActionExecuted(ActionExecutedContext filterContext)
 		{
 			var result = filterContext.Result as IControllerExpressionContainer;
-
-			if(result != null && result.Expression != null)
+			var redirectResult = filterContext.Result as RedirectToRouteResult;
+			
+			if(result != null && result.Expression != null && redirectResult != null)
 			{
-				AddParameterValuesFromExpressionToTempData(filterContext.Controller.TempData, result.Expression);
+				var parsedParameters = AddParameterValuesFromExpressionToTempData(filterContext.Controller.TempData, result.Expression);
+				RemoveReferenceTypesFromRouteValues(redirectResult.RouteValues, parsedParameters);
+			}
+		}
+
+		private void RemoveReferenceTypesFromRouteValues(RouteValueDictionary dictionary, IDictionary<string, object> parameters)
+		{
+			var keysToRemove = parameters
+				.Where(x => x.Value != null && !(x.Value is string || x.Value.GetType().IsSubclassOf(typeof(ValueType))))
+				.Select(x => x.Key);
+
+			foreach(var key in keysToRemove)
+			{
+				dictionary.Remove(key);
 			}
 		}
 
@@ -45,9 +60,10 @@ namespace MvcContrib.Filters
 		// Microsoft.Web.Mvc.Internal.ExpresisonHelper.AddParameterValuesFromExpressionToDictionary().
 		// The only change I made is saving the parameter values to TempData instead
 		// of a RouteValueDictionary.
-		private void AddParameterValuesFromExpressionToTempData(TempDataDictionary tempData, MethodCallExpression call)
+		private IDictionary<string, object> AddParameterValuesFromExpressionToTempData(TempDataDictionary tempData, MethodCallExpression call)
 		{
 			ParameterInfo[] parameters = call.Method.GetParameters();
+			var parsedParameters = new Dictionary<string, object>();
 
 			if(parameters.Length > 0)
 			{
@@ -67,8 +83,11 @@ namespace MvcContrib.Filters
 					}
 
 					tempData[RedirectParameterPrefix + parameters[i].Name] = obj2;
+					parsedParameters.Add(parameters[i].Name, obj2);
 				}
 			}
+
+			return parsedParameters;
 		}
 
 		private void LoadParameterValuesFromTempData(ActionExecutingContext filterContext)
