@@ -24,8 +24,13 @@ namespace MvcContrib.UI.Grid
 			var inferredName = memberExpression == null ? null : memberExpression.Member.Name;
 
 			var column = new GridColumn<T>(propertySpecifier.Compile(), inferredName, type);
-			_columns.Add(column);
+			Add(column);
 			return column;
+		}
+
+		protected IList<GridColumn<T>> Columns
+		{
+			get { return _columns; }
 		}
 
 		/// <summary>
@@ -35,7 +40,7 @@ namespace MvcContrib.UI.Grid
 		public IGridColumn<T> For(string name) 
 		{
 			var column = new GridColumn<T>(x => string.Empty, name, null);
-			_columns.Add(column);
+			Add(column);
 			return column.Partial(name);
 		}
 
@@ -84,9 +89,14 @@ namespace MvcContrib.UI.Grid
 			return body;
 		}
 
-		void ICollection<GridColumn<T>>.Add(GridColumn<T> column)
+		protected virtual void Add(GridColumn<T> column)
 		{
 			_columns.Add(column);
+		}
+
+		void ICollection<GridColumn<T>>.Add(GridColumn<T> column)
+		{
+			Add(column);
 		}
 
 		void ICollection<GridColumn<T>>.Clear()

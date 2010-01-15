@@ -8,7 +8,7 @@ namespace MvcContrib.UI.Grid
 	/// </summary>
 	public class GridModel<T>  : IGridModel<T> where T : class
 	{
-		private readonly ColumnBuilder<T> _columnBuilder = new ColumnBuilder<T>();
+		private readonly ColumnBuilder<T> _columnBuilder;
 		private readonly GridSections<T> _sections = new GridSections<T>();
 		private IGridRenderer<T> _renderer = new HtmlTableGridRenderer<T>();
 		private string _emptyText;
@@ -43,6 +43,7 @@ namespace MvcContrib.UI.Grid
 		public GridModel()
 		{
 			_emptyText = "There is no data available.";
+			_columnBuilder = CreateColumnBuilder();
 		}
 
 		/// <summary>
@@ -103,6 +104,11 @@ namespace MvcContrib.UI.Grid
 		public void RenderUsing(IGridRenderer<T> renderer)
 		{
 			_renderer = renderer;
+		}
+
+		protected virtual ColumnBuilder<T> CreateColumnBuilder()
+		{
+			return new ColumnBuilder<T>();
 		}
 	}
 }

@@ -189,7 +189,7 @@ namespace MvcContrib.UI.Grid
 		/// </summary>
 		public static IGridWithOptions<T> AutoGenerateColumns<T>(this IGrid<T> grid) where T : class
 		{
-			return grid.WithModel(new AutoColumnGridModel<T>());
+			return grid.WithModel(new AutoColumnGridModel<T>(ModelMetadataProviders.Current));
 		}
 	}
 }

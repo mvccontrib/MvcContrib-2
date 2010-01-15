@@ -1,28 +1,41 @@
 using System;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Web.Mvc;
 
 namespace MvcContrib.UI.Grid
 {
 	public class AutoColumnGridModel<T> : GridModel<T> where T : class
 	{
-		public AutoColumnGridModel()
+		public AutoColumnGridModel(ModelMetadataProvider metadataProvider)
 		{
-			var properties = typeof(T).GetProperties(BindingFlags.Instance | BindingFlags.Public);
+			var modelMetadata = metadataProvider.GetMetadataForType(() => null, typeof(T));
 
-			foreach(var property in properties)
+			foreach(var property in modelMetadata.Properties)
 			{
-				var propertyExpression = PropertyToExpression(property);
-				Column.For(propertyExpression);
+				if(! property.ShowForDisplay) continue;
+
+				var column = Column.For(PropertyToExpression(property));
+
+				if(! string.IsNullOrEmpty(property.DisplayName))
+				{
+					column.Named(property.DisplayName);
+				}
+
+				if(! string.IsNullOrEmpty(property.DisplayFormatString))
+				{
+					column.Format(property.DisplayFormatString);
+				}
 			}
 		}
 
-		private Expression<Func<T, object>> PropertyToExpression(PropertyInfo property)
+		private Expression<Func<T, object>> PropertyToExpression(ModelMetadata property)
 		{
 			var parameterExpression = Expression.Parameter(typeof(T), "x");
-			Expression propertyExpression = Expression.Property(parameterExpression, property);
+			Expression propertyExpression = Expression.Property(parameterExpression, property.PropertyName);
 
-			if(property.PropertyType.IsValueType)
+			if(property.ModelType.IsValueType)
 			{
 				propertyExpression = Expression.Convert(propertyExpression, typeof(object));
 			}
@@ -31,10 +44,9 @@ namespace MvcContrib.UI.Grid
 				typeof(Func<T, object>),
 				propertyExpression,
 				parameterExpression
-			);
+				);
 
 			return (Expression<Func<T, object>>)expression;
 		}
-
 	}
 }
