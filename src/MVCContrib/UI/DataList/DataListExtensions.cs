@@ -16,7 +16,7 @@ namespace MvcContrib.UI.DataList
 		/// <returns></returns>
 		public static DataList<T> DataList<T>(this HtmlHelper helper, IEnumerable<T> dataSource)
 		{
-			var list = new DataList<T>(dataSource, helper.ViewContext.HttpContext.Response.Output);
+			var list = new DataList<T>(dataSource, helper.ViewContext.Writer);
 			return list;
 		}
 
@@ -31,7 +31,7 @@ namespace MvcContrib.UI.DataList
 		public static DataList<T> DataList<T>(this HtmlHelper helper, IEnumerable<T> dataSource,
 		                                      params Func<object, object>[] tableAttributes)
 		{
-			var list = new DataList<T>(dataSource, helper.ViewContext.HttpContext.Response.Output, new Hash(tableAttributes));
+			var list = new DataList<T>(dataSource, helper.ViewContext.Writer, new Hash(tableAttributes));
 			return list;
 		}
 	}
