@@ -132,12 +132,17 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="Routing\CompressResponseAttribute.cs" />
     <Compile Include="Routing\DebugHttpHandler.cs" />
     <Compile Include="Routing\DebugRoute.cs" />
     <Compile Include="Routing\DebugRouteHandler.cs" />
     <Compile Include="Routing\MvcRoute.cs" />
     <Compile Include="Routing\RegexRoute.cs" />
+    <Compile Include="Routing\RouteAttributeUtility.cs" />
     <Compile Include="Routing\RouteDebugger.cs" />
+    <Compile Include="Routing\UrlRouteAttribute.cs" />
+    <Compile Include="Routing\UrlRouteParameterConstraintAttribute.cs" />
+    <Compile Include="Routing\UrlRouteParameterDefaultAttribute.cs" />
     <Compile Include="Services\EmailTemplateService.cs" />
     <Compile Include="MetaData\DefaultConvertible.cs" />
     <Compile Include="MetaData\NameValueDeserializer.cs" />
