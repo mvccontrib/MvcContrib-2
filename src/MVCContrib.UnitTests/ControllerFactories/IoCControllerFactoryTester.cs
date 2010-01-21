@@ -92,10 +92,11 @@ namespace MvcContrib.UnitTests.ControllerFactories.IoCControllerFactoryTester
 
 
 			[Test,
-			 ExpectedException(typeof(Exception),
+             ExpectedException(typeof(System.Web.HttpException), 
 			 	ExpectedMessage = "Could not find a type for the controller name 'DoesNotExist'")]
 			public void Should_throw_if_controller_type_cannot_be_resolved()
 			{
+                //HttpException(0x194,
 				IControllerFactory controllerFactory = new IoCControllerFactory(_dependencyResolver);
 				controllerFactory.InitializeWithControllerTypes(typeof(IocTestController));
 

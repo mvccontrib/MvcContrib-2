@@ -3,6 +3,7 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using MvcContrib.Interfaces;
 using MvcContrib.Services;
+using System.Web;
 
 namespace MvcContrib.ControllerFactories
 {
@@ -42,7 +43,7 @@ namespace MvcContrib.ControllerFactories
 				}
 			}
 			else
-				throw new Exception(string.Format("Could not find a type for the controller name '{0}'", controllerName));
+                throw new HttpException(404, string.Format("Could not find a type for the controller name '{0}'", controllerName));
 		}
 
         public override void ReleaseController(IController controller)
