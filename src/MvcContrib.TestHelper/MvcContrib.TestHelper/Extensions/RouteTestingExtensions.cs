@@ -97,23 +97,26 @@ namespace MvcContrib.TestHelper
             for (int i = 0; i < methodCall.Arguments.Count; i++)
             {
                 string name = methodCall.Method.GetParameters()[i].Name;
-                object value = null;
+                object actualValue = null;
+				object expectedValue = null;
 
                 switch ( methodCall.Arguments[ i ].NodeType )
                 {
                     case ExpressionType.Constant:
-                        value = ( (ConstantExpression)methodCall.Arguments[ i ] ).Value;
+                        actualValue = ( (ConstantExpression)methodCall.Arguments[ i ] ).Value;
                         break;
 
 					case ExpressionType.New:
 					case ExpressionType.MemberAccess:
 					case ExpressionType.Convert:
-                        value = Expression.Lambda(methodCall.Arguments[ i ]).Compile().DynamicInvoke();
+                        actualValue = Expression.Lambda(methodCall.Arguments[ i ]).Compile().DynamicInvoke();
                         break;
                 }
 
-				value = (value == null ? value : value.ToString());
-                routeData.Values.GetValue(name).ShouldEqual(value,"Value for parameter did not match");
+				actualValue = (actualValue == null ? actualValue : actualValue.ToString());
+				expectedValue = routeData.Values.GetValue(name);
+				
+				expectedValue.ShouldEqual(actualValue, String.Format("Value for parameter '{0}' did not match: expected '{1}' but was '{2}'.", name, expectedValue, actualValue));
             }
 
             return routeData;
