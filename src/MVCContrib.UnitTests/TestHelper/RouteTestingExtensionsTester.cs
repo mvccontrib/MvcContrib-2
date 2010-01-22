@@ -14,49 +14,59 @@ namespace MvcContrib.UnitTests.TestHelper
     [TestFixture]
     public class RouteTestingExtensionsTester
     {
-        public class FunkyController : Controller
-        {
-            public ActionResult Index()
-            {
-                return null;
-            }
+		public class FunkyController : Controller
+		{
+			public ActionResult Index()
+			{
+				return null;
+			}
 
-            public ActionResult Bar(string id)
-            {
-                return null;
-            }
+			public ActionResult Bar(string id)
+			{
+				return null;
+			}
 
-            public ActionResult New()
-            {
-                return null;
-            }
-			
+			public ActionResult New()
+			{
+				return null;
+			}
+
 			public ActionResult List(Bar bar)
 			{
 				return null;
 			}
 
-        	public ActionResult Foo(int id)
-        	{
-        		return null;
-        	}
+			public ActionResult Foo(int id)
+			{
+				return null;
+			}
 
-            [AcceptVerbs(HttpVerbs.Post)]
-            public ActionResult Zordo(int id)
-            {
-                return null;
-            }
+			[AcceptVerbs(HttpVerbs.Post)]
+			public ActionResult Zordo(int id)
+			{
+				return null;
+			}
 
 			public ActionResult Guid(Guid id)
 			{
 				return null;
 			}
 
-        	public ActionResult Nullable(int? id)
-        	{
-        		return null;
-        	}
-        }
+			public ActionResult Nullable(int? id)
+			{
+				return null;
+			}
+
+			public ActionResult DateTime(DateTime id)
+			{
+				return null;
+			}
+
+			public ActionResult NullableDateTime(DateTime? id)
+			{
+				return null;
+			}
+		}
 		public class Bar
 		{
 			
@@ -279,5 +289,17 @@ namespace MvcContrib.UnitTests.TestHelper
     	{
 			OutBoundUrl.Of<FunkyController>(c => c.Nullable(24)).ShouldMapToUrl("/funky/nullable/24");
     	}
-    }
+
+		[Test]
+		public void should_match_datetime()
+		{
+			"~/funky/DateTime/2009-1-1".Route().ShouldMapTo<FunkyController>(x => x.DateTime(new DateTime(2009, 1, 1)));
+		}
+
+		[Test]
+		public void should_match_nullabledatetime()
+		{
+			"~/funky/NullableDateTime/2009-1-1".Route().ShouldMapTo<FunkyController>(x => x.NullableDateTime(new DateTime(2009, 1, 1)));
+		}
+	}
 }
