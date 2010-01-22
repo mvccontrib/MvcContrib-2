@@ -24,5 +24,9 @@ namespace MvcContrib.FluentHtml.Elements
 		/// <param name="behaviors">Behaviors to apply to the element.</param>
 		public Password(string name, MemberExpression forMember, IEnumerable<IBehaviorMarker> behaviors)
 			: base(HtmlInputType.Password, name, forMember, behaviors) { }
+
+		protected override void ApplyModelState(System.Web.Mvc.ModelState state) {
+			//no-op - passwords should not be restored.
+		}
 	}
 }

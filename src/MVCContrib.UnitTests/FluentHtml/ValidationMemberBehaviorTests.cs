@@ -125,5 +125,17 @@ namespace MvcContrib.UnitTests.FluentHtml
 			var element = checkbox.ToString().ShouldHaveHtmlNode("Done");
 			element.ShouldHaveAttribute("value").WithValue("true");
 		}
+
+    	[Test]
+    	public void does_not_restore_value_for_password_field()
+    	{
+			stateDictionary.Add("Password", new ModelState() { Value = new ValueProviderResult("foo", "foo", CultureInfo.CurrentCulture) });
+
+			var target = new ValidationBehavior(() => stateDictionary);
+			expression = x => x.Password;
+			var passwordField = new Password(expression.GetNameFor(), expression.GetMemberExpression(), new List<IBehaviorMarker> { target });
+			var element = passwordField.ToString().ShouldHaveHtmlNode("Password");
+			element.ShouldHaveAttribute(HtmlAttribute.Value).WithValue("");
+    	}
 	}
 }
