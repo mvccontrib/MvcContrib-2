@@ -4,6 +4,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using Rhino.Mocks;
+using System.Reflection;
 
 namespace MvcContrib.TestHelper
 {
@@ -96,25 +97,52 @@ namespace MvcContrib.TestHelper
             //check parameters
             for (int i = 0; i < methodCall.Arguments.Count; i++)
             {
-                string name = methodCall.Method.GetParameters()[i].Name;
-                object value = null;
+				ParameterInfo param = methodCall.Method.GetParameters()[i];
+				bool isNullable = param.ParameterType.UnderlyingSystemType.IsGenericType && param.ParameterType.UnderlyingSystemType.GetGenericTypeDefinition() == typeof(Nullable<>);
+				string name = param.Name;
+				object expectedValue = routeData.Values.GetValue(name);
+				object actualValue = null;
+				Expression expressionToEvaluate = methodCall.Arguments[i];
 
-                switch ( methodCall.Arguments[ i ].NodeType )
-                {
-                    case ExpressionType.Constant:
-                        value = ( (ConstantExpression)methodCall.Arguments[ i ] ).Value;
-                        break;
+				// If the parameter is nullable and the expression is a Convert UnaryExpression, 
+				// we actually want to test against the value of the expression's operand.
+				if (expressionToEvaluate.NodeType == ExpressionType.Convert
+					&& expressionToEvaluate is UnaryExpression)
+				{
+					expressionToEvaluate = ((UnaryExpression)expressionToEvaluate).Operand;
+				}
+
+				switch (expressionToEvaluate.NodeType)
+				{
+					case ExpressionType.Constant:
+						actualValue = ((ConstantExpression)expressionToEvaluate).Value;
+						break;
 
 					case ExpressionType.New:
 					case ExpressionType.MemberAccess:
-					case ExpressionType.Convert:
-                        value = Expression.Lambda(methodCall.Arguments[ i ]).Compile().DynamicInvoke();
-                        break;
-                }
+						actualValue = Expression.Lambda(expressionToEvaluate).Compile().DynamicInvoke();
+						break;
+				}
 
-				value = (value == null ? value : value.ToString());
-                routeData.Values.GetValue(name).ShouldEqual(value,"Value for parameter did not match");
-            }
+				if (isNullable && (string)expectedValue == String.Empty && actualValue == null)
+				{
+					// The parameter is nullable so an expected value of '' is equivalent to null;
+					continue;
+				}
+
+				if (actualValue is DateTime)
+				{
+					expectedValue = Convert.ToDateTime(expectedValue);
+				}
+				else
+				{
+					actualValue = (actualValue == null ? actualValue : actualValue.ToString());
+				}
+
+				expectedValue.ShouldEqual(actualValue, 
+					String.Format("Value for parameter '{0}' did not match: expected '{1}' but was '{2}'.", 
+										name, expectedValue, actualValue));
+			}
 
             return routeData;
         }
