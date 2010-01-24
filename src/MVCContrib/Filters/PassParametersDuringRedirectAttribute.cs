@@ -90,13 +90,25 @@ namespace MvcContrib.Filters
 			return parsedParameters;
 		}
 
-		private void LoadParameterValuesFromTempData(ActionExecutingContext filterContext)
-		{
-			foreach(var parameterValue in GetStoredParameterValues(filterContext))
-			{
-				filterContext.ActionParameters[GetParameterName(parameterValue.Key)] = parameterValue.Value;
-			}
-		}
+	    private void LoadParameterValuesFromTempData(ActionExecutingContext filterContext)
+	    {
+	        var actionParameters = filterContext.ActionDescriptor.GetParameters();
+
+	        foreach(var storedParameterValue in GetStoredParameterValues(filterContext))
+	        {
+	            var storedParameterName = GetParameterName(storedParameterValue.Key);
+	            if(actionParameters.Any(actionParameter => actionParameter.ParameterName == storedParameterName
+	                                                       &&
+	                                                       actionParameter.ParameterType ==
+	                                                       storedParameterValue.Value.GetType())
+	               && filterContext.ActionParameters.ContainsKey(storedParameterName) == false)
+	            {
+	                filterContext.ActionParameters[storedParameterName] = storedParameterValue.Value;
+
+	                filterContext.Controller.TempData.Keep(storedParameterValue.Key);
+	            }
+	        }
+	    }
 
 		private string GetParameterName(string key)
 		{

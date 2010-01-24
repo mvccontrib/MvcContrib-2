@@ -21,7 +21,7 @@ namespace MvcContrib.UnitTests.Filters
 		}
 
 		[Test]
-		public void OnActionExecuting_should_load_the_parameter_values_out_of_TempData_when_they_match_the_parameters_of_the_action_being_executed()
+		public void OnActionExecuting_should_load_the_parameter_values_out_of_TempData_when_they_match_both_name_and_type_of_a_parameter_of_the_action_being_executed()
 		{
 		    
 		    var context = new ActionExecutingContext()
@@ -56,8 +56,8 @@ namespace MvcContrib.UnitTests.Filters
 
             _filter.OnActionExecuting(context);
 
-            context.ActionParameters["theNameOfThisParameterDoesNotMatch"].ShouldBeNull();
-            context.ActionParameters["param2"].ShouldBeNull();
+            context.ActionParameters.ContainsKey("theNameOfThisParameterDoesNotMatch").ShouldBeFalse();
+            context.ActionParameters.ContainsKey("param2").ShouldBeFalse();
         }
 
         [Test]
@@ -85,10 +85,14 @@ namespace MvcContrib.UnitTests.Filters
         [Test]
         public void Non_matching_stored_parameter_values_should_be_not_be_kept_in_TempData()
         {
+            var actionDescriptorWithNoParameters = MockRepository.GenerateStub<ActionDescriptor>();
+            actionDescriptorWithNoParameters.Stub(ad => ad.GetParameters()).Return(new ParameterDescriptor[] { });
+
             var context = new ActionExecutingContext
             {
                 Controller = new SampleController(),
-                ActionParameters = new Dictionary<string, object>()
+                ActionParameters = new Dictionary<string, object>(),
+                ActionDescriptor = actionDescriptorWithNoParameters
             };
 
             context.Controller.TempData[PassParametersDuringRedirectAttribute.RedirectParameterPrefix + "viewModel"] = _someObject;
