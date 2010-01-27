@@ -15,11 +15,13 @@ MvcContrib includes or is derivative of works distributed under the licenses lis
 Asp.Net MVC
 -----------------
 Website: http://www.asp.net/mvc/
+Copyright: (c) 2009-2010 Microsoft
 License: Ms-Pl
 
 Boo
 ----------------
 Website: http://docs.codehaus.org/display/BOO/Home
+Copyright: Copyright (c) 2009 Rodrigo B. de Oliveira (rbo@acm.org)
 License: MIt/BSD Style (http://svn.boo.codehaus.org/browse/boo/boo/trunk/license.txt?r=HEAD)
 
 Castle Project
