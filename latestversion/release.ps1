@@ -14,4 +14,4 @@ function DownloadFiles {
 }
 
 DownloadFiles 
-& "..\bin\codeplex\createrelease.exe" "1.5.X.0"
+& "..\bin\codeplex\createrelease.exe" "2.0.X.0"
