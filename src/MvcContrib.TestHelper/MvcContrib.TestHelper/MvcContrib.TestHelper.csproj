@@ -73,6 +73,15 @@
     <Compile Include="TestControllerBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="IWriteableHttpFileCollection.cs" />
+    <Compile Include="Ui\InputTesterBase.cs" />
+    <Compile Include="Ui\Helper\EnumerableExtensions.cs" />
+    <Compile Include="Ui\IInputTester.cs" />
+    <Compile Include="Ui\IInputTesterFactory.cs" />
+    <Compile Include="Ui\InputForm.cs" />
+    <Compile Include="Ui\InputTesterFactory.cs" />
+    <Compile Include="Ui\TextInputTester.cs" />
+    <Compile Include="Ui\TextInputTesterFactory.cs" />
+    <Compile Include="Ui\IBrowserDriver.cs" />
     <Compile Include="WebTestUtility.cs" />
     <Compile Include="WriteableHttpFileCollection.cs" />
   </ItemGroup>
