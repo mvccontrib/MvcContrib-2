@@ -40,8 +40,28 @@ namespace MvcContrib.UnitTests.Filters
             context.ActionParameters["id"].ShouldEqual(5);
 		}
 
+        [Test]
+        public void OnActionExecuting_should_load_the_parameter_values_out_of_TempData_when_they_match_the_name_and_are_assignable_to_the_type_of_a_parameter_of_the_action_being_executed()
+        {
+            var objectAssignableToSomeObject = new ObjectAssignableToSomeObject();
+
+            var context = new ActionExecutingContext()
+            {
+                Controller = new SampleController(),
+                ActionParameters = new Dictionary<string, object>(),
+                ActionDescriptor = GetActionDescriptorStubForIndexAction()
+            };
+
+            context.Controller.TempData[PassParametersDuringRedirectAttribute.RedirectParameterPrefix + "viewModel"] = objectAssignableToSomeObject;
+            
+            _filter.OnActionExecuting(context);
+
+            context.ActionParameters["viewModel"].ShouldEqual(objectAssignableToSomeObject);
+            
+        }
+
 	    [Test]
-        public void OnActionExecuting_should_not_load_the_parameter_values_out_of_TempData_which_do_not_match_both_name_and_type_of_a_parameter_of_the_action_being_executed()
+        public void OnActionExecuting_should_not_load_the_parameter_values_out_of_TempData_which_do_not_have_matching_name_and_assignable_type_of_a_parameter_of_the_action_being_executed()
         {
 
             var context = new ActionExecutingContext()
@@ -172,6 +192,11 @@ namespace MvcContrib.UnitTests.Filters
 			public int One { get; set; }
 			public string Two { get; set; }
 		}
+
+        public class ObjectAssignableToSomeObject : SomeObject
+        {
+            
+        }
 
 		public class SampleController : Controller
 		{
