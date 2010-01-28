@@ -145,7 +145,14 @@
 				workingdir="." />
 	</target>
 
-	<target name="package">
+  <target name="merge">
+    <exec program="bin\ilmerge\ilmerge.exe"
+          commandline="/t:library /out:src\MvcContrib.TestHelper.WatiN\bin\${project.config}\MvcContrib.WatiN.dll  .\src\MvcContrib.TestHelper.WatiN\bin\${project.config}\MvcContrib.TestHelper.WatiN.dll .\src\MvcContrib.TestHelper.WatiN\bin\${project.config}\watin.core.dll .\src\MvcContrib.TestHelper.WatiN\bin\${project.config}\MvcContrib.TestHelper.dll"
+					                                                     
+          workingdir="." />
+  </target>
+
+  <target name="package" depends="merge">
 		<!-- TODO: How do we generate ChangeLog now that we're using git?-->
 		<!-- 		
 		  MvcContrib
@@ -173,7 +180,8 @@
 				<include name="/**/bin/${project.config}/mvccontrib.testhelper.xml" />
 				<include name="/**/bin/${project.config}/mvccontrib.fluenthtml.dll"/>
 				<include name="/**/bin/${project.config}/mvccontrib.fluenthtml.xml"/>
-			</fileset>
+        <include name="/**/bin/${project.config}/mvccontrib.watin.dll"/>
+      </fileset>
 		</copy>
 		<copy todir="${ContribRelease}" >
 			<fileset basedir=".">

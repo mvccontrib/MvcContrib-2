@@ -1,0 +1,85 @@
+MvcContrib
+ASP.NET Open Source Gallery at CodePlex Foundation
+Copyright 2010 CodePlex Foundation, Inc.
+Copyright 2007-2010 Eric Hexter, Jeffrey Palermo
+
+
+This product includes software developed at
+The CodePlex Foundation (http://www.codeplex.org/).
+
+THIRD-PARTY CREDITS AND COPYRIGHT NOTICES GO HERE
+
+MvcContrib includes or is derivative of works distributed under the licenses listed below. The full text for most of the licenses listed below can be found in the LICENSE.txt file accompanying each work. The original copyright notices have been preserved within the respective files and or packages. Please refer to the specific files and/or packages for more detailed information about the authors, copyright notices, and licenses.
+
+3rd Party Libraries
+Asp.Net MVC
+-----------------
+Website: http://www.asp.net/mvc/
+Copyright: (c) 2009-2010 Microsoft
+License: Ms-Pl
+
+Boo
+----------------
+Website: http://docs.codehaus.org/display/BOO/Home
+Copyright: Copyright (c) 2009 Rodrigo B. de Oliveira (rbo@acm.org)
+License: MIt/BSD Style (http://svn.boo.codehaus.org/browse/boo/boo/trunk/license.txt?r=HEAD)
+
+Castle Project
+----------------
+Website: http://www.castleproject.org/
+License: Apache Software Foundation License 2.0
+
+Codeplex API
+----------------
+Website: http://codeplex.codeplex.com/wikipagetitle=CodePlexNETAPI&referringTitle=CodePlexAPI
+License: http://codeplex.codeplex.com/license
+
+Common Service Locator 
+----------------
+http://commonservicelocator.codeplex.com
+Licsense: Ms-Pl
+
+HtmlAgilityPack
+----------------
+Website: http://www.codeplex.com/htmlagilitypack
+License: Ms-Pl
+
+Mvp.Xml
+----------------
+Website: http://www.codeplex.com/MVPXML
+License: BSD
+
+NAnt
+----------------
+Website: http://nant.sourceforge.net/
+License: GNU GPL v2 or Higher (http://nant.sourceforge.net/license.html)
+
+NUnit
+----------------
+Website: www.nunit.com
+License: The zlib/libpng License (http://nunit.com/index.php?p=license&r=2.5.3)
+
+Rhino Mocks
+----------------
+Website: http://www.ayende.com/projects/rhino-mocks.aspx
+License: BSD
+
+Spring.Net
+----------------
+Website: http://www.springframework.net/
+License: Apache License, Version 2.0 (http://www.springframework.net/license.html)
+
+Structure Map
+----------------
+Website: http://structuremap.sourceforge.net/Default.htm
+License: Apache License, Version 2.0
+
+Unity
+----------------
+website: http://unity.codeplex.com/
+License: MS-Pl
+
+Yahoo.Yui.Compressor
+----------------
+Website: http://developer.yahoo.com/yui/compressor/
+License: BSD http://developer.yahoo.com/yui/license.html

@@ -38,6 +38,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MvcContrib.ViewEngines.NVel
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MvcContrib.IncludeHandling", "MvcContrib.IncludeHandling\MvcContrib.IncludeHandling.csproj", "{1DC33742-317D-4E6A-AD80-BDA57C22BBC0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MvcContrib.TestHelper.WatiN", "MvcContrib.TestHelper.WatiN\MvcContrib.TestHelper.WatiN.csproj", "{32D78201-34A8-4E74-959D-5EE7C13D6639}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -92,6 +94,10 @@ Global
 		{1DC33742-317D-4E6A-AD80-BDA57C22BBC0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1DC33742-317D-4E6A-AD80-BDA57C22BBC0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1DC33742-317D-4E6A-AD80-BDA57C22BBC0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{32D78201-34A8-4E74-959D-5EE7C13D6639}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{32D78201-34A8-4E74-959D-5EE7C13D6639}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{32D78201-34A8-4E74-959D-5EE7C13D6639}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{32D78201-34A8-4E74-959D-5EE7C13D6639}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

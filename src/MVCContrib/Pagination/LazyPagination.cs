@@ -23,7 +23,7 @@ namespace MvcContrib.Pagination
 		/// <summary>
 		/// The query to execute.
 		/// </summary>
-		public IQueryable<T> Query { get; private set; }
+		public IQueryable<T> Query { get; protected set; }
 		public int PageNumber { get; private set; }
 
 
