@@ -180,7 +180,8 @@
 				<include name="/**/bin/${project.config}/mvccontrib.testhelper.xml" />
 				<include name="/**/bin/${project.config}/mvccontrib.fluenthtml.dll"/>
 				<include name="/**/bin/${project.config}/mvccontrib.fluenthtml.xml"/>
-			</fileset>
+        <include name="/**/bin/${project.config}/mvccontrib.watin.dll"/>
+      </fileset>
 		</copy>
 		<copy todir="${ContribRelease}" >
 			<fileset basedir=".">
