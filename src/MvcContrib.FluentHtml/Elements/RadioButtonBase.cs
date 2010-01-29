@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using System.Web.Mvc;
 using MvcContrib.FluentHtml.Behaviors;
 using MvcContrib.FluentHtml.Html;
 
@@ -32,6 +33,13 @@ namespace MvcContrib.FluentHtml.Elements
 			}
 			return (T)this;
 		}
+
+        protected override void ApplyModelState(ModelState state)
+        {
+            var value = state.Value.ConvertTo(typeof(string));
+            var elem = elementValue.ToString();
+            Checked(string.Equals(value, elem));
+        }
 
 		/// <summary>
 		/// Specify a format string for the HTML output.

@@ -40,5 +40,7 @@ namespace MvcContrib.UnitTests.FluentHtml.Fakes
 		public FakeModel[] FakeModelArray { get; set; }
 
 		public string Password { get; set; }
+
+        public FakeEnum Selection { get; set; }
 	}
 }
