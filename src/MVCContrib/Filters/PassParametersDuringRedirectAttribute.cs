@@ -101,7 +101,11 @@ namespace MvcContrib.Filters
 
             foreach(var storedParameterValue in GetStoredParameterValues(filterContext))
             {
+                if (storedParameterValue.Value == null)
+                    continue;
+
                 var storedParameterName = GetParameterName(storedParameterValue.Key);
+
                 if(actionParameters.Any(actionParameter => actionParameter.ParameterName == storedParameterName &&
                                                            actionParameter.ParameterType.IsAssignableFrom(storedParameterValue.Value.GetType()))
                    && filterContext.ActionParameters.ContainsKey(storedParameterName) == false)

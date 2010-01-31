@@ -80,6 +80,24 @@ namespace MvcContrib.UnitTests.Filters
             context.ActionParameters.ContainsKey("param2").ShouldBeFalse();
         }
 
+         [Test]
+        public void OnActionExecuting_should_not_load_null_parameter_values()
+         {
+             var context = new ActionExecutingContext()
+             {
+                 Controller = new SampleController(),
+                 ActionParameters = new Dictionary<string, object>(),
+                 ActionDescriptor = GetActionDescriptorStubForIndexAction()
+             };
+
+             context.Controller.TempData[PassParametersDuringRedirectAttribute.RedirectParameterPrefix + "viewModel"] = null;
+             
+             _filter.OnActionExecuting(context);
+
+             context.ActionParameters.ContainsKey("viewModel").ShouldBeFalse();
+         }
+        
+
         [Test]
         public void Matching_stored_parameters_values_should_be_kept_in_TempData()
         {
