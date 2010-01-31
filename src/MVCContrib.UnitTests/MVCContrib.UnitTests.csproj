@@ -158,7 +158,6 @@
     <Compile Include="BaseViewTester.cs" />
     <Compile Include="Binders\SubControllerBinderTester.cs" />
     <Compile Include="Binders\WindsorModelBinderTester.cs" />
-    <Compile Include="BrailViewEngine\TestHttpContext.cs" />
     <Compile Include="ControllerExtensionsTester.cs" />
     <Compile Include="ControllerFactories\ControllerFactoryTestExtension.cs" />
     <Compile Include="ControllerFactories\UnityControllerFactoryTester.cs" />
@@ -234,18 +233,6 @@
     <Compile Include="IoC\StructureMapDependencyResolverTester.cs" />
     <Compile Include="ControllerFactories\IoCControllerFactoryTester.cs" />
     <Compile Include="ControllerFactories\SpecBase.cs" />
-    <Compile Include="BrailViewEngine\BooViewEngineOptionsTester.cs" />
-    <Compile Include="BrailViewEngine\BooViewEngineTester.cs" />
-    <Compile Include="BrailViewEngine\BrailViewFactoryTester.cs" />
-    <Compile Include="BrailViewEngine\CodeBuilderHelperTester.cs" />
-    <Compile Include="BrailViewEngine\DslMacroTester.cs" />
-    <Compile Include="BrailViewEngine\DslProviderTester.cs" />
-    <Compile Include="BrailViewEngine\HtmlAttributeTester.cs" />
-    <Compile Include="BrailViewEngine\HtmlExtensionTester.cs" />
-    <Compile Include="BrailViewEngine\IgnoreNullTester.cs" />
-    <Compile Include="BrailViewEngine\RawAttributeTester.cs" />
-    <Compile Include="BrailViewEngine\ReturnValueVisitorTester.cs" />
-    <Compile Include="BrailViewEngine\XmlExtenstionTester.cs" />
     <Compile Include="ControllerFactories\SpringControllerFactoryTester.cs" />
     <Compile Include="ControllerFactories\StructureMapControllerFactoryTester.cs" />
     <Compile Include="ControllerFactories\WindsorControllerFactoryTester.cs" />
@@ -323,10 +310,6 @@
     <Compile Include="XsltViewEngine\XsltViewTest.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MvcContrib.BrailViewEngine\MvcContrib.BrailViewEngine.csproj">
-      <Project>{8207E568-855D-494A-B19F-436BA10EF365}</Project>
-      <Name>MvcContrib.BrailViewEngine</Name>
-    </ProjectReference>
     <ProjectReference Include="..\MvcContrib.Castle\MvcContrib.Castle.csproj">
       <Project>{F3C74912-8FF8-4F79-8CA1-4697025FDF2D}</Project>
       <Name>MvcContrib.Castle</Name>
@@ -376,30 +359,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="BrailViewEngine\Views\sub_CustomViewData.brail">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="BrailViewEngine\Views\view_CustomViewData.brail">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="BrailViewEngine\Views\apppath.brail">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="BrailViewEngine\Views\CommonScripts\extensions.brail">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="BrailViewEngine\Views\Home\view.brail">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="BrailViewEngine\Views\sub.brail">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="BrailViewEngine\Views\master.brail">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="BrailViewEngine\Views\view.brail">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <Content Include="IncludeHandling\configs\CanChangeAllTheDefaultsEvenThoughIShouldntWriteATestWithABigSurfaceAreaLikeThisNaughtyPete.xml">

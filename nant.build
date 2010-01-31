@@ -89,14 +89,6 @@
 				<include name="*.config"/>
 			</fileset>
 		</copy>
-		
-		<!-- copy files required by view engine tests -->
-		
-		<copy todir="${build.dir}/BrailViewEngine">
-			<fileset basedir="${solution.dir}/MvcContrib.UnitTests/BrailViewEngine">
-				<include name="**/*.brail" />
-			</fileset>
-		</copy>
 
 		<copy todir="${build.dir}/IncludeHandling">
 			<fileset basedir="${solution.dir}/MvcContrib.UnitTests/IncludeHandling">
