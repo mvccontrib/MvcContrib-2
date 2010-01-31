@@ -1,5 +1,0 @@
-﻿This is the main page.
-
-<div style="background-color: #afa; padding: 20px; margin: 20px">
-	$widgetSubController.invoke()
-</div>

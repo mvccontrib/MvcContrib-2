@@ -1,8 +1,0 @@
-﻿<h1>About us</h1>
-Today is $now <br/>
-<p>We're the awesome NVelocity ViewEngine.</p>
-<p>NVelocity is a port of the Java Velocity template engine. </p>
-<p>NVelocity is currently maintained at the CastleProject<br/>
-<a href="http://www.castleproject.org/others/nvelocity/index.html" target="_blank">http://www.castleproject.org/others/nvelocity/index.html.</a></p>
-<p>The Velocity Template Language docs are at <br/>
-<a href="http://velocity.apache.org/engine/releases/velocity-1.5/user-guide.html" target="_blank">http://velocity.apache.org/engine/releases/velocity-1.5/user-guide.html</a></p>

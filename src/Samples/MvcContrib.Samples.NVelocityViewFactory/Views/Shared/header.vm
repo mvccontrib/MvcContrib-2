@@ -1,6 +1,0 @@
-﻿<div id="header"> 
-	<span class="label">Header:</span> 
-	$HtmlHelper.ActionLink("Index","Index")
-	$Html.ActionLink("About", "About")
-	$Html.ActionLink("Contact", "Contact")
-</div> 
