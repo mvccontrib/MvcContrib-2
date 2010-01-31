@@ -299,15 +299,7 @@
     <Compile Include="ViewDataExtensionsForViewDataTester.cs" />
     <Compile Include="ViewFactories\FileSystemViewSourceLoaderTester.cs" />
     <Compile Include="ViewFactories\FileViewSourceTester.cs" />
-    <Compile Include="XsltViewEngine\XsltTestVirtualPathProvider.cs" />
-    <Compile Include="XsltViewEngine\Helpers\ControllerTestBase.cs" />
     <Compile Include="MvcMockHelpers.cs" />
-    <Compile Include="XsltViewEngine\Helpers\ViewTestBase.cs" />
-    <Compile Include="XsltViewEngine\XmlResponseBuilderTest.cs" />
-    <Compile Include="XsltViewEngine\XslDataSourceTest.cs" />
-    <Compile Include="XsltViewEngine\XslTemplateTest.cs" />
-    <Compile Include="XsltViewEngine\XsltViewFactoryTest.cs" />
-    <Compile Include="XsltViewEngine\XsltViewTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MvcContrib.Castle\MvcContrib.Castle.csproj">
@@ -338,24 +330,10 @@
       <Project>{B4C170B6-2FC7-4F4D-B7BF-B3E39D1030B4}</Project>
       <Name>MvcContrib.Unity</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MvcContrib.XsltViewEngine\MvcContrib.XsltViewEngine.csproj">
-      <Project>{00D236D4-4834-4215-B3ED-812590FCBE25}</Project>
-      <Name>MvcContrib.XsltViewEngine</Name>
-    </ProjectReference>
     <ProjectReference Include="..\MVCContrib\MVCContrib.csproj">
       <Project>{2E29C28C-B0B7-4D8C-A06F-67AD70C765EA}</Project>
       <Name>MVCContrib</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="XsltViewEngine\Data\ResponseBuilderMessageWithPageVars.xml" />
-    <EmbeddedResource Include="XsltViewEngine\Data\ResponseBuilderPostMessageNoJavascript.xml" />
-    <EmbeddedResource Include="XsltViewEngine\Data\ResponseBuilderMessage.xml" />
-    <EmbeddedResource Include="XsltViewEngine\Data\ResponseBuilderMessageWithMessages.xml" />
-    <EmbeddedResource Include="XsltViewEngine\Data\ResponseBuilderMessageWithStringXmlDataSource.xml" />
-    <EmbeddedResource Include="XsltViewEngine\Data\ResponseBuilderPostMessage.xml" />
-    <EmbeddedResource Include="XsltViewEngine\Data\ViewTest.xml" />
-    <EmbeddedResource Include="XsltViewEngine\Data\Views\MyController\MyView.xslt" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -376,7 +354,6 @@
     <Content Include="IncludeHandling\exists.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <EmbeddedResource Include="XsltViewEngine\Data\Views\MyController\Greetings.xslt" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Configuration\" />
