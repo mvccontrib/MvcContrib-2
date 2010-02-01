@@ -32,10 +32,12 @@ namespace MvcContrib.UnitTests.ControllerFactories.IoCControllerFactoryTester
 			[Test]
 			public void Should_call_into_the_static_resolver_to_create_a_controller()
 			{
+				var requestContext = new RequestContext(MvcMockHelpers.DynamicHttpContextBase(), new RouteData());
+
 				IControllerFactory controllerFactory = new IoCControllerFactory();
 				controllerFactory.InitializeWithControllerTypes(typeof(IocTestController));
 
-				IController controller = controllerFactory.CreateController(null, "IocTest");
+				IController controller = controllerFactory.CreateController(requestContext, "IocTest");
 
 				Assert.That(controller, Is.TypeOf(typeof(IocTestController)));
 			}
@@ -62,6 +64,7 @@ namespace MvcContrib.UnitTests.ControllerFactories.IoCControllerFactoryTester
 			[Test]
 			public void Should_call_into_the_resolver_to_create_a_controller()
 			{
+				var requestContext = new RequestContext(MvcMockHelpers.DynamicHttpContextBase(), new RouteData());
 				_dependencyResolver.Expect(r => r.GetImplementationOf<IController>(typeof(IocTestController)))
 					.Return(new IocTestController());
 
@@ -70,7 +73,7 @@ namespace MvcContrib.UnitTests.ControllerFactories.IoCControllerFactoryTester
 				IControllerFactory controllerFactory = new IoCControllerFactory(_dependencyResolver);
 				controllerFactory.InitializeWithControllerTypes(typeof(IocTestController));
 
-				IController controller = controllerFactory.CreateController(null, "IocTest");
+				IController controller = controllerFactory.CreateController(requestContext, "IocTest");
 
 				Assert.That(controller, Is.TypeOf(typeof(IocTestController)));
 				_dependencyResolver.VerifyAllExpectations();
@@ -96,11 +99,13 @@ namespace MvcContrib.UnitTests.ControllerFactories.IoCControllerFactoryTester
 			 	ExpectedMessage = "Could not find a type for the controller name 'DoesNotExist'")]
 			public void Should_throw_if_controller_type_cannot_be_resolved()
 			{
+				var requestContext = new RequestContext(MvcMockHelpers.DynamicHttpContextBase(), new RouteData());
+
                 //HttpException(0x194,
 				IControllerFactory controllerFactory = new IoCControllerFactory(_dependencyResolver);
 				controllerFactory.InitializeWithControllerTypes(typeof(IocTestController));
 
-				controllerFactory.CreateController(null, "DoesNotExist");
+				controllerFactory.CreateController(requestContext, "DoesNotExist");
 			}
 
 			protected override void AfterEachSpec()

@@ -89,13 +89,6 @@ namespace MvcContrib.UnitTests.ControllerFactories
 			_factory.CreateController(_context, "ControllerThatDoesNotExist");
 		}
 
-		[Test]
-		[ExpectedException(typeof(ArgumentNullException))]
-		public void ShouldThrowExceptionWhenRequestContextIsNull()
-		{
-			_factory.CreateController(null, "UnitySimple");
-		}
-
 		public class MockApplication : HttpApplication, IUnityContainerAccessor
 		{
 			private readonly IUnityContainer _container;

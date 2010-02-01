@@ -29,9 +29,11 @@ namespace MvcContrib.UnitTests.ControllerFactories
 			[Test]
 			public void ShouldReturnTheController()
 			{
+				var requestContext = new RequestContext(MvcMockHelpers.DynamicHttpContextBase(), new RouteData());
+
 				IControllerFactory factory = new StructureMapControllerFactory();
 				factory.InitializeWithControllerTypes(typeof(StructureMapSimpleController), typeof(StructureMapDependencyController));
-				IController controller = factory.CreateController(null, "StructureMapSimple");
+				IController controller = factory.CreateController(requestContext, "StructureMapSimple");
 
 				Assert.That(controller, Is.Not.Null);
 				Assert.That(controller, Is.AssignableFrom(typeof(StructureMapSimpleController)));
@@ -43,7 +45,9 @@ namespace MvcContrib.UnitTests.ControllerFactories
 				IControllerFactory factory = new StructureMapControllerFactory();
 				factory.InitializeWithControllerTypes(typeof(StructureMapSimpleController), typeof(StructureMapDependencyController));
 
-				IController controller = factory.CreateController(null, "StructureMapDependency");
+				var requestContext = new RequestContext(MvcMockHelpers.DynamicHttpContextBase(), new RouteData());
+
+				IController controller = factory.CreateController(requestContext, "StructureMapDependency");
 
 				Assert.That(controller, Is.Not.Null);
 				Assert.That(controller, Is.AssignableFrom(typeof(StructureMapDependencyController)));
