@@ -19,6 +19,11 @@ namespace MvcContrib.UnitTests
 			Assert.AreSame(expected, actual);
 		}
 
+        public static void ShouldNotBeTheSameAs(this object actual, object expected)
+        {
+            Assert.AreNotSame(expected, actual);
+        }
+
 		public static void ShouldBeNull(this object actual)
 		{
 			Assert.IsNull(actual);
