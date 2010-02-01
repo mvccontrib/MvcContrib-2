@@ -48,5 +48,29 @@ namespace MvcContrib.UnitTests.TestHelper
 
 			CollectionAssert.AreEquivalent(new[] {"Foo"}, readOnly.AllKeys);
 		}
+
+		[Test]
+		public void CanCountFilesWhenThereAreNoFiles()
+		{
+			Assert.AreEqual(readOnly.Count, 0);
+		}
+
+		[Test]
+		public void CanCountFilesWhenThereAreSomeFiles()
+		{
+			readWrite["Foo"] = file;
+			readWrite["Bar"] = file;
+
+			Assert.AreEqual(readOnly.Count, 2);
+		}
+
+		[Test]
+		public void CanGetFilesSpecifiedByIndex()
+		{
+			readWrite["Foo"] = null;
+			readWrite["Bar"] = file;
+
+			Assert.AreSame(readOnly[1], file);
+		}
 	}
 }

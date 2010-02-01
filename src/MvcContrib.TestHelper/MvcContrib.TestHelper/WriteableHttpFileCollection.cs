@@ -39,12 +39,30 @@ namespace MvcContrib.TestHelper
 		}
 
 		/// <summary>
+		/// Gets the object with the specified index from the file collection.
+		/// </summary>
+		/// <param name="index">Index of item to be returned.</param>
+		/// <returns>The System.Web.HttpPostedFile specified by index.</returns>
+		public override HttpPostedFileBase this[int index]
+		{
+			get { return files[AllKeys[index]]; }
+		}
+
+		/// <summary>
 		/// Gets or sets the <see cref="HttpPostedFileBase"/> with the specified name.
 		/// </summary>
 		HttpPostedFileBase IWriteableHttpFileCollection.this[string name]
 		{
 			get { return files[name]; }
 			set { files[name] = value; }
+		}
+
+		/// <summary>
+		/// Gets the file count of the underlying <see cref="HttpFileCollectionBase"/>.
+		/// </summary>
+		public override int Count
+		{
+			get { return files.Count; }
 		}
 	}
 }
