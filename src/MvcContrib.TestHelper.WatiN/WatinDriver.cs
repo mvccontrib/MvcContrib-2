@@ -3,6 +3,8 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Linq;
+using System.Reflection;
+using System.Runtime.InteropServices.Expando;
 using System.Windows.Forms;
 using MvcContrib.TestHelper.Ui;
 using WatiN.Core;
@@ -42,18 +44,7 @@ namespace MvcContrib.TestHelper.WatiN
 
         public virtual void CaptureScreenShot(string testname)
         {
-            var desktopBMP = new Bitmap(
-                Screen.PrimaryScreen.Bounds.Width,
-                Screen.PrimaryScreen.Bounds.Height);
-
-            Graphics g = Graphics.FromImage(desktopBMP);
-
-            g.CopyFromScreen(0, 0, 0, 0,
-                             new Size(
-                                 Screen.PrimaryScreen.Bounds.Width,
-                                 Screen.PrimaryScreen.Bounds.Height));
-            desktopBMP.Save(@".\" + testname + ".jpg", ImageFormat.Jpeg);
-            g.Dispose();
+            new ScreenCapture().CaptureWindowToFile(IE.hWnd, @".\" + testname + ".jpg", ImageFormat.Jpeg);
         }
 
         public virtual string GetTestname()
@@ -74,6 +65,10 @@ namespace MvcContrib.TestHelper.WatiN
         public void ExecuteScript(string script)
         {
             IE.RunScript(script);
+        }
+        public object EvaluateScript(string script)
+        {
+            return JavaScriptExecutor.Eval(IE, script);
         }
 
         public string GetValue(string name)
@@ -111,6 +106,33 @@ namespace MvcContrib.TestHelper.WatiN
         {
             IE.Dispose();
             IE = null;
+        }
+    }
+
+    public static class JavaScriptExecutor
+    {
+        public static object Eval(Document document, string code)
+        {
+            IExpando window = JavaScriptExecutor.GetWindow(document);
+            PropertyInfo property = JavaScriptExecutor.GetOrCreateProperty(window, "__lastEvalResult");
+
+            document.RunScript("window.__lastEvalResult = " + code + ";");
+
+            return property.GetValue(window, null);
+        }
+
+        private static PropertyInfo GetOrCreateProperty(IExpando expando, string name)
+        {
+            PropertyInfo property = expando.GetProperty(name, BindingFlags.Instance);
+            if (property == null)
+                property = expando.AddProperty(name);
+
+            return property;
+        }
+
+        private static IExpando GetWindow(Document document)
+        {
+            return document.HtmlDocument.parentWindow as IExpando;
         }
     }
 }

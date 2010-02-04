@@ -57,5 +57,14 @@ namespace MvcContrib.TestHelper.Ui
         {
             EnumerableExtensions.ForEach(_inputTesters, x => x.SetInput(_browserDriver));
         }
+
+        public IBrowserDriver BrowserDriver
+        {
+            get
+            {
+                return _browserDriver;   
+            }
+        }
+
     }
 }
