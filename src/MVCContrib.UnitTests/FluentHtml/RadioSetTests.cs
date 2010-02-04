@@ -32,21 +32,21 @@ namespace MvcContrib.UnitTests.FluentHtml
 			var element = html.ShouldHaveHtmlNode("foo_Bar");
 			var options = element.ShouldHaveChildNodesCount(4);
 
-			VerifyOption("foo.Bar", items[0].Price, items[0].Title, options[0], options[1]);
-			VerifyOption("foo.Bar", items[1].Price, items[1].Title, options[2], options[3]);
+            VerifyOption("foo.Bar", items[0].Price, items[0].Title, options[0], options[1], false);
+            VerifyOption("foo.Bar", items[1].Price, items[1].Title, options[2], options[3], false);
 		}
 
 		[Test]
 		public void can_generate_radio_set_from_enum()
 		{
-			var html = new RadioSet("foo.Bar").Options<FakeEnum>().ToString();
+			var html = new RadioSet("foo.Bar").Options<FakeEnum>().Selected(FakeEnum.Three).ToString();
 			var element = html.ShouldHaveHtmlNode("foo_Bar");
 			var options = element.ShouldHaveChildNodesCount(8);
 
-			VerifyOption("foo.Bar", (int)FakeEnum.Zero, FakeEnum.Zero, options[0], options[1]);
-			VerifyOption("foo.Bar", (int)FakeEnum.One, FakeEnum.One, options[2], options[3]);
-			VerifyOption("foo.Bar", (int)FakeEnum.Two, FakeEnum.Two, options[4], options[5]);
-			VerifyOption("foo.Bar", (int)FakeEnum.Three, FakeEnum.Three, options[6], options[7]);
+            VerifyOption("foo.Bar", (int)FakeEnum.Zero, FakeEnum.Zero, options[0], options[1], false);
+            VerifyOption("foo.Bar", (int)FakeEnum.One, FakeEnum.One, options[2], options[3], false);
+            VerifyOption("foo.Bar", (int)FakeEnum.Two, FakeEnum.Two, options[4], options[5], false);
+			VerifyOption("foo.Bar", (int)FakeEnum.Three, FakeEnum.Three, options[6], options[7],true);
 		}
 
 		[Test]
@@ -84,13 +84,20 @@ namespace MvcContrib.UnitTests.FluentHtml
 			}
 		}
 
-		private void VerifyOption(string name, object value, object text, HtmlNode input, HtmlNode label)
+		static internal void VerifyOption(string name, object value, object text, HtmlNode input, HtmlNode label, bool isChecked)
 		{
 			input.ShouldBeNamed(HtmlTag.Input);
 			input.ShouldHaveAttribute(HtmlAttribute.Name).WithValue(name);
 			input.ShouldHaveAttribute(HtmlAttribute.Type).WithValue(HtmlInputType.Radio);
 			input.ShouldHaveAttribute(HtmlAttribute.Value).WithValue(value.ToString());
-
+            if(isChecked)
+            {
+                input.ShouldHaveAttribute(HtmlAttribute.Checked).WithValue(HtmlAttribute.Checked);
+            }
+            else
+            {
+                input.ShouldNotHaveAttribute(HtmlAttribute.Checked);
+            }
 			label.ShouldBeNamed(HtmlTag.Label);
 			label.ShouldHaveInnerTextEqual(text.ToString());
 		}

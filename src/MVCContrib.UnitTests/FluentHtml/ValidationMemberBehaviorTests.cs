@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using MvcContrib.FluentHtml.Behaviors;
 using MvcContrib.FluentHtml.Elements;
 using MvcContrib.FluentHtml.Expressions;
+using MvcContrib.FluentHtml.Html;
 using MvcContrib.UnitTests.FluentHtml.Fakes;
 using MvcContrib.UnitTests.FluentHtml.Helpers;
 using NUnit.Framework;
@@ -137,5 +138,24 @@ namespace MvcContrib.UnitTests.FluentHtml
 			var element = passwordField.ToString().ShouldHaveHtmlNode("Password");
 			element.ShouldHaveAttribute(HtmlAttribute.Value).WithValue("");
     	}
+
+        [Test]
+        public void restore_checked_from_radio_set()
+        {
+            stateDictionary.Add("Selection", new ModelState { Value = new ValueProviderResult((int)FakeEnum.Two, "2", CultureInfo.CurrentCulture) });
+            var target = new ValidationBehavior(() => stateDictionary);
+            expression = x => x.Selection;
+
+            var html = new RadioSet(expression.GetNameFor(), expression.GetMemberExpression(), new List<IBehaviorMarker> { target }).Options<FakeEnum>().ToString();
+            var element = html.ShouldHaveHtmlNode("Selection");
+            var options = element.ShouldHaveChildNodesCount(8);
+
+
+            RadioSetTests.VerifyOption("Selection", (int)FakeEnum.Zero, FakeEnum.Zero, options[0], options[1],false);
+            RadioSetTests.VerifyOption("Selection", (int)FakeEnum.One, FakeEnum.One, options[2], options[3],false);
+            RadioSetTests.VerifyOption("Selection", (int)FakeEnum.Two, FakeEnum.Two, options[4], options[5],true);
+            RadioSetTests.VerifyOption("Selection", (int)FakeEnum.Three, FakeEnum.Three, options[6], options[7],false);
+        }
+      
 	}
 }
