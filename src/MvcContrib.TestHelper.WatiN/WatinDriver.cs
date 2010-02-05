@@ -44,8 +44,8 @@ namespace MvcContrib.TestHelper.WatiN
 
         public virtual void CaptureScreenShot(string testname)
         {
-			throw new NotImplementedException();
-            //new ScreenCapture().CaptureWindowToFile(IE.hWnd, @".\" + testname + ".jpg", ImageFormat.Jpeg);
+			
+            new ScreenCapture().CaptureWindowToFile(IE.hWnd, @".\" + testname + ".jpg", ImageFormat.Jpeg);
         }
 
         public virtual string GetTestname()
