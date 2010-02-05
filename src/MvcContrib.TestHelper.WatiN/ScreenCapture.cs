@@ -1,3 +1,7 @@
+///
+/// This code was taken with permission from James Crowley
+/// http://www.developerfusion.com/code/4630/capture-a-screen-shot/ 
+/// 
 namespace MvcContrib.TestHelper.WatiN
 {
     using System;
