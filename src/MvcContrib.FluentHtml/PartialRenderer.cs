@@ -84,16 +84,18 @@ namespace MvcContrib.FluentHtml
 
 		private ViewDataDictionary GetViewData()
 		{
-			TPartialViewModel model = null;
-			if (modelExpression != null)
-			{
-				model = modelExpression.Compile().Invoke(view.ViewModel);
-			}
-			return model == null
-				? viewData == null
-					? new ViewDataDictionary(view.ViewData)
-					: new ViewDataDictionary(viewData)
-				: new ViewDataDictionary(viewData) { Model = model };
+            TPartialViewModel model = null;
+            if (modelExpression != null)
+            {
+                model = modelExpression.Compile().Invoke(view.ViewModel);
+            }
+            return model == null
+                ? viewData == null
+                    ? new ViewDataDictionary(view.ViewData)
+                    : new ViewDataDictionary(viewData)
+                : viewData == null
+                    ? new ViewDataDictionary(model)
+                    : new ViewDataDictionary(viewData) { Model = model };
 		}
 	}
 }
