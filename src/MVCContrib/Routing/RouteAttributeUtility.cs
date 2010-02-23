@@ -28,6 +28,19 @@ namespace MvcContrib.Routing
             }
         }
 
+        public static void RegisterRoutesForController(RouteCollection routes, Type controller)
+        {
+            var routeAttributeMetadata = new List<RouteAttributeMetadata>();
+
+            GatherRouteDefinitionsFromPublicMethods(controller, routeAttributeMetadata);
+            SortRoutesByOrderAttribute(routeAttributeMetadata);
+
+            foreach (var routeDefinition in routeAttributeMetadata)
+            {
+                AddRoute(routeDefinition, routes);
+            }
+        }
+
         private static void AddRoute(RouteAttributeMetadata routeDefinition, RouteCollection routes)
         {
             Trace.TraceInformation(
@@ -79,6 +92,11 @@ namespace MvcContrib.Routing
         {
             foreach (UrlRouteAttribute routeAttrib in methodInfo.GetCustomAttributes(typeof(UrlRouteAttribute), false))
             {
+                if(string.IsNullOrEmpty(routeAttrib.Path))
+                {
+                    throw new InvalidOperationException("Route attribute present which contains no 'Path', cannot map route.  Either remove the attribute or add a path.");
+                }
+
                 if (!controller.Name.EndsWith(ControllerSuffix, StringComparison.InvariantCultureIgnoreCase))
                 {
                     throw new InvalidOperationException(String.Format("Invalid controller class name {0}: name must end with \"{1}\"", controller.Name, ControllerSuffix));
@@ -111,7 +129,7 @@ namespace MvcContrib.Routing
         private static string DetermineActionName(MethodInfo methodInfo)
         {
             var actionName = methodInfo.Name;
-            var actionNameAttribute = methodInfo.GetCustomAttributes(typeof(ActionNameAttribute), false).First() as ActionNameAttribute;
+            var actionNameAttribute = methodInfo.GetCustomAttributes(typeof(ActionNameAttribute), false).FirstOrDefault() as ActionNameAttribute;
             if (actionNameAttribute != null)
             {
                 actionName = actionNameAttribute.Name;
@@ -166,7 +184,7 @@ namespace MvcContrib.Routing
                 {
                     throw new InvalidOperationException(String.Format("UrlRouteParameterContraint attribute on {0}.{1} is missing the RegEx property.", method.DeclaringType.Name, method.Name));
                 }
-
+                
                 constraints.Add(attrib.Name, attrib.Regex);
             }
 
