@@ -107,8 +107,7 @@ namespace MvcContrib.Filters
                 var storedParameterName = GetParameterName(storedParameterValue.Key);
 
                 if(actionParameters.Any(actionParameter => actionParameter.ParameterName == storedParameterName &&
-                                                           actionParameter.ParameterType.IsAssignableFrom(storedParameterValue.Value.GetType()))
-                   && filterContext.ActionParameters.ContainsKey(storedParameterName) == false)
+                                                           actionParameter.ParameterType.IsAssignableFrom(storedParameterValue.Value.GetType())))
                 {
                     filterContext.ActionParameters[storedParameterName] = storedParameterValue.Value;
 

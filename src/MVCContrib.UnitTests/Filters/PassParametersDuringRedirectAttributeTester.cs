@@ -143,27 +143,6 @@ namespace MvcContrib.UnitTests.Filters
             context.Controller.TempData.ContainsKey(PassParametersDuringRedirectAttribute.RedirectParameterPrefix + "id").ShouldBeFalse();
         }
 
-        [Test]
-        public void OnActionExecuting_should_not_load_parameter_values_out_of_TempData_which_are_already_present_in_the_ActionParameters()
-        {
-            var otherSomeObject = new SomeObject();
-
-            var context = new ActionExecutingContext()
-            {
-                Controller = new SampleController(),
-                ActionParameters = new Dictionary<string, object>{{"viewModel", otherSomeObject}, {"id",99} },
-                ActionDescriptor = GetActionDescriptorStubForIndexAction()
-            };
-
-            context.Controller.TempData[PassParametersDuringRedirectAttribute.RedirectParameterPrefix + "viewModel"] = _someObject;
-            context.Controller.TempData[PassParametersDuringRedirectAttribute.RedirectParameterPrefix + "id"] = 5;
-
-            _filter.OnActionExecuting(context);
-            
-            context.ActionParameters["viewModel"].ShouldBeTheSameAs(otherSomeObject);
-            context.ActionParameters["id"].ShouldEqual(99);
-        }
-
 		[Test]
 		public void OnActionExecuted_should_store_parameters_in_tempdata_when_result_is_generic_RedirectToRouteResult()
 		{
