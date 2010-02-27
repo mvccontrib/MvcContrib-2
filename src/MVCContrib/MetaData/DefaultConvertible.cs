@@ -4,6 +4,7 @@ using System.Globalization;
 
 namespace MvcContrib
 {
+	[Obsolete("Please switch to using MVC's DefaultModelBinder for model binding.")]
 	public class DefaultConvertible : IConvertible
 	{
 		private static readonly Type[] ConvertTypes = new[]

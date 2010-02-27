@@ -12,6 +12,7 @@ namespace MvcContrib
 	/// <summary>
 	/// Provides the ability to deserialize a Request into a CLR object.
 	/// </summary>
+	[Obsolete("Please switch to using MVC's DefaultModelBinder for model binding.")]
 	public class NameValueDeserializer
 	{
 		protected virtual IConvertible GetConvertible(string sValue)
