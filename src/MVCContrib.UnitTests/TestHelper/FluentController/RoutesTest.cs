@@ -34,6 +34,7 @@ namespace MvcContrib.UnitTests.TestHelper.FluentController
 
 
         [Test]
+        [Ignore("Pending")]
         public void UserPut()
         {
             "~/user"
@@ -42,6 +43,7 @@ namespace MvcContrib.UnitTests.TestHelper.FluentController
         }
 
         [Test]
+        [Ignore("Pending")]
         public void UserPutMimickedUsingPostWithPutMethodOnForm()
         {
             "~/user"
