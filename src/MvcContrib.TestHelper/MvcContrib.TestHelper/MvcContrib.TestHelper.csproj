@@ -37,6 +37,10 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Moq, Version=3.1.416.3, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\bin\moq\Moq.dll</HintPath>
+    </Reference>
     <Reference Include="Rhino.Mocks, Version=3.6.0.0, Culture=neutral, PublicKeyToken=0b3305902db7183f, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\bin\rhinomocks\Rhino.Mocks.dll</HintPath>
@@ -62,6 +66,24 @@
   <ItemGroup>
     <Compile Include="ActionResultAssertionException.cs" />
     <Compile Include="ActionResultHelper.cs" />
+    <Compile Include="FluentController\ActionExpectations.cs" />
+    <Compile Include="FluentController\ActionRedirect.cs" />
+    <Compile Include="FluentController\ActionRender.cs" />
+    <Compile Include="FluentController\ActionReturn.cs" />
+    <Compile Include="FluentController\CallSuccess.cs" />
+    <Compile Include="FluentController\ControllerRedirect.cs" />
+    <Compile Include="FluentController\ControllerRender.cs" />
+    <Compile Include="FluentController\Fakes\FakeHtmlHelperFactory.cs" />
+    <Compile Include="FluentController\Fakes\FakeHttpContext.cs" />
+    <Compile Include="FluentController\Fakes\FakeHttpRequest.cs" />
+    <Compile Include="FluentController\Fakes\FakeHttpResponse.cs" />
+    <Compile Include="FluentController\Fakes\FakeHttpSessionState.cs" />
+    <Compile Include="FluentController\Fakes\FakeIdentity.cs" />
+    <Compile Include="FluentController\Fakes\FakePrincipal.cs" />
+    <Compile Include="FluentController\GivenController.cs" />
+    <Compile Include="FluentController\ModelStateHelper.cs" />
+    <Compile Include="FluentController\RouteTestingHelper.cs" />
+    <Compile Include="FluentController\ViewRender.cs" />
     <Compile Include="ObjectExtensions.cs" />
     <Compile Include="AssertionException.cs" />
     <Compile Include="Extensions\GeneralTestExtensions.cs" />
