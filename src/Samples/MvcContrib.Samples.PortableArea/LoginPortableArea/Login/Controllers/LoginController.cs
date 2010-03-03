@@ -57,5 +57,16 @@ namespace LoginPortableArea.Login.Controllers
 			}
 			return View(forgotPasswordInput);
 		}
+
+        public ActionResult LogOff()
+        {
+            FormsAuthentication.SignOut();
+            return Redirect("~/");
+        }
+
+        public ViewResult UserWidget()
+        {
+            return View();
+        }
 	}
 }

@@ -9,13 +9,6 @@ namespace MvcContrib.ActionResults
 	public delegate RouteValueDictionary ExpressionToRouteValueConverter<TController>(
 		Expression<Action<TController>> expression) where TController : Controller;
 
-	public abstract class NonGenericRedirectToRouteResult : RedirectToRouteResult
-	{
-		protected NonGenericRedirectToRouteResult(RouteValueDictionary routeValues) : base(routeValues) {}
-		public abstract Type ControllerType { get; }
-		public abstract MethodCallExpression Expression { get; }
-	}
-
 	/// <summary>
 	/// Represents a result that performs a redirect using a lambda expression to generate the route values.
 	/// </summary>

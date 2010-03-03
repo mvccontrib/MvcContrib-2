@@ -3,8 +3,9 @@ using System.Globalization;
 using NUnit.Framework;
 
 
-namespace MvcContrib.UnitTests
-{
+namespace MvcContrib.UnitTests {
+#pragma warning disable 612,618
+
 	[TestFixture]
 	public class DefaultConvertibleTester
 	{
@@ -307,4 +308,6 @@ namespace MvcContrib.UnitTests
 			convertible.WithTypeConverter(typeof(FileStyleUriParser));
 		}
 	}
+#pragma warning restore 612,618
+
 }
