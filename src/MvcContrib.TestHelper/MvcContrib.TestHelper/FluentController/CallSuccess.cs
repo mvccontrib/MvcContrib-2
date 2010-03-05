@@ -1,6 +1,4 @@
-﻿using System;
-using Moq.Protected;
-using MvcContrib.FluentController;
+﻿using MvcContrib.FluentController;
 
 namespace MvcContrib.TestHelper.FluentController
 {
@@ -60,14 +58,7 @@ namespace MvcContrib.TestHelper.FluentController
             where T : AbstractFluentController, new()
         {
             ModelStateHelper.SetModelStateValid(action);
-            action.MockController.Protected().Setup<object>("ExecuteCheckValidCall", ItExpr.IsAny<Func<object>>()).Returns(model);
-
-            //action.MockController.Setup(x => x.ExecuteCheckValidCall(It.IsAny<Func<object>>())).Returns(model);
-            //action.MockController.SetupGet(x => x.ModelState).Returns(ValidModelState());
-
-            //action.MockController.Setup(x => x.CheckValidCall<bool>(It.IsAny<Func<T, TResult>>())).Returns(new FluentControllerAction<T, TResult>(true, default(bool))).Verifiable();
-            //action.MockController.Setup(x => x.CheckValidCall(It.IsAny<Func<T, TResult>>())).Returns(new FluentControllerAction<T, TResult>(true, model)).Verifiable();
-
+            action.MockController.ViewData.Model = model;
             return action;
         }
 

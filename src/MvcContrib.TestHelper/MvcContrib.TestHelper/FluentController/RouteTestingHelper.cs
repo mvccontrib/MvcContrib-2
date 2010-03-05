@@ -3,9 +3,9 @@ using System.Web.Routing;
 using System.Web;
 using System.Collections.Specialized;
 using System.Web.Mvc;
-using Moq;
 using System.Linq.Expressions;
 using MvcContrib.TestHelper.FluentController.Fakes;
+using Rhino.Mocks;
 
 namespace MvcContrib.TestHelper.FluentController
 {
@@ -244,14 +244,15 @@ namespace MvcContrib.TestHelper.FluentController
             if (!httpMethod.HasValue)
                 httpMethod = HttpVerbs.Get;
 
-            var request = new Mock<HttpRequestBase>();
-            request.SetupGet(x => x.AppRelativeCurrentExecutionFilePath).Returns(url);
-            request.SetupGet(x => x.PathInfo).Returns(string.Empty);
-            request.SetupGet(x => x.Form).Returns(form);
-            request.SetupGet(x => x.HttpMethod).Returns(httpMethod.Value.ToString().ToUpper());
+            var request = MockRepository.GenerateStub<HttpRequestBase>();
+
+            request.Stub(x => x.AppRelativeCurrentExecutionFilePath).Return(url).Repeat.Any();
+            request.Stub(x => x.PathInfo).Return(string.Empty).Repeat.Any();
+            request.Stub(x => x.Form).Return(form).Repeat.Any();
+            request.Stub(x => x.HttpMethod).Return(httpMethod.Value.ToString().ToUpper()).Repeat.Any();
 
             var context = new FakeHttpContext(url);
-            context.SetRequest(request.Object);
+            context.SetRequest(request);
 
             return context;
         }

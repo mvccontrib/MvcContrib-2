@@ -8,6 +8,7 @@ using MvcContrib.UnitTests.TestHelper.FluentController.UI;
 using NUnit.Framework;
 using MvcContrib.SimplyRestful;
 using MvcContrib.TestHelper;
+using Rhino.Mocks;
 
 namespace MvcContrib.UnitTests.TestHelper.FluentController
 {
@@ -63,11 +64,11 @@ namespace MvcContrib.UnitTests.TestHelper.FluentController
         [Test]
         public void ModelIsPassedIntoIfSuccess()
         {
-            var result = new CustomerResult { FirstName = "Fred" };
+            var result = new CustomerResult { FirstName = "Bob" };
 
             GivenController.As<UserController>()
                 .ShouldRenderView(RestfulAction.New)
-                .Should(x => x.AssertResultIs<ViewResult>().ViewData.Model.ShouldBe(result))
+                .Should(x => x.AssertResultIs<ViewResult>().ViewData.Model.ShouldNotBeNull())
                 .IfCallSucceeds(result)
                 .WhenCalling(x => x.CreateWithModel());
 
@@ -110,7 +111,7 @@ namespace MvcContrib.UnitTests.TestHelper.FluentController
         public void GenericHeaderSet()
         {
             GivenController.As<UserController>()
-                .WithRequest(x => x.SetupGet(location => location.Url).Returns(new Uri("http://localhost")))
+                .WithRequest(x => x.Stub(location => location.Url).Return(new Uri("http://localhost")))
                 .ShouldReturnEmpty()
                 .WhenCalling(x => x.CheckHeaderLocation());
         }

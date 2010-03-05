@@ -19,6 +19,10 @@ namespace MvcContrib.TestHelper.FluentController.Fakes
         private HttpRequestBase _request;
         private readonly Dictionary<object, object> _items;
 
+        public static FakeHttpContext Root()
+        {
+            return new FakeHttpContext("~/");
+        }
 
         public FakeHttpContext(string relativeUrl) : this(relativeUrl, null, null, null, null, null)
         {

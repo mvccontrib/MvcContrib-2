@@ -3,17 +3,17 @@ using System.Collections.Generic;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
-using Moq;
 using MvcContrib.TestHelper.FluentController.Fakes;
+using Rhino.Mocks;
 
 namespace MvcContrib.TestHelper.FluentController
 {
     public class ActionExpectations<T> where T : ControllerBase, new()
     {
         private readonly List<Action<ActionResult>> Expectations = new List<Action<ActionResult>>();
-        public Mock<T> MockController { get; set; }
-        private Mock<HttpRequestBase> MockRequest { get; set; }
+        private HttpRequestBase MockRequest { get; set; }
 
+        public ControllerBase MockController { get; set; }
 
         /// <summary>
         /// Shoulds the specified assertion.
@@ -62,7 +62,7 @@ namespace MvcContrib.TestHelper.FluentController
         /// </summary>
         /// <param name="assertion"></param>
         /// <returns></returns>
-        public ActionExpectations<T> ShouldController(Action<Mock<T>, ActionResult> assertion)
+        public ActionExpectations<T> ShouldController(Action<IController, ActionResult> assertion)
         {
             if (assertion != null)
                 Expectations.Add(actionResult => assertion(MockController, actionResult));
@@ -84,7 +84,7 @@ namespace MvcContrib.TestHelper.FluentController
         /// <param name="setupAction">An action that is used to setup values on the mock controller.  It is passed
         /// an instance of the mock controller.</param>
         /// <returns>An instance of this option to allow chaining.</returns>
-        public ActionExpectations<T> WithSetup(Action<Mock<T>> setupAction)
+        public ActionExpectations<T> WithSetup(Action<IController> setupAction)
         {
             if (setupAction != null)
                 setupAction(MockController);
@@ -105,21 +105,20 @@ namespace MvcContrib.TestHelper.FluentController
         /// </summary>
         /// <param name="setupAction">The setup action.</param>
         /// <returns></returns>
-        public ActionExpectations<T> WithRequest(Action<Mock<HttpRequestBase>> setupAction)
+        public ActionExpectations<T> WithRequest(Action<HttpRequestBase> setupAction)
         {
             if (setupAction != null)
             {
                 if (MockRequest == null)
                 {
-                    //TODO: refactor this probably into say static constructors eg FakeHttpContext.Valid
-                    var fakeHttpContext = new FakeHttpContext("~/");
-                    MockRequest = new Mock<HttpRequestBase>();
+                    var fakeHttpContext = FakeHttpContext.Root();
+                    MockRequest = MockRepository.GenerateMock<HttpRequestBase>();
+                    var mockResponse = MockRepository.GenerateMock<HttpResponseBase>();
 
-                    var mockResponse = new Mock<HttpResponseBase>();
-                    fakeHttpContext.SetResponse(mockResponse.Object);
-                    fakeHttpContext.SetRequest(MockRequest.Object);
-                    MockController.Object.ControllerContext =
-                        new ControllerContext(new RequestContext(fakeHttpContext, new RouteData()), MockController.Object);
+                    fakeHttpContext.SetResponse(mockResponse);
+                    fakeHttpContext.SetRequest(MockRequest);
+
+                    MockController.ControllerContext = new ControllerContext(new RequestContext(fakeHttpContext, new RouteData()), MockController);
                 }
                 setupAction(MockRequest);
             }
@@ -140,7 +139,7 @@ namespace MvcContrib.TestHelper.FluentController
         /// <returns></returns>
         public ActionExpectations<T> WithLocation(string headerLocation)
         {
-            WithRequest(x => x.SetupGet(location => location.Url).Returns(new Uri(headerLocation)));
+            WithRequest(x => x.Stub(location => location.Url).Return(new Uri(headerLocation)));
             return this;
         }
 
@@ -157,7 +156,7 @@ namespace MvcContrib.TestHelper.FluentController
         /// <returns></returns>
         public ActionExpectations<T> WithReferrer(string headerReferrer)
         {
-            WithRequest(x => x.SetupGet(location => location.UrlReferrer).Returns(new Uri(headerReferrer)));
+            WithRequest(x => x.Stub(location => location.UrlReferrer).Return(new Uri(headerReferrer)));
             return this;
         }
 
@@ -175,7 +174,7 @@ namespace MvcContrib.TestHelper.FluentController
         /// <returns></returns>
         public ActionExpectations<T> WithUserAgent(string headerUserAgent)
         {
-            WithRequest(x => x.SetupGet(location => location.UserAgent).Returns(headerUserAgent));
+            WithRequest(x => x.Stub(location => location.UserAgent).Return(headerUserAgent));
             return this;
         }
 
@@ -218,9 +217,9 @@ namespace MvcContrib.TestHelper.FluentController
         /// <param name="action">The action.</param>
         public void WhenCalling(Func<T, ActionResult> action)
         {
-            ActionResult actionResult = action(MockController.Object);
+            ActionResult actionResult = action((T)MockController);
             Expectations.ForEach(x => x(actionResult));
-            MockController.VerifyAll();
+            MockController.VerifyAllExpectations();
         }
     }
 }

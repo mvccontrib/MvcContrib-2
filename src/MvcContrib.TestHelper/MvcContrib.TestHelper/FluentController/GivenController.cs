@@ -1,5 +1,6 @@
 using System.Web.Mvc;
 using Moq;
+using Rhino.Mocks;
 
 namespace MvcContrib.TestHelper.FluentController
 {
@@ -28,15 +29,10 @@ namespace MvcContrib.TestHelper.FluentController
         {
             return new ActionExpectations<T>
                        {
-                           MockController = GetMockController<T>()
+                           MockController = MockRepository.GeneratePartialMock<T>()
+
                        };
         }
 
-        private static Mock<T> GetMockController<T>() where T : ControllerBase, new()
-        {
-            var mock = new Mock<T>(MockBehavior.Loose) {CallBase = true};
-
-            return mock;
-        }
     }
 }
