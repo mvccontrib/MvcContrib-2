@@ -4,7 +4,7 @@ namespace MvcContrib.Filters
 {
 	/// <summary>
 	/// When a RedirectToRouteResult is returned from an action, anything in the ViewData.ModelState dictionary will be copied into TempData.
-	/// When a ViewResult is returned from an action, any ModelState entries that were previously copied to TempData will be copied back to the ModelState dictionary.
+	/// When a ViewResultBase is returned from an action, any ModelState entries that were previously copied to TempData will be copied back to the ModelState dictionary.
 	/// </summary>
 	public class ModelStateToTempDataAttribute : ActionFilterAttribute
 	{
@@ -12,7 +12,7 @@ namespace MvcContrib.Filters
 
 		/// <summary>
 		/// When a RedirectToRouteResult is returned from an action, anything in the ViewData.ModelState dictionary will be copied into TempData.
-		/// When a ViewResult is returned from an action, any ModelState entries that were previously copied to TempData will be copied back to the ModelState dictionary.
+		/// When a ViewResultBase is returned from an action, any ModelState entries that were previously copied to TempData will be copied back to the ModelState dictionary.
 		/// </summary>
 		/// <param name="filterContext"></param>
 		public override void OnActionExecuted(ActionExecutedContext filterContext)
@@ -21,7 +21,7 @@ namespace MvcContrib.Filters
 
 			var controller = filterContext.Controller;
 
-			if(filterContext.Result is ViewResult)
+			if(filterContext.Result is ViewResultBase)
 			{
 				//If there are failures in tempdata, copy them to the modelstate
 				CopyTempDataToModelState(controller.ViewData.ModelState, controller.TempData);
