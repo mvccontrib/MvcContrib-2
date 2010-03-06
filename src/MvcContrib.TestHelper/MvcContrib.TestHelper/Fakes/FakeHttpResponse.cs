@@ -1,7 +1,7 @@
 ﻿using System.Text;
 using System.Web;
 
-namespace MvcContrib.TestHelper.FluentController.Fakes
+namespace MvcContrib.TestHelper.Fakes
 {
     public class FakeHttpResponse : HttpResponseBase
     {

@@ -3,7 +3,7 @@ using System.Collections.Specialized;
 using System.Web;
 using System.Web.SessionState;
 
-namespace MvcContrib.TestHelper.FluentController.Fakes
+namespace MvcContrib.TestHelper.Fakes
 {
     public class FakeHttpSessionState : HttpSessionStateBase
     {

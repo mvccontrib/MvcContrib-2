@@ -73,10 +73,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\bin\unity\Microsoft.Practices.Unity.dll</HintPath>
     </Reference>
-    <Reference Include="Moq, Version=3.1.416.3, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\moq\Moq.dll</HintPath>
-    </Reference>
     <Reference Include="Mvp.Xml, Version=2.0.2158.1055, Culture=neutral, PublicKeyToken=dd92544dc05f5671, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\bin\mvpxml\Mvp.Xml.dll</HintPath>
@@ -264,10 +260,7 @@
     <Compile Include="SubControllerTester.cs" />
     <Compile Include="TestHelper\ActionResultHelperTester.cs" />
     <Compile Include="TestHelper\ControllerBuilderTests.cs" />
-    <Compile Include="TestHelper\FluentController\Core\CustomerResult.cs" />
     <Compile Include="TestHelper\FluentController\FluentControllerTest.cs" />
-    <Compile Include="TestHelper\FluentController\RoutesTest.cs" />
-    <Compile Include="TestHelper\FluentController\UI\UserController.cs" />
     <Compile Include="TestHelper\RouteTestingExtensionsTester.cs" />
     <Compile Include="TestHelper\SessionTests.cs" />
     <Compile Include="TestHelper\TestHelperController.cs" />

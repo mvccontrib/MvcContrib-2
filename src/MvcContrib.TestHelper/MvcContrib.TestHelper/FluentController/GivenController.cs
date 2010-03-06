@@ -1,5 +1,4 @@
 using System.Web.Mvc;
-using Moq;
 using Rhino.Mocks;
 
 namespace MvcContrib.TestHelper.FluentController

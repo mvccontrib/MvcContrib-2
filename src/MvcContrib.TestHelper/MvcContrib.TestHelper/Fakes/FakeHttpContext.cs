@@ -5,7 +5,7 @@ using System.Security.Principal;
 using System.Web;
 using System.Web.SessionState;
 
-namespace MvcContrib.TestHelper.FluentController.Fakes
+namespace MvcContrib.TestHelper.Fakes
 {
     public class FakeHttpContext : HttpContextBase
     {
@@ -14,6 +14,7 @@ namespace MvcContrib.TestHelper.FluentController.Fakes
         private IPrincipal _principal;
         private readonly NameValueCollection _queryStringParams;
         private readonly string _relativeUrl;
+        private readonly string _method;
         private readonly SessionStateItemCollection _sessionItems;
         private HttpResponseBase _response;
         private HttpRequestBase _request;
@@ -24,15 +25,29 @@ namespace MvcContrib.TestHelper.FluentController.Fakes
             return new FakeHttpContext("~/");
         }
 
-        public FakeHttpContext(string relativeUrl) : this(relativeUrl, null, null, null, null, null)
+        public FakeHttpContext(string relativeUrl, string method)
+            : this(relativeUrl, method, null, null, null, null, null)
+        {
+        }
+
+        public FakeHttpContext(string relativeUrl) 
+            : this(relativeUrl, null, null, null, null, null)
         {
         }
 
         public FakeHttpContext(string relativeUrl, IPrincipal principal, NameValueCollection formParams,
                                NameValueCollection queryStringParams, HttpCookieCollection cookies,
+                               SessionStateItemCollection sessionItems) 
+            : this(relativeUrl, null, principal, formParams, queryStringParams, cookies, sessionItems)
+        {
+        }
+
+        public FakeHttpContext(string relativeUrl, string method, IPrincipal principal, NameValueCollection formParams,
+                               NameValueCollection queryStringParams, HttpCookieCollection cookies,
                                SessionStateItemCollection sessionItems)
         {
             _relativeUrl = relativeUrl;
+            _method = method;
             _principal = principal;
             _formParams = formParams;
             _queryStringParams = queryStringParams;
@@ -47,7 +62,7 @@ namespace MvcContrib.TestHelper.FluentController.Fakes
             get
             {
                 return _request ??
-                       new FakeHttpRequest(_relativeUrl, _formParams, _queryStringParams, _cookies);
+                       new FakeHttpRequest(_relativeUrl, _method, _formParams, _queryStringParams, _cookies);
             }
         }
 

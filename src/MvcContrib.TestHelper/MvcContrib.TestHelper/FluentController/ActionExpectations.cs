@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
-using MvcContrib.TestHelper.FluentController.Fakes;
+using MvcContrib.TestHelper.Fakes;
 using Rhino.Mocks;
 
 namespace MvcContrib.TestHelper.FluentController

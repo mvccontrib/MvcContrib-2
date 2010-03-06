@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using System.Security.Principal;
 
-namespace MvcContrib.TestHelper.FluentController.Fakes
+namespace MvcContrib.TestHelper.Fakes
 {
     public class FakePrincipal : IPrincipal
     {

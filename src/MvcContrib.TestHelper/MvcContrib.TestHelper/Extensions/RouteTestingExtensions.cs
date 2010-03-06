@@ -1,29 +1,31 @@
 ﻿using System;
+using System.Collections.Specialized;
 using System.Linq.Expressions;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
-using Rhino.Mocks;
 using System.Reflection;
+using MvcContrib.TestHelper.Fakes;
+using Rhino.Mocks;
 
 namespace MvcContrib.TestHelper
 {
     /// <summary>
-    /// Used to simplify testing routes.
+    /// Used to simplify testing routes and restful testing routes 
+    /// <example>
+    /// This tests that incoming PUT on resource is redirected to Update
+    ///             "~/banner/1"
+    ///               .WithMethod(HttpVerbs.Put)
+    ///               .ShouldMapTo&lt;BannerController>(action => action.Update(1));
+    ///
+    /// This tests that incoming POST was a faux PUT using the _method=PUT form parameter
+    ///             "~/banner/1"
+    ///               .WithMethod(HttpVerbs.Post, HttpVerbs.Put)
+    ///               .ShouldMapTo&lt;BannerController>(action => action.Update(1));
+    /// </example>
     /// </summary>
     public static class RouteTestingExtensions
     {
-        private static HttpContextBase FakeHttpContext(string url)
-        {
-            var request = MockRepository.GenerateStub<HttpRequestBase>();            
-            request.Stub(x => x.AppRelativeCurrentExecutionFilePath).Return(url).Repeat.Any();
-            request.Stub(x => x.PathInfo).Return(string.Empty).Repeat.Any();
-
-            var context = MockRepository.GenerateStub<HttpContextBase>();
-            context.Stub(x => x.Request).Return(request).Repeat.Any();
-
-            return context;        
-        }
 
         /// <summary>
         /// A way to start the fluent interface and and which method to use
@@ -55,13 +57,6 @@ namespace MvcContrib.TestHelper
             return RouteTable.Routes.GetRouteData(context);
         }
 
-        private static HttpContextBase FakeHttpContext(string url, string method)
-        {
-            var context = FakeHttpContext(url);
-            context.Request.Stub(x => x.HttpMethod).Return(method).Repeat.Any();
-            return context;
-        }
-
         /// <summary>
         /// Returns the corresponding route for the URL.  Returns null if no route was found.
         /// </summary>
@@ -71,6 +66,94 @@ namespace MvcContrib.TestHelper
         {
             var context = FakeHttpContext(url);
             return RouteTable.Routes.GetRouteData(context);
+        }
+
+        /// <summary>
+        /// Returns the corresponding route for the URL.  Returns null if no route was found.
+        /// </summary>
+        /// <param name="url">The URL.</param>
+        /// <param name="httpMethod">The HTTP method.</param>
+        /// <param name="formMethod">The form method.</param>
+        /// <returns></returns>
+        public static RouteData Route(this string url, HttpVerbs httpMethod, HttpVerbs formMethod)
+        {
+            var context = FakeHttpContext(url, httpMethod, formMethod);
+            var route = RouteTable.Routes.GetRouteData(context);
+
+            // cater for SimplyRestful methods and others
+            // adding values during the GetHttpHandler method
+            route.ReadValue(x => x.RouteHandler).ReadValue(x => x.GetHttpHandler(new RequestContext(context, route)));
+            return route;
+        }
+
+        /// <summary>
+        /// Returns the corresponding route for the URL.  Returns null if no route was found.
+        /// </summary>
+        /// <param name="url">The URL.</param>
+        /// <param name="httpMethod">The HTTP method.</param>
+        /// <returns></returns>
+        public static RouteData Route(this string url, HttpVerbs httpMethod)
+        {
+            var context = FakeHttpContext(url, httpMethod);
+            var route = RouteTable.Routes.GetRouteData(context);
+
+            // cater for SimplyRestful methods and others
+            // adding values during the GetHttpHandler method
+            route.ReadValue(x => x.RouteHandler).ReadValue(x => x.GetHttpHandler(new RequestContext(context, route)));
+            return route;
+        }
+
+        /// <summary>
+        /// Asserts that the route matches the expression specified based on the incoming HttpMethod and FormMethod for Simply Restful routing.  Checks controller, action, and any method arguments
+        /// into the action as route values.
+        /// </summary>
+        /// <param name="relativeUrl">The relative URL.</param>
+        /// <param name="httpMethod">The HTTP method.</param>
+        /// <param name="formMethod">The form method.</param>
+        /// <returns></returns>
+        public static RouteData WithMethod(this string relativeUrl, HttpVerbs httpMethod, HttpVerbs formMethod)
+        {
+            return relativeUrl.Route(httpMethod, formMethod);
+        }
+
+        private static HttpContextBase FakeHttpContext(string url, HttpVerbs? httpMethod, HttpVerbs? formMethod)
+        {
+            NameValueCollection form = null;
+
+            if (formMethod.HasValue)
+                form = new NameValueCollection { { "_method", formMethod.Value.ToString().ToUpper() } };
+
+            if (!httpMethod.HasValue)
+                httpMethod = HttpVerbs.Get;
+
+            var request = MockRepository.GenerateStub<HttpRequestBase>();
+
+            request.Stub(x => x.AppRelativeCurrentExecutionFilePath).Return(url).Repeat.Any();
+            request.Stub(x => x.PathInfo).Return(string.Empty).Repeat.Any();
+            request.Stub(x => x.Form).Return(form).Repeat.Any();
+            request.Stub(x => x.HttpMethod).Return(httpMethod.Value.ToString().ToUpper()).Repeat.Any();
+
+            var context = new FakeHttpContext(url);
+            context.SetRequest(request);
+
+            return context;
+        }
+
+        private static HttpContextBase FakeHttpContext(string url, string method)
+        {
+            var httpMethod = (HttpVerbs) Enum.Parse(typeof (HttpVerbs), method);
+            return FakeHttpContext(url, httpMethod, null);
+        }
+
+        private static HttpContextBase FakeHttpContext(string url, HttpVerbs? httpMethod)
+        {
+            return FakeHttpContext(url, httpMethod, null);
+        }
+
+
+        private static HttpContextBase FakeHttpContext(string url)
+        {
+            return FakeHttpContext(url, null, null);
         }
 
         /// <summary>

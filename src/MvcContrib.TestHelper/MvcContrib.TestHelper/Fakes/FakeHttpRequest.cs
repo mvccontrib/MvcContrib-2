@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Specialized;
 using System.Web;
+using System.Web.Mvc;
 
-namespace MvcContrib.TestHelper.FluentController.Fakes
+namespace MvcContrib.TestHelper.Fakes
 {
     public class FakeHttpRequest : HttpRequestBase
     {
@@ -13,10 +14,12 @@ namespace MvcContrib.TestHelper.FluentController.Fakes
         private readonly string _relativeUrl;
         private readonly Uri _url;
         private readonly Uri _urlReferrer;
+        private readonly string _httpMethod;
 
-        public FakeHttpRequest(string relativeUrl, NameValueCollection formParams, NameValueCollection queryStringParams,
+        public FakeHttpRequest(string relativeUrl, string method, NameValueCollection formParams, NameValueCollection queryStringParams,
                                HttpCookieCollection cookies)
         {
+            _httpMethod = method;
             _relativeUrl = relativeUrl;
             _formParams = formParams;
             _queryStringParams = queryStringParams;
@@ -24,16 +27,16 @@ namespace MvcContrib.TestHelper.FluentController.Fakes
             _serverVariables = new NameValueCollection();
         }
 
-        public FakeHttpRequest(string relativeUrl, Uri url, Uri urlReferrer, NameValueCollection formParams, NameValueCollection queryStringParams,
+        public FakeHttpRequest(string relativeUrl, string method, Uri url, Uri urlReferrer, NameValueCollection formParams, NameValueCollection queryStringParams,
                                HttpCookieCollection cookies)
-            : this(relativeUrl, formParams, queryStringParams, cookies)
+            : this(relativeUrl, method, formParams, queryStringParams, cookies)
         {
             _url = url;
             _urlReferrer = urlReferrer;
         }
 
         public FakeHttpRequest(string relativeUrl, Uri url, Uri urlReferrer)
-            : this(relativeUrl, url, urlReferrer, null, null, null)
+            : this(relativeUrl, HttpVerbs.Get.ToString("g"), url, urlReferrer, null, null, null)
         {
         }
 
@@ -91,6 +94,14 @@ namespace MvcContrib.TestHelper.FluentController.Fakes
             get
             {
                 return "";
+            }
+        }
+
+        public override string HttpMethod
+        {
+            get
+            {
+                return _httpMethod;
             }
         }
     }

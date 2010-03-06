@@ -1,7 +1,5 @@
 ﻿using System.Web.Mvc;
 using System.Web.Routing;
-using MVCContrib.Application.UnitTests.TestHelper.UI;
-using MvcContrib.Application.TestHelper.FluentController;
 using NUnit.Framework;
 
 namespace MVCContrib.Application.UnitTests.TestHelper

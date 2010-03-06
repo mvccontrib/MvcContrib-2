@@ -257,16 +257,12 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <EmbeddedResource Include="UI\InputBuilder\Views\InputBuilders\Array.Master">
-      <SubType>ASPXCodeBehind</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\InputBuilder\Views\InputBuilders\Row.Master">
-      <SubType>ASPXCodeBehind</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\InputBuilder\Views\InputBuilders\Display.Master">
-      <SubType>ASPXCodeBehind</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\InputBuilder\Views\InputBuilders\Field.Master">
-      <SubType>ASPXCodeBehind</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\InputBuilder\Views\InputBuilders\HiddenField.Master">
       <SubType>ASPXCodeBehind</SubType>
@@ -274,16 +270,12 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="UI\InputBuilder\Views\InputBuilders\Boolean.aspx">
-      <SubType>ASPXCodeBehind</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\InputBuilder\Views\InputBuilders\DateTime.aspx">
-      <SubType>ASPXCodeBehind</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\InputBuilder\Views\InputBuilders\Enum.aspx">
-      <SubType>ASPXCodeBehind</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\InputBuilder\Views\InputBuilders\Guid.aspx">
-      <SubType>ASPXCodeBehind</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\InputBuilder\Views\InputBuilders\Int32.aspx">
     </EmbeddedResource>
@@ -296,28 +288,22 @@
     <EmbeddedResource Include="UI\InputBuilder\Views\InputBuilders\String.aspx">
     </EmbeddedResource>
     <EmbeddedResource Include="UI\InputBuilder\Views\InputBuilders\Submit.aspx">
-      <SubType>ASPXCodeBehind</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="UI\InputBuilder\Views\InputBuilders\Form.aspx">
-      <SubType>ASPXCodeBehind</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="UI\InputBuilder\Views\InputBuilders\DisplayInline.aspx">
-      <SubType>ASPXCodeBehind</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\InputBuilder\Views\InputBuilders\DisplayLabel.aspx">
-      <SubType>ASPXCodeBehind</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\InputBuilder\Views\InputBuilders\DisplayParagraph.aspx">
-      <SubType>ASPXCodeBehind</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="UI\InputBuilder\Views\InputBuilders\Array.aspx">
-      <SubType>ASPXCodeBehind</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Net;
 using System.Web.Mvc;
+using MvcContrib.FluentController;
 using MvcContrib.TestHelper.FluentController;
-using MvcContrib.UnitTests.TestHelper.FluentController.Core;
-using MvcContrib.UnitTests.TestHelper.FluentController.UI;
 using NUnit.Framework;
 using MvcContrib.SimplyRestful;
 using MvcContrib.TestHelper;
@@ -123,6 +122,60 @@ namespace MvcContrib.UnitTests.TestHelper.FluentController
             GivenController.As<UserController>()
                 .ShouldReturnEmpty()
                 .WhenCalling(x => x.CheckHeaderLocation());
+        }
+
+        public class CustomerResult
+        {
+            public string FirstName { get; set; }
+        }
+
+        public class UserController : AbstractRestfulFluentController
+        {
+
+            public ActionResult Index()
+            {
+                return View();
+            }
+
+            public ActionResult Create(object model)
+            {
+                return CheckValidCall()
+                    .Valid(x => RedirectToAction(RestfulAction.Index))
+                    .Invalid(() => View("New", model));
+            }
+
+            public ActionResult CreateWithModel()
+            {
+                return CheckValidCall(() => new CustomerResult { FirstName = "Bob" })
+                    .Valid(x => View(RestfulAction.New, x))
+                    .Invalid(() => RedirectToAction(RestfulAction.Index));
+            }
+
+            public ActionResult New()
+            {
+                return View();
+            }
+
+            public ActionResult Show()
+            {
+                return new HeadResult(HttpStatusCode.OK);
+            }
+
+            public ActionResult EmptyAction()
+            {
+                return new EmptyResult();
+            }
+
+            public ActionResult NullAction()
+            {
+                return null;
+            }
+
+            public ActionResult CheckHeaderLocation()
+            {
+                var canReadRequestHeader = Request.Url.AbsoluteUri;
+                return null;
+            }
         }
     }
 }
