@@ -1,9 +1,9 @@
 ﻿using System.Linq;
-using MvcContrib.FluentHtml.Attributes;
-using MvcContrib.FluentHtml.Binders;
+using MvcContrib.Attributes;
+using MvcContrib.Binders;
 using NUnit.Framework;
 
-namespace MvcContrib.UnitTests.FluentHtml
+namespace MvcContrib.UnitTests.Binders
 {
     [TestFixture]
     [DerivedTypeBinderAware(typeof(int))]

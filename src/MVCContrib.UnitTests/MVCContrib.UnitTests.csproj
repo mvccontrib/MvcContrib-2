@@ -151,6 +151,8 @@
     <Compile Include="ActionResults\PermanentRedirectToActionResultTester.cs" />
     <Compile Include="ActionResults\RedirectToRouteResultTester.cs" />
     <Compile Include="AssertionExtensions.cs" />
+    <Compile Include="Binders\DerivedTypeBinderAwareAttributeTests.cs" />
+    <Compile Include="Binders\DerivedTypeModelBinderCacheTests.cs" />
     <Compile Include="CultureHelper.cs" />
     <Compile Include="CustomPaginationTester.cs" />
     <Compile Include="Filters\DebugAttributeTester.cs" />

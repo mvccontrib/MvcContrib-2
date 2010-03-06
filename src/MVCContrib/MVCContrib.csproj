@@ -93,7 +93,10 @@
     <Compile Include="ActionResults\XmlResult.cs" />
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Attributes\AbstractParameterBinderAttribute.cs" />
+    <Compile Include="Attributes\DerivedTypeBinderAwareAttribute.cs" />
     <Compile Include="Attributes\DeserializeAttribute.cs" />
+    <Compile Include="Binders\DerivedTypeModelBinder.cs" />
+    <Compile Include="Binders\DerivedTypeModelBinderCache.cs" />
     <Compile Include="Binders\SubControllerBinder.cs" />
     <Compile Include="EnumerableExtensions.cs" />
     <Compile Include="Filters\DebugAttribute.cs" />
@@ -156,6 +159,7 @@
     <Compile Include="SimplyRestful\SimplyRestfulRouteHandler.cs" />
     <Compile Include="StringExtensions.cs" />
     <Compile Include="SubController.cs" />
+    <Compile Include="ThreadSafeDictionary.cs" />
     <Compile Include="UI\ASPXViewEngine\AutoTypeViewPage.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>

@@ -1,7 +1,7 @@
-﻿using MvcContrib.FluentHtml.Attributes;
+﻿using MvcContrib.Attributes;
 using NUnit.Framework;
 
-namespace MvcContrib.UnitTests.FluentHtml
+namespace MvcContrib.UnitTests.Binders
 {
     [TestFixture]
     public class DerivedTypeBinderAwareAttributeTests
