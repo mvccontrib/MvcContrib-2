@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Net;
 using System.Web.Mvc;
-using MvcContrib.FluentController;
 using MvcContrib.TestHelper.FluentController;
 using MvcContrib.UnitTests.TestHelper.FluentController.Core;
 using MvcContrib.UnitTests.TestHelper.FluentController.UI;

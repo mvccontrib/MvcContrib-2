@@ -1,6 +1,5 @@
 using System.Net;
 using System.Web.Mvc;
-using MvcContrib.FluentController;
 using MvcContrib.TestHelper;
 
 namespace MvcContrib.TestHelper.FluentController
