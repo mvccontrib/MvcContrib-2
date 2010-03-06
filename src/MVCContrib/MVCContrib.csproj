@@ -98,6 +98,7 @@
     <Compile Include="Binders\DerivedTypeModelBinder.cs" />
     <Compile Include="Binders\DerivedTypeModelBinderCache.cs" />
     <Compile Include="Binders\SubControllerBinder.cs" />
+    <Compile Include="ConversionExtensions.cs" />
     <Compile Include="EnumerableExtensions.cs" />
     <Compile Include="Filters\DebugAttribute.cs" />
     <Compile Include="Filters\LayoutAttribute.cs" />
@@ -110,6 +111,11 @@
     <Compile Include="Filters\RegExPreconditionFilter.cs" />
     <Compile Include="Filters\SubControllerActionToViewDataAttribute.cs" />
     <Compile Include="Filters\TempDataToViewData.cs" />
+    <Compile Include="FluentController\AbstractFluentController.cs" />
+    <Compile Include="FluentController\AbstractRestfulFluentController.cs" />
+    <Compile Include="FluentController\FluentControllerAction.cs" />
+    <Compile Include="HeadResult.cs" />
+    <Compile Include="FluentController\IRestfulController.cs" />
     <Compile Include="Hash.cs" />
     <Compile Include="HttpContextExtensions.cs" />
     <Compile Include="HttpContextProvider.cs" />
@@ -119,6 +125,7 @@
     <Compile Include="ControllerFactories\IoCControllerFactory.cs" />
     <Compile Include="ISubController.cs" />
     <Compile Include="MimeTypes.cs" />
+    <Compile Include="ObjectExtensions.cs" />
     <Compile Include="Pagination\CustomPagination.cs" />
     <Compile Include="Pagination\IPagination.cs" />
     <Compile Include="Pagination\LazyPagination.cs" />

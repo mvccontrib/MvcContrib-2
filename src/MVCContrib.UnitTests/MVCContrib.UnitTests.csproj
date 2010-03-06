@@ -264,6 +264,7 @@
     <Compile Include="SubControllerTester.cs" />
     <Compile Include="TestHelper\ActionResultHelperTester.cs" />
     <Compile Include="TestHelper\ControllerBuilderTests.cs" />
+    <Compile Include="TestHelper\FluentController\FluentControllerTest.cs" />
     <Compile Include="TestHelper\RouteTestingExtensionsTester.cs" />
     <Compile Include="TestHelper\SessionTests.cs" />
     <Compile Include="TestHelper\TestHelperController.cs" />
