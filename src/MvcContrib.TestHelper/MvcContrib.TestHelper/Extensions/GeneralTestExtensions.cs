@@ -55,6 +55,21 @@ namespace MvcContrib.TestHelper
             }
                 
         }
+
+		/// <summary>
+		/// Compares the two strings (case-insensitive).
+		/// </summary>
+		/// <param name="actual"></param>
+		/// <param name="expected"></param>
+		public static void AssertStringContains(this string actual, string expected)
+		{
+			if (!actual.Contains(expected))
+			{
+				var message = string.Format("Expected {0} to contain {1} but did not.", expected, actual);
+				throw new AssertionException(message);
+			}
+
+		}
         
         ///<summary>
         /// Asserts that the object should not be null.

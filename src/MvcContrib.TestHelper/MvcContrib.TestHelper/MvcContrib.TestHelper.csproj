@@ -64,6 +64,7 @@
   <ItemGroup>
     <Compile Include="ActionResultAssertionException.cs" />
     <Compile Include="ActionResultHelper.cs" />
+    <Compile Include="NameAndDescriptionIdentifier.cs" />
     <Compile Include="ObjectExtensions.cs" />
     <Compile Include="AssertionException.cs" />
     <Compile Include="Extensions\GeneralTestExtensions.cs" />
@@ -72,15 +73,21 @@
     </Compile>
     <Compile Include="Extensions\RouteTestingExtensions.cs" />
     <Compile Include="OutBoundUrl.cs" />
+    <Compile Include="Ui\AssertExtensions.cs" />
+    <Compile Include="Ui\DisplayTable.cs" />
+    <Compile Include="Ui\RowFilter.cs" />
     <Compile Include="TestControllerBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="IWriteableHttpFileCollection.cs" />
+    <Compile Include="Ui\BaseClassLibraryExtensions.cs" />
+    <Compile Include="Ui\IMultipleInputTesterFactory.cs" />
     <Compile Include="Ui\InputTesterBase.cs" />
     <Compile Include="Ui\Helper\EnumerableExtensions.cs" />
     <Compile Include="Ui\IInputTester.cs" />
     <Compile Include="Ui\IInputTesterFactory.cs" />
     <Compile Include="Ui\InputForm.cs" />
     <Compile Include="Ui\InputTesterFactory.cs" />
+    <Compile Include="Ui\ReflectionHelper.cs" />
     <Compile Include="Ui\TextInputTester.cs" />
     <Compile Include="Ui\TextInputTesterFactory.cs" />
     <Compile Include="Ui\IBrowserDriver.cs" />

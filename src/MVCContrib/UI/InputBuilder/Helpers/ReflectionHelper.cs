@@ -87,6 +87,34 @@ namespace MvcContrib.UI.InputBuilder.Helpers
 		//    return result;
 		//}
 
+		public static PropertyInfo FindProperty(LambdaExpression lambdaExpression)
+		{
+			Expression expressionToCheck = lambdaExpression;
+
+			bool done = false;
+
+			while (!done)
+			{
+				switch (expressionToCheck.NodeType)
+				{
+					case ExpressionType.Convert:
+						expressionToCheck = ((UnaryExpression)expressionToCheck).Operand;
+						break;
+					case ExpressionType.Lambda:
+						expressionToCheck = lambdaExpression.Body;
+						break;
+					case ExpressionType.MemberAccess:
+						var propertyInfo = ((MemberExpression)expressionToCheck).Member as PropertyInfo;
+						return propertyInfo;
+					default:
+						done = true;
+						break;
+				}
+			}
+
+			return null;
+		}
+
 		public static string BuildNameFrom(Expression expression)
 		{
 			Expression expressionToCheck = expression;
