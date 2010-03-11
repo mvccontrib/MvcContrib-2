@@ -42,6 +42,24 @@ namespace MvcContrib.TestHelper.Ui
 			return driver;
 		}
 
+		public static IBrowserDriver VerifyPage<TController>(this IBrowserDriver driver, Expression<Func<TController, object>> pageExpression) 
+		{
+			string controllerName = typeof(TController).GetControllerName();
+			string actionName = pageExpression.GetActionName();
+			string concatenatedIdentifier = controllerName + "." + actionName;
+			return VerifyPage(driver, concatenatedIdentifier);
+		}
+
+		public static string GetActionName(this LambdaExpression actionExpression)
+		{
+			return ((MethodCallExpression)actionExpression.Body).Method.Name;
+		}
+
+		public static string GetControllerName(this Type controllerType)
+		{
+			return controllerType.Name.Replace("Controller", string.Empty);
+		}
+
 		public static string ShouldBe(this string actualValue, string expectedValue)
 		{
 			actualValue.ToLower().ShouldEqual(expectedValue.ToLower(), 

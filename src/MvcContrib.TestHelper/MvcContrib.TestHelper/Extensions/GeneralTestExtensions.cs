@@ -59,13 +59,13 @@ namespace MvcContrib.TestHelper
 		/// <summary>
 		/// Compares the two strings (case-insensitive).
 		/// </summary>
-		/// <param name="actual"></param>
+		/// <param name="fullstring"></param>
 		/// <param name="expected"></param>
-		public static void AssertStringContains(this string actual, string expected)
+		public static void AssertStringContains(this string fullstring, string expected)
 		{
-			if (!actual.Contains(expected))
+			if (!fullstring.Contains(expected))
 			{
-				var message = string.Format("Expected {0} to contain {1} but did not.", expected, actual);
+				var message = string.Format("Expected string {0} to contain {1} but did not.", fullstring, expected);
 				throw new AssertionException(message);
 			}
 
