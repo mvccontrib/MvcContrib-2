@@ -7,6 +7,12 @@ using MvcContrib.UI.InputBuilder.Helpers;
 
 namespace MvcContrib.TestHelper.Ui
 {
+
+
+
+
+
+
     public class InputForm<TFormType>
     {
         private readonly IBrowserDriver _browserDriver;
@@ -34,10 +40,24 @@ namespace MvcContrib.TestHelper.Ui
             return Input(factory.Create(expression, text));
         }
 
+		public InputForm<TFormType> Input(Expression<Func<TFormType, object>> expression, params string[] text)
+		{
+			PropertyInfo propertyInfo = ReflectionHelper.FindPropertyFromExpression(expression);
+
+			IMultipleInputTesterFactory factory = GetInputForMultipleProperty(propertyInfo);
+
+			return Input(factory.Create(expression, text));
+		}
+
         private IInputTesterFactory GetInputForProperty(PropertyInfo propertyInfo)
         {            
             return InputTesterFactory.Default().Where(factory => factory.CanHandle(propertyInfo)).First();
         }
+
+		private IMultipleInputTesterFactory GetInputForMultipleProperty(PropertyInfo propertyInfo)
+		{
+			return MultipleInputTesterFactory.Default().Where(factory => factory.CanHandle(propertyInfo)).First();
+		}
 
         public InputForm<TFormType> Input(IInputTester tester)
         {

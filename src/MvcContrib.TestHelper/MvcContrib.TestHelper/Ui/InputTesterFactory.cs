@@ -12,4 +12,10 @@ namespace MvcContrib.TestHelper.Ui
             Add(new TextInputTesterFactory());
         }
     }
+
+	public class MultipleInputTesterFactory : List<IMultipleInputTesterFactory>
+	{
+		        public static Func<IList<IMultipleInputTesterFactory>> Default = () => new MultipleInputTesterFactory();
+
+	}
 }

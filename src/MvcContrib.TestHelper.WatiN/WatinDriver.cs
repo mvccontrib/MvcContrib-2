@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing.Imaging;
 using System.Linq;
@@ -20,16 +21,43 @@ namespace MvcContrib.TestHelper.WatiN
             IE.ShowWindow(NativeMethods.WindowShowStyle.Maximize);
         }
 
-        private IE IE { get; set; }
+        protected IE IE { get; set; }
 
         #region IBrowserDriver Members
 
-        public string Url
+		public virtual int GetRowCount<T>(string tableName, List<RowFilter<T>> filters)
+		{
+			List<TableRow> filteredRows = GetFilteredRows(tableName, filters);
+			return filteredRows.Count;
+		}
+
+		private List<TableRow> GetFilteredRows<T>(string tableName, List<RowFilter<T>> filters)
+		{
+			Table table = IE.Table(tableName);
+			var rows = table.TableRows;
+
+			var filteredRows = new List<TableRow>();
+			foreach (var filter in filters)
+			{
+				filteredRows.AddRange(
+					rows.Where(row => row.TableCells.Any(cell => cell.Text != null ? cell.Text.Contains(filter.Value) : false)));
+			}
+			return filteredRows;
+		}
+
+		public virtual void ClickRowLink<T>(string tableName, List<RowFilter<T>> filters, string relId)
+		{
+			TableRow filteredRow = GetFilteredRows(tableName, filters)[0];
+			var link = filteredRow.Link(Find.By("rel", relId));
+			link.Click();
+		}
+
+		public virtual string Url
         {
             get { return IE.Url.Replace(_baseurl, ""); }
         }
 
-        public void ScreenCaptureOnFailure(Action action)
+		public virtual void ScreenCaptureOnFailure(Action action)
         {
             try
             {
@@ -43,16 +71,21 @@ namespace MvcContrib.TestHelper.WatiN
         }
 
         public virtual void ClickButton(string value)
-        {            
-            IE.Button(Find.By("rel", value)).Click();
+        {
+			IE.Button(Find.ById(value)).Click();
         }
 
-        public void ExecuteScript(string script)
+		public virtual void ClickLink(string value)
+		{
+			IE.Link(Find.By("rel", value)).Click();
+		}
+
+		public virtual void ExecuteScript(string script)
         {
             IE.RunScript(script);
         }
 
-        public string GetValue(string name)
+		public virtual string GetValue(string name)
         {
             TextField textField = IE.TextField(Find.ByName(name));
             if(textField == null)
@@ -62,7 +95,7 @@ namespace MvcContrib.TestHelper.WatiN
             return textField.Value;
         }
 
-        public void SetValue(string name, string value)
+		public virtual void SetValue(string name, string value)
         {
             TextField textField = IE.TextField(Find.ByName(name));
             if(textField.Exists)
@@ -76,16 +109,16 @@ namespace MvcContrib.TestHelper.WatiN
                 select.Select(value);
                 return;
             }
-            throw new InvalidOperationException("Could not find a HTML Elelment by the name " + name);
+            throw new InvalidOperationException("Could not find a HTML Element by the name " + name);
         }
 
-        public IBrowserDriver Navigate(string url)
+		public virtual IBrowserDriver Navigate(string url)
         {
             IE.GoTo(_baseurl + url);
             return this;
         }
 
-        public void Dispose()
+		public virtual void Dispose()
         {
             IE.Dispose();
             IE = null;
@@ -108,7 +141,7 @@ namespace MvcContrib.TestHelper.WatiN
             return testMethodFrame.GetMethod().Name;
         }
 
-        public object EvaluateScript(string script)
+		public virtual object EvaluateScript(string script)
         {
             return JavaScriptExecutor.Eval(IE, script);
         }
